@@ -13,9 +13,9 @@ public class OFFUserDTO {
     private String password;
     private String name;
     private String phoneNumber;
-    private Integer userStatus;
-    private Boolean emailReceiveStatus;
-    private Boolean phoneNumberReceiveStatus;
+    private int userStatus;
+    private boolean emailReceiveStatus;
+    private boolean phoneNumberReceiveStatus;
     private String createTime;
     private List<UserRoleDTO> userRoleDTOS;
 }

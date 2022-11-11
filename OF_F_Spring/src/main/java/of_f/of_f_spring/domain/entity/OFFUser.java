@@ -27,13 +27,13 @@ public class OFFUser {
     private String phoneNumber;
 
     @Column(name = "user_status")
-    private Integer userStatus;
+    private int userStatus;
 
     @Column(name = "email_receive_status")
-    private Boolean emailReceiveStatus;
+    private boolean emailReceiveStatus;
 
     @Column(name = "phone_number_receive_status")
-    private Boolean phoneNumberReceiveStatus;
+    private boolean phoneNumberReceiveStatus;
 
     @Column(name = "create_time", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private String createTime;

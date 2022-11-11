@@ -42,5 +42,10 @@ public class OFFUserServiceTest {
         OFFUser offUser = offUserService.defaultSaveUser(offUserDTO);
     }
 
+    @Test
+    public void createStore() {
+
+    }
+
 
 }
