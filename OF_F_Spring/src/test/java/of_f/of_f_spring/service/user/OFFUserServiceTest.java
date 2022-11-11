@@ -32,7 +32,7 @@ public class OFFUserServiceTest {
     public void saveUser() {
         OFFUserDTO offUserDTO = new OFFUserDTO();
         offUserDTO.setName("유영빈");
-        offUserDTO.setEmail("kevin0182@naver.com");
+        offUserDTO.setEmail("kevin0183@naver.com");
         offUserDTO.setPassword("1");
         offUserDTO.setUserStatus(1);
         offUserDTO.setPhoneNumber("01000000000");

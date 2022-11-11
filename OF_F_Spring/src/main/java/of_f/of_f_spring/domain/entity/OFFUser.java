@@ -42,4 +42,7 @@ public class OFFUser {
     @JoinColumn(name = "OF_F_User_seq")
     private List<UserRole> userRoles;
 
+    @OneToOne(mappedBy = "offUser")
+    private Store store;
+
 }

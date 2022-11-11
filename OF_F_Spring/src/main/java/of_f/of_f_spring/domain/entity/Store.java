@@ -43,4 +43,8 @@ public class Store {
     @Column
     private int status;
 
+    @OneToOne
+    @JoinColumn(name = "OF_F_User_seq", insertable = false, updatable = false)
+    private OFFUser offUser;
+
 }
