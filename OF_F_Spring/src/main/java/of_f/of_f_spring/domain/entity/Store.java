@@ -14,7 +14,7 @@ public class Store {
     private Long seq;
 
     @Column(name = "User_seq")
-    private Long OFFUserSeq;
+    private Long userSeq;
 
     @Column
     private String name;

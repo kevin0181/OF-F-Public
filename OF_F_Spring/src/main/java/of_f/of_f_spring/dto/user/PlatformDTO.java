@@ -11,7 +11,7 @@ import java.util.List;
 public class PlatformDTO {
     private Long seq;
     private String platform;
-    private List<PlatformInfoDTO> platformInfoDTOs;
-    private List<SubscribeDTO> subscribeDTOs;
-    private List<RoleDTO> roleDTOs;
+    private List<PlatformInfoDTO> platformInfos;
+    private List<SubscribeDTO> subscribes;
+    private List<RoleDTO> roles;
 }

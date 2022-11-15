@@ -22,9 +22,10 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public List<User> getUserList() { // 회원 리스트 가져오기
-        List<User> Users = userRepository.findAll();
-        return Users;
+    public List<UserDTO> getUserList() { // 회원 리스트 가져오기
+        List<User> users = userRepository.findAll();
+        List<UserDTO> userDTOS = UserMapper.instance.UserTOUserDTO(users);
+        return userDTOS;
     }
 
     public User defaultSaveUser(UserDTO userDTO) { //회원 가입
@@ -34,11 +35,11 @@ public class UserService {
 
         List<UserRoleDTO> userRoleDTOS = new ArrayList<>();
         userRoleDTOS.add(userRoleDTO);
-        userDTO.setUserRoleDTOS(userRoleDTOS); //권한 넣기
+        userDTO.setUserRoles(userRoleDTOS); //권한 넣기
 
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword())); //패스워드 암호화
 
-        User user = UserMapper.instance.OFFUserDTOTOOFFUser(userDTO);
+        User user = UserMapper.instance.UserDTOTOOFFUser(userDTO);
         return userRepository.save(user);
     }
 

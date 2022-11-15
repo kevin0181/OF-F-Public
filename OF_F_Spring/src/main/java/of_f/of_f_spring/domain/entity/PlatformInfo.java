@@ -14,7 +14,7 @@ public class PlatformInfo {
     private Long seq;
 
     @Column(name = "Platform_seq")
-    private Long PlatformSeq;
+    private Long platformSeq;
 
     @Column
     private String name;

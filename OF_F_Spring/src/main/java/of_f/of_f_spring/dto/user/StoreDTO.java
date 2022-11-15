@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class StoreDTO {
     private Long seq;
-    private Long OFFUserSeq;
+    private Long userSeq;
     private String name;
     private String businessNumber;
     private String address;
@@ -17,4 +17,6 @@ public class StoreDTO {
     private String businessPhoneNumber;
     private String openDate;
     private int status;
+
+    private UserDTO user;
 }

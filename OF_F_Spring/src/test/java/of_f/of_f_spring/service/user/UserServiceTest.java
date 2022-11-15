@@ -16,11 +16,11 @@ public class UserServiceTest {
 
     @Test
     public void getUserList() throws Exception { // 회원 리스트 가져오기
-        List<User> Users = userService.getUserList();
-        if (Users == null)
+        List<UserDTO> UserDTOS = userService.getUserList();
+        if (UserDTOS == null)
             throw new NullPointerException();
 
-        if (Users.size() == 0)
+        if (UserDTOS.size() == 0)
             throw new Exception("회원 리스트에 회원이 존재하지 않습니다.");
 
         System.out.println("회원의 데이터를 정상적으로 가져왔습니다.");
@@ -30,7 +30,7 @@ public class UserServiceTest {
     public void saveUser() {
         UserDTO userDTO = new UserDTO();
         userDTO.setName("유영빈");
-        userDTO.setEmail("kevin0183@naver.com");
+        userDTO.setEmail("kevin01812@naver.com");
         userDTO.setPassword("1");
         userDTO.setUserStatus(1);
         userDTO.setPhoneNumber("01000000000");

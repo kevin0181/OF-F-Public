@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Setter
 public class PlatformInfoDTO {
     private Long seq;
-    private Long PlatformSeq;
+    private Long platformSeq;
     private String name;
     private String value;
 }

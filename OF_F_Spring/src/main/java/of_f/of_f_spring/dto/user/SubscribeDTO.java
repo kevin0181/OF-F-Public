@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class SubscribeDTO {
     private Long seq;
+    private Long platformSeq;
     private String name;
     private String price;
 }

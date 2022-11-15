@@ -17,5 +17,6 @@ public class UserDTO {
     private boolean emailReceiveStatus;
     private boolean phoneNumberReceiveStatus;
     private String createTime;
-    private List<UserRoleDTO> userRoleDTOS;
+    private List<UserRoleDTO> userRoles;
+    private StoreDTO store;
 }
