@@ -1,7 +1,9 @@
-package of_f.of_f_spring.dto.user;
+package of_f.of_f_spring.dto.store;
 
 import lombok.Getter;
 import lombok.Setter;
+import of_f.of_f_spring.domain.entity.store.QRStoreInfo;
+import of_f.of_f_spring.dto.user.UserDTO;
 
 @Getter
 @Setter
@@ -17,6 +19,5 @@ public class StoreDTO {
     private String businessPhoneNumber;
     private String openDate;
     private int status;
-
     private UserDTO user;
 }

@@ -1,8 +1,8 @@
-package of_f.of_f_spring.dto.user;
+package of_f.of_f_spring.dto.platform;
 
 import lombok.Getter;
 import lombok.Setter;
-import of_f.of_f_spring.domain.entity.Role;
+import of_f.of_f_spring.dto.user.RoleDTO;
 
 import java.util.List;
 

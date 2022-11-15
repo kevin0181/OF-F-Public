@@ -1,7 +1,8 @@
-package of_f.of_f_spring.domain.entity;
+package of_f.of_f_spring.domain.entity.user;
 
 import lombok.Getter;
 import lombok.Setter;
+import of_f.of_f_spring.domain.entity.store.Store;
 
 import javax.persistence.*;
 import java.util.List;

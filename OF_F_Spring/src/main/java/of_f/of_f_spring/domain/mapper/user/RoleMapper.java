@@ -1,6 +1,6 @@
-package of_f.of_f_spring.domain.mapper;
+package of_f.of_f_spring.domain.mapper.user;
 
-import of_f.of_f_spring.domain.entity.Role;
+import of_f.of_f_spring.domain.entity.user.Role;
 import of_f.of_f_spring.dto.user.RoleDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

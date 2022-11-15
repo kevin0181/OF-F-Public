@@ -1,21 +1,19 @@
-package of_f.of_f_spring.domain.entity;
+package of_f.of_f_spring.domain.entity.platform;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
 @Getter
 @Setter
-public class Role {
+@Entity(name = "Subscribe")
+public class Subscribe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
-
-    @Column(name = "platform_seq")
+    @Column(name = "Platform_seq")
     private Long platformSeq;
-    
-    @Column(name = "role_name")
-    private String roleName;
+    private String name;
+    private String price;
 }

@@ -1,15 +1,13 @@
-package of_f.of_f_spring.dto.user;
+package of_f.of_f_spring.dto.store;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-
 @Getter
 @Setter
-public class PlatformInfoDTO {
+public class StorePgSettingDTO {
     private Long seq;
-    private Long platformSeq;
+    private Long storeSeq;
     private String name;
     private String value;
 }

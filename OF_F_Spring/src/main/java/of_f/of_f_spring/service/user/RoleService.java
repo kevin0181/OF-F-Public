@@ -1,7 +1,7 @@
 package of_f.of_f_spring.service.user;
 
-import of_f.of_f_spring.domain.entity.Role;
-import of_f.of_f_spring.domain.mapper.RoleMapper;
+import of_f.of_f_spring.domain.entity.user.Role;
+import of_f.of_f_spring.domain.mapper.user.RoleMapper;
 import of_f.of_f_spring.dto.user.RoleDTO;
 import of_f.of_f_spring.repository.user.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;

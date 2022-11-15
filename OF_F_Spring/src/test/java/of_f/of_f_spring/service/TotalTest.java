@@ -1,9 +1,8 @@
 package of_f.of_f_spring.service;
 
-import of_f.of_f_spring.domain.entity.User;
+import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.dto.user.RoleDTO;
 import of_f.of_f_spring.dto.user.UserDTO;
-import of_f.of_f_spring.service.role.RoleServiceTest;
 import of_f.of_f_spring.service.user.RoleService;
 import of_f.of_f_spring.service.user.UserService;
 import org.junit.jupiter.api.Test;

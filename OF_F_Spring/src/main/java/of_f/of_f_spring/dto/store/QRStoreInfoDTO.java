@@ -1,4 +1,4 @@
-package of_f.of_f_spring.dto.user;
+package of_f.of_f_spring.dto.store;
 
 import lombok.Getter;
 import lombok.Setter;

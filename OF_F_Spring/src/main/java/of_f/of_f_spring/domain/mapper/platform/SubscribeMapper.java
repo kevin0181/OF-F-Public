@@ -1,11 +1,8 @@
-package of_f.of_f_spring.domain.mapper;
+package of_f.of_f_spring.domain.mapper.platform;
 
-import of_f.of_f_spring.domain.entity.Platform;
-import of_f.of_f_spring.domain.entity.Subscribe;
-import of_f.of_f_spring.dto.user.PlatformDTO;
-import of_f.of_f_spring.dto.user.SubscribeDTO;
+import of_f.of_f_spring.domain.entity.platform.Subscribe;
+import of_f.of_f_spring.dto.platform.SubscribeDTO;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;

@@ -2,7 +2,7 @@ package of_f.of_f_spring.dto.user;
 
 import lombok.Getter;
 import lombok.Setter;
-import of_f.of_f_spring.domain.entity.Role;
+import of_f.of_f_spring.domain.entity.user.Role;
 
 @Getter
 @Setter

@@ -1,4 +1,4 @@
-package of_f.of_f_spring.domain.entity;
+package of_f.of_f_spring.domain.entity.store;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -30,5 +30,9 @@ public class QRStoreInfo {
 
     @Column(name = "QR_pay_date")
     private String qrPayDate;
+
+//    @OneToOne
+//    @JoinColumn(name = "Store_seq", insertable = false, updatable = false)
+//    private Store store;
 
 }

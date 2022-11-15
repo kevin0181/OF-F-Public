@@ -1,4 +1,4 @@
-package of_f.of_f_spring.domain.entity;
+package of_f.of_f_spring.domain.entity.user;
 
 import lombok.Getter;
 import lombok.Setter;

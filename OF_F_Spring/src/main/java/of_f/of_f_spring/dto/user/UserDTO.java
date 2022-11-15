@@ -2,6 +2,7 @@ package of_f.of_f_spring.dto.user;
 
 import lombok.Getter;
 import lombok.Setter;
+import of_f.of_f_spring.dto.store.StoreDTO;
 
 import java.util.List;
 

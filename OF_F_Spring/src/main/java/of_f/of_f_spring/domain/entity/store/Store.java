@@ -1,7 +1,8 @@
-package of_f.of_f_spring.domain.entity;
+package of_f.of_f_spring.domain.entity.store;
 
 import lombok.Getter;
 import lombok.Setter;
+import of_f.of_f_spring.domain.entity.user.User;
 
 import javax.persistence.*;
 
@@ -46,5 +47,8 @@ public class Store {
     @OneToOne
     @JoinColumn(name = "User_seq", insertable = false, updatable = false)
     private User user;
+
+//    @OneToOne(mappedBy = "store")
+//    private QRStoreInfo qrStoreInfo;
 
 }
