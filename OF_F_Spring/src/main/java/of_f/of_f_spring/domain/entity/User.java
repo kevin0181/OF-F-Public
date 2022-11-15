@@ -6,10 +6,10 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity(name = "OF_F_User")
+@Entity(name = "User")
 @Getter
 @Setter
-public class OFFUser {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
@@ -39,10 +39,10 @@ public class OFFUser {
     private String createTime;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "OF_F_User_seq")
+    @JoinColumn(name = "User_seq")
     private List<UserRole> userRoles;
 
-    @OneToOne(mappedBy = "offUser")
+    @OneToOne(mappedBy = "user")
     private Store store;
 
 }

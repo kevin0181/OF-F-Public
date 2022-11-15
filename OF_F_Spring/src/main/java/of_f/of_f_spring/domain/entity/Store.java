@@ -13,7 +13,7 @@ public class Store {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
-    @Column(name = "OF_F_User_seq")
+    @Column(name = "User_seq")
     private Long OFFUserSeq;
 
     @Column
@@ -44,7 +44,7 @@ public class Store {
     private int status;
 
     @OneToOne
-    @JoinColumn(name = "OF_F_User_seq", insertable = false, updatable = false)
-    private OFFUser offUser;
+    @JoinColumn(name = "User_seq", insertable = false, updatable = false)
+    private User user;
 
 }

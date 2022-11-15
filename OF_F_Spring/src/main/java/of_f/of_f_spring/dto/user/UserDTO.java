@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class OFFUserDTO {
+public class UserDTO {
     private Long seq;
     private String email;
     private String password;

@@ -13,11 +13,11 @@ public class UserRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
-    @Column(name = "OF_F_User_seq")
-    private Long OFFUserSeq;
+    @Column(name = "User_seq")
+    private Long userSeq;
 
     @Column(name = "Role_seq")
-    private Long RoleSeq;
+    private Long roleSeq;
 
     @ManyToOne
     @JoinColumn(name = "Role_seq", insertable = false, updatable = false)

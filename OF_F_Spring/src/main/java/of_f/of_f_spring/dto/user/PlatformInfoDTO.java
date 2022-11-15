@@ -3,10 +3,13 @@ package of_f.of_f_spring.dto.user;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
+
 @Getter
 @Setter
-public class QRSubscribeDTO {
+public class PlatformInfoDTO {
     private Long seq;
+    private Long PlatformSeq;
     private String name;
-    private String price;
+    private String value;
 }
