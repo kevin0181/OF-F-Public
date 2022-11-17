@@ -31,8 +31,8 @@ public class QRStoreInfo {
     @Column(name = "QR_pay_date")
     private String qrPayDate;
 
-//    @OneToOne
-//    @JoinColumn(name = "Store_seq", insertable = false, updatable = false)
-//    private Store store;
+    @OneToOne
+    @JoinColumn(name = "Store_seq", insertable = false, updatable = false)
+    private Store store;
 
 }

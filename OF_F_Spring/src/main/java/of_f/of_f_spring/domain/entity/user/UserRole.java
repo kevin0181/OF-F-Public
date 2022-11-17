@@ -20,6 +20,10 @@ public class UserRole {
     private Long roleSeq;
 
     @ManyToOne
+    @JoinColumn(name = "User_seq", insertable = false, updatable = false)
+    private User user;
+
+    @ManyToOne
     @JoinColumn(name = "Role_seq", insertable = false, updatable = false)
     private Role roles;
 }

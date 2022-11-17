@@ -2,9 +2,12 @@ package of_f.of_f_spring.domain.entity.store;
 
 import lombok.Getter;
 import lombok.Setter;
+import of_f.of_f_spring.domain.entity.store.menu.StoreCategory;
+import of_f.of_f_spring.domain.entity.store.order.StoreOrder;
 import of_f.of_f_spring.domain.entity.user.User;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -48,7 +51,23 @@ public class Store {
     @JoinColumn(name = "User_seq", insertable = false, updatable = false)
     private User user;
 
-//    @OneToOne(mappedBy = "store")
-//    private QRStoreInfo qrStoreInfo;
+    @OneToOne(mappedBy = "store")
+    private QRStoreInfo qrStoreInfo;
+
+    @OneToMany
+    @JoinColumn(name = "Store_seq")
+    private List<StorePgSetting> storePgSettings;
+
+    @OneToMany
+    @JoinColumn(name = "Store_seq")
+    private List<StoreVanSetting> storeVanSettings;
+
+    @OneToMany
+    @JoinColumn(name = "Store_seq")
+    private List<StoreCategory> storeCategories;
+
+    @OneToMany
+    @JoinColumn(name = "Store_seq")
+    private List<StoreOrder> storeOrders;
 
 }

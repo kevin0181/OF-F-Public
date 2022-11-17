@@ -9,11 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-//@Transactional
+@Transactional
 public class UserService {
 
     @Autowired
@@ -22,10 +23,9 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public List<UserDTO> getUserList() { // 회원 리스트 가져오기
+    public List<User> getUserList() { // 회원 리스트 가져오기
         List<User> users = userRepository.findAll();
-        List<UserDTO> userDTOS = UserMapper.instance.UserTOUserDTO(users);
-        return userDTOS;
+        return users;
     }
 
     public User defaultSaveUser(UserDTO userDTO) { //회원 가입

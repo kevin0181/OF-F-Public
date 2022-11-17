@@ -22,4 +22,8 @@ public class PlatformInfo {
     @Column
     private String value;
 
+    @ManyToOne
+    @JoinColumn(name = "Platform_seq", insertable = false, updatable = false)
+    private Platform platform;
+
 }

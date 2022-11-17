@@ -16,11 +16,11 @@ public class UserServiceTest {
 
     @Test
     public void getUserList() throws Exception { // 회원 리스트 가져오기
-        List<UserDTO> UserDTOS = userService.getUserList();
-        if (UserDTOS == null)
+        List<User> users = userService.getUserList();
+        if (users == null)
             throw new NullPointerException();
 
-        if (UserDTOS.size() == 0)
+        if (users.size() == 0)
             throw new Exception("회원 리스트에 회원이 존재하지 않습니다.");
 
         System.out.println("회원의 데이터를 정상적으로 가져왔습니다.");

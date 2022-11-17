@@ -16,4 +16,9 @@ public class Subscribe {
     private Long platformSeq;
     private String name;
     private String price;
+
+    @ManyToOne
+    @JoinColumn(name = "Platform_seq", insertable = false, updatable = false)
+    private Platform platform;
+
 }

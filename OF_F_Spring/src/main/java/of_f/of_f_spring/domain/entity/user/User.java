@@ -3,6 +3,7 @@ package of_f.of_f_spring.domain.entity.user;
 import lombok.Getter;
 import lombok.Setter;
 import of_f.of_f_spring.domain.entity.store.Store;
+import of_f.of_f_spring.domain.entity.store.order.StoreOrder;
 
 import javax.persistence.*;
 import java.util.List;
@@ -45,5 +46,9 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     private Store store;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "User_seq")
+    private List<StoreOrder> storeOrders;
 
 }

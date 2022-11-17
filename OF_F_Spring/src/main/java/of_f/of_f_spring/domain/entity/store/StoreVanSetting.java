@@ -21,4 +21,9 @@ public class StoreVanSetting {
 
     @Column
     private String value;
+
+    @ManyToOne
+    @JoinColumn(name = "Store_seq", insertable = false, updatable = false)
+    private Store store;
+
 }
