@@ -18,10 +18,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .httpBasic().disable() //http 비활성화
                 .cors().and() //cors활성화
-                .csrf().disable() //jwt토큰을 사용하므로 csrf비활성화
-                .sessionManagement() //security에서 사용하는 session 비활성화
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .csrf().disable() //jwt토큰을 사용하므로 csrf비활성화 -> localstorage에 저장시 비활성화 아니면 활성화
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//security에서 사용하는 session 비활성화
                 .and()
                 .authorizeRequests() //인증절차 설정 시작
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
