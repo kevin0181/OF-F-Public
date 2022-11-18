@@ -30,8 +30,8 @@ public class UserServiceTest {
     public void saveUser() {
         UserDTO userDTO = new UserDTO();
         userDTO.setName("유영빈");
-        userDTO.setEmail("kevin01812@naver.com");
-        userDTO.setPassword("1");
+        userDTO.setEmail("kevin0181@naver.com");
+        userDTO.setPassword("1234");
         userDTO.setUserStatus(1);
         userDTO.setPhoneNumber("01000000000");
         userDTO.setEmailReceiveStatus(true);
