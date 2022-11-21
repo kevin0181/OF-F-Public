@@ -1,8 +1,8 @@
 package of_f.of_f_spring.service.platform;
 
-import of_f.of_f_spring.domain.entity.Subscribe;
-import of_f.of_f_spring.domain.mapper.SubscribeMapper;
-import of_f.of_f_spring.dto.user.SubscribeDTO;
+import of_f.of_f_spring.domain.entity.platform.Subscribe;
+import of_f.of_f_spring.domain.mapper.platform.SubscribeMapper;
+import of_f.of_f_spring.dto.platform.SubscribeDTO;
 import of_f.of_f_spring.repository.platform.SubscribeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
