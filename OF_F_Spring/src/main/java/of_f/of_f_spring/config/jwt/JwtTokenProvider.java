@@ -14,9 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -43,8 +41,16 @@ public class JwtTokenProvider {
         //초 : / 1000
         //분 : / (1000 * 60)
         //시 : / (1000 * 60 * 60)
-        Date accessTokenExpiresIn = new Date(now + 1800000);
+        //달 : / (1000 * 60 * 60 * 24 * 30)
+        Date accessTokenExpiresIn = new Date(now + 86400000);
+
+        //Header 부분 설정
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("alg", "HS256");
+        headers.put("typ", "JWT");
+
         String accessToken = Jwts.builder()
+                .setHeader(headers)
                 .setSubject(authentication.getName())
                 .claim("auth", authorities)
                 .setExpiration(accessTokenExpiresIn)
@@ -53,7 +59,8 @@ public class JwtTokenProvider {
 
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now + 86400000))
+                .setHeader(headers)
+                .setExpiration(new Date(now + 2592000000l))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 

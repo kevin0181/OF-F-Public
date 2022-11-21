@@ -39,7 +39,8 @@ public class UserService {
         return users;
     }
 
-    public User defaultSaveUser(UserDTO userDTO) { //회원 가입
+    //회원 가입
+    public User defaultSaveUser(UserDTO userDTO) {
 
         UserRoleDTO userRoleDTO = new UserRoleDTO();
         userRoleDTO.setRoleSeq(1L); // 회원가입 시, 기본 권한
@@ -54,6 +55,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    // 로그인
     public TokenInfo login(String email, String password) {
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
@@ -69,4 +71,13 @@ public class UserService {
         return tokenInfo;
     }
 
+    // jwt token 재발급
+    public TokenInfo refreshToken(TokenInfo tokenInfo) {
+
+        if (tokenInfo.getGrantType() == null || tokenInfo.getAccessToken() == null || tokenInfo.getRefreshToken() == null) {
+            throw new NullPointerException("token의 정보가 비어있습니다.");
+        }
+
+        return null;
+    }
 }
