@@ -4,11 +4,14 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import of_f.of_f_spring.repository.jwt.RefreshTokenInfoRedisRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -22,6 +25,9 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
 
     private final Key key;
+
+    @Autowired
+    private RefreshTokenInfoRedisRepository refreshTokenInfoRedisRepository;
 
     public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
@@ -106,6 +112,18 @@ public class JwtTokenProvider {
             log.info("JWT claims string is empty.", e);
         }
         return false;
+    }
+
+    public void saveToken(TokenInfo tokenInfo, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        refreshTokenInfoRedisRepository.save(
+                RefreshTokenInfo.builder()
+                        .grantType(tokenInfo.getGrantType())
+                        .accessToken(tokenInfo.getAccessToken())
+                        .refreshToken(tokenInfo.getRefreshToken())
+                        .email(userDetails.getUsername())
+                        .build()
+        );
     }
 
     private Claims parseClaims(String accessToken) {

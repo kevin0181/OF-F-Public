@@ -1,11 +1,13 @@
 package of_f.of_f_spring.service.user;
 
 import of_f.of_f_spring.config.jwt.JwtTokenProvider;
+import of_f.of_f_spring.config.jwt.RefreshTokenInfo;
 import of_f.of_f_spring.config.jwt.TokenInfo;
 import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.domain.mapper.user.UserMapper;
 import of_f.of_f_spring.dto.user.UserDTO;
 import of_f.of_f_spring.dto.user.UserRoleDTO;
+import of_f.of_f_spring.repository.jwt.RefreshTokenInfoRedisRepository;
 import of_f.of_f_spring.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,6 +35,7 @@ public class UserService {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
 
     public List<User> getUserList() { // 회원 리스트 가져오기
         List<User> users = userRepository.findAll();
@@ -68,6 +71,8 @@ public class UserService {
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
 
+        jwtTokenProvider.saveToken(tokenInfo, authentication);
+
         return tokenInfo;
     }
 
@@ -77,6 +82,8 @@ public class UserService {
         if (tokenInfo.getGrantType() == null || tokenInfo.getAccessToken() == null || tokenInfo.getRefreshToken() == null) {
             throw new NullPointerException("token의 정보가 비어있습니다.");
         }
+
+//        RefreshTokenInfo refreshTokenInfo =
 
         return null;
     }
