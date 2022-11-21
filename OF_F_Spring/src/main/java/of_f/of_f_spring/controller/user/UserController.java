@@ -27,7 +27,7 @@ public class UserController {
 
     @PostMapping("/refresh-token")
     public TokenInfo refreshToken(@RequestBody TokenInfo tokenInfo) {
-        TokenInfo refreshTokenInfo = userService.refreshToken(tokenInfo);
+        TokenInfo refreshTokenInfo = userService.refreshTokenService(tokenInfo);
         return refreshTokenInfo;
     }
 

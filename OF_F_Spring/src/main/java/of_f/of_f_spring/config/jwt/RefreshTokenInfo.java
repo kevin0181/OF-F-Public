@@ -7,12 +7,10 @@ import org.springframework.data.redis.core.RedisHash;
 
 
 @Getter
-@RedisHash(value = "refreshTokenList", timeToLive = 30)
+@RedisHash(value = "refreshTokenList", timeToLive = 604800)
 @Builder
 public class RefreshTokenInfo {
     @Id
     private String email;
-    private String grantType;
-    private String accessToken;
     private String refreshToken;
 }

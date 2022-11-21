@@ -1,7 +1,6 @@
 package of_f.of_f_spring.service.user;
 
 import of_f.of_f_spring.config.jwt.JwtTokenProvider;
-import of_f.of_f_spring.config.jwt.RefreshTokenInfo;
 import of_f.of_f_spring.config.jwt.TokenInfo;
 import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.domain.mapper.user.UserMapper;
@@ -21,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
+//@Transactional
 public class UserService {
 
     @Autowired
@@ -35,6 +34,9 @@ public class UserService {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private RefreshTokenInfoRedisRepository refreshTokenInfoRedisRepository;
 
 
     public List<User> getUserList() { // 회원 리스트 가져오기
@@ -77,14 +79,14 @@ public class UserService {
     }
 
     // jwt token 재발급
-    public TokenInfo refreshToken(TokenInfo tokenInfo) {
+    public TokenInfo refreshTokenService(TokenInfo tokenInfo) {
 
         if (tokenInfo.getGrantType() == null || tokenInfo.getAccessToken() == null || tokenInfo.getRefreshToken() == null) {
             throw new NullPointerException("token의 정보가 비어있습니다.");
         }
 
-//        RefreshTokenInfo refreshTokenInfo =
+        TokenInfo token = jwtTokenProvider.refreshToken(tokenInfo);
 
-        return null;
+        return token;
     }
 }
