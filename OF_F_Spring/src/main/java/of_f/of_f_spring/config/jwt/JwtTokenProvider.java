@@ -8,8 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import of_f.of_f_spring.repository.jwt.RefreshTokenInfoRedisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,9 +28,6 @@ public class JwtTokenProvider {
 
     @Autowired
     private RefreshTokenInfoRedisRepository refreshTokenInfoRedisRepository;
-
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
 
     public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
@@ -66,7 +61,7 @@ public class JwtTokenProvider {
                 .claim("iss", "off")
                 .claim("aud", authentication.getName())
                 .claim("auth", authorities)
-                .setExpiration(new Date(now + 60000))
+                .setExpiration(new Date(now + 1800000))
                 .setIssuedAt(issuedAt)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
@@ -119,6 +114,7 @@ public class JwtTokenProvider {
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
         } catch (ExpiredJwtException e) {
+            // accessToken으로 발생시 refreshToken발행 하라고 알려주고, refreshToken에서 발생 시, 재로그인 요청
             log.info("Expired JWT Token", e);
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);
@@ -139,28 +135,35 @@ public class JwtTokenProvider {
                         .build()
         );
 
-//        stringRedisTemplate.opsForValue();
-
     }
 
+    //만약 validation에서 accessToken이 기한 만료 오류가 났다면 refreshToken을 전송해서 새로 발급받기.
     public TokenInfo refreshToken(TokenInfo tokenInfo) {
 
         try {
 
             TokenInfo refreshGetToken = null;
 
+            //refresh 토큰 복호화
             Authentication authentication = getAuthentication(tokenInfo.getRefreshToken());
 
+            //redis에 저장되어있는 refresh token을 가져옴
             RefreshTokenInfo refreshTokenInfo = refreshTokenInfoRedisRepository.findById(authentication.getName())
-                    .orElseThrow(() -> new IllegalArgumentException("does not exist Token"));
+                    .orElseThrow(() ->
+                            new IllegalArgumentException("does not exist Token")); // -> 로그아웃 상태 (재로그인 요청)
 
             if (tokenInfo.getRefreshToken().equals(refreshTokenInfo.getRefreshToken()))
                 refreshGetToken = generateToken(authentication);
 
+            saveToken(refreshGetToken, authentication);
+
             return refreshGetToken;
 
+        } catch (NullPointerException e) {
+            log.warn("does not exist Token"); // refresh 토큰이 존재하지 않음 (로그아웃 상태)
+            return null;
         } catch (SignatureException e) {
-            log.warn("Invalid Token Info");
+            log.warn("Invalid Token Info"); // (토큰이 틀렸을때) (위조 변조)
             return null;
         } catch (NoSuchElementException e) {
             log.warn("no such Token value");
