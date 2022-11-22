@@ -40,8 +40,8 @@ public class SecurityConfig {
                 .authorizeRequests() //인증절차 설정 시작
                 .antMatchers("/api/v1/auth/**").permitAll()
                 .antMatchers("/api/v1/of_f/main/**").permitAll()
-                .antMatchers("/api/v1/of_f/admin").hasRole("ADMIN")
-                .antMatchers("/api/v1/qr/store").hasRole("ADMIN")
+                .antMatchers("/api/v1/of_f/admin/**").hasRole("ADMIN")
+                .antMatchers("/api/v1/qr/store/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()  // security의 기본 로그인 화면을 비활성화

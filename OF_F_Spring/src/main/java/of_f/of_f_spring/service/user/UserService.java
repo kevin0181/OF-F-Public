@@ -15,7 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,5 +88,14 @@ public class UserService {
         TokenInfo token = jwtTokenProvider.refreshToken(tokenInfo);
 
         return token;
+    }
+
+    public boolean deleteRefreshToken(Principal principal) {
+        try {
+            refreshTokenInfoRedisRepository.deleteById(principal.getName());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
