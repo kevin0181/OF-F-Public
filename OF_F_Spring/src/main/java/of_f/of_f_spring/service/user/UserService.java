@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;

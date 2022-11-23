@@ -21,12 +21,12 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public TokenInfo login(@RequestBody UserLoginDTO userLoginDTO) {
+    public TokenInfo login(@RequestBody @Valid UserLoginDTO userLoginDTO) {
         return userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
     }
 
     @PostMapping("/signIn")
-    public ResUserDTO signIn(@RequestBody UserSignInDTO userSignInDTO) {
+    public ResUserDTO signIn(@RequestBody @Valid UserSignInDTO userSignInDTO) {
         return userService.defaultSaveUser(userSignInDTO);
     }
 
@@ -40,7 +40,8 @@ public class UserController {
     }
      */
     @PostMapping("/refresh-token")
-    public TokenInfo refreshToken(@RequestHeader(required = false) String Authorization, @RequestBody @Valid TokenInfo tokenInfo) {
+    public TokenInfo refreshToken(@RequestHeader(required = false) String Authorization,
+                                  @RequestBody @Valid TokenInfo tokenInfo) {
         return userService.refreshTokenService(Authorization, tokenInfo);
     }
 
