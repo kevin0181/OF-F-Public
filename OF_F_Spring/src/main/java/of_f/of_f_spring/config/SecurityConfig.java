@@ -1,8 +1,6 @@
 package of_f.of_f_spring.config;
 
 import of_f.of_f_spring.config.jwt.*;
-import of_f.of_f_spring.domain.exception.CustomAccessDeniedHandler;
-import of_f.of_f_spring.domain.exception.CustomAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,11 +19,6 @@ public class SecurityConfig {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
-    @Autowired
-    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    @Autowired
-    private JwtAccessDeniedHandler jwtAccessDeniedHandler;
-
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

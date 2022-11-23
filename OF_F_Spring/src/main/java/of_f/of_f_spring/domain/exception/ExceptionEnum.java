@@ -13,7 +13,7 @@ public enum ExceptionEnum {
     //auth
     CANNOT_LOGOUT(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "A0001", "can not logout", "로그아웃 접근 불가", "로그아웃이 불가능합니다."),
     ALREADY_EMAIL(HttpServletResponse.SC_BAD_REQUEST, "A0002", "already email", "중복 이메일", "이미 존재하는 이메일 입니다."),
-
+    FAIL_LOGIN(HttpServletResponse.SC_UNAUTHORIZED, "A0003", "fail login", "로그인 실패", "아이디 및 비밀번호가 일치하지 않습니다."),
     // --token--
     INVALID_TOKEN_INFO(HttpServletResponse.SC_NOT_FOUND, "T0001", "invalid token", "토큰이 유효하지 않습니다."),
     TIMEOUT_TOKEN(HttpServletResponse.SC_UNAUTHORIZED, "T0002", "expiration date", "토큰 유효기간 만료"),

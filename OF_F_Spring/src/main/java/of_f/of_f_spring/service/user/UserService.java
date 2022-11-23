@@ -8,7 +8,6 @@ import of_f.of_f_spring.domain.exception.AuthException;
 import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import of_f.of_f_spring.domain.mapper.user.UserMapper;
 import of_f.of_f_spring.dto.user.ResUserDTO;
-import of_f.of_f_spring.dto.user.UserDTO;
 import of_f.of_f_spring.dto.user.UserRoleDTO;
 import of_f.of_f_spring.dto.user.UserSignInDTO;
 import of_f.of_f_spring.repository.jwt.RefreshTokenInfoRedisRepository;
@@ -20,11 +19,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,9 +98,9 @@ public class UserService {
 
     public TokenInfo refreshTokenService(String Authorization, TokenInfo tokenInfo) {
 
-        if (Authorization == null) {
+        if (Authorization == null)
             throw new ApiException(ExceptionEnum.TOKEN_DOES_NOT_EXIT);
-        }
+
 
         String headerRefreshToken = "";
         if (StringUtils.hasText(Authorization) && Authorization.startsWith("Bearer")) {

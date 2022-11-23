@@ -22,9 +22,6 @@ public class UserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) {
         User user = userRepository.findByEmail(email);
         UserDTO userDTO = UserMapper.instance.userTOUserDTO(user);
-        if (userDTO == null) {
-            throw new UsernameNotFoundException("존재하지 않는 사용자");
-        }
         return userDTO;
     }
 

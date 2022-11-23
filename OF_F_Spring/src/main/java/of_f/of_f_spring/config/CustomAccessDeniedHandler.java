@@ -1,4 +1,4 @@
-package of_f.of_f_spring.domain.exception;
+package of_f.of_f_spring.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+
+    //권한 오류 났을때.
+
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         setErrorResponse(request, response, accessDeniedException);
@@ -24,7 +27,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         body.put("status", 403);
         body.put("error", "Unauthorized");
         body.put("message", e.getMessage());
-        body.put("path", req.getServletPath());
+        body.put("detail","허용되지 않는 접근입니다.");
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(res.getOutputStream(), body);
         res.setStatus(HttpServletResponse.SC_OK);
