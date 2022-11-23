@@ -6,6 +6,7 @@ import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.domain.exception.ApiException;
 import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import of_f.of_f_spring.domain.mapper.user.UserMapper;
+import of_f.of_f_spring.dto.user.ResUserDTO;
 import of_f.of_f_spring.dto.user.UserDTO;
 import of_f.of_f_spring.dto.user.UserRoleDTO;
 import of_f.of_f_spring.dto.user.UserSignInDTO;
@@ -50,7 +51,7 @@ public class UserService {
     }
 
     //회원 가입
-    public UserDTO defaultSaveUser(UserSignInDTO userSignInDTO) {
+    public ResUserDTO defaultSaveUser(UserSignInDTO userSignInDTO) {
 
         UserRoleDTO userRoleDTO = new UserRoleDTO();
         userRoleDTO.setRoleSeq(2L); // 회원가입 시, 기본 권한
@@ -63,9 +64,9 @@ public class UserService {
         userSignInDTO.setPassword(passwordEncoder.encode(userSignInDTO.getPassword())); //패스워드 암호화
 
         User user = UserMapper.instance.UserSignInDTOTOUser(userSignInDTO);
-        UserDTO userDTO = UserMapper.instance.userTOUserDTO(userRepository.save(user));
+        ResUserDTO resUserDTO = UserMapper.instance.userTOResUserDTO(userRepository.save(user));
 
-        return userDTO;
+        return resUserDTO;
     }
 
     // 로그인

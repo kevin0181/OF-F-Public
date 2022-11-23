@@ -2,6 +2,8 @@ package of_f.of_f_spring.service.user;
 
 import lombok.RequiredArgsConstructor;
 import of_f.of_f_spring.domain.entity.user.User;
+import of_f.of_f_spring.domain.mapper.user.UserMapper;
+import of_f.of_f_spring.dto.user.UserDTO;
 import of_f.of_f_spring.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,10 +21,11 @@ public class UserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) {
         User user = userRepository.findByEmail(email);
-        if (user == null) {
+        UserDTO userDTO = UserMapper.instance.userTOUserDTO(user);
+        if (userDTO == null) {
             throw new UsernameNotFoundException("존재하지 않는 사용자");
         }
-        return user;
+        return userDTO;
     }
 
 }

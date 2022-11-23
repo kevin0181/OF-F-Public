@@ -1,6 +1,7 @@
 package of_f.of_f_spring.controller.user;
 
 import of_f.of_f_spring.config.jwt.TokenInfo;
+import of_f.of_f_spring.dto.user.ResUserDTO;
 import of_f.of_f_spring.dto.user.UserDTO;
 import of_f.of_f_spring.dto.user.UserLoginDTO;
 import of_f.of_f_spring.dto.user.UserSignInDTO;
@@ -18,15 +19,17 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/signIn")
-    public UserDTO signIn(@RequestBody UserSignInDTO userSignInDTO) {
-        return userService.defaultSaveUser(userSignInDTO);
-    }
 
     @PostMapping("/login")
     public TokenInfo login(@RequestBody UserLoginDTO userLoginDTO) {
         return userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
     }
+
+    @PostMapping("/signIn")
+    public ResUserDTO signIn(@RequestBody UserSignInDTO userSignInDTO) {
+        return userService.defaultSaveUser(userSignInDTO);
+    }
+
 
     /*
     Header{
