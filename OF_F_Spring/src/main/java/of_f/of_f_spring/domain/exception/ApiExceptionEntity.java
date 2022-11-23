@@ -7,5 +7,6 @@ import lombok.Getter;
 @Builder
 public class ApiExceptionEntity {
     private String errorCode;
+    private String error;
     private String errorMessage;
 }

@@ -8,6 +8,7 @@ import of_f.of_f_spring.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 @RestController
@@ -36,8 +37,8 @@ public class UserController {
     }
      */
     @PostMapping("/refresh-token")
-    public TokenInfo refreshToken(@RequestBody TokenInfo tokenInfo) {
-        return userService.refreshTokenService(tokenInfo);
+    public TokenInfo refreshToken(@RequestHeader(required = false) String Authorization, @RequestBody @Valid TokenInfo tokenInfo) {
+        return userService.refreshTokenService(Authorization, tokenInfo);
     }
 
     @PostMapping("/logout")

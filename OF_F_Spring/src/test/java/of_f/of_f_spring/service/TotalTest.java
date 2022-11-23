@@ -27,15 +27,4 @@ public class TotalTest {
 
     }
 
-    @Test
-    public void saveUser() {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setName("유영빈");
-        userDTO.setEmail("kevin0183@naver.com");
-        userDTO.setPassword("1");
-        userDTO.setUserStatus(1);
-        userDTO.setPhoneNumber("01000000000");
-        userDTO.setEmailReceiveStatus(true);
-        userDTO.setPhoneNumberReceiveStatus(true);
-    }
 }

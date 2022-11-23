@@ -17,6 +17,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -85,15 +87,25 @@ public class UserService {
     }
 
     // jwt token 재발급
-    public TokenInfo refreshTokenService(TokenInfo tokenInfo) {
 
-        if (tokenInfo.getGrantType() == null || tokenInfo.getAccessToken() == null || tokenInfo.getRefreshToken() == null) {
-            throw new NullPointerException("token의 정보가 비어있습니다.");
+    public TokenInfo refreshTokenService(String Authorization, TokenInfo tokenInfo) {
+
+        if (Authorization == null) {
+            throw new ApiException(ExceptionEnum.TOKEN_DOES_NOT_EXIT);
         }
 
-        TokenInfo token = jwtTokenProvider.refreshToken(tokenInfo);
+        String headerRefreshToken = "";
+        if (StringUtils.hasText(Authorization) && Authorization.startsWith("Bearer")) {
+            headerRefreshToken = Authorization.substring(7);
+        }
 
-        return token;
+        if (headerRefreshToken.equals(tokenInfo.getRefreshToken())) {
+            TokenInfo token = jwtTokenProvider.refreshToken(tokenInfo);
+            return token;
+        } else {
+            throw new ApiException(ExceptionEnum.NOT_MATCH_TOKEN);
+        }
+
     }
 
     public boolean deleteRefreshToken(Principal principal) {
