@@ -1,13 +1,9 @@
 package of_f.of_f_spring.config;
 
-import of_f.of_f_spring.config.jwt.JwtAccessDeniedHandler;
-import of_f.of_f_spring.config.jwt.JwtAuthenticationEntryPoint;
-import of_f.of_f_spring.config.jwt.JwtAuthenticationFilter;
-import of_f.of_f_spring.config.jwt.JwtTokenProvider;
+import of_f.of_f_spring.config.jwt.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -45,7 +41,8 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()  // security의 기본 로그인 화면을 비활성화
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
         return http.build();
     }
 
