@@ -5,6 +5,8 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
+import of_f.of_f_spring.domain.exception.ApiException;
+import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import of_f.of_f_spring.repository.jwt.RefreshTokenInfoRedisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -112,16 +114,14 @@ public class JwtTokenProvider {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("Invalid JWT Token", e);
+            throw new ApiException(ExceptionEnum.INVALID_TOKEN_INFO);
         } catch (ExpiredJwtException e) {
-            // accessToken으로 발생시 refreshToken발행 하라고 알려주고, refreshToken에서 발생 시, 재로그인 요청
-            log.info("Expired JWT Token", e);
+            throw new ApiException(ExceptionEnum.TIMEOUT_TOKEN); //-> 토큰 재발행 요청
         } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT Token", e);
+            throw new ApiException(ExceptionEnum.INVALID_TOKEN_INFO);
         } catch (IllegalArgumentException e) {
-            log.info("JWT claims string is empty.", e);
+            throw new ApiException(ExceptionEnum.INVALID_TOKEN_INFO);
         }
-        return false;
     }
 
     public void saveToken(TokenInfo tokenInfo, Authentication authentication) {

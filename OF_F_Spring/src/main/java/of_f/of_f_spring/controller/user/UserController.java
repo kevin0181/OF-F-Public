@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-@Controller
-@ResponseBody
+@RestController
 @RequestMapping("/api/v1/auth")
 public class UserController {
 
@@ -39,7 +38,7 @@ public class UserController {
 
     @PostMapping("/logout")
     public boolean logout(Principal principal) {
-        boolean result =  userService.deleteRefreshToken(principal);
+        boolean result = userService.deleteRefreshToken(principal);
         return result;
     }
 
