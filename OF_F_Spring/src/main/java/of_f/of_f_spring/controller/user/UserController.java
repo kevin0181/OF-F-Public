@@ -1,10 +1,11 @@
 package of_f.of_f_spring.controller.user;
 
 import of_f.of_f_spring.config.jwt.TokenInfo;
+import of_f.of_f_spring.dto.user.UserDTO;
 import of_f.of_f_spring.dto.user.UserLoginDTO;
+import of_f.of_f_spring.dto.user.UserSignInDTO;
 import of_f.of_f_spring.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -16,10 +17,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PostMapping("/signIn")
+    public UserDTO signIn(@RequestBody UserSignInDTO userSignInDTO) {
+        return userService.defaultSaveUser(userSignInDTO);
+    }
+
     @PostMapping("/login")
     public TokenInfo login(@RequestBody UserLoginDTO userLoginDTO) {
-        TokenInfo tokenInfo = userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
-        return tokenInfo;
+        return userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
     }
 
     /*
@@ -32,14 +37,12 @@ public class UserController {
      */
     @PostMapping("/refresh-token")
     public TokenInfo refreshToken(@RequestBody TokenInfo tokenInfo) {
-        TokenInfo refreshTokenInfo = userService.refreshTokenService(tokenInfo);
-        return refreshTokenInfo;
+        return userService.refreshTokenService(tokenInfo);
     }
 
     @PostMapping("/logout")
     public boolean logout(Principal principal) {
-        boolean result = userService.deleteRefreshToken(principal);
-        return result;
+        return userService.deleteRefreshToken(principal);
     }
 
 }

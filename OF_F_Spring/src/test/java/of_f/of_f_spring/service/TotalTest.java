@@ -37,7 +37,5 @@ public class TotalTest {
         userDTO.setPhoneNumber("01000000000");
         userDTO.setEmailReceiveStatus(true);
         userDTO.setPhoneNumberReceiveStatus(true);
-
-        User user = userService.defaultSaveUser(userDTO);
     }
 }

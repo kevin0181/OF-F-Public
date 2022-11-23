@@ -37,7 +37,6 @@ public class UserServiceTest {
         userDTO.setEmailReceiveStatus(true);
         userDTO.setPhoneNumberReceiveStatus(true);
 
-        User user = userService.defaultSaveUser(userDTO);
     }
 
 }

@@ -139,20 +139,16 @@ public class JwtTokenProvider {
 
     //만약 validation에서 accessToken이 기한 만료 오류가 났다면 refreshToken을 전송해서 새로 발급받기.
     public TokenInfo refreshToken(TokenInfo tokenInfo) {
-
         try {
-
-            TokenInfo refreshGetToken = null;
 
             //refresh 토큰 복호화
             Authentication authentication = getAuthentication(tokenInfo.getRefreshToken());
 
             //redis에 저장되어있는 refresh token을 가져옴
-            RefreshTokenInfo refreshTokenInfo = refreshTokenInfoRedisRepository.findById(authentication.getName())
-                    .orElseThrow(() ->
-                            new IllegalArgumentException("does not exist Token")); // -> 로그아웃 상태 (재로그인 요청)
+            RefreshTokenInfo getRedisRefreshToken = refreshTokenInfoRedisRepository.findById(authentication.getName()).get();
 
-            if (tokenInfo.getRefreshToken().equals(refreshTokenInfo.getRefreshToken()))
+            TokenInfo refreshGetToken = null;
+            if (tokenInfo.getRefreshToken().equals(getRedisRefreshToken.getRefreshToken()))
                 refreshGetToken = generateToken(authentication);
 
             saveToken(refreshGetToken, authentication);
@@ -161,13 +157,13 @@ public class JwtTokenProvider {
 
         } catch (NullPointerException e) {
             log.warn("does not exist Token"); // refresh 토큰이 존재하지 않음 (로그아웃 상태)
-            return null;
+            throw new ApiException(ExceptionEnum.TOKEN_DOES_NOT_EXIT);
         } catch (SignatureException e) {
             log.warn("Invalid Token Info"); // (토큰이 틀렸을때) (위조 변조)
-            return null;
+            throw new ApiException(ExceptionEnum.INVALID_TOKEN_INFO);
         } catch (NoSuchElementException e) {
-            log.warn("no such Token value");
-            return null;
+            log.warn("no such Token value"); //토큰이 존재하지 않을때. (로그아웃 상태)
+            throw new ApiException(ExceptionEnum.TOKEN_DOES_NOT_EXIT);
         }
 
     }

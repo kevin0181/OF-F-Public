@@ -1,6 +1,7 @@
 package of_f.of_f_spring.domain.entity.user;
 
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 import of_f.of_f_spring.domain.entity.store.Store;
 import of_f.of_f_spring.domain.entity.store.order.StoreOrder;
 import org.springframework.security.core.GrantedAuthority;

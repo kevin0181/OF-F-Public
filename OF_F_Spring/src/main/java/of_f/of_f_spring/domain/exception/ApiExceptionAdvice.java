@@ -21,15 +21,4 @@ public class ApiExceptionAdvice {
                         .errorMessage(e.getError().getMessage())
                         .build());
     }
-
-    @ExceptionHandler({SignatureException.class})
-    public ResponseEntity<ApiExceptionEntity> InvalidTokenHandler(HttpServletRequest request, final MalformedJwtException e) {
-        e.printStackTrace();
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(ApiExceptionEntity.builder()
-                        .errorCode("123")
-                        .errorMessage("토큰 오류임")
-                        .build());
-    }
 }

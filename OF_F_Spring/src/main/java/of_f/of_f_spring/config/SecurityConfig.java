@@ -1,6 +1,8 @@
 package of_f.of_f_spring.config;
 
 import of_f.of_f_spring.config.jwt.*;
+import of_f.of_f_spring.domain.exception.CustomAccessDeniedHandler;
+import of_f.of_f_spring.domain.exception.CustomAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,11 +38,14 @@ public class SecurityConfig {
                 .authorizeRequests() //인증절차 설정 시작
                 .antMatchers("/api/v1/auth/**").permitAll()
                 .antMatchers("/api/v1/of_f/main/**").permitAll()
-                .antMatchers("/api/v1/of_f/admin/**").hasRole("ADMIN")
-                .antMatchers("/api/v1/qr/store/**").hasRole("ADMIN")
+                .antMatchers("/api/v1/of_f/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/api/v1/qr/store/**").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()  // security의 기본 로그인 화면을 비활성화
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .accessDeniedHandler(new CustomAccessDeniedHandler())
+                .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
         return http.build();
