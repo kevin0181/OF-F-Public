@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 @ToString
 public enum ExceptionEnum {
 
-    CANNOT_LOGOUT(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "A0001", "can not logout", "로그아웃이 불가능합니다."),
+    //auth
+    CANNOT_LOGOUT(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "A0001", "can not logout", "로그아웃 접근 불가", "로그아웃이 불가능합니다."),
+    ALREADY_EMAIL(HttpServletResponse.SC_BAD_REQUEST, "A0002", "already email", "중복 이메일", "이미 존재하는 이메일 입니다."),
 
     // --token--
     INVALID_TOKEN_INFO(HttpServletResponse.SC_NOT_FOUND, "T0001", "invalid token", "토큰이 유효하지 않습니다."),
@@ -22,6 +24,7 @@ public enum ExceptionEnum {
     private final String code;
     private String error;
     private String message;
+    private String detail;
 
     ExceptionEnum(int status, String code) {
         this.status = status;
@@ -34,5 +37,14 @@ public enum ExceptionEnum {
         this.error = error;
         this.message = message;
     }
+
+    ExceptionEnum(int status, String code, String error, String message, String detail) {
+        this.status = status;
+        this.code = code;
+        this.error = error;
+        this.message = message;
+        this.detail = detail;
+    }
+
 
 }

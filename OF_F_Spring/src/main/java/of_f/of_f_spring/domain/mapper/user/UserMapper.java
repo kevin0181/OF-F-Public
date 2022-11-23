@@ -1,6 +1,7 @@
 package of_f.of_f_spring.domain.mapper.user;
 
 import of_f.of_f_spring.domain.entity.user.User;
+import of_f.of_f_spring.dto.user.ResUserDTO;
 import of_f.of_f_spring.dto.user.UserDTO;
 import of_f.of_f_spring.dto.user.UserSignInDTO;
 import org.mapstruct.Mapper;
@@ -15,6 +16,7 @@ public interface UserMapper {
     UserMapper instance = Mappers.getMapper(UserMapper.class);
 
     User UserSignInDTOTOUser(UserSignInDTO userSignInDTO);
+    ResUserDTO userTOResUserDTO(User user);
     UserDTO userTOUserDTO(User user);
 
     @Mapping(target = "store.user", ignore = true)

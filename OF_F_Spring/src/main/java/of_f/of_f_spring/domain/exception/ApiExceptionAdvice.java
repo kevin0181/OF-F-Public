@@ -1,5 +1,7 @@
 package of_f.of_f_spring.domain.exception;
 
+import of_f.of_f_spring.domain.exception.dto.ApiExceptionDTO;
+import of_f.of_f_spring.domain.exception.dto.AuthExceptionDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -12,25 +14,38 @@ import javax.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class ApiExceptionAdvice {
     @ExceptionHandler({ApiException.class})
-    public ResponseEntity<ApiExceptionEntity> exceptionHandler(HttpServletRequest request, final ApiException e) {
+    public ResponseEntity<ApiExceptionDTO> apiExceptionHandler(HttpServletRequest request, final ApiException e) {
         e.printStackTrace();
         return ResponseEntity
                 .status(e.getError().getStatus())
-                .body(ApiExceptionEntity.builder()
+                .body(ApiExceptionDTO.builder()
                         .errorCode(e.getError().getCode())
                         .error(e.getError().getError())
                         .errorMessage(e.getError().getMessage())
                         .build());
     }
 
+    @ExceptionHandler({AuthException.class})
+    public ResponseEntity<AuthExceptionDTO> authExceptionHandler(HttpServletRequest request, final AuthException e) {
+        e.printStackTrace();
+        return ResponseEntity
+                .status(e.getError().getStatus())
+                .body(AuthExceptionDTO.builder()
+                        .errorCode(e.getError().getCode())
+                        .error(e.getError().getError())
+                        .errorMessage(e.getError().getMessage())
+                        .detail(e.getError().getDetail())
+                        .build());
+    }
+
     //validation exception handler
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public ResponseEntity<ApiExceptionEntity> validExceptionHandler(HttpServletRequest request, MethodArgumentNotValidException e) {
+    public ResponseEntity<ApiExceptionDTO> validExceptionHandler(HttpServletRequest request, MethodArgumentNotValidException e) {
         e.printStackTrace();
         BindingResult bindingResult = e.getBindingResult();
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(ApiExceptionEntity.builder()
+                .body(ApiExceptionDTO.builder()
                         .errorCode("400")
                         .error("fail validation")
                         .errorMessage(bindingResult.getFieldError().getDefaultMessage())

@@ -4,8 +4,10 @@ import of_f.of_f_spring.config.jwt.JwtTokenProvider;
 import of_f.of_f_spring.config.jwt.TokenInfo;
 import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.domain.exception.ApiException;
+import of_f.of_f_spring.domain.exception.AuthException;
 import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import of_f.of_f_spring.domain.mapper.user.UserMapper;
+import of_f.of_f_spring.dto.user.ResUserDTO;
 import of_f.of_f_spring.dto.user.UserDTO;
 import of_f.of_f_spring.dto.user.UserRoleDTO;
 import of_f.of_f_spring.dto.user.UserSignInDTO;
@@ -20,7 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import javax.validation.Valid;
 import java.security.Principal;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +54,12 @@ public class UserService {
     }
 
     //회원 가입
-    public UserDTO defaultSaveUser(UserSignInDTO userSignInDTO) {
+    public ResUserDTO defaultSaveUser(UserSignInDTO userSignInDTO) {
+
+        boolean checkUser = userRepository.existsByEmail(userSignInDTO.getEmail());
+
+        if (checkUser)
+            throw new AuthException(ExceptionEnum.ALREADY_EMAIL);
 
         UserRoleDTO userRoleDTO = new UserRoleDTO();
         userRoleDTO.setRoleSeq(2L); // 회원가입 시, 기본 권한
@@ -63,9 +72,11 @@ public class UserService {
         userSignInDTO.setPassword(passwordEncoder.encode(userSignInDTO.getPassword())); //패스워드 암호화
 
         User user = UserMapper.instance.UserSignInDTOTOUser(userSignInDTO);
-        UserDTO userDTO = UserMapper.instance.userTOUserDTO(userRepository.save(user));
 
-        return userDTO;
+
+        ResUserDTO resUserDTO = UserMapper.instance.userTOResUserDTO(userRepository.save(user));
+
+        return resUserDTO;
     }
 
     // 로그인
