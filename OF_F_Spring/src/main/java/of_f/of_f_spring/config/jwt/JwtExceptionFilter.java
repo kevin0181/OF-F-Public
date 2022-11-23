@@ -31,7 +31,6 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         res.setContentType(MediaType.APPLICATION_JSON_VALUE);
         final Map<String, Object> body = new HashMap<>();
         body.put("status", e.getError().getStatus());
-//        body.put("error", "Unauthorized");
         body.put("message", e.getMessage());
         body.put("path", req.getServletPath());
         final ObjectMapper mapper = new ObjectMapper();

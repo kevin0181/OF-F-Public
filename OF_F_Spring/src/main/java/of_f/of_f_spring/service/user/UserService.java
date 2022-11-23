@@ -3,9 +3,12 @@ package of_f.of_f_spring.service.user;
 import of_f.of_f_spring.config.jwt.JwtTokenProvider;
 import of_f.of_f_spring.config.jwt.TokenInfo;
 import of_f.of_f_spring.domain.entity.user.User;
+import of_f.of_f_spring.domain.exception.ApiException;
+import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import of_f.of_f_spring.domain.mapper.user.UserMapper;
 import of_f.of_f_spring.dto.user.UserDTO;
 import of_f.of_f_spring.dto.user.UserRoleDTO;
+import of_f.of_f_spring.dto.user.UserSignInDTO;
 import of_f.of_f_spring.repository.jwt.RefreshTokenInfoRedisRepository;
 import of_f.of_f_spring.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,19 +48,22 @@ public class UserService {
     }
 
     //회원 가입
-    public User defaultSaveUser(UserDTO userDTO) {
+    public UserDTO defaultSaveUser(UserSignInDTO userSignInDTO) {
 
         UserRoleDTO userRoleDTO = new UserRoleDTO();
-        userRoleDTO.setRoleSeq(1L); // 회원가입 시, 기본 권한
+        userRoleDTO.setRoleSeq(2L); // 회원가입 시, 기본 권한
 
         List<UserRoleDTO> userRoleDTOS = new ArrayList<>();
         userRoleDTOS.add(userRoleDTO);
-        userDTO.setUserRoles(userRoleDTOS); //권한 넣기
+        userSignInDTO.setUserStatus(1); // 유저 상태
+        userSignInDTO.setUserRoles(userRoleDTOS); //권한 넣기
 
-        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword())); //패스워드 암호화
+        userSignInDTO.setPassword(passwordEncoder.encode(userSignInDTO.getPassword())); //패스워드 암호화
 
-        User user = UserMapper.instance.UserDTOTOOFFUser(userDTO);
-        return userRepository.save(user);
+        User user = UserMapper.instance.UserSignInDTOTOUser(userSignInDTO);
+        UserDTO userDTO = UserMapper.instance.userTOUserDTO(userRepository.save(user));
+
+        return userDTO;
     }
 
     // 로그인
@@ -94,8 +100,8 @@ public class UserService {
         try {
             refreshTokenInfoRedisRepository.deleteById(principal.getName());
             return true;
-        } catch (Exception e) {
-            return false;
+        } catch (ApiException e) {
+            throw new ApiException(ExceptionEnum.CANNOT_LOGOUT); // 로그아웃 불가 메시지
         }
     }
 }
