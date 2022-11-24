@@ -53,9 +53,9 @@ public class UserService {
     //회원 가입
     public ResUserDTO defaultSaveUser(UserSignInDTO userSignInDTO) {
 
-        boolean checkUser = userRepository.existsByEmail(userSignInDTO.getEmail());
+        boolean checkEmail = userRepository.existsByEmail(userSignInDTO.getEmail());
 
-        if (checkUser)
+        if (checkEmail)
             throw new AuthException(ExceptionEnum.ALREADY_EMAIL);
 
         UserRoleDTO userRoleDTO = new UserRoleDTO();
@@ -147,5 +147,34 @@ public class UserService {
         user.setName(changeUserDTO.getName());
         user.setPhoneNumber(changeUserDTO.getPhoneNumber());
         return userRepository.save(user);
+    }
+
+    public String findEmail(FindUserEmailDTO findUserEmailDTO) {
+        User user = userRepository.findByPhoneNumberAndName(findUserEmailDTO.getPhoneNumber(), findUserEmailDTO.getName());
+        if (user == null)
+            throw new AuthException(ExceptionEnum.NOT_EXIT_USER);
+
+        StringBuffer email = new StringBuffer();
+        // 먼저 @ 의 인덱스를 찾는다 - 인덱스 값: 5
+        int idx = user.getEmail().indexOf("@");
+
+        String mailF = user.getEmail().substring(0, idx);
+        int starSize = mailF.length() / 2;
+        String mailF_A = mailF.substring(0, starSize);
+
+        String mailB = user.getEmail().substring(idx + 1);
+
+        String star = "";
+        for (int i = 0; i < starSize; i++) {
+            star += "*";
+        }
+
+        email.append(mailF_A);
+        email.append(star);
+        email.append("@");
+        email.append(mailB);
+
+        return String.valueOf(email);
+
     }
 }

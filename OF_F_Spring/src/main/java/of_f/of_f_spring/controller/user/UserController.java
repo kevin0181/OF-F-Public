@@ -82,4 +82,9 @@ public class UserController {
         return true;
     }
 
+    @PostMapping("/n/find/email")
+    public String findEmail(@RequestBody @Valid FindUserEmailDTO findUserEmailDTO){
+        return userService.findEmail(findUserEmailDTO);
+    }
+
 }
