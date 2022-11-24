@@ -8,9 +8,7 @@ import of_f.of_f_spring.domain.exception.ApiException;
 import of_f.of_f_spring.domain.exception.AuthException;
 import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import of_f.of_f_spring.domain.mapper.user.UserMapper;
-import of_f.of_f_spring.dto.user.ResUserDTO;
-import of_f.of_f_spring.dto.user.UserRoleDTO;
-import of_f.of_f_spring.dto.user.UserSignInDTO;
+import of_f.of_f_spring.dto.user.*;
 import of_f.of_f_spring.repository.jwt.RefreshTokenInfoRedisRepository;
 import of_f.of_f_spring.repository.user.EmailTokenRedisRepository;
 import of_f.of_f_spring.repository.user.UserRepository;
@@ -96,6 +94,21 @@ public class UserService {
         return tokenInfo;
     }
 
+
+    // user확인
+    public boolean checkUser(UserLoginDTO userLoginDTO, Principal principal) {
+
+        User user = userRepository.findByEmail(principal.getName());
+
+        if (user == null)
+            throw new AuthException(ExceptionEnum.NOT_EXIT_USER);
+
+        if (passwordEncoder.matches(userLoginDTO.getPassword(), user.getPassword()))
+            return true;
+        else
+            throw new AuthException(ExceptionEnum.FAIL_PASSWORD);
+    }
+
     // jwt token 재발급
 
     public TokenInfo refreshTokenService(String Authorization, TokenInfo tokenInfo) {
@@ -127,4 +140,12 @@ public class UserService {
         }
     }
 
+
+    public User changeUser(ChangeUserDTO changeUserDTO, Principal principal) {
+        User user = userRepository.findByEmail(principal.getName());
+        user.setPassword(passwordEncoder.encode(changeUserDTO.getPassword()));
+        user.setName(changeUserDTO.getName());
+        user.setPhoneNumber(changeUserDTO.getPhoneNumber());
+        return userRepository.save(user);
+    }
 }

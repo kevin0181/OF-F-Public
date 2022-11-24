@@ -1,6 +1,9 @@
 package of_f.of_f_spring.controller.user;
 
 import of_f.of_f_spring.config.jwt.TokenInfo;
+import of_f.of_f_spring.domain.entity.user.User;
+import of_f.of_f_spring.domain.exception.AuthException;
+import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import of_f.of_f_spring.dto.user.*;
 import of_f.of_f_spring.service.user.EmailService;
 import of_f.of_f_spring.service.user.UserService;
@@ -61,6 +64,22 @@ public class UserController {
     @GetMapping("/n/email/check/token") // 이메일 토큰 인증
     public VerifyEmailInfo checkEmailToken(@RequestParam(required = false) String emailToken) {
         return emailService.checkToken(emailToken);
+    }
+
+    @PostMapping("/y/check/user") //사용자 비밀번호 확인
+    public boolean checkUser(@RequestBody UserLoginDTO userLoginDTO, Principal principal) {
+        return userService.checkUser(userLoginDTO, principal);
+    }
+
+    /*
+    무조건 3개 정보 전부다 보내줘야함.
+     */
+    @PostMapping("/y/change/info") //사용자 정보 변경
+    public boolean changeUserInfo(@RequestBody @Valid ChangeUserDTO changeUserDTO, Principal principal) {
+        User user = userService.changeUser(changeUserDTO, principal);
+        if (user == null)
+            throw new AuthException(ExceptionEnum.CAN_NOT_CHANGE_USER_INFO);
+        return true;
     }
 
 }

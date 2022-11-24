@@ -1,19 +1,24 @@
 package of_f.of_f_spring.service.user;
 
 import of_f.of_f_spring.domain.entity.user.EmailToken;
+import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.domain.exception.AuthException;
 import of_f.of_f_spring.domain.exception.ExceptionEnum;
+import of_f.of_f_spring.dto.user.UserLoginDTO;
 import of_f.of_f_spring.dto.user.VerifyEmailInfo;
 import of_f.of_f_spring.repository.user.EmailTokenRedisRepository;
+import of_f.of_f_spring.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.security.Principal;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
@@ -24,6 +29,10 @@ public class EmailService {
     private JavaMailSender javaMailSender;
     @Autowired
     private EmailTokenRedisRepository emailTokenRedisRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public boolean saveEmailToken(String email) {
 
@@ -111,4 +120,5 @@ public class EmailService {
         }
 
     }
+
 }
