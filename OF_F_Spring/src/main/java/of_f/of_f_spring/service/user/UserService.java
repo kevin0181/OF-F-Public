@@ -63,7 +63,7 @@ public class UserService {
 
         List<UserRoleDTO> userRoleDTOS = new ArrayList<>();
         userRoleDTOS.add(userRoleDTO);
-        userSignInDTO.setUserStatus(1); // 유저 상태
+        userSignInDTO.setUserStatus(0); // 유저 상태
         userSignInDTO.setUserRoles(userRoleDTOS); //권한 넣기
 
         userSignInDTO.setPassword(passwordEncoder.encode(userSignInDTO.getPassword())); //패스워드 암호화
