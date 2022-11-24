@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 @Service
@@ -87,18 +88,23 @@ public class EmailService {
             throw new AuthException(ExceptionEnum.NOT_EXIT_EMAIL_TOKEN);
         }
 
-        EmailToken checkEmailToken = emailTokenRedisRepository.findById(emailToken).get();
+        try {
+            EmailToken checkEmailToken = emailTokenRedisRepository.findById(emailToken).get();
 
-        if (checkEmailToken == null)
+            if (checkEmailToken == null)
+                throw new AuthException(ExceptionEnum.NOT_EXIT_EMAIL_TOKEN);
+
+            emailTokenRedisRepository.deleteById(emailToken);
+
+            return VerifyEmailInfo.builder()
+                    .email(checkEmailToken.getEmail())
+                    .redirectURI("리다이렉트 uri")
+                    .status(true)
+                    .build();
+
+        } catch (NoSuchElementException e) {
             throw new AuthException(ExceptionEnum.NOT_EXIT_EMAIL_TOKEN);
-
-        emailTokenRedisRepository.deleteById(emailToken);
-
-        return VerifyEmailInfo.builder()
-                .email(checkEmailToken.getEmail())
-                .redirectURI("리다이렉트 uri")
-                .status(true)
-                .build();
+        }
 
     }
 }

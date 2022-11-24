@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -49,6 +50,18 @@ public class ApiExceptionAdvice {
                         .errorCode("400")
                         .error("fail validation")
                         .errorMessage(bindingResult.getFieldError().getDefaultMessage())
+                        .build());
+    }
+
+    @ExceptionHandler({MissingServletRequestParameterException.class})
+    public ResponseEntity<ApiExceptionDTO> NullQuery(HttpServletRequest request, MissingServletRequestParameterException e) {
+        e.printStackTrace();
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiExceptionDTO.builder()
+                        .errorCode("400")
+                        .error("Bad Request")
+                        .errorMessage(e.getMessage())
                         .build());
     }
 }
