@@ -17,6 +17,7 @@ public enum ExceptionEnum {
     NOT_EXIT_EMAIL_TOKEN(HttpServletResponse.SC_UNAUTHORIZED, "A0004", "not found email token", "이메일 토큰 확인 불가", "이메일 인증에 실패하였습니다."),
     NOT_EXIT_USER(HttpServletResponse.SC_UNAUTHORIZED, "A0005", "does not exit user", "존재하지 않는 사용자", "존재하지 않는 사용자입니다."),
     BLOCK_USER(HttpServletResponse.SC_UNAUTHORIZED, "A0006", "black user", "잠긴 사용자", "사용자의 계정을 사용할 수 없습니다. 관리자에게 문의 주세요."),
+    CAN_NOT_USE_MAIL(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "A0007", "can not use mail", "이메일 인증 사용 불가", "일시적으로 이메일 인증을 사용이 불가능합니다. 관리자에게 문의 주세요."),
     // --token--
     INVALID_TOKEN_INFO(HttpServletResponse.SC_NOT_FOUND, "T0001", "invalid token", "토큰이 유효하지 않습니다."),
     TIMEOUT_TOKEN(HttpServletResponse.SC_UNAUTHORIZED, "T0002", "expiration date", "토큰 유효기간 만료"),

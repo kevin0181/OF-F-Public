@@ -50,8 +50,11 @@ public class UserController {
         return userService.deleteRefreshToken(principal);
     }
 
+    /*
+    error -> 400 email 없음
+     */
     @GetMapping("/n/email/check") // 이메일 인증
-    public boolean checkEmail(@RequestParam String email) throws MessagingException {
+    public boolean checkEmail(@RequestParam String email) {
         return emailService.saveEmailToken(email);
     }
 

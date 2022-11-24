@@ -25,7 +25,7 @@ public class EmailService {
     @Autowired
     private EmailTokenRedisRepository emailTokenRedisRepository;
 
-    public boolean saveEmailToken(String email) throws MessagingException {
+    public boolean saveEmailToken(String email) {
 
         EmailToken emailToken = emailTokenRedisRepository.save(createRandomToken(email));
 
@@ -33,12 +33,16 @@ public class EmailService {
             return false;
         }
 
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
-        mimeMessageHelper.setTo(email);
-        mimeMessageHelper.setSubject("off 회원가입 인증 메일입니다.");
-        mimeMessageHelper.setText(createEmailText(emailToken.getEmailToken()), true);
-        javaMailSender.send(mimeMessage);
+        try {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+            mimeMessageHelper.setTo(email);
+            mimeMessageHelper.setSubject("off 회원가입 인증 메일입니다.");
+            mimeMessageHelper.setText(createEmailText(emailToken.getEmailToken()), true);
+            javaMailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            throw new AuthException(ExceptionEnum.CAN_NOT_USE_MAIL);
+        }
 
         return true;
     }
