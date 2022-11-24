@@ -57,6 +57,9 @@ dependencies {
     //valid
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
 
+    //mail
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
 }
 
 tasks.named('test') {

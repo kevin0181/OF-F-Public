@@ -2,6 +2,7 @@ package of_f.of_f_spring.service.user;
 
 import of_f.of_f_spring.config.jwt.JwtTokenProvider;
 import of_f.of_f_spring.config.jwt.TokenInfo;
+import of_f.of_f_spring.domain.entity.user.EmailToken;
 import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.domain.exception.ApiException;
 import of_f.of_f_spring.domain.exception.AuthException;
@@ -11,6 +12,7 @@ import of_f.of_f_spring.dto.user.ResUserDTO;
 import of_f.of_f_spring.dto.user.UserRoleDTO;
 import of_f.of_f_spring.dto.user.UserSignInDTO;
 import of_f.of_f_spring.repository.jwt.RefreshTokenInfoRedisRepository;
+import of_f.of_f_spring.repository.user.EmailTokenRedisRepository;
 import of_f.of_f_spring.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,10 +22,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.validation.Valid;
+import java.nio.charset.Charset;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 //@Transactional
@@ -43,7 +46,6 @@ public class UserService {
 
     @Autowired
     private RefreshTokenInfoRedisRepository refreshTokenInfoRedisRepository;
-
 
     public List<User> getUserList() { // 회원 리스트 가져오기
         List<User> users = userRepository.findAll();
@@ -124,4 +126,5 @@ public class UserService {
             throw new ApiException(ExceptionEnum.CANNOT_LOGOUT); // 로그아웃 불가 메시지
         }
     }
+
 }
