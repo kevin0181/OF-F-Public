@@ -1,6 +1,7 @@
 package of_f.of_f_spring.controller.user;
 
 import of_f.of_f_spring.config.jwt.TokenInfo;
+import of_f.of_f_spring.domain.entity.user.EmailToken;
 import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.domain.exception.AuthException;
 import of_f.of_f_spring.domain.exception.ExceptionEnum;
@@ -10,7 +11,6 @@ import of_f.of_f_spring.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.security.Principal;
 
@@ -57,13 +57,13 @@ public class UserController {
     error -> 400 email 없음
      */
     @GetMapping("/n/email/check") // 이메일 인증
-    public boolean checkEmail(@RequestParam String email) {
-        return emailService.saveEmailToken(email);
+    public boolean checkEmail(@RequestBody @Valid EmailToken emailToken) {
+        return emailService.saveEmailToken(emailToken);
     }
 
     @GetMapping("/n/email/check/token") // 이메일 토큰 인증
     public VerifyEmailInfo checkEmailToken(@RequestParam(required = false) String emailToken) {
-        return emailService.checkToken(emailToken);
+        return emailService.checkEmailToken(emailToken);
     }
 
     @PostMapping("/y/check/user") //사용자 비밀번호 확인
@@ -82,9 +82,20 @@ public class UserController {
         return true;
     }
 
-    @PostMapping("/n/find/email")
+    @PostMapping("/n/find/email") //이메일 찾기
     public String findEmail(@RequestBody @Valid FindUserEmailDTO findUserEmailDTO){
         return userService.findEmail(findUserEmailDTO);
     }
+
+    @PostMapping("/n/find/password") //비밀번호 찾기
+    public boolean findPassword(@RequestBody @Valid FindUserPasswordDTO findUserPasswordDTO){
+        return emailService.sendPasswordEmail(findUserPasswordDTO);
+    }
+
+    @GetMapping("/n/find/password/check/token") //비밀번호 찾기 토큰 체크
+    public VerifyEmailInfo checkChangePasswordEmailToken(@RequestParam(required = false) String emailToken) {
+        return emailService.checkFindPasswordToken(emailToken);
+    }
+
 
 }
