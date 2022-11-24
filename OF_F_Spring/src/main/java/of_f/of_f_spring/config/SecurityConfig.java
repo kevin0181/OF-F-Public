@@ -29,7 +29,8 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//security에서 사용하는 session 비활성화
                 .and()
                 .authorizeRequests() //인증절차 설정 시작
-                .antMatchers("/api/v1/auth/**").permitAll()
+                .antMatchers("/api/v1/auth/n/**").permitAll()
+                .antMatchers("/api/v1/auth/y/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .antMatchers("/api/v1/of_f/main/**").permitAll()
                 .antMatchers("/api/v1/of_f/admin/**").hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers("/api/v1/qr/store/**").hasAnyAuthority("ROLE_ADMIN")
