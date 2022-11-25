@@ -23,30 +23,29 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         final Map<String, Object> body = new HashMap<>();
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         // 응답 객체 초기화
-        body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
+        body.put("code", HttpServletResponse.SC_UNAUTHORIZED);
+        body.put("status", "BAD");
         body.put("error", authException.getMessage());
         body.put("path", request.getServletPath());
 
 
         if (authException instanceof AuthenticationServiceException) {
-//            body.put("message", "존재하지 않는 사용자");
-//            body.put("detail", "존재하지 않는 사용자입니다.");
-            body.put("message", "로그인 실패");
+            body.put("errorMessage", "로그인 실패");
             body.put("detail", "아이디 및 비밀번호가 일치하지 않습니다.");
         } else if (authException instanceof BadCredentialsException) {
-            body.put("message", "로그인 실패");
+            body.put("errorMessage", "로그인 실패");
             body.put("detail", "아이디 및 비밀번호가 일치하지 않습니다.");
         } else if (authException instanceof LockedException) {
-            body.put("message", "잠긴 사용자");
+            body.put("errorMessage", "잠긴 사용자");
             body.put("detail", "사용자의 계정을 사용할 수 없습니다. 관리자에게 문의 주세요.");
         } else if (authException instanceof DisabledException) {
-            body.put("message", "잠긴 사용자");
+            body.put("errorMessage", "잠긴 사용자");
             body.put("detail", "사용자의 계정을 사용할 수 없습니다. 관리자에게 문의 주세요.");
         } else if (authException instanceof AccountExpiredException) {
-            body.put("message", "잠긴 사용자");
+            body.put("errorMessage", "잠긴 사용자");
             body.put("detail", "사용자의 계정을 사용할 수 없습니다. 관리자에게 문의 주세요.");
         } else if (authException instanceof CredentialsExpiredException) {
-            body.put("message", "잠긴 사용자");
+            body.put("errorMessage", "잠긴 사용자");
             body.put("detail", "사용자의 계정을 사용할 수 없습니다. 관리자에게 문의 주세요.");
         }
 
