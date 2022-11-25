@@ -4,10 +4,9 @@ import of_f.of_f_spring.domain.entity.user.EmailToken;
 import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.domain.exception.AuthException;
 import of_f.of_f_spring.domain.exception.ExceptionEnum;
-import of_f.of_f_spring.dto.ResponseDTO;
+import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.user.FindUserPasswordDTO;
 import of_f.of_f_spring.dto.user.UserLoginDTO;
-import of_f.of_f_spring.dto.user.VerifyEmailInfo;
 import of_f.of_f_spring.repository.user.EmailTokenRedisRepository;
 import of_f.of_f_spring.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ public class EmailService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public boolean saveEmailToken(EmailToken emailToken) {
+    public ApiResponseDTO saveEmailToken(EmailToken emailToken) {
 
         EmailToken getEmailToken = emailTokenRedisRepository.save(createRandomToken(emailToken.getEmail()));
 
@@ -51,10 +50,13 @@ public class EmailService {
             throw new AuthException(ExceptionEnum.CAN_NOT_USE_MAIL);
         }
 
-        return true;
+        return ApiResponseDTO.builder()
+                .message("이메일 인증 발송 완료")
+                .detail("인증 메일을 발송했습니다. 메일 인증을 완료해주세요.")
+                .build();
     }
 
-    public boolean sendPasswordEmail(FindUserPasswordDTO findUserPasswordDTO) {
+    public ApiResponseDTO sendPasswordEmail(FindUserPasswordDTO findUserPasswordDTO) {
 
         EmailToken emailToken = emailTokenRedisRepository.save(createRandomToken(findUserPasswordDTO.getEmail()));
 
@@ -72,7 +74,10 @@ public class EmailService {
             throw new AuthException(ExceptionEnum.CAN_NOT_USE_MAIL);
         }
 
-        return true;
+        return ApiResponseDTO.builder()
+                .message("비밀번호 변경 이메일 발송")
+                .detail("인증 메일을 발송했습니다. 메일 인증을 완료해주세요.")
+                .build();
     }
 
     private String createEmailFindPasswordText(String token) {
@@ -121,7 +126,7 @@ public class EmailService {
 
     }
 
-    public ResponseDTO checkFindPasswordToken(String emailToken, UserLoginDTO userLoginDTO) {
+    public ApiResponseDTO checkFindPasswordToken(String emailToken, UserLoginDTO userLoginDTO) {
 
         if (emailToken == null || emailToken.equals("")) {
             throw new AuthException(ExceptionEnum.NOT_EXIT_EMAIL_TOKEN);
@@ -144,9 +149,7 @@ public class EmailService {
 
             userRepository.save(user);
 
-            return ResponseDTO.builder()
-                    .code("200")
-                    .status("success")
+            return ApiResponseDTO.builder()
                     .message("비밀번호 변경")
                     .detail("비밀번호 변경이 완료 되었습니다. 다시 로그인해주세요.")
                     .build();

@@ -5,7 +5,7 @@ import of_f.of_f_spring.domain.entity.user.EmailToken;
 import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.domain.exception.AuthException;
 import of_f.of_f_spring.domain.exception.ExceptionEnum;
-import of_f.of_f_spring.dto.ResponseDTO;
+import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.user.*;
 import of_f.of_f_spring.service.user.EmailService;
 import of_f.of_f_spring.service.user.UserService;
@@ -26,12 +26,12 @@ public class UserController {
     private EmailService emailService;
 
     @PostMapping("/n/login") // 로그인
-    public TokenInfo login(@RequestBody @Valid UserLoginDTO userLoginDTO) {
+    public ApiResponseDTO login(@RequestBody @Valid UserLoginDTO userLoginDTO) {
         return userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
     }
 
     @PostMapping("/n/signIn") // 회원가입
-    public ResUserDTO signIn(@RequestBody @Valid UserSignInDTO userSignInDTO, @RequestParam(required = false) String emailToken) {
+    public ApiResponseDTO signIn(@RequestBody @Valid UserSignInDTO userSignInDTO, @RequestParam(required = false) String emailToken) {
         return userService.defaultSaveUser(userSignInDTO, emailToken);
     }
 
@@ -44,13 +44,13 @@ public class UserController {
     }
      */
     @PostMapping("/y/refresh-token") // 토큰 재발행
-    public TokenInfo refreshToken(@RequestHeader(required = false) String Authorization,
-                                  @RequestBody @Valid TokenInfo tokenInfo) {
+    public ApiResponseDTO refreshToken(@RequestHeader(required = false) String Authorization,
+                                       @RequestBody @Valid TokenInfo tokenInfo) {
         return userService.refreshTokenService(Authorization, tokenInfo);
     }
 
     @PostMapping("/y/logout") // 로그아웃
-    public boolean logout(Principal principal) {
+    public ApiResponseDTO logout(Principal principal) {
         return userService.deleteRefreshToken(principal);
     }
 
@@ -58,12 +58,12 @@ public class UserController {
     error -> 400 email 없음
      */
     @GetMapping("/n/email/check") // 이메일 인증
-    public boolean checkEmail(@RequestBody @Valid EmailToken emailToken) {
+    public ApiResponseDTO checkEmail(@RequestBody @Valid EmailToken emailToken) {
         return emailService.saveEmailToken(emailToken);
     }
 
     @PostMapping("/y/check/user") //사용자 비밀번호 확인
-    public boolean checkUser(@RequestBody UserLoginDTO userLoginDTO, Principal principal) {
+    public ApiResponseDTO checkUser(@RequestBody UserLoginDTO userLoginDTO, Principal principal) {
         return userService.checkUser(userLoginDTO, principal);
     }
 
@@ -71,25 +71,22 @@ public class UserController {
     무조건 3개 정보 전부다 보내줘야함.
      */
     @PostMapping("/y/change/info") //사용자 정보 변경
-    public boolean changeUserInfo(@RequestBody @Valid ChangeUserDTO changeUserDTO, Principal principal) {
-        User user = userService.changeUser(changeUserDTO, principal);
-        if (user == null)
-            throw new AuthException(ExceptionEnum.CAN_NOT_CHANGE_USER_INFO);
-        return true;
+    public ApiResponseDTO changeUserInfo(@RequestBody @Valid ChangeUserDTO changeUserDTO, Principal principal) {
+        return userService.changeUser(changeUserDTO, principal);
     }
 
     @PostMapping("/n/find/email") //이메일 찾기
-    public String findEmail(@RequestBody @Valid FindUserEmailDTO findUserEmailDTO) {
+    public ApiResponseDTO findEmail(@RequestBody @Valid FindUserEmailDTO findUserEmailDTO) {
         return userService.findEmail(findUserEmailDTO);
     }
 
     @PostMapping("/n/find/password") //비밀번호 찾기
-    public boolean findPasswordSendEmail(@RequestBody @Valid FindUserPasswordDTO findUserPasswordDTO) {
+    public ApiResponseDTO findPasswordSendEmail(@RequestBody @Valid FindUserPasswordDTO findUserPasswordDTO) {
         return emailService.sendPasswordEmail(findUserPasswordDTO);
     }
 
     @PostMapping("/n/find/password/check/token") //비밀번호 찾기 -> 변경 & 토큰 체크
-    public ResponseDTO checkChangePasswordEmailToken(@RequestParam(required = false) String emailToken, @RequestBody @Valid UserLoginDTO userLoginDTO) {
+    public ApiResponseDTO checkChangePasswordEmailToken(@RequestParam(required = false) String emailToken, @RequestBody @Valid UserLoginDTO userLoginDTO) {
         return emailService.checkFindPasswordToken(emailToken, userLoginDTO);
     }
 
