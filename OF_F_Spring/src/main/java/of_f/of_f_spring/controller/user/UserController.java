@@ -2,9 +2,6 @@ package of_f.of_f_spring.controller.user;
 
 import of_f.of_f_spring.config.jwt.TokenInfo;
 import of_f.of_f_spring.domain.entity.user.EmailToken;
-import of_f.of_f_spring.domain.entity.user.User;
-import of_f.of_f_spring.domain.exception.AuthException;
-import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.user.*;
 import of_f.of_f_spring.service.user.EmailService;
@@ -86,8 +83,11 @@ public class UserController {
     }
 
     @PostMapping("/n/find/password/check/token") //비밀번호 찾기 -> 변경 & 토큰 체크
-    public ApiResponseDTO checkChangePasswordEmailToken(@RequestParam(required = false) String emailToken, @RequestBody @Valid UserLoginDTO userLoginDTO) {
-        return emailService.checkFindPasswordToken(emailToken, userLoginDTO);
+    public ApiResponseDTO checkChangePasswordEmailToken(
+            @RequestHeader(required = false) String Authorization,
+            @RequestParam(required = false) String emailToken,
+            @RequestBody @Valid UserLoginDTO userLoginDTO) {
+        return emailService.checkFindPasswordToken(Authorization, emailToken, userLoginDTO);
     }
 
 }
