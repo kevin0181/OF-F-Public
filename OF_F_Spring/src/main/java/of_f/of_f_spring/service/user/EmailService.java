@@ -1,9 +1,12 @@
 package of_f.of_f_spring.service.user;
 
 import of_f.of_f_spring.domain.entity.user.EmailToken;
+import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.domain.exception.AuthException;
 import of_f.of_f_spring.domain.exception.ExceptionEnum;
+import of_f.of_f_spring.dto.ResponseDTO;
 import of_f.of_f_spring.dto.user.FindUserPasswordDTO;
+import of_f.of_f_spring.dto.user.UserLoginDTO;
 import of_f.of_f_spring.dto.user.VerifyEmailInfo;
 import of_f.of_f_spring.repository.user.EmailTokenRedisRepository;
 import of_f.of_f_spring.repository.user.UserRepository;
@@ -74,8 +77,8 @@ public class EmailService {
 
     private String createEmailFindPasswordText(String token) {
         StringBuffer text = new StringBuffer();
-        text.append("<a href=" + "http://localhost/api/v1/auth/n/find/password/check/token?emailToken=" + token + ">"
-                + "off 비밀번호 변경하러가기" + "</a>");
+        text.append("<a href=" + "" + token + ">" //리엑트에서 비밀번호 변경페이지로 다시 리다이렉트
+                + "off 비밀번호 변경하러가기 (" + token + ")" + "</a>");
 
         return String.valueOf(text);
     }
@@ -83,8 +86,8 @@ public class EmailService {
     private String createEmailTokenText(String token) {
 
         StringBuffer text = new StringBuffer();
-        text.append("<a href=" + "http://localhost/api/v1/auth/n/email/check/token?emailToken=" + token + ">"
-                + "off 인증하러가기" + "</a>");
+        text.append("<a href=" + "" + token + ">" //리엑트에서 회원가입 페이지로 리다이렉트
+                + "off 인증하러가기 (" + token + ")" + "</a>");
 
         return String.valueOf(text);
 
@@ -118,18 +121,9 @@ public class EmailService {
 
     }
 
-    public VerifyEmailInfo checkEmailToken(String emailToken) {
-        return checkToken(emailToken, "리다이렉트 이메일 체크 (redirect email check)");
-    }
+    public ResponseDTO checkFindPasswordToken(String emailToken, UserLoginDTO userLoginDTO) {
 
-
-    public VerifyEmailInfo checkFindPasswordToken(String emailToken) {
-        return checkToken(emailToken, "리다이렉트 비밀번호 찾기 (redirect find password)");
-    }
-
-    public VerifyEmailInfo checkToken(String emailToken, String redirect) {
-
-        if (emailToken.equals("") || emailToken == null) {
+        if (emailToken == null || emailToken.equals("")) {
             throw new AuthException(ExceptionEnum.NOT_EXIT_EMAIL_TOKEN);
         }
 
@@ -137,14 +131,24 @@ public class EmailService {
             EmailToken checkEmailToken = emailTokenRedisRepository.findById(emailToken).get();
 
             if (checkEmailToken == null)
-                throw new AuthException(ExceptionEnum.NOT_EXIT_EMAIL_TOKEN);
+                throw new AuthException(ExceptionEnum.NOT_EXIT_EMAIL_TOKEN); //토큰 없음 이메일 인증 다시
 
             emailTokenRedisRepository.deleteById(emailToken);
 
-            return VerifyEmailInfo.builder()
-                    .email(checkEmailToken.getEmail())
-                    .redirectURI(redirect)
-                    .status(true)
+            User user = userRepository.findByEmail(userLoginDTO.getEmail());
+
+            if (user == null)
+                throw new AuthException(ExceptionEnum.NOT_EXIT_USER); //존재하지 않는 이메일 일때
+
+            user.setPassword(passwordEncoder.encode(userLoginDTO.getPassword()));
+
+            userRepository.save(user);
+
+            return ResponseDTO.builder()
+                    .code("200")
+                    .status("success")
+                    .message("비밀번호 변경")
+                    .detail("비밀번호 변경이 완료 되었습니다. 다시 로그인해주세요.")
                     .build();
 
         } catch (NoSuchElementException e) {
@@ -152,5 +156,4 @@ public class EmailService {
         }
 
     }
-
 }

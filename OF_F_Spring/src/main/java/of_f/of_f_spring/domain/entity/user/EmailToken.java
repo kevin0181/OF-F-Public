@@ -14,7 +14,7 @@ import javax.validation.constraints.Pattern;
 @Getter
 @Builder
 @Setter
-@RedisHash(value = "emailToken", timeToLive = 3000)
+@RedisHash(value = "emailToken", timeToLive = 6000)
 public class EmailToken {
     @Id
     private String emailToken;

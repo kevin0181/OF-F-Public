@@ -20,11 +20,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.nio.charset.Charset;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.NoSuchElementException;
 
 @Service
 //@Transactional
@@ -45,18 +44,40 @@ public class UserService {
     @Autowired
     private RefreshTokenInfoRedisRepository refreshTokenInfoRedisRepository;
 
+    @Autowired
+    private EmailTokenRedisRepository emailTokenRedisRepository;
+
     public List<User> getUserList() { // 회원 리스트 가져오기
         List<User> users = userRepository.findAll();
         return users;
     }
 
     //회원 가입
-    public ResUserDTO defaultSaveUser(UserSignInDTO userSignInDTO) {
+    public ResUserDTO defaultSaveUser(UserSignInDTO userSignInDTO, String emailToken) {
+
+        if (emailToken == null || emailToken.equals("")) { // email 토큰이 존재하지 않을때 오류
+            throw new AuthException(ExceptionEnum.NOT_EXIT_EMAIL_TOKEN);
+        }
+
+        try {
+            EmailToken checkEmailToken = emailTokenRedisRepository.findById(emailToken).get();
+            if (checkEmailToken == null)
+                throw new AuthException(ExceptionEnum.NOT_EXIT_EMAIL_TOKEN); //존재하지 않는 토큰 -> 토큰값 오류 (time out 일수도 있으니 다시 이메일 인증하라는 메시지 보내기)
+
+        } catch (
+                NoSuchElementException e) {
+            throw new AuthException(ExceptionEnum.NOT_EXIT_EMAIL_TOKEN);
+        }
 
         boolean checkEmail = userRepository.existsByEmail(userSignInDTO.getEmail());
 
         if (checkEmail)
-            throw new AuthException(ExceptionEnum.ALREADY_EMAIL);
+            throw new AuthException(ExceptionEnum.ALREADY_EMAIL); //이미 존재하는 이메일 일때 오류
+
+        if (!userSignInDTO.getPassword().equals(userSignInDTO.getRePassword()))
+            throw new AuthException(ExceptionEnum.MISS_MATCH_PASSWORD);
+
+        emailTokenRedisRepository.deleteById(emailToken); // -> 유효성 검사후 토큰 삭제
 
         UserRoleDTO userRoleDTO = new UserRoleDTO();
         userRoleDTO.setRoleSeq(2L); // 회원가입 시, 기본 권한
@@ -143,6 +164,8 @@ public class UserService {
 
     public User changeUser(ChangeUserDTO changeUserDTO, Principal principal) {
         User user = userRepository.findByEmail(principal.getName());
+        if (user == null)
+            throw new AuthException(ExceptionEnum.NOT_EXIT_USER);
         user.setPassword(passwordEncoder.encode(changeUserDTO.getPassword()));
         user.setName(changeUserDTO.getName());
         user.setPhoneNumber(changeUserDTO.getPhoneNumber());

@@ -5,6 +5,7 @@ import of_f.of_f_spring.domain.entity.user.EmailToken;
 import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.domain.exception.AuthException;
 import of_f.of_f_spring.domain.exception.ExceptionEnum;
+import of_f.of_f_spring.dto.ResponseDTO;
 import of_f.of_f_spring.dto.user.*;
 import of_f.of_f_spring.service.user.EmailService;
 import of_f.of_f_spring.service.user.UserService;
@@ -30,8 +31,8 @@ public class UserController {
     }
 
     @PostMapping("/n/signIn") // 회원가입
-    public ResUserDTO signIn(@RequestBody @Valid UserSignInDTO userSignInDTO) {
-        return userService.defaultSaveUser(userSignInDTO);
+    public ResUserDTO signIn(@RequestBody @Valid UserSignInDTO userSignInDTO, @RequestParam(required = false) String emailToken) {
+        return userService.defaultSaveUser(userSignInDTO, emailToken);
     }
 
     /*
@@ -61,11 +62,6 @@ public class UserController {
         return emailService.saveEmailToken(emailToken);
     }
 
-    @GetMapping("/n/email/check/token") // 이메일 토큰 인증
-    public VerifyEmailInfo checkEmailToken(@RequestParam(required = false) String emailToken) {
-        return emailService.checkEmailToken(emailToken);
-    }
-
     @PostMapping("/y/check/user") //사용자 비밀번호 확인
     public boolean checkUser(@RequestBody UserLoginDTO userLoginDTO, Principal principal) {
         return userService.checkUser(userLoginDTO, principal);
@@ -83,18 +79,18 @@ public class UserController {
     }
 
     @PostMapping("/n/find/email") //이메일 찾기
-    public String findEmail(@RequestBody @Valid FindUserEmailDTO findUserEmailDTO){
+    public String findEmail(@RequestBody @Valid FindUserEmailDTO findUserEmailDTO) {
         return userService.findEmail(findUserEmailDTO);
     }
 
     @PostMapping("/n/find/password") //비밀번호 찾기
-    public boolean findPassword(@RequestBody @Valid FindUserPasswordDTO findUserPasswordDTO){
+    public boolean findPasswordSendEmail(@RequestBody @Valid FindUserPasswordDTO findUserPasswordDTO) {
         return emailService.sendPasswordEmail(findUserPasswordDTO);
     }
 
-    @GetMapping("/n/find/password/check/token") //비밀번호 찾기 토큰 체크
-    public VerifyEmailInfo checkChangePasswordEmailToken(@RequestParam(required = false) String emailToken) {
-        return emailService.checkFindPasswordToken(emailToken);
+    @GetMapping("/n/find/password/check/token") //비밀번호 찾기 -> 변경 & 토큰 체크
+    public ResponseDTO checkChangePasswordEmailToken(@RequestParam(required = false) String emailToken, @RequestBody UserLoginDTO userLoginDTO) {
+        return emailService.checkFindPasswordToken(emailToken, userLoginDTO);
     }
 
 
