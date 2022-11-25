@@ -29,11 +29,12 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//security에서 사용하는 session 비활성화
                 .and()
                 .authorizeRequests() //인증절차 설정 시작
-                .antMatchers("/api/v1/auth/n/**").permitAll()
-                .antMatchers("/api/v1/auth/y/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/api/v1/of_f/main/**").permitAll()
-                .antMatchers("/api/v1/of_f/admin/**").hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers("/api/v1/qr/store/**").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/api/v1/auth/n/**").permitAll() // 사용자 || 토큰x
+                .antMatchers("/api/v1/auth/y/**").hasAnyAuthority("ROLE_USER", "ROLE_TT_ADMIN", "ROLE_ST_ADMIN") // 사용자 || 토큰o
+                .antMatchers("/api/v1/of_f/main/**").permitAll() // 모든 사용자
+                .antMatchers("/api/v1/of_f/admin/**").hasAnyAuthority("ROLE_TT_ADMIN") // 최고 관리자
+                .antMatchers("/api/v1/store/admin/**").hasAnyAuthority("ROLE_ST_ADMIN", "ROLE_TT_ADMIN") // 가맹점 관리자
+                .antMatchers("/api/v1/qr/store/user/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()  // security의 기본 로그인 화면을 비활성화
