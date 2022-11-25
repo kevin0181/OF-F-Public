@@ -7,6 +7,7 @@ import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.user.FindUserPasswordDTO;
 import of_f.of_f_spring.dto.user.UserLoginDTO;
+import of_f.of_f_spring.repository.jwt.RefreshTokenInfoRedisRepository;
 import of_f.of_f_spring.repository.user.EmailTokenRedisRepository;
 import of_f.of_f_spring.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class EmailService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private RefreshTokenInfoRedisRepository refreshTokenInfoRedisRepository;
+
     public ApiResponseDTO saveEmailToken(EmailToken emailToken) {
 
         EmailToken getEmailToken = emailTokenRedisRepository.save(createRandomToken(emailToken.getEmail()));
@@ -53,6 +57,7 @@ public class EmailService {
         return ApiResponseDTO.builder()
                 .message("이메일 인증 발송 완료")
                 .detail("인증 메일을 발송했습니다. 메일 인증을 완료해주세요.")
+                .data(true)
                 .build();
     }
 
@@ -77,6 +82,7 @@ public class EmailService {
         return ApiResponseDTO.builder()
                 .message("비밀번호 변경 이메일 발송")
                 .detail("인증 메일을 발송했습니다. 메일 인증을 완료해주세요.")
+                .data(true)
                 .build();
     }
 
@@ -126,7 +132,7 @@ public class EmailService {
 
     }
 
-    public ApiResponseDTO checkFindPasswordToken(String emailToken, UserLoginDTO userLoginDTO) {
+    public ApiResponseDTO checkFindPasswordToken(String Authorization, String emailToken, UserLoginDTO userLoginDTO) {
 
         if (emailToken == null || emailToken.equals("")) {
             throw new AuthException(ExceptionEnum.NOT_EXIT_EMAIL_TOKEN);
@@ -149,9 +155,14 @@ public class EmailService {
 
             userRepository.save(user);
 
+            if (Authorization != null) // 로그인 되어있던 상태
+                refreshTokenInfoRedisRepository.deleteById(Authorization); // -> 로그아웃으로 만듬
+
+
             return ApiResponseDTO.builder()
                     .message("비밀번호 변경")
-                    .detail("비밀번호 변경이 완료 되었습니다. 다시 로그인해주세요.")
+                    .detail("비밀번호 변경이 완료 되었습니다. 로그인해주세요.")
+                    .data(true)
                     .build();
 
         } catch (NoSuchElementException e) {

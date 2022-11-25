@@ -137,6 +137,7 @@ public class UserService {
             return ApiResponseDTO.builder()
                     .message("사용자 정보 확인")
                     .detail("사용자 정보 인증이 완료 되었습니다.")
+                    .data(true)
                     .build();
         else
             throw new AuthException(ExceptionEnum.FAIL_PASSWORD);
@@ -174,6 +175,7 @@ public class UserService {
             return ApiResponseDTO.builder()
                     .message("로그아웃")
                     .detail("로그아웃이 완료되었습니다.")
+                    .data(true)
                     .build();
         } catch (ApiException e) {
             throw new ApiException(ExceptionEnum.CANNOT_LOGOUT); // 로그아웃 불가 메시지
@@ -185,14 +187,14 @@ public class UserService {
         User user = userRepository.findByEmail(principal.getName());
         if (user == null)
             throw new AuthException(ExceptionEnum.NOT_EXIT_USER);
-        user.setPassword(passwordEncoder.encode(changeUserDTO.getPassword()));
+
         user.setName(changeUserDTO.getName());
         user.setPhoneNumber(changeUserDTO.getPhoneNumber());
 
         return ApiResponseDTO.builder()
                 .message("사용자 정보 변경")
                 .detail("사용자 정보를 변경하였습니다.")
-                .data(userRepository.save(user))
+                .data(true)
                 .build();
     }
 
@@ -220,7 +222,7 @@ public class UserService {
         email.append(star);
         email.append("@");
         email.append(mailB);
-        
+
         return ApiResponseDTO.builder()
                 .message("이메일 찾기")
                 .detail("해당 정보에 맞는 이메일 입니다.")
