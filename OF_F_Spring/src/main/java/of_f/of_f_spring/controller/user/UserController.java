@@ -88,10 +88,9 @@ public class UserController {
         return emailService.sendPasswordEmail(findUserPasswordDTO);
     }
 
-    @GetMapping("/n/find/password/check/token") //비밀번호 찾기 -> 변경 & 토큰 체크
-    public ResponseDTO checkChangePasswordEmailToken(@RequestParam(required = false) String emailToken, @RequestBody UserLoginDTO userLoginDTO) {
+    @PostMapping("/n/find/password/check/token") //비밀번호 찾기 -> 변경 & 토큰 체크
+    public ResponseDTO checkChangePasswordEmailToken(@RequestParam(required = false) String emailToken, @RequestBody @Valid UserLoginDTO userLoginDTO) {
         return emailService.checkFindPasswordToken(emailToken, userLoginDTO);
     }
-
 
 }
