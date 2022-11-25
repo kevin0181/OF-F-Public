@@ -24,10 +24,12 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     public void setErrorResponse(HttpServletRequest req, HttpServletResponse res, AccessDeniedException e) throws IOException {
         res.setContentType(MediaType.APPLICATION_JSON_VALUE);
         final Map<String, Object> body = new HashMap<>();
-        body.put("status", 403);
+        body.put("code", 403);
+        body.put("status", "BAD");
         body.put("error", "Unauthorized");
-        body.put("message", e.getMessage());
-        body.put("detail","허용되지 않는 접근입니다.");
+        body.put("errorMessage", e.getMessage());
+        body.put("detail", "허용되지 않는 접근입니다.");
+        body.put("path", req.getServletPath());
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(res.getOutputStream(), body);
         res.setStatus(HttpServletResponse.SC_OK);

@@ -53,7 +53,10 @@ public class UserDTO implements UserDetails {
     }
 
     @Override
-    public boolean isAccountNonLocked() {
+    public boolean isAccountNonLocked() { //계정 잠김 여부
+        if (this.userStatus == 8) { //계정 정지
+            return false;
+        }
         return true;
     }
 
@@ -63,7 +66,10 @@ public class UserDTO implements UserDetails {
     }
 
     @Override
-    public boolean isEnabled() {
+    public boolean isEnabled() { //계정 비활성화 여부
+        if (this.userStatus == 1) { //비활성화
+            return false;
+        }
         return true;
     }
 

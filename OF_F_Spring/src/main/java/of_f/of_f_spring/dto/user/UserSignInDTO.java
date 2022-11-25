@@ -24,6 +24,12 @@ public class UserSignInDTO {
     private String password;
 
     @NotNull
+    @NotBlank(message = "비밀번호는 필수 입력 값입니다.")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,16}",
+            message = "비밀번호는 8~16자 영문, 숫자, 특수문자가 포함되어야 합니다.")
+    private String rePassword;
+
+    @NotNull
     @NotBlank(message = "이름은 필수 입력 값입니다.")
     @Size(min = 1, max = 6, message = "이름은 1~6자 이어야합니다.")
     private String name;
