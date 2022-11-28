@@ -12,6 +12,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +29,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         body.put("status", "BAD");
         body.put("error", authException.getMessage());
         body.put("path", request.getServletPath());
+        body.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
 
 
         if (authException instanceof AuthenticationServiceException) {

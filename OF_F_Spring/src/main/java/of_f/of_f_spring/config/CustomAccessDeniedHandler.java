@@ -9,6 +9,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +32,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         body.put("errorMessage", e.getMessage());
         body.put("detail", "허용되지 않는 접근입니다.");
         body.put("path", req.getServletPath());
+        body.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(res.getOutputStream(), body);
         res.setStatus(HttpServletResponse.SC_OK);

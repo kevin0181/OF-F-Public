@@ -12,4 +12,5 @@ public class StoreExceptionDTO {
     private String error;
     private String errorMessage;
     private String detail;
+    private String timestamp;
 }

@@ -54,7 +54,7 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "User_seq")
-    private List<Store> store;
+    private List<Store> stores;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "User_seq")

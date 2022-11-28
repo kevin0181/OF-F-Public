@@ -5,6 +5,9 @@ import lombok.ToString;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @ToString
@@ -38,6 +41,7 @@ public enum ExceptionEnum {
     private String error;
     private String message;
     private String detail;
+    private String localDateTime;
 
     ExceptionEnum(int code, String status, String errorCode, String error, String message, String detail) {
         this.code = code;
@@ -46,6 +50,7 @@ public enum ExceptionEnum {
         this.error = error;
         this.message = message;
         this.detail = detail;
+        this.localDateTime = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
     }
 
 

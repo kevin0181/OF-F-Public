@@ -35,6 +35,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         body.put("error", e.getError());
         body.put("message", e.getMessage());
         body.put("detail", e.getError().getDetail());
+        body.put("timestamp",e.getError().getLocalDateTime());
         body.put("path", req.getServletPath());
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(res.getOutputStream(), body);
