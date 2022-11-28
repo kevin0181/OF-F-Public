@@ -31,8 +31,8 @@ public class SecurityConfig {
                 .authorizeRequests() //인증절차 설정 시작
                 .antMatchers("/api/v1/auth/n/**").permitAll() // 사용자 || 토큰x
                 .antMatchers("/api/v1/auth/y/**").hasAnyAuthority("ROLE_USER", "ROLE_TT_ADMIN", "ROLE_ST_ADMIN") // 사용자 || 토큰o
-                .antMatchers("/api/v1/of_f/main/**").permitAll() // 모든 사용자
-                .antMatchers("/api/v1/of_f/admin/**").hasAnyAuthority("ROLE_TT_ADMIN") // 최고 관리자
+                .antMatchers("/api/v1/main/**").permitAll() // 모든 사용자
+                .antMatchers("/api/v1/admin/**").hasAnyAuthority("ROLE_TT_ADMIN") // 최고 관리자
                 .antMatchers("/api/v1/store/admin/**").hasAnyAuthority("ROLE_ST_ADMIN", "ROLE_TT_ADMIN") // 가맹점 관리자
                 .antMatchers("/api/v1/store/**").permitAll()
                 .anyRequest().authenticated()

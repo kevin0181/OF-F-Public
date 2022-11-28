@@ -3,6 +3,8 @@ package of_f.of_f_spring.service.store;
 import lombok.extern.slf4j.Slf4j;
 import of_f.of_f_spring.domain.entity.store.Store;
 import of_f.of_f_spring.domain.entity.user.User;
+import of_f.of_f_spring.domain.exception.AdminException;
+import of_f.of_f_spring.domain.exception.AdminExceptionEnum;
 import of_f.of_f_spring.domain.exception.StoreException;
 import of_f.of_f_spring.domain.exception.StoreExceptionEnum;
 import of_f.of_f_spring.domain.mapper.store.StoreMapper;
@@ -11,10 +13,12 @@ import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.user.UserDTO;
 import of_f.of_f_spring.repository.store.StoreRepository;
 import of_f.of_f_spring.repository.user.UserRepository;
+import of_f.of_f_spring.service.user.EmailService;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 
@@ -27,6 +31,9 @@ public class StoreService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     public ApiResponseDTO applicationNewStore(StoreDTO storeDTO, Principal principal) {  // 가맹점 신청
 
@@ -62,5 +69,21 @@ public class StoreService {
                 .message("가맹점 신청 성공")
                 .detail("가맹점 신청이 완료되었습니다. 7일 이내 번호 연락 예정")
                 .build();
+    }
+
+
+    @Transactional(rollbackFor = AdminException.class)
+    public ApiResponseDTO responseApplicationStore(Long storeId, int status) {
+        Store store = storeRepository.findById(storeId).orElse(null);
+        if (store == null)
+            throw new AdminException(AdminExceptionEnum.NO_MATCH_STORE);
+
+        store.setStatus(status);
+
+        if (storeRepository.save(store) != null)
+            return emailService.StoreStatusResEmail(status, store.getUser());
+        else
+            throw new AdminException(AdminExceptionEnum.STORE_STATUS_SAVE_EXCEPTION);
+
     }
 }
