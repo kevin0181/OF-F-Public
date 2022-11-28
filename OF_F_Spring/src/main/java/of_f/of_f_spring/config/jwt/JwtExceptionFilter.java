@@ -30,8 +30,11 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
 
         res.setContentType(MediaType.APPLICATION_JSON_VALUE);
         final Map<String, Object> body = new HashMap<>();
+        body.put("code", e.getError().getCode());
         body.put("status", e.getError().getStatus());
+        body.put("error", e.getError());
         body.put("message", e.getMessage());
+        body.put("detail", e.getError().getDetail());
         body.put("path", req.getServletPath());
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(res.getOutputStream(), body);

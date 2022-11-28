@@ -52,8 +52,9 @@ public class User {
     @JoinColumn(name = "User_seq")
     private List<UserRole> userRoles;
 
-    @OneToOne(mappedBy = "user")
-    private Store store;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "User_seq")
+    private List<Store> store;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "User_seq")
