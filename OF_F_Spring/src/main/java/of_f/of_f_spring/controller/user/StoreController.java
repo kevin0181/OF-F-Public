@@ -21,9 +21,4 @@ public class StoreController {
         return storeService.applicationNewStore(storeDTO, principal);
     }
 
-    @GetMapping("/admin")
-    public String test2() {
-        return "admin";
-    }
-
 }

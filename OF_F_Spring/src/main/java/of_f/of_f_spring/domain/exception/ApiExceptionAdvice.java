@@ -1,5 +1,6 @@
 package of_f.of_f_spring.domain.exception;
 
+import of_f.of_f_spring.domain.exception.dto.AdminExceptionDTO;
 import of_f.of_f_spring.domain.exception.dto.ApiExceptionDTO;
 import of_f.of_f_spring.domain.exception.dto.AuthExceptionDTO;
 import of_f.of_f_spring.domain.exception.dto.StoreExceptionDTO;
@@ -57,6 +58,22 @@ public class ApiExceptionAdvice {
         return ResponseEntity
                 .status(e.getError().getCode())
                 .body(StoreExceptionDTO.builder()
+                        .code(e.getError().getCode())
+                        .status(e.getError().getStatus())
+                        .errorCode(e.getError().getErrorCode())
+                        .error(e.getError().getError())
+                        .errorMessage(e.getError().getMessage())
+                        .detail(e.getError().getDetail())
+                        .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
+                        .build());
+    }
+
+    @ExceptionHandler({AdminException.class})
+    public ResponseEntity<AdminExceptionDTO> adminExceptionHandler(HttpServletRequest request, final AdminException e) {
+        e.printStackTrace();
+        return ResponseEntity
+                .status(e.getError().getCode())
+                .body(AdminExceptionDTO.builder()
                         .code(e.getError().getCode())
                         .status(e.getError().getStatus())
                         .errorCode(e.getError().getErrorCode())
