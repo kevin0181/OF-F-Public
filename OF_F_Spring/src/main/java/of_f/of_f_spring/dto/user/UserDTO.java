@@ -24,7 +24,7 @@ public class UserDTO implements UserDetails {
     private boolean phoneNumberReceiveStatus;
     private String createTime;
     private List<UserRoleDTO> userRoles;
-    //    private StoreDTO store;
+    private List<StoreDTO> store;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

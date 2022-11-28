@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .antMatchers("/api/v1/of_f/main/**").permitAll() // 모든 사용자
                 .antMatchers("/api/v1/of_f/admin/**").hasAnyAuthority("ROLE_TT_ADMIN") // 최고 관리자
                 .antMatchers("/api/v1/store/admin/**").hasAnyAuthority("ROLE_ST_ADMIN", "ROLE_TT_ADMIN") // 가맹점 관리자
-                .antMatchers("/api/v1/qr/store/user/**").permitAll()
+                .antMatchers("/api/v1/store/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()  // security의 기본 로그인 화면을 비활성화

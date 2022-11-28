@@ -18,6 +18,7 @@ public interface UserMapper {
     User UserSignInDTOTOUser(UserSignInDTO userSignInDTO);
     ResUserDTO userTOResUserDTO(User user);
     UserDTO userTOUserDTO(User user);
+    User userDTOTOUser(UserDTO userDTO);
 
     @Mapping(target = "store.user", ignore = true)
     List<UserDTO> UserTOUserDTO(List<User> users);

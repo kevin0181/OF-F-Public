@@ -32,6 +32,9 @@ public class Store {
     @Column(name = "detail_address")
     private String detailAddress;
 
+    @Column(name = "account_bank_name")
+    private String accountBankName;
+
     @Column(name = "account_number")
     private String accountNumber;
 
@@ -47,7 +50,7 @@ public class Store {
     @Column
     private int status;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "User_seq", insertable = false, updatable = false)
     private User user;
 

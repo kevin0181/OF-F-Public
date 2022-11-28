@@ -47,6 +47,9 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         } else if (authException instanceof CredentialsExpiredException) {
             body.put("errorMessage", "잠긴 사용자");
             body.put("detail", "사용자의 계정을 사용할 수 없습니다. 관리자에게 문의 주세요.");
+        } else {
+            body.put("errorMessage", "토큰 및 접근 오류");
+            body.put("detail", authException.getMessage());
         }
 
         final ObjectMapper mapper = new ObjectMapper();
