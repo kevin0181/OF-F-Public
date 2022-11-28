@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.ToString;
 
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @ToString
@@ -20,6 +22,7 @@ public enum StoreExceptionEnum {
     private String error;
     private String message;
     private String detail;
+    private String localDateTime;
 
     StoreExceptionEnum(int code, String status, String errorCode, String error, String message, String detail) {
         this.code = code;
@@ -28,6 +31,7 @@ public enum StoreExceptionEnum {
         this.error = error;
         this.message = message;
         this.detail = detail;
+        this.localDateTime = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
     }
 
 }

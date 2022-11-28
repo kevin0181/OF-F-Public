@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @RestControllerAdvice
 public class ApiExceptionAdvice {
@@ -29,6 +31,7 @@ public class ApiExceptionAdvice {
                         .errorCode(e.getError().getErrorCode())
                         .error(e.getError().getError())
                         .errorMessage(e.getError().getMessage())
+                        .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
                         .build());
     }
 
@@ -44,6 +47,7 @@ public class ApiExceptionAdvice {
                         .error(e.getError().getError())
                         .errorMessage(e.getError().getMessage())
                         .detail(e.getError().getDetail())
+                        .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
                         .build());
     }
 
@@ -59,6 +63,7 @@ public class ApiExceptionAdvice {
                         .error(e.getError().getError())
                         .errorMessage(e.getError().getMessage())
                         .detail(e.getError().getDetail())
+                        .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
                         .build());
     }
 
@@ -76,6 +81,7 @@ public class ApiExceptionAdvice {
                         .error("fail validation")
                         .errorMessage("일치하지 않는 유효성")
                         .detail(bindingResult.getFieldError().getDefaultMessage())
+                        .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
                         .build());
     }
 
@@ -93,6 +99,7 @@ public class ApiExceptionAdvice {
                         .error("fail validation")
                         .errorMessage("일치하지 않는 유효성")
                         .detail(bindingResult.getFieldError().getDefaultMessage())
+                        .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
                         .build());
     }
 
@@ -109,6 +116,7 @@ public class ApiExceptionAdvice {
                         .error("NOT MATCH BODY DATA")
                         .errorMessage(e.getMessage())
                         .detail("body 형식의 데이터가 존재하지 않거나 일치하지 않습니다.")
+                        .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
                         .build());
     }
 
@@ -125,6 +133,7 @@ public class ApiExceptionAdvice {
                         .error("Bad Request")
                         .errorMessage(e.getMessage())
                         .detail("URI의 파라미터가 일치하지 않습니다. 관리자에게 문의해주세요.")
+                        .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
                         .build());
     }
 }

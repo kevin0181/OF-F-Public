@@ -16,8 +16,12 @@ public interface UserMapper {
     UserMapper instance = Mappers.getMapper(UserMapper.class);
 
     User UserSignInDTOTOUser(UserSignInDTO userSignInDTO);
+
     ResUserDTO userTOResUserDTO(User user);
+
+    @Mapping(target = "stores", ignore = true)
     UserDTO userTOUserDTO(User user);
+
     User userDTOTOUser(UserDTO userDTO);
 
     @Mapping(target = "store.user", ignore = true)
