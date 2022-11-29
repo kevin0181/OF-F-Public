@@ -7,6 +7,8 @@ import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 
 @Mapper
 public interface StoreMapper {
@@ -16,4 +18,6 @@ public interface StoreMapper {
 
     StoreCategory storeCategoryDTOToStoreCategory(StoreCategoryDTO storeCategoryDTO);
 
+    List<StoreCategoryDTO> storeCategoryToStoreCategoryDTOList(List<StoreCategory> storeCategory);
+    StoreCategoryDTO storeCategoryToStoreCategoryDTO(StoreCategory storeCategory);
 }

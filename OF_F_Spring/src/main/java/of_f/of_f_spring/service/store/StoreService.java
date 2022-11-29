@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -120,6 +121,24 @@ public class StoreService {
                 .build();
     }
 
+
+    public ApiResponseDTO getCategoryList(StoreCategoryDTO storeCategoryDTO) { //카테고리 리스트 가져오기
+
+        if (storeCategoryDTO == null || storeCategoryDTO.getSeq() == null || storeCategoryDTO.getSeq().equals("")) { //전체 리스트 가져오기
+            return ApiResponseDTO.builder()
+                    .message("카테고리 전체 가져오기")
+                    .detail("카테고리 전체 가져오기")
+                    .data(StoreMapper.instance.storeCategoryToStoreCategoryDTOList(storeCategoryRepository.findAll()))
+                    .build();
+        } else { //특정 카테고리 리스트 가져오기
+            return ApiResponseDTO.builder()
+                    .message("카테고리 가져오기")
+                    .detail("카테고리 가져오기")
+                    .data(StoreMapper.instance.storeCategoryToStoreCategoryDTO(storeCategoryRepository.findById(storeCategoryDTO.getSeq()).orElse(null)))
+                    .build();
+        }
+    }
+
     public ApiResponseDTO saveCategory(StoreCategoryDTO storeCategoryDTO, Principal principal) {
         User user = userRepository.findByEmail(principal.getName());
 
@@ -140,5 +159,51 @@ public class StoreService {
             }
         }
         throw new StoreException(StoreExceptionEnum.FAIL_SAVE_CATEGORY);
+    }
+
+    public ApiResponseDTO updateCategory(StoreCategoryDTO storeCategoryDTO, Principal principal) {
+        User user = userRepository.findByEmail(principal.getName());
+
+        List<StoreCategory> storeCategoryList = null;
+        StoreCategory storeCategory = null;
+
+        if (user.getStores() == null || user.getStores().size() == 0)
+            throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_CATEGORY); //카테고리가 존재하지 않을 경우
+
+        for (int i = 0; i < user.getStores().size(); i++) {
+            if (user.getStores().get(i).getSeq() == storeCategoryDTO.getStoreSeq()) {
+                storeCategoryList = user.getStores().get(i).getStoreCategories(); // 해당되는 가맹점의 카테고리를 가져옴
+            }
+        }
+
+        if (storeCategoryList == null)
+            throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_CATEGORY); //카테고리가 존재하지 않을 경우
+
+        for (int i = 0; i < storeCategoryList.size(); i++) {
+            if (storeCategoryList.get(i).getSeq() == storeCategoryDTO.getSeq()) { // 변경해야될 카테고리 부분을 찾았다면?
+                storeCategory = new StoreCategory(
+                        storeCategoryDTO.getSeq(),
+                        storeCategoryDTO.getStoreSeq(),
+                        storeCategoryDTO.getName(),
+                        storeCategoryDTO.isStatus()
+                );
+            }
+        }
+
+        if (storeCategory == null)
+            throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_CATEGORY);
+
+        try {
+            storeCategory = storeCategoryRepository.save(storeCategory);
+        } catch (Exception e) {
+            throw new StoreException(StoreExceptionEnum.FAIL_UPDATE_CATEGORY);
+        }
+
+        return ApiResponseDTO.builder()
+                .message("카테고리 수정")
+                .detail("카테고리를 수정했습니다.")
+                .data(storeCategory)
+                .build();
+
     }
 }
