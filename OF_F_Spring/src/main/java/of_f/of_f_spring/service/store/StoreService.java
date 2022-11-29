@@ -112,6 +112,5 @@ public class StoreService {
                 .detail("가맹점의 정보 입니다.")
                 .data(userDTO)
                 .build();
-
     }
 }
