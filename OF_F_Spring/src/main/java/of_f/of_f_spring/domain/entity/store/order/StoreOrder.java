@@ -49,6 +49,18 @@ public class StoreOrder {
     @Column(name = "pay_status")
     private Long payStatus;
 
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "email_receive_status")
+    private boolean emailReceiveStatus;
+
+    @Column(name = "phone_number_receive_status")
+    private boolean phoneNumberReceiveStatus;
+
     @ManyToOne
     @JoinColumn(name = "User_seq", insertable = false, updatable = false)
     private User user;
