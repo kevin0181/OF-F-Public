@@ -18,5 +18,5 @@ public class ResUserDTO {
     private boolean phoneNumberReceiveStatus;
     private String createTime;
     private List<UserRoleDTO> userRoles;
-    private List<StoreDTO> store;
+//    private List<StoreDTO> store;
 }
