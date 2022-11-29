@@ -2,6 +2,7 @@ package of_f.of_f_spring.controller.user;
 
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.store.StoreDTO;
+import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
 import of_f.of_f_spring.service.store.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,25 @@ public class StoreController {
     @GetMapping("/admin") // 가맹점 정보 (관리자용)
     public ApiResponseDTO getStoreInfo(Principal principal) {
         return storeService.getStoreInfoAdmin(principal);
+    }
+
+    @PostMapping("/admin/category")
+    public ApiResponseDTO category(@RequestParam String status,
+                                   @RequestBody @Valid StoreCategoryDTO storeCategoryDTO,
+                                   Principal principal) {
+
+        switch (status) {
+            case "list":
+                return null;
+            case "insert":
+                return storeService.saveCategory(storeCategoryDTO, principal);
+            case "update":
+                return null;
+            case "delete":
+                return null;
+        }
+
+        return null;
     }
 
 }

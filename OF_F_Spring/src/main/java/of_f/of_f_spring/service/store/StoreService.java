@@ -2,6 +2,7 @@ package of_f.of_f_spring.service.store;
 
 import lombok.extern.slf4j.Slf4j;
 import of_f.of_f_spring.domain.entity.store.Store;
+import of_f.of_f_spring.domain.entity.store.menu.StoreCategory;
 import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.domain.exception.AdminException;
 import of_f.of_f_spring.domain.exception.AdminExceptionEnum;
@@ -11,7 +12,9 @@ import of_f.of_f_spring.domain.mapper.store.StoreMapper;
 import of_f.of_f_spring.domain.mapper.user.UserMapper;
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.store.StoreDTO;
+import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
 import of_f.of_f_spring.dto.user.UserDTO;
+import of_f.of_f_spring.repository.store.StoreCategoryRepository;
 import of_f.of_f_spring.repository.store.StoreRepository;
 import of_f.of_f_spring.repository.user.UserRepository;
 import of_f.of_f_spring.service.user.EmailService;
@@ -29,6 +32,9 @@ public class StoreService {
 
     @Autowired
     private StoreRepository storeRepository;
+
+    @Autowired
+    private StoreCategoryRepository storeCategoryRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -112,5 +118,27 @@ public class StoreService {
                 .detail("가맹점의 정보 입니다.")
                 .data(userDTO)
                 .build();
+    }
+
+    public ApiResponseDTO saveCategory(StoreCategoryDTO storeCategoryDTO, Principal principal) {
+        User user = userRepository.findByEmail(principal.getName());
+
+        for (int i = 0; i < user.getStores().size(); i++) {
+            if (user.getStores().get(i).getSeq() == storeCategoryDTO.getStoreSeq()) {
+                try {
+                    StoreCategory storeCategory = StoreMapper.instance.storeCategoryDTOToStoreCategory(storeCategoryDTO);
+                    return ApiResponseDTO.builder()
+                            .message("카테고리 저장 성공")
+                            .detail("카테고리를 저장하였습니다.")
+                            .data(storeCategoryRepository.save(storeCategory))
+                            .build();
+                } catch (Exception e) {
+                    throw new StoreException(StoreExceptionEnum.FAIL_SAVE_CATEGORY);
+                }
+            } else {
+                throw new StoreException(StoreExceptionEnum.FAIL_SAVE_CATEGORY);
+            }
+        }
+        throw new StoreException(StoreExceptionEnum.FAIL_SAVE_CATEGORY);
     }
 }
