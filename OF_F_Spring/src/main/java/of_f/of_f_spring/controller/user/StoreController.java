@@ -29,12 +29,12 @@ public class StoreController {
 
     @PostMapping("/admin/category")
     public ApiResponseDTO category(@RequestParam String status,
-                                   @RequestBody @Valid StoreCategoryDTO storeCategoryDTO,
+                                   @RequestBody(required = false) @Valid StoreCategoryDTO storeCategoryDTO,
                                    Principal principal) {
 
         switch (status) {
             case "list":
-                return null;
+                return storeService.getCategoryList(storeCategoryDTO);
             case "insert":
                 return storeService.saveCategory(storeCategoryDTO, principal);
             case "update":

@@ -141,4 +141,21 @@ public class StoreService {
         }
         throw new StoreException(StoreExceptionEnum.FAIL_SAVE_CATEGORY);
     }
+
+    public ApiResponseDTO getCategoryList(StoreCategoryDTO storeCategoryDTO) { //카테고리 리스트 가져오기
+
+        if (storeCategoryDTO == null || storeCategoryDTO.getSeq() == null || storeCategoryDTO.getSeq().equals("")) { //전체 리스트 가져오기
+            return ApiResponseDTO.builder()
+                    .message("카테고리 전체 가져오기")
+                    .detail("카테고리 전체 가져오기")
+                    .data(StoreMapper.instance.storeCategoryToStoreCategoryDTOList(storeCategoryRepository.findAll()))
+                    .build();
+        } else { //특정 카테고리 리스트 가져오기
+            return ApiResponseDTO.builder()
+                    .message("카테고리 가져오기")
+                    .detail("카테고리 가져오기")
+                    .data(StoreMapper.instance.storeCategoryToStoreCategoryDTO(storeCategoryRepository.findById(storeCategoryDTO.getSeq()).orElse(null)))
+                    .build();
+        }
+    }
 }

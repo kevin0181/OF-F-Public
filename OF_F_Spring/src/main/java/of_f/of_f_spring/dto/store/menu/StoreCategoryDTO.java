@@ -13,9 +13,8 @@ import java.util.List;
 public class StoreCategoryDTO {
     private Long seq;
     private Long storeSeq;
-    @NotNull(message = "카테고리 이름을 입력해주세요.")
-    @NotBlank(message = "카테고리 이름을 입력해주세요.")
-    @Size(min = 1, max = 25, message = "카테고리 이름은 1~25자 사이입니다.")
+
+    @Size(min = 0, max = 25, message = "카테고리 이름은 0~25자 사이입니다.")
     private String name;
     private boolean status;
 
