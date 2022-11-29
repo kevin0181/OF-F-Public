@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Getter
@@ -21,6 +24,10 @@ public class StoreOrderDTO {
     private Long place;
     private Long status;
     private Long payStatus;
+    private String phoneNumber;
+    private String email;
+    private boolean emailReceiveStatus;
+    private boolean phoneNumberReceiveStatus;
 
     private OrderUserDTO user;
     private StoreOrderPgInfoDTO storeOrderPgInfo;
