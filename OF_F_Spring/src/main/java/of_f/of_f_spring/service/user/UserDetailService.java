@@ -20,8 +20,7 @@ public class UserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) {
         User user = userRepository.findByEmail(email);
-        UserDTO userDTO = UserMapper.instance.userTOUserDTO(user);
-        return userDTO;
+        return user;
     }
 
 }

@@ -8,6 +8,7 @@ import of_f.of_f_spring.domain.exception.AdminExceptionEnum;
 import of_f.of_f_spring.domain.exception.StoreException;
 import of_f.of_f_spring.domain.exception.StoreExceptionEnum;
 import of_f.of_f_spring.domain.mapper.store.StoreMapper;
+import of_f.of_f_spring.domain.mapper.user.UserMapper;
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.user.UserDTO;
@@ -84,6 +85,33 @@ public class StoreService {
             return emailService.StoreStatusResEmail(status, store.getUser());
         else
             throw new AdminException(AdminExceptionEnum.STORE_STATUS_SAVE_EXCEPTION);
+
+    }
+
+    public ApiResponseDTO getStoreInfoAdmin(Principal principal) { //가맹점 정보
+
+        User user = userRepository.findByEmail(principal.getName());
+
+        if (user.getStores() == null || user.getStores().size() == 0)
+            throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE); //존재 하지 않는 가게
+
+        UserDTO userDTO = UserMapper.instance.userTOUserDTO_N_ROLE(user);
+
+
+        if (userDTO.getStores() != null && userDTO.getStores().size() != 1)
+            throw new StoreException(StoreExceptionEnum.ALREADY_EXIST_STORE); // 여러개의 가게를 가지고 있을 경우 -> 추후 오픈 예정
+
+        for (int i = 0; i < userDTO.getStores().size(); i++) { //여러개의 가맹점 중, 활성화가 되어있지 않은 가맹점이면 제외하고 정보를 리턴
+            if (userDTO.getStores().get(i).getStatus() != 0) {
+                userDTO.getStores().remove(i);
+            }
+        }
+
+        return ApiResponseDTO.builder()
+                .message("가맹점 정보")
+                .detail("가맹점의 정보 입니다.")
+                .data(userDTO)
+                .build();
 
     }
 }

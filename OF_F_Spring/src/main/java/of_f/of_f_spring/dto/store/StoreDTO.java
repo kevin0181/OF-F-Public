@@ -1,7 +1,6 @@
 package of_f.of_f_spring.dto.store;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import of_f.of_f_spring.domain.entity.store.QRStoreInfo;
 import of_f.of_f_spring.dto.user.UserDTO;
 
@@ -11,6 +10,9 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class StoreDTO {
 
     private Long seq;
@@ -42,6 +44,4 @@ public class StoreDTO {
     private String businessPhoneNumber;
     private String openDate;
     private int status;
-
-    private UserDTO user;
 }

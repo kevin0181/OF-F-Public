@@ -9,7 +9,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
 
 @Mapper
 public interface UserMapper {
@@ -19,11 +18,8 @@ public interface UserMapper {
 
     ResUserDTO userTOResUserDTO(User user);
 
-    @Mapping(target = "stores", ignore = true)
-    UserDTO userTOUserDTO(User user);
+    @Named(value = "userTOUserDTO_N_ROLE")
+    @Mapping(target = "userRoles", ignore = true)
+    UserDTO userTOUserDTO_N_ROLE(User user);
 
-    User userDTOTOUser(UserDTO userDTO);
-
-    @Mapping(target = "store.user", ignore = true)
-    List<UserDTO> UserTOUserDTO(List<User> users);
 }

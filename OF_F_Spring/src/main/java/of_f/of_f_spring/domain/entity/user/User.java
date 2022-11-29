@@ -19,7 +19,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
@@ -59,5 +59,54 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "User_seq")
     private List<StoreOrder> storeOrders;
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        ArrayList<GrantedAuthority> authorities = new ArrayList<>();
+        for (int i = 0; i < userRoles.size(); i++) {
+            authorities.add(new SimpleGrantedAuthority(userRoles.get(i).getRoles().getRoleName()));
+        }
+        return authorities;
+    }
+
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() { //계정 잠김 여부
+        if (this.userStatus == 8) { //계정 정지
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() { //계정 비활성화 여부
+        if (this.userStatus == 1) { //비활성화
+            return false;
+        }
+        return true;
+    }
+
 
 }
