@@ -16,7 +16,7 @@ public class StoreCategoryDTO {
 
     @Size(min = 0, max = 25, message = "카테고리 이름은 0~25자 사이입니다.")
     private String name;
-    private boolean status;
+    private boolean status = false;
 
     private List<StoreMenuDTO> storeMenus;
 }

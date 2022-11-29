@@ -38,7 +38,7 @@ public class StoreController {
             case "insert":
                 return storeService.saveCategory(storeCategoryDTO, principal);
             case "update":
-                return null;
+                return storeService.updateCategory(storeCategoryDTO,principal);
             case "delete":
                 return null;
         }
