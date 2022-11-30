@@ -13,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -150,6 +151,37 @@ public class ApiExceptionAdvice {
                         .error("Bad Request")
                         .errorMessage(e.getMessage())
                         .detail("URI의 파라미터가 일치하지 않습니다. 관리자에게 문의해주세요.")
+                        .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
+                        .build());
+    }
+    @ExceptionHandler(NoHandlerFoundException.class) // 404 not found
+    public ResponseEntity<ApiExceptionDTO> notFound(HttpServletRequest request, NoHandlerFoundException e) {
+        e.printStackTrace();
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ApiExceptionDTO.builder()
+                        .code(HttpServletResponse.SC_NOT_FOUND)
+                        .status("BAD")
+                        .errorCode("NT0001")
+                        .error("NOT FOUND")
+                        .errorMessage(e.getMessage())
+                        .detail("찾을 수 없는 URI입니다.")
+                        .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
+                        .build());
+    }
+
+    @ExceptionHandler(Exception.class) // total exception
+    public ResponseEntity<ApiExceptionDTO> totalException(HttpServletRequest request, Exception e) {
+        e.printStackTrace();
+        return ResponseEntity
+                .status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
+                .body(ApiExceptionDTO.builder()
+                        .code(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
+                        .status("BAD")
+                        .errorCode("SR0001")
+                        .error("server error")
+                        .errorMessage(String.valueOf(e))
+                        .detail("서버 오류")
                         .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
                         .build());
     }
