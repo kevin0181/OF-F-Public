@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
 
 @RestController
@@ -53,11 +54,11 @@ public class StoreController {
     @PostMapping("/admin/menu")
     public ApiResponseDTO menu(@RequestParam String status,
                                @RequestPart(value = "menu") @Valid StoreMenuDTO storeMenuDTO,
-                               @RequestPart(value = "img") MultipartFile multipartFile,
-                               Principal principal) {
+                               @RequestPart(value = "img") MultipartFile imgFile,
+                               Principal principal) throws IOException {
         switch (status) {
             case "insert":
-                return storeService.saveMenu(storeMenuDTO, multipartFile, principal);
+                return storeService.saveMenu(storeMenuDTO, imgFile, principal);
             case "update":
             case "delete":
         }

@@ -38,7 +38,9 @@ public enum ExceptionEnum {
 
     //api
     INVALID_PARAMS(HttpServletResponse.SC_BAD_REQUEST, "BAD", "AP0001", "invalid request", "옳지 않은 요청", "옳지 않은 요청 파라미터 입니다."),
-    AUTHORIZATION_FAILED_REQUEST(HttpServletResponse.SC_FORBIDDEN, "BAD", "AP0002", "Authorization failed request", "승인되지 않은 요청", "옳지 않은 접근 입니다.");
+    AUTHORIZATION_FAILED_REQUEST(HttpServletResponse.SC_FORBIDDEN, "BAD", "AP0002", "Authorization failed request", "승인되지 않은 요청", "옳지 않은 접근 입니다."),
+    NOT_IMG(HttpServletResponse.SC_UNAUTHORIZED, "BAD", "AP0003", "not img", "옳지 않은 이미지", "이미지는 png, jpg만 가능합니다.");
+
     private final int code;
     private final String status;
     private final String errorCode;

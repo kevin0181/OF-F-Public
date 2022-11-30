@@ -3,6 +3,7 @@ package of_f.of_f_spring.service.store;
 import lombok.extern.slf4j.Slf4j;
 import of_f.of_f_spring.domain.entity.store.Store;
 import of_f.of_f_spring.domain.entity.store.menu.StoreCategory;
+import of_f.of_f_spring.domain.entity.store.menu.StoreMenuImg;
 import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.domain.exception.*;
 import of_f.of_f_spring.domain.mapper.store.StoreMapper;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -243,7 +245,7 @@ public class StoreService {
         throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_BY_CATEGORY);
     }
 
-    public ApiResponseDTO saveMenu(StoreMenuDTO storeMenuDTO, MultipartFile multipartFile, Principal principal) {
+    public ApiResponseDTO saveMenu(StoreMenuDTO storeMenuDTO, MultipartFile imgFile, Principal principal) throws IOException {
         StoreCategory storeCategory = storeCategoryRepository.findById(storeMenuDTO.getStoreCategorySeq()).orElse(null);
 
         if (storeCategory == null)
@@ -256,8 +258,9 @@ public class StoreService {
         Store store = storeCategory.getStore();
         store.checkStoreStatus(store.getStatus()); // 가맹점 상태 체크
 
-        if (storeMenuDTO.getStoreMenuImgs() != null && storeMenuDTO.getStoreMenuImgs().size() != 0)
-            imgService.saveImg(storeMenuDTO.getStoreMenuImgs());
+        StoreMenuImg storeMenuImg = null;
+        if (!imgFile.isEmpty())
+            storeMenuImg = imgService.saveMenuImg(storeMenuDTO, imgFile);
 
         return null;
     }
