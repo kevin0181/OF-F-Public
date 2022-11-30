@@ -1,5 +1,7 @@
 package of_f.of_f_spring.controller.user;
 
+import of_f.of_f_spring.domain.exception.ApiException;
+import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
@@ -38,12 +40,12 @@ public class StoreController {
             case "insert":
                 return storeService.saveCategory(storeCategoryDTO, principal);
             case "update":
-                return storeService.updateCategory(storeCategoryDTO,principal);
+                return storeService.updateCategory(storeCategoryDTO, principal);
             case "delete":
-                return storeService.deleteCategory(storeCategoryDTO,principal);
+                return storeService.deleteCategory(storeCategoryDTO, principal);
         }
 
-        return null;
+        throw new ApiException(ExceptionEnum.INVALID_PARAMS);
     }
 
 }
