@@ -17,6 +17,9 @@ public class StoreMenuImg {
     private Long storeMenuSeq;
 
     @Column
+    private String id;
+
+    @Column
     private String name;
 
     @Column

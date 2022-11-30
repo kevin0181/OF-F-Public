@@ -5,9 +5,11 @@ import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
+import of_f.of_f_spring.dto.store.menu.StoreMenuDTO;
 import of_f.of_f_spring.service.store.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -31,18 +33,33 @@ public class StoreController {
 
     @PostMapping("/admin/category")
     public ApiResponseDTO category(@RequestParam String status,
-                                   @RequestBody(required = false) @Valid StoreCategoryDTO storeCategoryDTO,
+                                   @RequestBody @Valid StoreCategoryDTO storeCategoryDTO,
                                    Principal principal) {
 
         switch (status) {
-            case "list":
-                return storeService.getCategoryList(storeCategoryDTO);
+//            case "list":
+//                return storeService.getCategoryList(storeCategoryDTO);
             case "insert":
                 return storeService.saveCategory(storeCategoryDTO, principal);
             case "update":
                 return storeService.updateCategory(storeCategoryDTO, principal);
             case "delete":
                 return storeService.deleteCategory(storeCategoryDTO, principal);
+        }
+
+        throw new ApiException(ExceptionEnum.INVALID_PARAMS);
+    }
+
+    @PostMapping("/admin/menu")
+    public ApiResponseDTO menu(@RequestParam String status,
+                               @RequestPart(value = "menu") @Valid StoreMenuDTO storeMenuDTO,
+                               @RequestPart(value = "img") MultipartFile multipartFile,
+                               Principal principal) {
+        switch (status) {
+            case "insert":
+                return storeService.saveMenu(storeMenuDTO, multipartFile, principal);
+            case "update":
+            case "delete":
         }
 
         throw new ApiException(ExceptionEnum.INVALID_PARAMS);

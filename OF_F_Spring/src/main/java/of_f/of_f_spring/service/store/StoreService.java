@@ -4,25 +4,25 @@ import lombok.extern.slf4j.Slf4j;
 import of_f.of_f_spring.domain.entity.store.Store;
 import of_f.of_f_spring.domain.entity.store.menu.StoreCategory;
 import of_f.of_f_spring.domain.entity.user.User;
-import of_f.of_f_spring.domain.exception.AdminException;
-import of_f.of_f_spring.domain.exception.AdminExceptionEnum;
-import of_f.of_f_spring.domain.exception.StoreException;
-import of_f.of_f_spring.domain.exception.StoreExceptionEnum;
+import of_f.of_f_spring.domain.exception.*;
 import of_f.of_f_spring.domain.mapper.store.StoreMapper;
 import of_f.of_f_spring.domain.mapper.user.UserMapper;
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
+import of_f.of_f_spring.dto.store.menu.StoreMenuDTO;
 import of_f.of_f_spring.dto.user.UserDTO;
 import of_f.of_f_spring.repository.store.StoreCategoryRepository;
 import of_f.of_f_spring.repository.store.StoreRepository;
 import of_f.of_f_spring.repository.user.UserRepository;
+import of_f.of_f_spring.service.config.ImgService;
 import of_f.of_f_spring.service.user.EmailService;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.List;
@@ -42,6 +42,9 @@ public class StoreService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private ImgService imgService;
 
     public ApiResponseDTO applicationNewStore(StoreDTO storeDTO, Principal principal) {  // 가맹점 신청
 
@@ -123,22 +126,22 @@ public class StoreService {
     }
 
 
-    public ApiResponseDTO getCategoryList(StoreCategoryDTO storeCategoryDTO) { //카테고리 리스트 가져오기
-
-        if (storeCategoryDTO == null || storeCategoryDTO.getSeq() == null || storeCategoryDTO.getSeq().equals("")) { //전체 리스트 가져오기
-            return ApiResponseDTO.builder()
-                    .message("카테고리 전체 가져오기")
-                    .detail("카테고리 전체 가져오기")
-                    .data(StoreMapper.instance.storeCategoryToStoreCategoryDTOList(storeCategoryRepository.findAll()))
-                    .build();
-        } else { //특정 카테고리 리스트 가져오기
-            return ApiResponseDTO.builder()
-                    .message("카테고리 가져오기")
-                    .detail("카테고리 가져오기")
-                    .data(StoreMapper.instance.storeCategoryToStoreCategoryDTO(storeCategoryRepository.findById(storeCategoryDTO.getSeq()).orElse(null)))
-                    .build();
-        }
-    }
+//    public ApiResponseDTO getCategoryList(StoreCategoryDTO storeCategoryDTO) { //카테고리 리스트 가져오기
+//
+//        if (storeCategoryDTO == null || storeCategoryDTO.getSeq() == null || storeCategoryDTO.getSeq().equals("")) { //전체 리스트 가져오기
+//            return ApiResponseDTO.builder()
+//                    .message("카테고리 전체 가져오기")
+//                    .detail("카테고리 전체 가져오기")
+//                    .data(StoreMapper.instance.storeCategoryToStoreCategoryDTOList(storeCategoryRepository.findAll()))
+//                    .build();
+//        } else { //특정 카테고리 리스트 가져오기
+//            return ApiResponseDTO.builder()
+//                    .message("카테고리 가져오기")
+//                    .detail("카테고리 가져오기")
+//                    .data(StoreMapper.instance.storeCategoryToStoreCategoryDTO(storeCategoryRepository.findById(storeCategoryDTO.getSeq()).orElse(null)))
+//                    .build();
+//        }
+//    }
 
     public ApiResponseDTO saveCategory(StoreCategoryDTO storeCategoryDTO, Principal principal) { //카테고리 저장
         User user = userRepository.findByEmail(principal.getName());
@@ -170,24 +173,20 @@ public class StoreService {
 
         checkStoreSize(user.getStores()); //가게가 존재하지 않을 경우
 
-        List<StoreCategory> storeCategoryList = null;
-
-        for (int i = 0; i < user.getStores().size(); i++) {
-            if (user.getStores().get(i).getSeq() == storeCategoryDTO.getStoreSeq()) {
-                user.getStores().get(i).checkStoreStatus(user.getStores().get(i).getStatus());
-                storeCategoryList = user.getStores().get(i).getStoreCategories(); // 해당되는 가맹점의 카테고리를 가져옴
-            }
-        }
+        List<StoreCategory> storeCategoryList = findStoreCategory(user, storeCategoryDTO);
 
         checkCategorySize(storeCategoryList); //가져온 가맹점의 카테고리가 존재하는지 확인하는 부분
 
         try {
+
             for (int i = 0; i < storeCategoryList.size(); i++) {
                 if (storeCategoryList.get(i).getSeq() == storeCategoryDTO.getSeq()) { // 변경해야될 카테고리 부분을 찾았다면?
+                    storeCategoryList.get(i).setName(storeCategoryDTO.getName());
+                    storeCategoryList.get(i).setStatus(storeCategoryDTO.isStatus());
                     return ApiResponseDTO.builder()
                             .message("카테고리 수정")
                             .detail("카테고리를 수정했습니다.")
-                            .data(storeCategoryRepository.save(StoreMapper.instance.storeCategoryDTOToStoreCategory(storeCategoryDTO)))
+                            .data(storeCategoryRepository.save(storeCategoryList.get(i)))
                             .build();
                 }
             }
@@ -203,16 +202,10 @@ public class StoreService {
 
         checkStoreSize(user.getStores()); //가게가 존재하지 않을 경우
 
-        List<StoreCategory> storeCategoryList = null;
-
-        for (int i = 0; i < user.getStores().size(); i++) {
-            if (user.getStores().get(i).getSeq() == storeCategoryDTO.getStoreSeq()) { //카테고리가 해당되는 가맹점 찾음
-                user.getStores().get(i).checkStoreStatus(user.getStores().get(i).getStatus()); // 해당되는 가맹점이 활성화 되어있는지 확인
-                storeCategoryList = user.getStores().get(i).getStoreCategories();
-            }
-        }
+        List<StoreCategory> storeCategoryList = findStoreCategory(user, storeCategoryDTO);
 
         checkCategorySize(storeCategoryList); //가져온 가맹점의 카테고리가 존재하는지 확인하는 부분
+
         try {
             for (int i = 0; i < storeCategoryList.size(); i++) {
                 if (storeCategoryList.get(i).getSeq() == storeCategoryDTO.getSeq()) { //삭제할 카테고리를 찾으면?
@@ -235,8 +228,38 @@ public class StoreService {
             throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE); //존재 하지 않는 가게
     }
 
-    public void checkCategorySize(List<StoreCategory> storeCategories) {
+    public void checkCategorySize(List<StoreCategory> storeCategories) { //가맹점의 카테고리가 존재하는지 확인
         if (storeCategories == null || storeCategories.size() == 0)
             throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_CATEGORY);
     }
+
+    public List<StoreCategory> findStoreCategory(User user, StoreCategoryDTO storeCategoryDTO) { // 해당되는 가맹점의 카테고리를 가져오는 함수
+        for (int i = 0; i < user.getStores().size(); i++) {
+            if (user.getStores().get(i).getSeq() == storeCategoryDTO.getStoreSeq()) {
+                user.getStores().get(i).checkStoreStatus(user.getStores().get(i).getStatus()); //가맹점 상태가 활성화 되어있는지 확인
+                return user.getStores().get(i).getStoreCategories(); // 해당되는 가맹점의 카테고리를 가져옴
+            }
+        }
+        throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_BY_CATEGORY);
+    }
+
+    public ApiResponseDTO saveMenu(StoreMenuDTO storeMenuDTO, MultipartFile multipartFile, Principal principal) {
+        StoreCategory storeCategory = storeCategoryRepository.findById(storeMenuDTO.getStoreCategorySeq()).orElse(null);
+
+        if (storeCategory == null)
+            throw new StoreException(StoreExceptionEnum.DOES_NOT_EXIST_CATEGORY); //존재하지 않은 카테고리
+
+
+        if (!storeCategory.getStore().getUser().getEmail().equals(principal.getName()))
+            throw new ApiException(ExceptionEnum.AUTHORIZATION_FAILED_REQUEST); //허용되지 않은 접근
+
+        Store store = storeCategory.getStore();
+        store.checkStoreStatus(store.getStatus()); // 가맹점 상태 체크
+
+        if (storeMenuDTO.getStoreMenuImgs() != null && storeMenuDTO.getStoreMenuImgs().size() != 0)
+            imgService.saveImg(storeMenuDTO.getStoreMenuImgs());
+
+        return null;
+    }
+
 }

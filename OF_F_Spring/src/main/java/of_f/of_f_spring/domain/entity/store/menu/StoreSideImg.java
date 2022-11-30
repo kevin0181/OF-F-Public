@@ -17,6 +17,9 @@ public class StoreSideImg {
     private Long storeSideMenuSeq;
 
     @Column
+    private String id;
+
+    @Column
     private String name;
 
     @Column
