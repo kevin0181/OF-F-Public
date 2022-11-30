@@ -171,7 +171,6 @@ public class StoreService {
         checkStoreSize(user.getStores()); //가게가 존재하지 않을 경우
 
         List<StoreCategory> storeCategoryList = null;
-        StoreCategory storeCategory = null;
 
         for (int i = 0; i < user.getStores().size(); i++) {
             if (user.getStores().get(i).getSeq() == storeCategoryDTO.getStoreSeq()) {
@@ -182,28 +181,21 @@ public class StoreService {
 
         checkCategorySize(storeCategoryList); //가져온 가맹점의 카테고리가 존재하는지 확인하는 부분
 
-        for (int i = 0; i < storeCategoryList.size(); i++) {
-            if (storeCategoryList.get(i).getSeq() == storeCategoryDTO.getSeq()) { // 변경해야될 카테고리 부분을 찾았다면?
-                storeCategory = new StoreCategory(
-                        storeCategoryDTO.getSeq(),
-                        storeCategoryDTO.getStoreSeq(),
-                        storeCategoryDTO.getName(),
-                        storeCategoryDTO.isStatus()
-                );
-            }
-        }
-
         try {
-            storeCategory = storeCategoryRepository.save(storeCategory);
+            for (int i = 0; i < storeCategoryList.size(); i++) {
+                if (storeCategoryList.get(i).getSeq() == storeCategoryDTO.getSeq()) { // 변경해야될 카테고리 부분을 찾았다면?
+                    return ApiResponseDTO.builder()
+                            .message("카테고리 수정")
+                            .detail("카테고리를 수정했습니다.")
+                            .data(storeCategoryRepository.save(StoreMapper.instance.storeCategoryDTOToStoreCategory(storeCategoryDTO)))
+                            .build();
+                }
+            }
+            throw new StoreException(StoreExceptionEnum.FAIL_UPDATE_CATEGORY);
         } catch (Exception e) {
             throw new StoreException(StoreExceptionEnum.FAIL_UPDATE_CATEGORY);
         }
 
-        return ApiResponseDTO.builder()
-                .message("카테고리 수정")
-                .detail("카테고리를 수정했습니다.")
-                .data(storeCategory)
-                .build();
     }
 
     public ApiResponseDTO deleteCategory(StoreCategoryDTO storeCategoryDTO, Principal principal) {
