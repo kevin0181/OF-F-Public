@@ -140,7 +140,7 @@ public class StoreService {
         }
     }
 
-    public ApiResponseDTO saveCategory(StoreCategoryDTO storeCategoryDTO, Principal principal) {
+    public ApiResponseDTO saveCategory(StoreCategoryDTO storeCategoryDTO, Principal principal) { //카테고리 저장
         User user = userRepository.findByEmail(principal.getName());
 
         checkStoreSize(user.getStores()); //가게가 존재하는지 먼저 체크
@@ -165,7 +165,7 @@ public class StoreService {
         throw new StoreException(StoreExceptionEnum.FAIL_SAVE_CATEGORY);
     }
 
-    public ApiResponseDTO updateCategory(StoreCategoryDTO storeCategoryDTO, Principal principal) {
+    public ApiResponseDTO updateCategory(StoreCategoryDTO storeCategoryDTO, Principal principal) { //카테고리 업데이트
         User user = userRepository.findByEmail(principal.getName());
 
         checkStoreSize(user.getStores()); //가게가 존재하지 않을 경우
@@ -180,8 +180,7 @@ public class StoreService {
             }
         }
 
-        if (storeCategoryList == null)
-            throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_CATEGORY); //카테고리가 존재하지 않을 경우
+        checkCategorySize(storeCategoryList); //가져온 가맹점의 카테고리가 존재하는지 확인하는 부분
 
         for (int i = 0; i < storeCategoryList.size(); i++) {
             if (storeCategoryList.get(i).getSeq() == storeCategoryDTO.getSeq()) { // 변경해야될 카테고리 부분을 찾았다면?
@@ -193,9 +192,6 @@ public class StoreService {
                 );
             }
         }
-
-        if (storeCategory == null)
-            throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_CATEGORY);
 
         try {
             storeCategory = storeCategoryRepository.save(storeCategory);
@@ -210,8 +206,45 @@ public class StoreService {
                 .build();
     }
 
+    public ApiResponseDTO deleteCategory(StoreCategoryDTO storeCategoryDTO, Principal principal) {
+        User user = userRepository.findByEmail(principal.getName());
+
+        checkStoreSize(user.getStores()); //가게가 존재하지 않을 경우
+
+        List<StoreCategory> storeCategoryList = null;
+
+        for (int i = 0; i < user.getStores().size(); i++) {
+            if (user.getStores().get(i).getSeq() == storeCategoryDTO.getStoreSeq()) { //카테고리가 해당되는 가맹점 찾음
+                user.getStores().get(i).checkStoreStatus(user.getStores().get(i).getStatus()); // 해당되는 가맹점이 활성화 되어있는지 확인
+                storeCategoryList = user.getStores().get(i).getStoreCategories();
+            }
+        }
+
+        checkCategorySize(storeCategoryList); //가져온 가맹점의 카테고리가 존재하는지 확인하는 부분
+        try {
+            for (int i = 0; i < storeCategoryList.size(); i++) {
+                if (storeCategoryList.get(i).getSeq() == storeCategoryDTO.getSeq()) { //삭제할 카테고리를 찾으면?
+                    storeCategoryRepository.delete(storeCategoryList.get(i)); //카테고리 삭제
+                    return ApiResponseDTO.builder()
+                            .message("카테고리 삭제")
+                            .detail("카테고리를 삭제하였습니다.")
+                            .data(true)
+                            .build();
+                }
+            }
+            throw new StoreException(StoreExceptionEnum.DOES_NOT_EXIST_CATEGORY);
+        } catch (Exception e) {
+            throw new StoreException(StoreExceptionEnum.CAN_NOT_DELETE_CATEGORY);
+        }
+    }
+
     public void checkStoreSize(List<Store> store) {
         if (store == null || store.size() == 0)
             throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE); //존재 하지 않는 가게
+    }
+
+    public void checkCategorySize(List<StoreCategory> storeCategories) {
+        if (storeCategories == null || storeCategories.size() == 0)
+            throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_CATEGORY);
     }
 }
