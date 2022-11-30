@@ -1,6 +1,8 @@
 package of_f.of_f_spring.domain.entity.store;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import of_f.of_f_spring.domain.entity.store.menu.StoreCategory;
 import of_f.of_f_spring.domain.entity.store.order.StoreOrder;
@@ -12,7 +14,9 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class Store {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Store extends StoreStatusCheck {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;

@@ -40,7 +40,7 @@ public class StoreController {
             case "update":
                 return storeService.updateCategory(storeCategoryDTO,principal);
             case "delete":
-                return null;
+                return storeService.deleteCategory(storeCategoryDTO,principal);
         }
 
         return null;
