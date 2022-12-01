@@ -33,6 +33,7 @@ public class ApiExceptionAdvice {
                         .errorCode(e.getError().getErrorCode())
                         .error(e.getError().getError())
                         .errorMessage(e.getError().getMessage())
+                        .detail(e.getError().getDetail())
                         .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
                         .build());
     }

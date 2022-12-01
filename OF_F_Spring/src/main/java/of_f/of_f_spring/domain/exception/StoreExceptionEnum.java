@@ -26,7 +26,11 @@ public enum StoreExceptionEnum {
     SUSPENSION_STORE(HttpServletResponse.SC_UNAUTHORIZED, "BAD", "S0013", "suspension store", "보류된 가게", "해당 가게는 신청이 보류되었습니다. 관리자에게 문의해주세요."),
     CAN_NOT_USE_STORE_INFO(HttpServletResponse.SC_UNAUTHORIZED, "BAD", "S0014", "Forbidden reqeust", "접근이 불가능한 권한입니다.", "해당 가게는 접근이 불가능한 상태입니다. 관리자에게 문의주세요."),
     CAN_NOT_DELETE_CATEGORY(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "BAD", "S0015", "can not delete category", "카테고리 삭제 실패", "카테고리 삭제를 실패하였습니다."),
-    DOES_NOT_EXIST_CATEGORY(HttpServletResponse.SC_UNAUTHORIZED, "BAD", "S0016", "does not exist category", "존재하지 않는 카테고리", "존재하지 않는 카테고리입니다.");
+    DOES_NOT_EXIST_CATEGORY(HttpServletResponse.SC_UNAUTHORIZED, "BAD", "S0016", "does not exist category", "존재하지 않는 카테고리", "존재하지 않는 카테고리입니다."),
+    NONEXISTENT_STORE_BY_CATEGORY(HttpServletResponse.SC_NOT_FOUND, "BAD", "S0017", "does not exist store", "존재하지 않는 가맹점", "존재하지 않는 가맹점 입니다."),
+    CAN_NOT_SAVE_IMG(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "BAD", "S0018", "can not save img", "이미지 저장 실패", "이미지 저장을 실패했습니다."),
+    CAN_NOT_SAVE_MENU(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "BAD", "S0019", "can not save menu", "메뉴 저장 실패", "메뉴 저장을 실패했습니다.");
+
     private final int code;
     private final String status;
     private final String errorCode;
