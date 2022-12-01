@@ -3,6 +3,7 @@ package of_f.of_f_spring.service.store;
 import lombok.extern.slf4j.Slf4j;
 import of_f.of_f_spring.domain.entity.store.Store;
 import of_f.of_f_spring.domain.entity.store.menu.StoreCategory;
+import of_f.of_f_spring.domain.entity.store.menu.StoreMS;
 import of_f.of_f_spring.domain.entity.store.menu.StoreMenu;
 import of_f.of_f_spring.domain.entity.store.menu.StoreMenuImg;
 import of_f.of_f_spring.domain.entity.user.User;
@@ -29,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -252,31 +254,23 @@ public class StoreService {
 
     @Transactional
     public ApiResponseDTO saveMenu(StoreMenuDTO storeMenuDTO, List<MultipartFile> imgFile, Principal principal) {
-        StoreCategory storeCategory = storeCategoryRepository.findById(storeMenuDTO.getStoreCategorySeq()).orElse(null);
 
-        if (storeCategory == null)
-            throw new StoreException(StoreExceptionEnum.DOES_NOT_EXIST_CATEGORY); //존재하지 않은 카테고리
-
-
-        if (!storeCategory.getStore().getUser().getEmail().equals(principal.getName()))
-            throw new ApiException(ExceptionEnum.AUTHORIZATION_FAILED_REQUEST); //허용되지 않은 접근
-
-        Store store = storeCategory.getStore();
-        store.checkStoreStatus(store.getStatus()); // 가맹점 상태 체크
+        checkMenu(storeMenuDTO, principal); // request 상태 체크
 
         List<StoreMenuImg> storeMenuImgs = null;
-        if (!imgFile.isEmpty())
+
+        if (imgFile != null) // 이미지가 존재하는 경우
             storeMenuImgs = imgService.saveMenuImg(imgFile);
 
         StoreMenu storeMenu = StoreMapper.instance.storeDTOToStoreMenuDTO(storeMenuDTO);
 
         storeMenu.setStoreMenuImgs(storeMenuImgs);
 
-//        try {
-        storeMenu = storeMenuRepository.save(storeMenu);
-//        } catch (Exception e) {
-//            throw new StoreException(StoreExceptionEnum.CAN_NOT_SAVE_MENU);
-//        }
+        try {
+            storeMenu = storeMenuRepository.save(storeMenu);
+        } catch (Exception e) {
+            throw new StoreException(StoreExceptionEnum.CAN_NOT_SAVE_MENU);
+        }
 
 
         return ApiResponseDTO.builder()
@@ -286,4 +280,62 @@ public class StoreService {
                 .build();
     }
 
+    @Transactional
+    public ApiResponseDTO updateMenu(StoreMenuDTO storeMenuDTO, List<MultipartFile> imgFile, Principal principal) {
+
+        checkMenu(storeMenuDTO, principal); // request 상태 체크
+
+        List<StoreMenuImg> storeMenuImgs = null;
+        if (imgFile != null)
+            storeMenuImgs = imgService.saveMenuImg(imgFile);
+
+        StoreMenu storeMenu = storeMenuRepository.findById(storeMenuDTO.getSeq()).orElse(null);
+
+        if (storeMenu == null)
+            throw new StoreException(StoreExceptionEnum.DOES_NOT_EXIST_MENU);
+
+        List<StoreMS> storeMSs = new ArrayList<>();
+
+        if (storeMenuDTO.getStoreMSs() != null)
+            storeMSs = StoreMapper.instance.storeMSDTOToStoreMS(storeMenuDTO.getStoreMSs());
+
+        try {
+
+            storeMenuRepository.save(StoreMenu.builder()
+                    .seq(storeMenuDTO.getSeq())
+                    .price(storeMenuDTO.getPrice())
+                    .name(storeMenuDTO.getName())
+                    .status(storeMenuDTO.isStatus())
+                    .storeMSs(storeMSs)
+                    .storeCategorySeq(storeMenuDTO.getStoreCategorySeq())
+                    .soldOutStatus(storeMenuDTO.isSoldOutStatus())
+                    .storeMenuImgs(storeMenuImgs)
+                    .build());
+
+        } catch (Exception e) {
+            throw new StoreException(StoreExceptionEnum.CAN_NOT_UPDATE_MENU);
+        }
+
+
+        return ApiResponseDTO.builder()
+                .message("메뉴 수정")
+                .detail("메뉴를 수정했습니다.")
+                .data(storeMenu)
+                .build();
+    }
+
+    private Store checkMenu(StoreMenuDTO storeMenuDTO, Principal principal) {
+        StoreCategory storeCategory = storeCategoryRepository.findById(storeMenuDTO.getStoreCategorySeq()).orElse(null);
+
+        if (storeCategory == null)
+            throw new StoreException(StoreExceptionEnum.DOES_NOT_EXIST_CATEGORY); //존재하지 않은 카테고리
+
+        if (!storeCategory.getStore().getUser().getEmail().equals(principal.getName()))
+            throw new ApiException(ExceptionEnum.AUTHORIZATION_FAILED_REQUEST); //허용되지 않은 접근
+
+        Store store = storeCategory.getStore();
+        store.checkStoreStatus(store.getStatus()); // 가맹점 상태 체크
+
+        return store;
+    }
 }

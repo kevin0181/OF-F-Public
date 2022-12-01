@@ -55,12 +55,13 @@ public class StoreController {
     @PostMapping("/admin/menu")
     public ApiResponseDTO menu(@RequestParam String status,
                                @RequestPart(value = "menu") @Valid StoreMenuDTO storeMenuDTO,
-                               @RequestPart(value = "img") List<MultipartFile> imgFile,
+                               @RequestPart(value = "img", required = false) List<MultipartFile> imgFile,
                                Principal principal) {
         switch (status) {
             case "insert":
                 return storeService.saveMenu(storeMenuDTO, imgFile, principal);
             case "update":
+                return storeService.updateMenu(storeMenuDTO, imgFile, principal);
             case "delete":
         }
 

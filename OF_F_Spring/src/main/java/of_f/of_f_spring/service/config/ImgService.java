@@ -77,4 +77,6 @@ public class ImgService {
         return simpleDateFormat.format(new Date());
     }
 
+    public void deleteAndUpdateImg(StoreMenuDTO storeMenuDTO, List<MultipartFile> imgFile) {
+    }
 }
