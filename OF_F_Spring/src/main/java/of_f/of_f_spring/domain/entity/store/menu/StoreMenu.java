@@ -34,7 +34,7 @@ public class StoreMenu {
     @JoinColumn(name = "Store_Category_seq", insertable = false, updatable = false)
     private StoreCategory storeCategory;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "Store_Menu_seq")
     private List<StoreMenuImg> storeMenuImgs;
 

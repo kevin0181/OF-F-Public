@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/store")
@@ -54,8 +55,8 @@ public class StoreController {
     @PostMapping("/admin/menu")
     public ApiResponseDTO menu(@RequestParam String status,
                                @RequestPart(value = "menu") @Valid StoreMenuDTO storeMenuDTO,
-                               @RequestPart(value = "img") MultipartFile imgFile,
-                               Principal principal) throws IOException {
+                               @RequestPart(value = "img") List<MultipartFile> imgFile,
+                               Principal principal) {
         switch (status) {
             case "insert":
                 return storeService.saveMenu(storeMenuDTO, imgFile, principal);

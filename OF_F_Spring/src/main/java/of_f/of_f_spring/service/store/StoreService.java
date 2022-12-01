@@ -3,6 +3,7 @@ package of_f.of_f_spring.service.store;
 import lombok.extern.slf4j.Slf4j;
 import of_f.of_f_spring.domain.entity.store.Store;
 import of_f.of_f_spring.domain.entity.store.menu.StoreCategory;
+import of_f.of_f_spring.domain.entity.store.menu.StoreMenu;
 import of_f.of_f_spring.domain.entity.store.menu.StoreMenuImg;
 import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.domain.exception.*;
@@ -14,6 +15,7 @@ import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
 import of_f.of_f_spring.dto.store.menu.StoreMenuDTO;
 import of_f.of_f_spring.dto.user.UserDTO;
 import of_f.of_f_spring.repository.store.StoreCategoryRepository;
+import of_f.of_f_spring.repository.store.StoreMenuRepository;
 import of_f.of_f_spring.repository.store.StoreRepository;
 import of_f.of_f_spring.repository.user.UserRepository;
 import of_f.of_f_spring.service.config.ImgService;
@@ -47,6 +49,9 @@ public class StoreService {
 
     @Autowired
     private ImgService imgService;
+
+    @Autowired
+    private StoreMenuRepository storeMenuRepository;
 
     public ApiResponseDTO applicationNewStore(StoreDTO storeDTO, Principal principal) {  // 가맹점 신청
 
@@ -245,7 +250,8 @@ public class StoreService {
         throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_BY_CATEGORY);
     }
 
-    public ApiResponseDTO saveMenu(StoreMenuDTO storeMenuDTO, MultipartFile imgFile, Principal principal) throws IOException {
+    @Transactional
+    public ApiResponseDTO saveMenu(StoreMenuDTO storeMenuDTO, List<MultipartFile> imgFile, Principal principal) {
         StoreCategory storeCategory = storeCategoryRepository.findById(storeMenuDTO.getStoreCategorySeq()).orElse(null);
 
         if (storeCategory == null)
@@ -258,11 +264,26 @@ public class StoreService {
         Store store = storeCategory.getStore();
         store.checkStoreStatus(store.getStatus()); // 가맹점 상태 체크
 
-        StoreMenuImg storeMenuImg = null;
+        List<StoreMenuImg> storeMenuImgs = null;
         if (!imgFile.isEmpty())
-            storeMenuImg = imgService.saveMenuImg(storeMenuDTO, imgFile);
+            storeMenuImgs = imgService.saveMenuImg(imgFile);
 
-        return null;
+        StoreMenu storeMenu = StoreMapper.instance.storeDTOToStoreMenuDTO(storeMenuDTO);
+
+        storeMenu.setStoreMenuImgs(storeMenuImgs);
+
+//        try {
+        storeMenu = storeMenuRepository.save(storeMenu);
+//        } catch (Exception e) {
+//            throw new StoreException(StoreExceptionEnum.CAN_NOT_SAVE_MENU);
+//        }
+
+
+        return ApiResponseDTO.builder()
+                .message("메뉴 저장")
+                .detail(storeMenu.getName() + " 메뉴를 저장했습니다.")
+                .data(storeMenu)
+                .build();
     }
 
 }

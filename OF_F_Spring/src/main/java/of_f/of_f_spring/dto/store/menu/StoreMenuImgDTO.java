@@ -10,7 +10,6 @@ import javax.persistence.*;
 public class StoreMenuImgDTO {
     private Long seq;
     private Long storeMenuSeq;
-    private String id;
     private String name;
     private String url;
     private String extension;

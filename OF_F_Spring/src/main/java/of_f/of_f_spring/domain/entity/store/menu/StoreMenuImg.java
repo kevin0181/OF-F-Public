@@ -1,13 +1,15 @@
 package of_f.of_f_spring.domain.entity.store.menu;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
+@Builder
 @Entity(name = "Store_Menu_Img")
+@AllArgsConstructor
+@NoArgsConstructor
 public class StoreMenuImg {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,9 +17,6 @@ public class StoreMenuImg {
 
     @Column(name = "Store_Menu_seq")
     private Long storeMenuSeq;
-
-    @Column
-    private String id;
 
     @Column
     private String name;
