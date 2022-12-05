@@ -61,7 +61,7 @@ public class StoreController {
             case "insert":
                 return storeService.saveMenu(storeMenuDTO, imgFile, principal);
             case "update":
-                return storeService.updateMenu(storeMenuDTO, imgFile, principal);
+                return storeService.updateMenu(storeMenuDTO, principal); // 이미지 제외, 업데이트
             case "delete":
         }
 

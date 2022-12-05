@@ -281,13 +281,9 @@ public class StoreService {
     }
 
     @Transactional
-    public ApiResponseDTO updateMenu(StoreMenuDTO storeMenuDTO, List<MultipartFile> imgFile, Principal principal) {
+    public ApiResponseDTO updateMenu(StoreMenuDTO storeMenuDTO, Principal principal) {
 
         checkMenu(storeMenuDTO, principal); // request 상태 체크
-
-        List<StoreMenuImg> storeMenuImgs = null;
-        if (imgFile != null)
-            storeMenuImgs = imgService.saveMenuImg(imgFile);
 
         StoreMenu storeMenu = storeMenuRepository.findById(storeMenuDTO.getSeq()).orElse(null);
 
@@ -309,7 +305,6 @@ public class StoreService {
                     .storeMSs(storeMSs)
                     .storeCategorySeq(storeMenuDTO.getStoreCategorySeq())
                     .soldOutStatus(storeMenuDTO.isSoldOutStatus())
-                    .storeMenuImgs(storeMenuImgs)
                     .build());
 
         } catch (Exception e) {
