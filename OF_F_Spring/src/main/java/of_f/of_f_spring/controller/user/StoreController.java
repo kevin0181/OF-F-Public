@@ -63,6 +63,7 @@ public class StoreController {
             case "update":
                 return storeService.updateMenu(storeMenuDTO, principal); // 이미지 제외, 업데이트
             case "delete":
+                return storeService.deleteMenu(storeMenuDTO, principal);
         }
 
         throw new ApiException(ExceptionEnum.INVALID_PARAMS);
