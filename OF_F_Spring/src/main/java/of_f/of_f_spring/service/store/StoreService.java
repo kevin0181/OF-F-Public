@@ -307,7 +307,7 @@ public class StoreService {
 
         try {
 
-            storeMenuRepository.save(StoreMenu.builder()
+            storeMenu = storeMenuRepository.save(StoreMenu.builder()
                     .seq(storeMenuDTO.getSeq())
                     .price(storeMenuDTO.getPrice())
                     .name(storeMenuDTO.getName())
@@ -315,23 +315,43 @@ public class StoreService {
                     .storeMSs(storeMSs)
                     .storeCategorySeq(storeMenuDTO.getStoreCategorySeq())
                     .soldOutStatus(storeMenuDTO.isSoldOutStatus())
+                    .storeMenuImgs(storeMenu.getStoreMenuImgs())
                     .build());
 
         } catch (Exception e) {
             throw new StoreException(StoreExceptionEnum.CAN_NOT_UPDATE_MENU);
         }
 
+        StoreMenuDTO resStoreMenuUpdate = StoreMapper.instance.storeMenuToStoreMenuDTO(storeMenu);
+
 
         return ApiResponseDTO.builder()
                 .message("메뉴 수정")
                 .detail("메뉴를 수정했습니다.")
-                .data(storeMenu)
+                .data(resStoreMenuUpdate)
                 .build();
     }
 
+    @Transactional
     public ApiResponseDTO deleteMenu(StoreMenuDTO storeMenuDTO, Principal principal) {
-//        checkMenu(storeMenuDTO, principal); // request 상태 체크
-        return null;
+
+        StoreMenu storeMenu = storeMenuRepository.findById(storeMenuDTO.getSeq()).orElse(null);
+
+
+        try {
+            checkMenu(storeMenuDTO, principal, storeMenu.getStoreCategory().getStore()); // request 상태 체크
+            storeMenuRepository.deleteById(storeMenu.getSeq());
+        } catch (NullPointerException e) {
+            throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_BY_INFO); //존재하지 않는 정보
+        } catch (Exception e) {
+            throw new StoreException(StoreExceptionEnum.CAN_NOT_DELETE_MENU); //메뉴 삭제 실패
+        }
+
+        return ApiResponseDTO.builder()
+                .message("메뉴 삭제")
+                .detail("메뉴를 삭제했습니다.")
+                .data(true)
+                .build();
     }
 
     private Store checkMenu(StoreMenuDTO storeMenuDTO, Principal principal, Store store) {

@@ -25,4 +25,7 @@ public interface StoreMapper {
     StoreMenu storeDTOToStoreMenuDTO(StoreMenuDTO storeMenuDTO);
 
     List<StoreMS> storeMSDTOToStoreMS(List<StoreMSDTO> storeMSDTOS);
+
+    StoreMenuDTO storeMenuToStoreMenuDTO(StoreMenu storeMenu);
+
 }

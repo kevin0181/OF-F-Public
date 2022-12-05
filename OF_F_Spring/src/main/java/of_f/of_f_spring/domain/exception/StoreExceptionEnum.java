@@ -32,7 +32,8 @@ public enum StoreExceptionEnum {
     CAN_NOT_SAVE_MENU(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "BAD", "S0019", "can not save menu", "메뉴 저장 실패", "메뉴 저장을 실패했습니다."),
     DOES_NOT_EXIST_MENU(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "BAD", "S0020", "does not exist menu", "존재하지 않는 메뉴", "존재하지 않는 메뉴입니다."),
     CAN_NOT_UPDATE_MENU(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "BAD", "S0021", "can not update menu", "메뉴 수정 실패", "메뉴 수정을 실패했습니다."),
-    NONEXISTENT_STORE_BY_INFO(HttpServletResponse.SC_NOT_FOUND, "BAD", "S0022", "does not exist info", "존재하지 않는 정보", "요청 정보가 존재하지 않습니다.");
+    NONEXISTENT_STORE_BY_INFO(HttpServletResponse.SC_NOT_FOUND, "BAD", "S0022", "does not exist info", "존재하지 않는 정보", "요청 정보가 존재하지 않습니다."),
+    CAN_NOT_DELETE_MENU(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "BAD", "S0023", "can not delete menu", "메뉴 삭제 실패", "메뉴 삭제를 실패했습니다.");
 
 
     private final int code;
