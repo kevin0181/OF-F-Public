@@ -268,7 +268,7 @@ public class StoreService {
         if (imgFile != null) // 이미지가 존재하는 경우
             storeMenuImgs = imgService.saveMenuImg(imgFile);
 
-        StoreMenu storeMenu = StoreMapper.instance.storeDTOToStoreMenuDTO(storeMenuDTO);
+        StoreMenu storeMenu = StoreMapper.instance.storeMenuToStoreMenuDTO(storeMenuDTO);
 
         storeMenu.setStoreMenuImgs(storeMenuImgs);
 
@@ -336,7 +336,6 @@ public class StoreService {
     public ApiResponseDTO deleteMenu(StoreMenuDTO storeMenuDTO, Principal principal) {
 
         StoreMenu storeMenu = storeMenuRepository.findById(storeMenuDTO.getSeq()).orElse(null);
-
 
         try {
             checkMenu(storeMenuDTO, principal, storeMenu.getStoreCategory().getStore()); // request 상태 체크

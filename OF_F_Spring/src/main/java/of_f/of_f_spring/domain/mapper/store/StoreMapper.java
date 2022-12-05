@@ -22,7 +22,7 @@ public interface StoreMapper {
 
     StoreCategory storeCategoryDTOToStoreCategory(StoreCategoryDTO storeCategoryDTO);
 
-    StoreMenu storeDTOToStoreMenuDTO(StoreMenuDTO storeMenuDTO);
+    StoreMenu storeMenuToStoreMenuDTO(StoreMenuDTO storeMenuDTO);
 
     List<StoreMS> storeMSDTOToStoreMS(List<StoreMSDTO> storeMSDTOS);
 
