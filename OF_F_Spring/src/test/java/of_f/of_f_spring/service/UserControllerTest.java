@@ -3,6 +3,7 @@ package of_f.of_f_spring.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import of_f.of_f_spring.config.jwt.TokenInfo;
 import of_f.of_f_spring.domain.entity.user.EmailToken;
+import of_f.of_f_spring.dto.user.ChangeUserDTO;
 import of_f.of_f_spring.dto.user.UserLoginDTO;
 import of_f.of_f_spring.dto.user.UserSignInDTO;
 import org.junit.jupiter.api.*;
@@ -118,7 +119,55 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", is(200)))
+                .andDo(result -> {
+                    JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
+                    jsonObject = new JSONObject(jsonObject.getString("data"));
+                    tokenInfo = TokenInfo.builder()
+                            .grantType(jsonObject.getString("grantType"))
+                            .accessToken(jsonObject.getString("accessToken"))
+                            .refreshToken(jsonObject.getString("refreshToken"))
+                            .build();
+                })
                 .andDo(print());
+    }
+
+    @Order(5)
+    @Test
+    @DisplayName("비밀번호 확인")
+    public void 비밀번호_확인() throws Exception {
+
+        UserLoginDTO userLoginDTO = UserLoginDTO.builder()
+                .password("test1234@").build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "/y/check/user")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
+                        .content(objectMapper.writeValueAsString(userLoginDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
+
+    @Order(6)
+    @Test
+    @DisplayName("사용자 정보 변경")
+    public void 사용자_정보_변경() throws Exception {
+
+        ChangeUserDTO changeUserDTO = ChangeUserDTO.builder()
+                .phoneNumber("01000000001")
+                .name("변경된이름")
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "/y/change/info")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
+                        .content(objectMapper.writeValueAsString(changeUserDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+
     }
 
 
