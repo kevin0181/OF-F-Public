@@ -1,7 +1,6 @@
 package of_f.of_f_spring.dto.user;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import of_f.of_f_spring.dto.store.StoreDTO;
 
 import javax.validation.constraints.*;
@@ -9,6 +8,9 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserSignInDTO {
     private Long seq;
 

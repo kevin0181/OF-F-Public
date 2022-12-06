@@ -20,7 +20,7 @@ public interface UserMapper {
 
     @Named(value = "userTOUserDTO_N_ROLE")
     @Mapping(target = "userRoles", ignore = true)
-    @Mapping(target = "storeOrders",ignore = true)
+    @Mapping(target = "storeOrders", ignore = true)
     UserDTO userTOUserDTO_N_ROLE(User user);
 
 }

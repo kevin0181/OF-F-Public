@@ -289,7 +289,7 @@ public class StoreService {
     @Transactional
     public ApiResponseDTO updateMenu(StoreMenuDTO storeMenuDTO, Principal principal) {
 
-        StoreMenu storeMenu = storeMenuRepository.findById(storeMenuDTO.getSeq()).orElse(null);
+        StoreMenu storeMenu = storeMenuRepository.findById(storeMenuDTO.getSeq()).get();
 
         try {
             checkMenu(storeMenuDTO, principal, storeMenu.getStoreCategory().getStore()); // request 상태 체크

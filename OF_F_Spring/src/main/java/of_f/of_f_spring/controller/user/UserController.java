@@ -1,5 +1,6 @@
 package of_f.of_f_spring.controller.user;
 
+import lombok.RequiredArgsConstructor;
 import of_f.of_f_spring.config.jwt.TokenInfo;
 import of_f.of_f_spring.domain.entity.user.EmailToken;
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
@@ -14,13 +15,13 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private EmailService emailService;
+    private final EmailService emailService;
+
 
     @PostMapping("/n/login") // 로그인
     public ApiResponseDTO login(@RequestBody @Valid UserLoginDTO userLoginDTO) {
