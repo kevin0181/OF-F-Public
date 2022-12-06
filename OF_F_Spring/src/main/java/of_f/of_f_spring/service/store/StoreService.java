@@ -200,8 +200,9 @@ public class StoreService {
                     return ApiResponseDTO.builder()
                             .message("카테고리 수정")
                             .detail("카테고리를 수정했습니다.")
-                            .data(storeCategoryRepository.save(storeCategoryList.get(i)))
+                            .data(StoreMapper.instance.storeCategoryToStoreCategoryDTO(storeCategoryRepository.save(storeCategoryList.get(i))))
                             .build();
+
                 }
             }
             throw new StoreException(StoreExceptionEnum.FAIL_UPDATE_CATEGORY);

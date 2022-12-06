@@ -21,6 +21,7 @@ public interface StoreMapper {
     Store storeDTOTOStore(StoreDTO storeDTO);
 
     StoreCategory storeCategoryDTOToStoreCategory(StoreCategoryDTO storeCategoryDTO);
+    StoreCategoryDTO storeCategoryToStoreCategoryDTO(StoreCategory storeCategory);
 
     StoreMenu storeMenuToStoreMenuDTO(StoreMenuDTO storeMenuDTO);
 

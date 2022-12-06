@@ -39,6 +39,12 @@ public class StoreControllerTest {
 
     TokenInfo tokenInfo = null;
 
+    TokenInfo adminToken = null;
+
+    Long storeSeq = null;
+
+    Long categorySeq = null;
+
     @Order(1)
     @Test
     @DisplayName("로그인")
@@ -66,8 +72,6 @@ public class StoreControllerTest {
                 })
                 .andDo(print()); // test 응답 결과에 대한 모든 내용 출력
     }
-
-    Long storeSeq = null;
 
     @Order(2)
     @Test
@@ -98,7 +102,6 @@ public class StoreControllerTest {
                 .andDo(print());
     }
 
-    TokenInfo adminToken = null;
 
     @Order(3)
     @Test
@@ -200,8 +203,61 @@ public class StoreControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", is(200)))
+                .andDo(result -> {
+                    JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
+                    jsonObject = new JSONObject(jsonObject.getString("data"));
+                    categorySeq = jsonObject.getLong("seq");
+                })
                 .andDo(print());
     }
 
+    @Order(8)
+    @Test
+    @DisplayName("가맹점 카테고리 변경")
+    public void 가맹점_카테고리_변경() throws Exception {
+
+        StoreCategoryDTO storeCategoryDTO = StoreCategoryDTO.builder()
+                .seq(categorySeq)
+                .storeSeq(storeSeq)
+                .name("test 카테고리 변경")
+                .status(false)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "/admin/category")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
+                        .param("status", "update")
+                        .content(objectMapper.writeValueAsString(storeCategoryDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(result -> {
+                    JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
+                    jsonObject = new JSONObject(jsonObject.getString("data"));
+                    categorySeq = jsonObject.getLong("seq");
+                })
+                .andDo(print());
+    }
+
+    @Order(8)
+    @Test
+    @DisplayName("가맹점 카테고리 삭제")
+    public void 가맹점_카테고리_삭제() throws Exception {
+
+        StoreCategoryDTO storeCategoryDTO = StoreCategoryDTO.builder()
+                .seq(categorySeq)
+                .storeSeq(storeSeq)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "/admin/category")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
+                        .param("status", "delete")
+                        .content(objectMapper.writeValueAsString(storeCategoryDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
 
 }

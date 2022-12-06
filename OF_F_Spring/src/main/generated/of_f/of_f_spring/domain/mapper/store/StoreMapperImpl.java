@@ -40,7 +40,7 @@ import of_f.of_f_spring.dto.store.order.StoreOrderVanInfoDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-06T17:13:11+0900",
+    date = "2022-12-06T17:32:31+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class StoreMapperImpl implements StoreMapper {
@@ -89,6 +89,23 @@ public class StoreMapperImpl implements StoreMapper {
         storeCategory.setStoreMenus( storeMenuDTOListToStoreMenuList( storeCategoryDTO.getStoreMenus() ) );
 
         return storeCategory;
+    }
+
+    @Override
+    public StoreCategoryDTO storeCategoryToStoreCategoryDTO(StoreCategory storeCategory) {
+        if ( storeCategory == null ) {
+            return null;
+        }
+
+        StoreCategoryDTO.StoreCategoryDTOBuilder storeCategoryDTO = StoreCategoryDTO.builder();
+
+        storeCategoryDTO.seq( storeCategory.getSeq() );
+        storeCategoryDTO.storeSeq( storeCategory.getStoreSeq() );
+        storeCategoryDTO.name( storeCategory.getName() );
+        storeCategoryDTO.status( storeCategory.isStatus() );
+        storeCategoryDTO.storeMenus( storeMenuListToStoreMenuDTOList( storeCategory.getStoreMenus() ) );
+
+        return storeCategoryDTO.build();
     }
 
     @Override
@@ -479,6 +496,19 @@ public class StoreMapperImpl implements StoreMapper {
         return list1;
     }
 
+    protected List<StoreMenuDTO> storeMenuListToStoreMenuDTOList(List<StoreMenu> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<StoreMenuDTO> list1 = new ArrayList<StoreMenuDTO>( list.size() );
+        for ( StoreMenu storeMenu : list ) {
+            list1.add( storeMenuToStoreMenuDTO( storeMenu ) );
+        }
+
+        return list1;
+    }
+
     protected StoreMenuImg storeMenuImgDTOToStoreMenuImg(StoreMenuImgDTO storeMenuImgDTO) {
         if ( storeMenuImgDTO == null ) {
             return null;
@@ -758,35 +788,6 @@ public class StoreMapperImpl implements StoreMapper {
         }
 
         return list1;
-    }
-
-    protected List<StoreMenuDTO> storeMenuListToStoreMenuDTOList(List<StoreMenu> list) {
-        if ( list == null ) {
-            return null;
-        }
-
-        List<StoreMenuDTO> list1 = new ArrayList<StoreMenuDTO>( list.size() );
-        for ( StoreMenu storeMenu : list ) {
-            list1.add( storeMenuToStoreMenuDTO( storeMenu ) );
-        }
-
-        return list1;
-    }
-
-    protected StoreCategoryDTO storeCategoryToStoreCategoryDTO(StoreCategory storeCategory) {
-        if ( storeCategory == null ) {
-            return null;
-        }
-
-        StoreCategoryDTO.StoreCategoryDTOBuilder storeCategoryDTO = StoreCategoryDTO.builder();
-
-        storeCategoryDTO.seq( storeCategory.getSeq() );
-        storeCategoryDTO.storeSeq( storeCategory.getStoreSeq() );
-        storeCategoryDTO.name( storeCategory.getName() );
-        storeCategoryDTO.status( storeCategory.isStatus() );
-        storeCategoryDTO.storeMenus( storeMenuListToStoreMenuDTOList( storeCategory.getStoreMenus() ) );
-
-        return storeCategoryDTO.build();
     }
 
     protected List<StoreCategoryDTO> storeCategoryListToStoreCategoryDTOList(List<StoreCategory> list) {
