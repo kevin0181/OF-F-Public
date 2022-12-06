@@ -65,8 +65,12 @@ public class StoreService {
         if (user == null)
             throw new StoreException(StoreExceptionEnum.DOES_NO_EXIT_USER); //존재하지 않는 회원
 
-        if (user.getStores().size() != 0)
+        if (user.getStores().size() != 0) {
+            if (user.getStores().get(0).getStatus() == 5) {
+                throw new StoreException(StoreExceptionEnum.CHECK_STORE_STATUS); //이미 존재하는 가게
+            }
             throw new StoreException(StoreExceptionEnum.ALREADY_EXIST_STORE); //이미 존재하는 가게
+        }
 
         try {
 
