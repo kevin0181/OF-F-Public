@@ -3,9 +3,7 @@ package of_f.of_f_spring.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import of_f.of_f_spring.config.jwt.TokenInfo;
 import of_f.of_f_spring.domain.entity.user.EmailToken;
-import of_f.of_f_spring.dto.user.ChangeUserDTO;
-import of_f.of_f_spring.dto.user.UserLoginDTO;
-import of_f.of_f_spring.dto.user.UserSignInDTO;
+import of_f.of_f_spring.dto.user.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -170,5 +168,65 @@ public class UserControllerTest {
 
     }
 
+    @Order(7)
+    @Test
+    @DisplayName("이메일 찾기")
+    public void 이메일_찾기() throws Exception {
+
+        FindUserEmailDTO findUserEmailDTO = FindUserEmailDTO.builder()
+                .phoneNumber("01000000001")
+                .name("변경된이름")
+                .build();
+
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "/n/find/email")
+                        .content(objectMapper.writeValueAsString(findUserEmailDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+
+    }
+
+    @Order(8)
+    @Test
+    @DisplayName("비밀번호 찾기 (이메일 발송)")
+    public void 비밀번호_찾기() throws Exception {
+
+        FindUserPasswordDTO findUserPasswordDTO = FindUserPasswordDTO.builder()
+                .email("kevin0181@naver.com")
+                .build();
+
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "/n/find/password")
+                        .content(objectMapper.writeValueAsString(findUserPasswordDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+
+    }
+
+    @Order(9)
+    @Test
+    @DisplayName("비밀번호 찾기 (실질적인 변경)")
+    public void 비밀번호_변경() throws Exception {
+
+        UserLoginDTO userLoginDTO = UserLoginDTO.builder()
+                .email("test1@test1.com")
+                .password("test1234@").build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "/n/find/password/check/token")
+                        .param("emailToken", "ocKJWC6DhMgDdRwIRuSn")
+                        .content(objectMapper.writeValueAsString(userLoginDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+
+    }
 
 }
