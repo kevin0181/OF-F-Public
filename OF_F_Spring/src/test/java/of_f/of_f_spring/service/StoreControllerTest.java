@@ -5,6 +5,7 @@ import of_f.of_f_spring.config.jwt.TokenInfo;
 import of_f.of_f_spring.domain.entity.user.EmailToken;
 import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
+import of_f.of_f_spring.dto.store.menu.StoreMenuDTO;
 import of_f.of_f_spring.dto.user.ChangeUserDTO;
 import of_f.of_f_spring.dto.user.UserLoginDTO;
 import org.json.JSONArray;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -89,7 +91,7 @@ public class StoreControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(BASE_URL + "/app/req")
-                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
                         .content(objectMapper.writeValueAsString(storeDTO))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -138,7 +140,7 @@ public class StoreControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/v1/admin/user/role")
-                        .header("Authorization", adminToken.getGrantType() + " " + adminToken.getRefreshToken())
+                        .header("Authorization", adminToken.getGrantType() + " " + adminToken.getAccessToken())
                         .param("email", "test1@test1.com")
                         .param("roleId", "3")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -154,7 +156,7 @@ public class StoreControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/v1/admin/app/res")
-                        .header("Authorization", adminToken.getGrantType() + " " + adminToken.getRefreshToken())
+                        .header("Authorization", adminToken.getGrantType() + " " + adminToken.getAccessToken())
                         .param("storeId", String.valueOf(storeSeq))
                         .param("status", "0")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -170,7 +172,7 @@ public class StoreControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get(BASE_URL + "/admin")
-                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", is(200)))
@@ -197,7 +199,7 @@ public class StoreControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(BASE_URL + "/admin/category")
-                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
                         .param("status", "insert")
                         .content(objectMapper.writeValueAsString(storeCategoryDTO))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -225,7 +227,7 @@ public class StoreControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(BASE_URL + "/admin/category")
-                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
                         .param("status", "update")
                         .content(objectMapper.writeValueAsString(storeCategoryDTO))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -251,10 +253,34 @@ public class StoreControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(BASE_URL + "/admin/category")
-                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
                         .param("status", "delete")
                         .content(objectMapper.writeValueAsString(storeCategoryDTO))
                         .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
+
+    @Order(9)
+    @Test
+    @DisplayName("가맹점 메뉴 추가(이미지 제외)")
+    public void 가맹점_메뉴_추가() throws Exception {
+
+        MockMultipartFile jsonFile = new MockMultipartFile("menu", "", "application/json", ("{\n" +
+                "    \"storeCategorySeq\":\"1\",\n" +
+                "    \"name\":\"1\",\n" +
+                "    \"price\":\"1\",\n" +
+                "    \"status\":\"false\"\n" +
+                "}").getBytes());
+
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .multipart(BASE_URL + "/admin/menu")
+                        .file(jsonFile)
+                        .param("status", "insert")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", is(200)))
                 .andDo(print());

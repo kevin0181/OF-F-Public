@@ -54,7 +54,7 @@ public class StoreController {
 
     @PostMapping("/admin/menu")
     public ApiResponseDTO menu(@RequestParam String status,
-                               @RequestPart(value = "menu") @Valid StoreMenuDTO storeMenuDTO,
+                               @RequestPart(value = "menu",required = false) @Valid StoreMenuDTO storeMenuDTO,
                                @RequestPart(value = "img", required = false) List<MultipartFile> imgFile,
                                Principal principal) {
         switch (status) {
