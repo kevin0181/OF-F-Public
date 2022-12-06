@@ -1,9 +1,7 @@
 package of_f.of_f_spring.domain.entity.user;
 
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -14,6 +12,8 @@ import javax.validation.constraints.Pattern;
 @Getter
 @Builder
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @RedisHash(value = "emailToken", timeToLive = 6000)
 public class EmailToken {
     @Id

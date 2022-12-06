@@ -3,6 +3,7 @@ package of_f.of_f_spring.service.store;
 import lombok.extern.slf4j.Slf4j;
 import of_f.of_f_spring.domain.entity.store.Store;
 import of_f.of_f_spring.domain.entity.store.menu.StoreCategory;
+import of_f.of_f_spring.domain.entity.store.menu.StoreMS;
 import of_f.of_f_spring.domain.entity.store.menu.StoreMenu;
 import of_f.of_f_spring.domain.entity.store.menu.StoreMenuImg;
 import of_f.of_f_spring.domain.entity.user.User;
@@ -29,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -63,8 +65,12 @@ public class StoreService {
         if (user == null)
             throw new StoreException(StoreExceptionEnum.DOES_NO_EXIT_USER); //존재하지 않는 회원
 
-        if (user.getStores().size() != 0)
+        if (user.getStores().size() != 0) {
+            if (user.getStores().get(0).getStatus() == 5) {
+                throw new StoreException(StoreExceptionEnum.CHECK_STORE_STATUS); //이미 존재하는 가게
+            }
             throw new StoreException(StoreExceptionEnum.ALREADY_EXIST_STORE); //이미 존재하는 가게
+        }
 
         try {
 
@@ -73,7 +79,7 @@ public class StoreService {
 
             Store store = StoreMapper.instance.storeDTOTOStore(storeDTO);
 
-            storeRepository.save(store);
+            storeDTO = StoreMapper.instance.storeToStoreDTO(storeRepository.save(store));
 
         } catch (DataIntegrityViolationException | ConstraintViolationException e) {
             log.error(String.valueOf(e));
@@ -86,6 +92,7 @@ public class StoreService {
         return ApiResponseDTO.builder()
                 .message("가맹점 신청 성공")
                 .detail("가맹점 신청이 완료되었습니다. 7일 이내 번호 연락 예정")
+                .data(storeDTO)
                 .build();
     }
 
@@ -193,8 +200,9 @@ public class StoreService {
                     return ApiResponseDTO.builder()
                             .message("카테고리 수정")
                             .detail("카테고리를 수정했습니다.")
-                            .data(storeCategoryRepository.save(storeCategoryList.get(i)))
+                            .data(StoreMapper.instance.storeCategoryToStoreCategoryDTO(storeCategoryRepository.save(storeCategoryList.get(i))))
                             .build();
+
                 }
             }
             throw new StoreException(StoreExceptionEnum.FAIL_UPDATE_CATEGORY);
@@ -252,31 +260,29 @@ public class StoreService {
 
     @Transactional
     public ApiResponseDTO saveMenu(StoreMenuDTO storeMenuDTO, List<MultipartFile> imgFile, Principal principal) {
+
         StoreCategory storeCategory = storeCategoryRepository.findById(storeMenuDTO.getStoreCategorySeq()).orElse(null);
 
-        if (storeCategory == null)
-            throw new StoreException(StoreExceptionEnum.DOES_NOT_EXIST_CATEGORY); //존재하지 않은 카테고리
-
-
-        if (!storeCategory.getStore().getUser().getEmail().equals(principal.getName()))
-            throw new ApiException(ExceptionEnum.AUTHORIZATION_FAILED_REQUEST); //허용되지 않은 접근
-
-        Store store = storeCategory.getStore();
-        store.checkStoreStatus(store.getStatus()); // 가맹점 상태 체크
+        try {
+            checkMenu(storeMenuDTO, principal, storeCategory.getStore()); // request 상태 체크
+        } catch (NullPointerException e) {
+            throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_BY_INFO); //존재하지 않는 정보
+        }
 
         List<StoreMenuImg> storeMenuImgs = null;
-        if (!imgFile.isEmpty())
+
+        if (imgFile != null) // 이미지가 존재하는 경우
             storeMenuImgs = imgService.saveMenuImg(imgFile);
 
-        StoreMenu storeMenu = StoreMapper.instance.storeDTOToStoreMenuDTO(storeMenuDTO);
+        StoreMenu storeMenu = StoreMapper.instance.storeMenuToStoreMenuDTO(storeMenuDTO);
 
         storeMenu.setStoreMenuImgs(storeMenuImgs);
 
-//        try {
-        storeMenu = storeMenuRepository.save(storeMenu);
-//        } catch (Exception e) {
-//            throw new StoreException(StoreExceptionEnum.CAN_NOT_SAVE_MENU);
-//        }
+        try {
+            storeMenu = storeMenuRepository.save(storeMenu);
+        } catch (Exception e) {
+            throw new StoreException(StoreExceptionEnum.CAN_NOT_SAVE_MENU);
+        }
 
 
         return ApiResponseDTO.builder()
@@ -285,5 +291,94 @@ public class StoreService {
                 .data(storeMenu)
                 .build();
     }
+
+    @Transactional
+    public ApiResponseDTO updateMenu(StoreMenuDTO storeMenuDTO, Principal principal) {
+
+        StoreMenu storeMenu = storeMenuRepository.findById(storeMenuDTO.getSeq()).get();
+
+        try {
+            checkMenu(storeMenuDTO, principal, storeMenu.getStoreCategory().getStore()); // request 상태 체크
+        } catch (NullPointerException e) {
+            throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_BY_INFO); //존재하지 않는 정보
+        }
+
+        if (storeMenu == null)
+            throw new StoreException(StoreExceptionEnum.DOES_NOT_EXIST_MENU);
+
+        List<StoreMS> storeMSs = new ArrayList<>();
+
+        if (storeMenuDTO.getStoreMSs() != null)
+            storeMSs = StoreMapper.instance.storeMSDTOToStoreMS(storeMenuDTO.getStoreMSs());
+
+        try {
+
+            storeMenu = storeMenuRepository.save(StoreMenu.builder()
+                    .seq(storeMenuDTO.getSeq())
+                    .price(storeMenuDTO.getPrice())
+                    .name(storeMenuDTO.getName())
+                    .status(storeMenuDTO.isStatus())
+                    .storeMSs(storeMSs)
+                    .storeCategorySeq(storeMenuDTO.getStoreCategorySeq())
+                    .soldOutStatus(storeMenuDTO.isSoldOutStatus())
+                    .storeMenuImgs(storeMenu.getStoreMenuImgs())
+                    .build());
+
+        } catch (Exception e) {
+            throw new StoreException(StoreExceptionEnum.CAN_NOT_UPDATE_MENU);
+        }
+
+        StoreMenuDTO resStoreMenuUpdate = StoreMapper.instance.storeMenuToStoreMenuDTO(storeMenu);
+
+
+        return ApiResponseDTO.builder()
+                .message("메뉴 수정")
+                .detail("메뉴를 수정했습니다.")
+                .data(resStoreMenuUpdate)
+                .build();
+    }
+
+    @Transactional
+    public ApiResponseDTO deleteMenu(StoreMenuDTO storeMenuDTO, Principal principal) {
+
+        StoreMenu storeMenu = storeMenuRepository.findById(storeMenuDTO.getSeq()).orElse(null);
+
+        try {
+            checkMenu(storeMenuDTO, principal, storeMenu.getStoreCategory().getStore()); // request 상태 체크
+            storeMenuRepository.deleteById(storeMenu.getSeq());
+        } catch (NullPointerException e) {
+            throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_BY_INFO); //존재하지 않는 정보
+        } catch (Exception e) {
+            throw new StoreException(StoreExceptionEnum.CAN_NOT_DELETE_MENU); //메뉴 삭제 실패
+        }
+
+        return ApiResponseDTO.builder()
+                .message("메뉴 삭제")
+                .detail("메뉴를 삭제했습니다.")
+                .data(true)
+                .build();
+    }
+
+    private Store checkMenu(StoreMenuDTO storeMenuDTO, Principal principal, Store store) {
+
+        StoreCategory storeCategory = null;
+
+        for (int i = 0; i < store.getStoreCategories().size(); i++) {
+            if (storeMenuDTO.getStoreCategorySeq() == store.getStoreCategories().get(i).getSeq())
+                storeCategory = store.getStoreCategories().get(i);
+        }
+
+        if (storeCategory == null)
+            throw new StoreException(StoreExceptionEnum.DOES_NOT_EXIST_CATEGORY); //존재하지 않은 카테고리
+
+        if (!storeCategory.getStore().getUser().getEmail().equals(principal.getName()))
+            throw new ApiException(ExceptionEnum.AUTHORIZATION_FAILED_REQUEST); //허용되지 않은 접근
+
+        store.checkStoreStatus(store.getStatus()); // 가맹점 상태 체크
+
+
+        return store;
+    }
+
 
 }

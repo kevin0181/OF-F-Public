@@ -1,7 +1,6 @@
 package of_f.of_f_spring.domain.entity.store.menu;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import of_f.of_f_spring.domain.entity.store.order.StoreOrderMenu;
 
 import javax.persistence.*;
@@ -9,6 +8,9 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "Store_Menu")
 public class StoreMenu {
     @Id

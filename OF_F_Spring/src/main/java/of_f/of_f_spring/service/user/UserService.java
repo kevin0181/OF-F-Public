@@ -19,6 +19,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.security.Principal;
@@ -183,6 +184,7 @@ public class UserService {
     }
 
 
+    @Transactional
     public ApiResponseDTO changeUser(ChangeUserDTO changeUserDTO, Principal principal) {
         User user = userRepository.findByEmail(principal.getName());
         if (user == null)

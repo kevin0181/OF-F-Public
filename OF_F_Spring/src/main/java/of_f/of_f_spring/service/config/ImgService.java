@@ -55,7 +55,7 @@ public class ImgService {
                 fileList.transferTo(new File(savedPath));
 
                 storeMenuImgs.add(StoreMenuImg.builder()
-                        .name(origName)
+                        .name(savedName)
                         .date(nowDate())
                         .url(savedPath)
                         .extension(extension)
@@ -77,4 +77,6 @@ public class ImgService {
         return simpleDateFormat.format(new Date());
     }
 
+    public void deleteAndUpdateImg(StoreMenuDTO storeMenuDTO, List<MultipartFile> imgFile) {
+    }
 }

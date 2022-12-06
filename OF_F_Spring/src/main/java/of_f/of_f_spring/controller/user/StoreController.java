@@ -28,7 +28,7 @@ public class StoreController {
         return storeService.applicationNewStore(storeDTO, principal);
     }
 
-    @GetMapping("/admin") // 가맹점 정보 (관리자용)
+    @GetMapping("/admin") // 가맹점 정보 (가맹점 관리자용)
     public ApiResponseDTO getStoreInfo(Principal principal) {
         return storeService.getStoreInfoAdmin(principal);
     }
@@ -55,13 +55,15 @@ public class StoreController {
     @PostMapping("/admin/menu")
     public ApiResponseDTO menu(@RequestParam String status,
                                @RequestPart(value = "menu") @Valid StoreMenuDTO storeMenuDTO,
-                               @RequestPart(value = "img") List<MultipartFile> imgFile,
+                               @RequestPart(value = "img", required = false) List<MultipartFile> imgFile,
                                Principal principal) {
         switch (status) {
             case "insert":
                 return storeService.saveMenu(storeMenuDTO, imgFile, principal);
             case "update":
+                return storeService.updateMenu(storeMenuDTO, principal); // 이미지 제외, 업데이트
             case "delete":
+                return storeService.deleteMenu(storeMenuDTO, principal);
         }
 
         throw new ApiException(ExceptionEnum.INVALID_PARAMS);

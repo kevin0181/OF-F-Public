@@ -1,7 +1,6 @@
 package of_f.of_f_spring.dto.user;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -11,6 +10,9 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class FindUserEmailDTO {
 
     @NotNull
