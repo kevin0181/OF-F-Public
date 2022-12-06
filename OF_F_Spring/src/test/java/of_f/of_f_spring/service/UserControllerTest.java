@@ -2,6 +2,7 @@ package of_f.of_f_spring.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import of_f.of_f_spring.domain.entity.user.EmailToken;
+import of_f.of_f_spring.dto.user.UserLoginDTO;
 import of_f.of_f_spring.dto.user.UserSignInDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.hamcrest.core.Is.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -38,6 +41,7 @@ public class UserControllerTest {
                         .content(objectMapper.writeValueAsString(emailToken))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
                 .andDo(print()); // test 응답 결과에 대한 모든 내용 출력
     }
 
@@ -58,11 +62,31 @@ public class UserControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(BASE_URL + "/n/signIn")
-                        .param("emailToken", "CFnAx2jkJ3oZ547080yR")
+                        .param("emailToken", "WIBO1F0Vkq26bQNXBBka")
                         .content(objectMapper.writeValueAsString(userSignInDTO))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
                 .andDo(print()); // test 응답 결과에 대한 모든 내용 출력
     }
+
+    @Test
+    @DisplayName("로그인")
+    public void 로그인() throws Exception {
+
+        UserLoginDTO userLoginDTO = UserLoginDTO.builder()
+                .email("test1@test1.com")
+                .password("test1234@")
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "/n/login")
+                        .content(objectMapper.writeValueAsString(userLoginDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print()); // test 응답 결과에 대한 모든 내용 출력
+    }
+
 
 }
