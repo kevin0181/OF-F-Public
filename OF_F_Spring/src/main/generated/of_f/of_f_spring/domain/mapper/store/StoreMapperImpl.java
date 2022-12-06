@@ -40,7 +40,7 @@ import of_f.of_f_spring.dto.store.order.StoreOrderVanInfoDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-06T15:28:44+0900",
+    date = "2022-12-06T16:36:12+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class StoreMapperImpl implements StoreMapper {
@@ -143,6 +143,35 @@ public class StoreMapperImpl implements StoreMapper {
         storeMenuDTO.setStoreMSs( storeMSListToStoreMSDTOList( storeMenu.getStoreMSs() ) );
 
         return storeMenuDTO;
+    }
+
+    @Override
+    public StoreDTO storeToStoreDTO(Store store) {
+        if ( store == null ) {
+            return null;
+        }
+
+        StoreDTO.StoreDTOBuilder storeDTO = StoreDTO.builder();
+
+        storeDTO.seq( store.getSeq() );
+        storeDTO.userSeq( store.getUserSeq() );
+        storeDTO.name( store.getName() );
+        storeDTO.businessNumber( store.getBusinessNumber() );
+        storeDTO.address( store.getAddress() );
+        storeDTO.detailAddress( store.getDetailAddress() );
+        storeDTO.accountBankName( store.getAccountBankName() );
+        storeDTO.accountNumber( store.getAccountNumber() );
+        storeDTO.depositDate( store.getDepositDate() );
+        storeDTO.businessPhoneNumber( store.getBusinessPhoneNumber() );
+        storeDTO.openDate( store.getOpenDate() );
+        storeDTO.status( store.getStatus() );
+        storeDTO.qrStoreInfo( qRStoreInfoToQRStoreInfoDTO( store.getQrStoreInfo() ) );
+        storeDTO.storePgSettings( storePgSettingListToStorePgSettingDTOList( store.getStorePgSettings() ) );
+        storeDTO.storeVanSettings( storeVanSettingListToStoreVanSettingDTOList( store.getStoreVanSettings() ) );
+        storeDTO.storeCategories( storeCategoryListToStoreCategoryDTOList( store.getStoreCategories() ) );
+        storeDTO.storeOrders( storeOrderListToStoreOrderDTOList( store.getStoreOrders() ) );
+
+        return storeDTO.build();
     }
 
     protected QRStoreInfo qRStoreInfoDTOToQRStoreInfo(QRStoreInfoDTO qRStoreInfoDTO) {
@@ -652,6 +681,279 @@ public class StoreMapperImpl implements StoreMapper {
         List<StoreMSDTO> list1 = new ArrayList<StoreMSDTO>( list.size() );
         for ( StoreMS storeMS : list ) {
             list1.add( storeMSToStoreMSDTO( storeMS ) );
+        }
+
+        return list1;
+    }
+
+    protected QRStoreInfoDTO qRStoreInfoToQRStoreInfoDTO(QRStoreInfo qRStoreInfo) {
+        if ( qRStoreInfo == null ) {
+            return null;
+        }
+
+        QRStoreInfoDTO qRStoreInfoDTO = new QRStoreInfoDTO();
+
+        qRStoreInfoDTO.setSeq( qRStoreInfo.getSeq() );
+        qRStoreInfoDTO.setStoreSeq( qRStoreInfo.getStoreSeq() );
+        qRStoreInfoDTO.setQrSubscribeSeq( qRStoreInfo.getQrSubscribeSeq() );
+        qRStoreInfoDTO.setQrSize( qRStoreInfo.getQrSize() );
+        qRStoreInfoDTO.setQrPayMoney( qRStoreInfo.getQrPayMoney() );
+        qRStoreInfoDTO.setQrPayStatus( qRStoreInfo.getQrPayStatus() );
+        qRStoreInfoDTO.setQrPayDate( qRStoreInfo.getQrPayDate() );
+
+        return qRStoreInfoDTO;
+    }
+
+    protected StorePgSettingDTO storePgSettingToStorePgSettingDTO(StorePgSetting storePgSetting) {
+        if ( storePgSetting == null ) {
+            return null;
+        }
+
+        StorePgSettingDTO storePgSettingDTO = new StorePgSettingDTO();
+
+        storePgSettingDTO.setSeq( storePgSetting.getSeq() );
+        storePgSettingDTO.setStoreSeq( storePgSetting.getStoreSeq() );
+        storePgSettingDTO.setName( storePgSetting.getName() );
+        storePgSettingDTO.setValue( storePgSetting.getValue() );
+
+        return storePgSettingDTO;
+    }
+
+    protected List<StorePgSettingDTO> storePgSettingListToStorePgSettingDTOList(List<StorePgSetting> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<StorePgSettingDTO> list1 = new ArrayList<StorePgSettingDTO>( list.size() );
+        for ( StorePgSetting storePgSetting : list ) {
+            list1.add( storePgSettingToStorePgSettingDTO( storePgSetting ) );
+        }
+
+        return list1;
+    }
+
+    protected StoreVanSettingDTO storeVanSettingToStoreVanSettingDTO(StoreVanSetting storeVanSetting) {
+        if ( storeVanSetting == null ) {
+            return null;
+        }
+
+        StoreVanSettingDTO storeVanSettingDTO = new StoreVanSettingDTO();
+
+        storeVanSettingDTO.setSeq( storeVanSetting.getSeq() );
+        storeVanSettingDTO.setStoreSeq( storeVanSetting.getStoreSeq() );
+        storeVanSettingDTO.setName( storeVanSetting.getName() );
+        storeVanSettingDTO.setValue( storeVanSetting.getValue() );
+
+        return storeVanSettingDTO;
+    }
+
+    protected List<StoreVanSettingDTO> storeVanSettingListToStoreVanSettingDTOList(List<StoreVanSetting> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<StoreVanSettingDTO> list1 = new ArrayList<StoreVanSettingDTO>( list.size() );
+        for ( StoreVanSetting storeVanSetting : list ) {
+            list1.add( storeVanSettingToStoreVanSettingDTO( storeVanSetting ) );
+        }
+
+        return list1;
+    }
+
+    protected List<StoreMenuDTO> storeMenuListToStoreMenuDTOList(List<StoreMenu> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<StoreMenuDTO> list1 = new ArrayList<StoreMenuDTO>( list.size() );
+        for ( StoreMenu storeMenu : list ) {
+            list1.add( storeMenuToStoreMenuDTO( storeMenu ) );
+        }
+
+        return list1;
+    }
+
+    protected StoreCategoryDTO storeCategoryToStoreCategoryDTO(StoreCategory storeCategory) {
+        if ( storeCategory == null ) {
+            return null;
+        }
+
+        StoreCategoryDTO storeCategoryDTO = new StoreCategoryDTO();
+
+        storeCategoryDTO.setSeq( storeCategory.getSeq() );
+        storeCategoryDTO.setStoreSeq( storeCategory.getStoreSeq() );
+        storeCategoryDTO.setName( storeCategory.getName() );
+        storeCategoryDTO.setStatus( storeCategory.isStatus() );
+        storeCategoryDTO.setStoreMenus( storeMenuListToStoreMenuDTOList( storeCategory.getStoreMenus() ) );
+
+        return storeCategoryDTO;
+    }
+
+    protected List<StoreCategoryDTO> storeCategoryListToStoreCategoryDTOList(List<StoreCategory> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<StoreCategoryDTO> list1 = new ArrayList<StoreCategoryDTO>( list.size() );
+        for ( StoreCategory storeCategory : list ) {
+            list1.add( storeCategoryToStoreCategoryDTO( storeCategory ) );
+        }
+
+        return list1;
+    }
+
+    protected OrderUserDTO userToOrderUserDTO(User user) {
+        if ( user == null ) {
+            return null;
+        }
+
+        OrderUserDTO.OrderUserDTOBuilder orderUserDTO = OrderUserDTO.builder();
+
+        orderUserDTO.seq( user.getSeq() );
+        orderUserDTO.email( user.getEmail() );
+        orderUserDTO.name( user.getName() );
+        orderUserDTO.phoneNumber( user.getPhoneNumber() );
+        orderUserDTO.userStatus( user.getUserStatus() );
+        orderUserDTO.emailReceiveStatus( user.isEmailReceiveStatus() );
+        orderUserDTO.phoneNumberReceiveStatus( user.isPhoneNumberReceiveStatus() );
+        orderUserDTO.createTime( user.getCreateTime() );
+
+        return orderUserDTO.build();
+    }
+
+    protected StoreOrderPgInfoDTO storeOrderPgInfoToStoreOrderPgInfoDTO(StoreOrderPgInfo storeOrderPgInfo) {
+        if ( storeOrderPgInfo == null ) {
+            return null;
+        }
+
+        StoreOrderPgInfoDTO storeOrderPgInfoDTO = new StoreOrderPgInfoDTO();
+
+        storeOrderPgInfoDTO.setSeq( storeOrderPgInfo.getSeq() );
+        storeOrderPgInfoDTO.setStoreOrderSeq( storeOrderPgInfo.getStoreOrderSeq() );
+        storeOrderPgInfoDTO.setImpUid( storeOrderPgInfo.getImpUid() );
+        storeOrderPgInfoDTO.setMerchantUid( storeOrderPgInfo.getMerchantUid() );
+
+        return storeOrderPgInfoDTO;
+    }
+
+    protected StoreOrderVanInfoDTO storeOrderVanInfoToStoreOrderVanInfoDTO(StoreOrderVanInfo storeOrderVanInfo) {
+        if ( storeOrderVanInfo == null ) {
+            return null;
+        }
+
+        StoreOrderVanInfoDTO storeOrderVanInfoDTO = new StoreOrderVanInfoDTO();
+
+        storeOrderVanInfoDTO.setSeq( storeOrderVanInfo.getSeq() );
+        storeOrderVanInfoDTO.setStoreOrderSeq( storeOrderVanInfo.getStoreOrderSeq() );
+        storeOrderVanInfoDTO.setTelegramNo( storeOrderVanInfo.getTelegramNo() );
+        storeOrderVanInfoDTO.setTradeTime( storeOrderVanInfo.getTradeTime() );
+        storeOrderVanInfoDTO.setApprovalNo( storeOrderVanInfo.getApprovalNo() );
+        storeOrderVanInfoDTO.setTradeUniqueNo( storeOrderVanInfo.getTradeUniqueNo() );
+        storeOrderVanInfoDTO.setCardKind( storeOrderVanInfo.getCardKind() );
+        storeOrderVanInfoDTO.setCardNumber( storeOrderVanInfo.getCardNumber() );
+        storeOrderVanInfoDTO.setDate( storeOrderVanInfo.getDate() );
+
+        return storeOrderVanInfoDTO;
+    }
+
+    protected StoreOrderSideDTO storeOrderSideToStoreOrderSideDTO(StoreOrderSide storeOrderSide) {
+        if ( storeOrderSide == null ) {
+            return null;
+        }
+
+        StoreOrderSideDTO storeOrderSideDTO = new StoreOrderSideDTO();
+
+        storeOrderSideDTO.setSeq( storeOrderSide.getSeq() );
+        storeOrderSideDTO.setStoreSideMenuSeq( storeOrderSide.getStoreSideMenuSeq() );
+        storeOrderSideDTO.setStoreOrderMenuSeq( storeOrderSide.getStoreOrderMenuSeq() );
+        storeOrderSideDTO.setSize( storeOrderSide.getSize() );
+        storeOrderSideDTO.setStoreSideMenu( storeSideMenuToStoreSideMenuDTO( storeOrderSide.getStoreSideMenu() ) );
+
+        return storeOrderSideDTO;
+    }
+
+    protected List<StoreOrderSideDTO> storeOrderSideListToStoreOrderSideDTOList(List<StoreOrderSide> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<StoreOrderSideDTO> list1 = new ArrayList<StoreOrderSideDTO>( list.size() );
+        for ( StoreOrderSide storeOrderSide : list ) {
+            list1.add( storeOrderSideToStoreOrderSideDTO( storeOrderSide ) );
+        }
+
+        return list1;
+    }
+
+    protected StoreOrderMenuDTO storeOrderMenuToStoreOrderMenuDTO(StoreOrderMenu storeOrderMenu) {
+        if ( storeOrderMenu == null ) {
+            return null;
+        }
+
+        StoreOrderMenuDTO storeOrderMenuDTO = new StoreOrderMenuDTO();
+
+        storeOrderMenuDTO.setSeq( storeOrderMenu.getSeq() );
+        storeOrderMenuDTO.setStoreMenuSeq( storeOrderMenu.getStoreMenuSeq() );
+        storeOrderMenuDTO.setStoreOrderSeq( storeOrderMenu.getStoreOrderSeq() );
+        storeOrderMenuDTO.setSize( storeOrderMenu.getSize() );
+        storeOrderMenuDTO.setStoreOrderSides( storeOrderSideListToStoreOrderSideDTOList( storeOrderMenu.getStoreOrderSides() ) );
+        storeOrderMenuDTO.setStoreMenu( storeMenuToStoreMenuDTO( storeOrderMenu.getStoreMenu() ) );
+
+        return storeOrderMenuDTO;
+    }
+
+    protected List<StoreOrderMenuDTO> storeOrderMenuListToStoreOrderMenuDTOList(List<StoreOrderMenu> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<StoreOrderMenuDTO> list1 = new ArrayList<StoreOrderMenuDTO>( list.size() );
+        for ( StoreOrderMenu storeOrderMenu : list ) {
+            list1.add( storeOrderMenuToStoreOrderMenuDTO( storeOrderMenu ) );
+        }
+
+        return list1;
+    }
+
+    protected StoreOrderDTO storeOrderToStoreOrderDTO(StoreOrder storeOrder) {
+        if ( storeOrder == null ) {
+            return null;
+        }
+
+        StoreOrderDTO storeOrderDTO = new StoreOrderDTO();
+
+        storeOrderDTO.setSeq( storeOrder.getSeq() );
+        storeOrderDTO.setStoreSeq( storeOrder.getStoreSeq() );
+        storeOrderDTO.setUserSeq( storeOrder.getUserSeq() );
+        storeOrderDTO.setId( storeOrder.getId() );
+        storeOrderDTO.setKind( storeOrder.getKind() );
+        storeOrderDTO.setOrderNumber( storeOrder.getOrderNumber() );
+        storeOrderDTO.setTotalPrice( storeOrder.getTotalPrice() );
+        storeOrderDTO.setCancelAfterPrice( storeOrder.getCancelAfterPrice() );
+        storeOrderDTO.setDate( storeOrder.getDate() );
+        storeOrderDTO.setPlace( storeOrder.getPlace() );
+        storeOrderDTO.setStatus( storeOrder.getStatus() );
+        storeOrderDTO.setPayStatus( storeOrder.getPayStatus() );
+        storeOrderDTO.setPhoneNumber( storeOrder.getPhoneNumber() );
+        storeOrderDTO.setEmail( storeOrder.getEmail() );
+        storeOrderDTO.setEmailReceiveStatus( storeOrder.isEmailReceiveStatus() );
+        storeOrderDTO.setPhoneNumberReceiveStatus( storeOrder.isPhoneNumberReceiveStatus() );
+        storeOrderDTO.setUser( userToOrderUserDTO( storeOrder.getUser() ) );
+        storeOrderDTO.setStoreOrderPgInfo( storeOrderPgInfoToStoreOrderPgInfoDTO( storeOrder.getStoreOrderPgInfo() ) );
+        storeOrderDTO.setStoreOrderVanInfo( storeOrderVanInfoToStoreOrderVanInfoDTO( storeOrder.getStoreOrderVanInfo() ) );
+        storeOrderDTO.setStoreOrderMenus( storeOrderMenuListToStoreOrderMenuDTOList( storeOrder.getStoreOrderMenus() ) );
+
+        return storeOrderDTO;
+    }
+
+    protected List<StoreOrderDTO> storeOrderListToStoreOrderDTOList(List<StoreOrder> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<StoreOrderDTO> list1 = new ArrayList<StoreOrderDTO>( list.size() );
+        for ( StoreOrder storeOrder : list ) {
+            list1.add( storeOrderToStoreOrderDTO( storeOrder ) );
         }
 
         return list1;

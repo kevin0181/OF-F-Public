@@ -28,4 +28,6 @@ public interface StoreMapper {
 
     StoreMenuDTO storeMenuToStoreMenuDTO(StoreMenu storeMenu);
 
+    StoreDTO storeToStoreDTO(Store store);
+
 }

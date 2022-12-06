@@ -64,10 +64,18 @@ public class UserControllerTest {
                 .emailReceiveStatus(true)
                 .phoneNumberReceiveStatus(true)
                 .build();
+//                .email("kevin0181@naver.com")
+//                .password("kevin1141@")
+//                .rePassword("kevin1141@")
+//                .name("관리자")
+//                .phoneNumber("01012341234")
+//                .emailReceiveStatus(true)
+//                .phoneNumberReceiveStatus(true)
+//                .build();
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(BASE_URL + "/n/signIn")
-                        .param("emailToken", "1BUiX6va0j2Sfq93CreN")
+                        .param("emailToken", "h9x51KGZ6k18b022DWSf")
                         .content(objectMapper.writeValueAsString(userSignInDTO))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

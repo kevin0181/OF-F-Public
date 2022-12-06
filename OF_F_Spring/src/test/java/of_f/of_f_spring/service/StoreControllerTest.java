@@ -63,6 +63,8 @@ public class StoreControllerTest {
                 .andDo(print()); // test 응답 결과에 대한 모든 내용 출력
     }
 
+    Long storeSeq = null;
+
     @Order(2)
     @Test
     @DisplayName("가맹점 신청")
@@ -81,6 +83,57 @@ public class StoreControllerTest {
                         .post(BASE_URL + "/app/req")
                         .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
                         .content(objectMapper.writeValueAsString(storeDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(result -> {
+                    JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
+                    jsonObject = new JSONObject(jsonObject.getString("data"));
+                    storeSeq = jsonObject.getLong("seq");
+                })
+                .andDo(print());
+    }
+
+    TokenInfo adminToken = null;
+
+    @Order(3)
+    @Test
+    @DisplayName("최고 관리자 로그인")
+    public void 최고_관리자_로그인() throws Exception {
+
+        UserLoginDTO userLoginDTO = UserLoginDTO.builder()
+                .email("kevin0181@naver.com")
+                .password("kevin1141@")
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/v1/auth/n/login")
+                        .content(objectMapper.writeValueAsString(userLoginDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(result -> {
+                    JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
+                    jsonObject = new JSONObject(jsonObject.getString("data"));
+                    adminToken = TokenInfo.builder()
+                            .grantType(jsonObject.getString("grantType"))
+                            .accessToken(jsonObject.getString("accessToken"))
+                            .refreshToken(jsonObject.getString("refreshToken"))
+                            .build();
+                })
+                .andDo(print()); // test 응답 결과에 대한 모든 내용 출력
+    }
+
+    @Order(4)
+    @Test
+    @DisplayName("가맹점 신청 응답 (승인)")
+    public void 가맹점_신청_응답() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/v1/admin/app/res")
+                        .header("Authorization", adminToken.getGrantType() + " " + adminToken.getRefreshToken())
+                        .param("storeId", String.valueOf(storeSeq))
+                        .param("status", "0")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", is(200)))

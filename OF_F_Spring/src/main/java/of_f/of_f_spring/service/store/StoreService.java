@@ -79,7 +79,7 @@ public class StoreService {
 
             Store store = StoreMapper.instance.storeDTOTOStore(storeDTO);
 
-            storeRepository.save(store);
+            storeDTO = StoreMapper.instance.storeToStoreDTO(storeRepository.save(store));
 
         } catch (DataIntegrityViolationException | ConstraintViolationException e) {
             log.error(String.valueOf(e));
@@ -92,6 +92,7 @@ public class StoreService {
         return ApiResponseDTO.builder()
                 .message("가맹점 신청 성공")
                 .detail("가맹점 신청이 완료되었습니다. 7일 이내 번호 연락 예정")
+                .data(storeDTO)
                 .build();
     }
 
