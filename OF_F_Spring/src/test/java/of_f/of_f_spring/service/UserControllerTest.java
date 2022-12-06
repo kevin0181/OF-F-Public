@@ -1,11 +1,11 @@
 package of_f.of_f_spring.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import of_f.of_f_spring.config.jwt.TokenInfo;
 import of_f.of_f_spring.domain.entity.user.EmailToken;
 import of_f.of_f_spring.dto.user.UserLoginDTO;
 import of_f.of_f_spring.dto.user.UserSignInDTO;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,8 +18,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.json.JSONObject;
+
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS) // 변수 값 공유할 수 있게.
 public class UserControllerTest {
 
     @Autowired
@@ -28,6 +32,7 @@ public class UserControllerTest {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
+    @Order(1)
     @Test
     @DisplayName("이메일 인증 토큰 보내기")
     public void 이메일_인증토큰_전송() throws Exception {
@@ -46,6 +51,7 @@ public class UserControllerTest {
     }
 
 
+    @Order(2)
     @Test
     @DisplayName("회원가입")
     public void 회원가입() throws Exception {
@@ -62,7 +68,7 @@ public class UserControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(BASE_URL + "/n/signIn")
-                        .param("emailToken", "WIBO1F0Vkq26bQNXBBka")
+                        .param("emailToken", "1BUiX6va0j2Sfq93CreN")
                         .content(objectMapper.writeValueAsString(userSignInDTO))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -70,6 +76,10 @@ public class UserControllerTest {
                 .andDo(print()); // test 응답 결과에 대한 모든 내용 출력
     }
 
+
+    TokenInfo tokenInfo = null;
+
+    @Order(3)
     @Test
     @DisplayName("로그인")
     public void 로그인() throws Exception {
@@ -85,7 +95,30 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", is(200)))
+                .andDo(result -> {
+                    JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
+                    jsonObject = new JSONObject(jsonObject.getString("data"));
+                    tokenInfo = TokenInfo.builder()
+                            .grantType(jsonObject.getString("grantType"))
+                            .accessToken(jsonObject.getString("accessToken"))
+                            .refreshToken(jsonObject.getString("refreshToken"))
+                            .build();
+                })
                 .andDo(print()); // test 응답 결과에 대한 모든 내용 출력
+    }
+
+    @Order(4)
+    @Test
+    @DisplayName("refresh 토큰 재발행")
+    public void 토큰_재발행() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "/y/refresh-token")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
+                        .content(objectMapper.writeValueAsString(tokenInfo))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
     }
 
 

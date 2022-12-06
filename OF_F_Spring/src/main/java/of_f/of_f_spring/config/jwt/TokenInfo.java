@@ -3,12 +3,14 @@ package of_f.of_f_spring.config.jwt;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Builder
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class TokenInfo {
     @NotBlank(message = "존재하지 않는 토큰 타입")
