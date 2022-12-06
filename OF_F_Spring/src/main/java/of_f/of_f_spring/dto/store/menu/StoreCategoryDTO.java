@@ -1,7 +1,6 @@
 package of_f.of_f_spring.dto.store.menu;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -10,6 +9,9 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class StoreCategoryDTO {
     private Long seq;
     private Long storeSeq;

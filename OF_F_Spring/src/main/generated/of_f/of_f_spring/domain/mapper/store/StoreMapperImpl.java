@@ -40,7 +40,7 @@ import of_f.of_f_spring.dto.store.order.StoreOrderVanInfoDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-06T17:00:08+0900",
+    date = "2022-12-06T17:13:11+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class StoreMapperImpl implements StoreMapper {
@@ -778,15 +778,15 @@ public class StoreMapperImpl implements StoreMapper {
             return null;
         }
 
-        StoreCategoryDTO storeCategoryDTO = new StoreCategoryDTO();
+        StoreCategoryDTO.StoreCategoryDTOBuilder storeCategoryDTO = StoreCategoryDTO.builder();
 
-        storeCategoryDTO.setSeq( storeCategory.getSeq() );
-        storeCategoryDTO.setStoreSeq( storeCategory.getStoreSeq() );
-        storeCategoryDTO.setName( storeCategory.getName() );
-        storeCategoryDTO.setStatus( storeCategory.isStatus() );
-        storeCategoryDTO.setStoreMenus( storeMenuListToStoreMenuDTOList( storeCategory.getStoreMenus() ) );
+        storeCategoryDTO.seq( storeCategory.getSeq() );
+        storeCategoryDTO.storeSeq( storeCategory.getStoreSeq() );
+        storeCategoryDTO.name( storeCategory.getName() );
+        storeCategoryDTO.status( storeCategory.isStatus() );
+        storeCategoryDTO.storeMenus( storeMenuListToStoreMenuDTOList( storeCategory.getStoreMenus() ) );
 
-        return storeCategoryDTO;
+        return storeCategoryDTO.build();
     }
 
     protected List<StoreCategoryDTO> storeCategoryListToStoreCategoryDTOList(List<StoreCategory> list) {

@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import of_f.of_f_spring.config.jwt.TokenInfo;
 import of_f.of_f_spring.domain.entity.user.EmailToken;
 import of_f.of_f_spring.dto.store.StoreDTO;
+import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
 import of_f.of_f_spring.dto.user.ChangeUserDTO;
 import of_f.of_f_spring.dto.user.UserLoginDTO;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -164,6 +168,35 @@ public class StoreControllerTest {
         mockMvc.perform(MockMvcRequestBuilders
                         .get(BASE_URL + "/admin")
                         .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(result -> {
+                    JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
+                    jsonObject = new JSONObject(jsonObject.getString("data"));
+                    JSONArray jsonArray = jsonObject.getJSONArray("stores");
+                    jsonObject = jsonArray.getJSONObject(0);
+                    storeSeq = jsonObject.getLong("seq");
+                })
+                .andDo(print());
+    }
+
+    @Order(7)
+    @Test
+    @DisplayName("가맹점 카테고리 생성")
+    public void 가맹점_카테고리_생성() throws Exception {
+
+        StoreCategoryDTO storeCategoryDTO = StoreCategoryDTO.builder()
+                .storeSeq(storeSeq)
+                .name("test 카테고리")
+                .status(false)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "/admin/category")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
+                        .param("status", "insert")
+                        .content(objectMapper.writeValueAsString(storeCategoryDTO))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", is(200)))
