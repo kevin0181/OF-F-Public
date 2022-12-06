@@ -45,7 +45,7 @@ import of_f.of_f_spring.dto.user.UserSignInDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-06T15:28:44+0900",
+    date = "2022-12-06T17:00:08+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class UserMapperImpl implements UserMapper {
@@ -118,14 +118,14 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        UserRole userRole = new UserRole();
+        UserRole.UserRoleBuilder userRole = UserRole.builder();
 
-        userRole.setSeq( userRoleDTO.getSeq() );
-        userRole.setUserSeq( userRoleDTO.getUserSeq() );
-        userRole.setRoleSeq( userRoleDTO.getRoleSeq() );
-        userRole.setRoles( userRoleDTO.getRoles() );
+        userRole.seq( userRoleDTO.getSeq() );
+        userRole.userSeq( userRoleDTO.getUserSeq() );
+        userRole.roleSeq( userRoleDTO.getRoleSeq() );
+        userRole.roles( userRoleDTO.getRoles() );
 
-        return userRole;
+        return userRole.build();
     }
 
     protected List<UserRole> userRoleDTOListToUserRoleList(List<UserRoleDTO> list) {

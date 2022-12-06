@@ -28,7 +28,7 @@ public class StoreController {
         return storeService.applicationNewStore(storeDTO, principal);
     }
 
-    @GetMapping("/admin") // 가맹점 정보 (관리자용)
+    @GetMapping("/admin") // 가맹점 정보 (가맹점 관리자용)
     public ApiResponseDTO getStoreInfo(Principal principal) {
         return storeService.getStoreInfoAdmin(principal);
     }

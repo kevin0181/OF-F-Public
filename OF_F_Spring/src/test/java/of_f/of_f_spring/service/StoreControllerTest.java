@@ -126,6 +126,22 @@ public class StoreControllerTest {
 
     @Order(4)
     @Test
+    @DisplayName("가맹점 신청자 권한 변경(가맹점 admin 으로)")
+    public void 가맹점_신청자_권한_변경() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/v1/admin/user/role")
+                        .header("Authorization", adminToken.getGrantType() + " " + adminToken.getRefreshToken())
+                        .param("email", "test1@test1.com")
+                        .param("roleId", "3")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
+
+    @Order(5)
+    @Test
     @DisplayName("가맹점 신청 응답 (승인)")
     public void 가맹점_신청_응답() throws Exception {
 
@@ -139,5 +155,20 @@ public class StoreControllerTest {
                 .andExpect(jsonPath("$.code", is(200)))
                 .andDo(print());
     }
+
+    @Order(6)
+    @Test
+    @DisplayName("가맹점 정보 가져오기 (가맹점 관리자 전용)")
+    public void 가맹점_정보_가져오기() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(BASE_URL + "/admin")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
+
 
 }
