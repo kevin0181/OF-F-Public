@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -19,6 +20,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.io.FileInputStream;
 import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
@@ -268,7 +270,7 @@ public class StoreControllerTest {
     public void 가맹점_메뉴_추가() throws Exception {
 
         MockMultipartFile jsonFile = new MockMultipartFile("menu", "", "application/json", ("{\n" +
-                "    \"storeCategorySeq\":\"1\",\n" +
+                "    \"storeCategorySeq\":\"2\",\n" +
                 "    \"name\":\"1\",\n" +
                 "    \"price\":\"1\",\n" +
                 "    \"status\":\"false\"\n" +
@@ -278,6 +280,43 @@ public class StoreControllerTest {
         mockMvc.perform(MockMvcRequestBuilders
                         .multipart(BASE_URL + "/admin/menu")
                         .file(jsonFile)
+                        .param("status", "insert")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
+
+
+    @Order(10)
+    @Test
+    @DisplayName("가맹점 메뉴 추가(이미지 포함)")
+    public void 가맹점_메뉴_추가2() throws Exception {
+
+
+        final String fileName = "dog"; //파일명
+        final String contentType = "jpeg"; //파일타입
+        final String filePath = "/Users/yuyeongbin/of_f/" + fileName + "." + contentType; //파일경로
+        FileInputStream fileInputStream = new FileInputStream(filePath);
+
+        MockMultipartFile jsonFile = new MockMultipartFile("menu", "", "application/json", ("{\n" +
+                "    \"storeCategorySeq\":\"2\",\n" +
+                "    \"name\":\"1\",\n" +
+                "    \"price\":\"1\",\n" +
+                "    \"status\":\"false\"\n" +
+                "}").getBytes());
+        MockMultipartFile secondFile = new MockMultipartFile(
+                "img",
+                fileName + "." + contentType,
+                contentType,
+                fileInputStream);
+
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .multipart(BASE_URL + "/admin/menu")
+                        .file(jsonFile)
+                        .file(secondFile)
                         .param("status", "insert")
                         .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))

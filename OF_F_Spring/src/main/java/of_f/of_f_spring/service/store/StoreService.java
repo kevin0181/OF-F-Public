@@ -272,7 +272,7 @@ public class StoreService {
         List<StoreMenuImg> storeMenuImgs = null;
 
         if (imgFile != null) // 이미지가 존재하는 경우
-            storeMenuImgs = imgService.saveMenuImg(imgFile);
+            storeMenuImgs = imgService.saveMenuImg(imgFile, storeCategory.getStore());
 
         StoreMenu storeMenu = StoreMapper.instance.storeMenuToStoreMenuDTO(storeMenuDTO);
 
