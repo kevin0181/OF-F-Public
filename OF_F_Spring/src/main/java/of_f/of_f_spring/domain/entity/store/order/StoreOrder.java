@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import of_f.of_f_spring.domain.entity.store.Store;
 import of_f.of_f_spring.domain.entity.user.User;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,9 +20,6 @@ public class StoreOrder {
 
     @Column(name = "Store_seq")
     private Long storeSeq;
-
-    @Column(name = "User_seq")
-    private Long userSeq;
 
     @Column
     private String id;
@@ -41,13 +40,13 @@ public class StoreOrder {
     private String date;
 
     @Column
-    private Long place;
+    private int place;
 
     @Column
-    private Long status;
+    private int status;
 
     @Column(name = "pay_status")
-    private Long payStatus;
+    private int payStatus;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -56,27 +55,23 @@ public class StoreOrder {
     private String email;
 
     @Column(name = "email_receive_status")
-    private boolean emailReceiveStatus;
+    private Boolean emailReceiveStatus;
 
     @Column(name = "phone_number_receive_status")
-    private boolean phoneNumberReceiveStatus;
-
-    @ManyToOne
-    @JoinColumn(name = "User_seq", insertable = false, updatable = false)
-    private User user;
+    private Boolean phoneNumberReceiveStatus;
 
     @ManyToOne
     @JoinColumn(name = "Store_seq", insertable = false, updatable = false)
     private Store store;
+
+    @OneToMany
+    @JoinColumn(name = "Store_Order_seq")
+    private List<StoreOrderMenu> storeOrderMenus;
 
     @OneToOne(mappedBy = "storeOrder")
     private StoreOrderPgInfo storeOrderPgInfo;
 
     @OneToOne(mappedBy = "storeOrder")
     private StoreOrderVanInfo storeOrderVanInfo;
-
-    @OneToMany
-    @JoinColumn(name = "Store_Order_seq")
-    private List<StoreOrderMenu> storeOrderMenus;
 
 }

@@ -32,7 +32,6 @@ import of_f.of_f_spring.dto.store.menu.StoreMenuImgDTO;
 import of_f.of_f_spring.dto.store.menu.StoreSideCategoryDTO;
 import of_f.of_f_spring.dto.store.menu.StoreSideImgDTO;
 import of_f.of_f_spring.dto.store.menu.StoreSideMenuDTO;
-import of_f.of_f_spring.dto.store.order.OrderUserDTO;
 import of_f.of_f_spring.dto.store.order.StoreOrderDTO;
 import of_f.of_f_spring.dto.store.order.StoreOrderMenuDTO;
 import of_f.of_f_spring.dto.store.order.StoreOrderPgInfoDTO;
@@ -45,7 +44,7 @@ import of_f.of_f_spring.dto.user.UserSignInDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-06T17:13:11+0900",
+    date = "2022-12-08T16:46:58+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class UserMapperImpl implements UserMapper {
@@ -438,25 +437,6 @@ public class UserMapperImpl implements UserMapper {
         return list1;
     }
 
-    protected OrderUserDTO userToOrderUserDTO(User user) {
-        if ( user == null ) {
-            return null;
-        }
-
-        OrderUserDTO.OrderUserDTOBuilder orderUserDTO = OrderUserDTO.builder();
-
-        orderUserDTO.seq( user.getSeq() );
-        orderUserDTO.email( user.getEmail() );
-        orderUserDTO.name( user.getName() );
-        orderUserDTO.phoneNumber( user.getPhoneNumber() );
-        orderUserDTO.userStatus( user.getUserStatus() );
-        orderUserDTO.emailReceiveStatus( user.isEmailReceiveStatus() );
-        orderUserDTO.phoneNumberReceiveStatus( user.isPhoneNumberReceiveStatus() );
-        orderUserDTO.createTime( user.getCreateTime() );
-
-        return orderUserDTO.build();
-    }
-
     protected StoreOrderPgInfoDTO storeOrderPgInfoToStoreOrderPgInfoDTO(StoreOrderPgInfo storeOrderPgInfo) {
         if ( storeOrderPgInfo == null ) {
             return null;
@@ -560,7 +540,6 @@ public class UserMapperImpl implements UserMapper {
 
         storeOrderDTO.setSeq( storeOrder.getSeq() );
         storeOrderDTO.setStoreSeq( storeOrder.getStoreSeq() );
-        storeOrderDTO.setUserSeq( storeOrder.getUserSeq() );
         storeOrderDTO.setId( storeOrder.getId() );
         storeOrderDTO.setKind( storeOrder.getKind() );
         storeOrderDTO.setOrderNumber( storeOrder.getOrderNumber() );
@@ -572,9 +551,8 @@ public class UserMapperImpl implements UserMapper {
         storeOrderDTO.setPayStatus( storeOrder.getPayStatus() );
         storeOrderDTO.setPhoneNumber( storeOrder.getPhoneNumber() );
         storeOrderDTO.setEmail( storeOrder.getEmail() );
-        storeOrderDTO.setEmailReceiveStatus( storeOrder.isEmailReceiveStatus() );
-        storeOrderDTO.setPhoneNumberReceiveStatus( storeOrder.isPhoneNumberReceiveStatus() );
-        storeOrderDTO.setUser( userToOrderUserDTO( storeOrder.getUser() ) );
+        storeOrderDTO.setEmailReceiveStatus( storeOrder.getEmailReceiveStatus() );
+        storeOrderDTO.setPhoneNumberReceiveStatus( storeOrder.getPhoneNumberReceiveStatus() );
         storeOrderDTO.setStoreOrderPgInfo( storeOrderPgInfoToStoreOrderPgInfoDTO( storeOrder.getStoreOrderPgInfo() ) );
         storeOrderDTO.setStoreOrderVanInfo( storeOrderVanInfoToStoreOrderVanInfoDTO( storeOrder.getStoreOrderVanInfo() ) );
         storeOrderDTO.setStoreOrderMenus( storeOrderMenuListToStoreOrderMenuDTOList( storeOrder.getStoreOrderMenus() ) );

@@ -75,7 +75,7 @@ public class UserControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(BASE_URL + "/n/signIn")
-                        .param("emailToken", "h9x51KGZ6k18b022DWSf")
+                        .param("emailToken", "W120Bl6AO6MQQy8r4l3Y")
                         .content(objectMapper.writeValueAsString(userSignInDTO))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

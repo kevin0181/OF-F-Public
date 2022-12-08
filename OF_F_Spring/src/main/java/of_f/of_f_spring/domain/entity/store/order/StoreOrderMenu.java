@@ -3,6 +3,8 @@ package of_f.of_f_spring.domain.entity.store.order;
 import lombok.Getter;
 import lombok.Setter;
 import of_f.of_f_spring.domain.entity.store.menu.StoreMenu;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.List;
@@ -29,6 +31,7 @@ public class StoreOrderMenu {
     @JoinColumn(name = "Store_Order_Menu_seq")
     private List<StoreOrderSide> storeOrderSides;
 
+    @NotFound(action = NotFoundAction.IGNORE)
     @ManyToOne
     @JoinColumn(name = "Store_Menu_seq", insertable = false, updatable = false)
     private StoreOrder storeOrder;
