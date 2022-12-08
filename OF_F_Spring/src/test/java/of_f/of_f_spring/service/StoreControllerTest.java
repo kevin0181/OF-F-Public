@@ -49,6 +49,8 @@ public class StoreControllerTest {
 
     Long categorySeq = null;
 
+    Long menuSeq = null;
+
     @Order(1)
     @Test
     @DisplayName("로그인")
@@ -285,6 +287,11 @@ public class StoreControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", is(200)))
+                .andDo(result -> {
+                    JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
+                    jsonObject = new JSONObject(jsonObject.getString("data"));
+                    menuSeq = jsonObject.getLong("seq");
+                })
                 .andDo(print());
     }
 
@@ -318,6 +325,31 @@ public class StoreControllerTest {
                         .file(jsonFile)
                         .file(secondFile)
                         .param("status", "insert")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
+
+    @Order(11)
+    @Test
+    @DisplayName("가맹점 메뉴 변경(이미지 제외)")
+    public void 가맹점_메뉴_변경() throws Exception {
+
+        MockMultipartFile jsonFile = new MockMultipartFile("menu", "", "application/json", ("{\n" +
+                "    \"seq\":\"" + menuSeq + "\",\n" +
+                "    \"storeCategorySeq\":\"2\",\n" +
+                "    \"name\":\"" + "변경된 메뉴" + "\",\n" +
+                "    \"price\":\"010101\",\n" +
+                "    \"status\":\"true\"\n" +
+                "}").getBytes());
+
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .multipart(BASE_URL + "/admin/menu")
+                        .file(jsonFile)
+                        .param("status", "update")
                         .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
