@@ -287,11 +287,11 @@ public class StoreControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", is(200)))
-                .andDo(result -> {
-                    JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
-                    jsonObject = new JSONObject(jsonObject.getString("data"));
-                    menuSeq = jsonObject.getLong("seq");
-                })
+//                .andDo(result -> {
+//                    JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
+//                    jsonObject = new JSONObject(jsonObject.getString("data"));
+//                    menuSeq = jsonObject.getLong("seq");
+//                })
                 .andDo(print());
     }
 
@@ -329,6 +329,11 @@ public class StoreControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", is(200)))
+                .andDo(result -> {
+                    JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
+                    jsonObject = new JSONObject(jsonObject.getString("data"));
+                    menuSeq = jsonObject.getLong("seq");
+                })
                 .andDo(print());
     }
 
@@ -350,6 +355,31 @@ public class StoreControllerTest {
                         .multipart(BASE_URL + "/admin/menu")
                         .file(jsonFile)
                         .param("status", "update")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
+
+    @Order(12)
+    @Test
+    @DisplayName("가맹점 메뉴 삭제")
+    public void 가맹점_메뉴_삭제() throws Exception {
+
+        MockMultipartFile jsonFile = new MockMultipartFile("menu", "", "application/json", ("{\n" +
+                "    \"seq\":\"" + menuSeq + "\",\n" +
+                "    \"storeCategorySeq\":\"2\",\n" +
+                "    \"name\":\"" + "변경된 메뉴" + "\",\n" +
+                "    \"price\":\"010101\",\n" +
+                "    \"status\":\"true\"\n" +
+                "}").getBytes());
+
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .multipart(BASE_URL + "/admin/menu")
+                        .file(jsonFile)
+                        .param("status", "delete")
                         .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

@@ -345,6 +345,10 @@ public class StoreService {
 
         try {
             checkMenu(storeMenuDTO, principal, storeMenu.getStoreCategory().getStore()); // request 상태 체크
+
+            if (storeMenu.getStoreMenuImgs().size() != 0)
+                imgService.deleteImg(storeMenu.getStoreMenuImgs());
+
             storeMenuRepository.deleteById(storeMenu.getSeq());
         } catch (NullPointerException e) {
             throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_BY_INFO); //존재하지 않는 정보

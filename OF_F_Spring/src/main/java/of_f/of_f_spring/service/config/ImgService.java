@@ -2,6 +2,8 @@ package of_f.of_f_spring.service.config;
 
 import of_f.of_f_spring.domain.entity.store.Store;
 import of_f.of_f_spring.domain.entity.store.menu.StoreMenuImg;
+import of_f.of_f_spring.domain.exception.ApiException;
+import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import of_f.of_f_spring.domain.exception.StoreException;
 import of_f.of_f_spring.domain.exception.StoreExceptionEnum;
 import of_f.of_f_spring.dto.store.menu.StoreMenuDTO;
@@ -74,6 +76,19 @@ public class ImgService {
         return simpleDateFormat.format(new Date());
     }
 
-    public void deleteAndUpdateImg(StoreMenuDTO storeMenuDTO, List<MultipartFile> imgFile) {
+    public void deleteImg(List<StoreMenuImg> storeMenuImgs) {
+
+        for (StoreMenuImg storeMenuImg : storeMenuImgs) {
+
+            File file = new File(storeMenuImg.getUrl());
+
+            if (file.exists()) {
+                file.delete();
+            } else {
+                return;
+            }
+
+        }
+
     }
 }
