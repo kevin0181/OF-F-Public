@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import of_f.of_f_spring.domain.entity.store.menu.StoreCategory;
 import of_f.of_f_spring.domain.entity.store.order.StoreOrder;
+import of_f.of_f_spring.domain.entity.store.qr.QRStoreInfo;
 import of_f.of_f_spring.domain.entity.user.User;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;

@@ -1,7 +1,8 @@
-package of_f.of_f_spring.domain.entity.store;
+package of_f.of_f_spring.domain.entity.store.qr;
 
 import lombok.Getter;
 import lombok.Setter;
+import of_f.of_f_spring.domain.entity.store.Store;
 
 import javax.persistence.*;
 
