@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import of_f.of_f_spring.domain.entity.store.Store;
 
 import javax.persistence.*;
 
@@ -22,4 +23,8 @@ public class StoreQRId {
 
     @Column
     private String id;
+
+    @ManyToOne
+    @JoinColumn(name = "Store_seq", insertable = false, updatable = false)
+    private Store store;
 }

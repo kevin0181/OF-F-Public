@@ -3,6 +3,7 @@ package of_f.of_f_spring.dto.store;
 import lombok.*;
 import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
 import of_f.of_f_spring.dto.store.order.StoreOrderDTO;
+import of_f.of_f_spring.dto.store.qr.QRStoreInfoDTO;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

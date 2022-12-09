@@ -6,6 +6,7 @@ import of_f.of_f_spring.domain.entity.store.menu.StoreCategory;
 import of_f.of_f_spring.domain.entity.store.menu.StoreMS;
 import of_f.of_f_spring.domain.entity.store.menu.StoreMenu;
 import of_f.of_f_spring.domain.entity.store.menu.StoreMenuImg;
+import of_f.of_f_spring.domain.entity.store.qr.QRStoreInfo;
 import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.domain.exception.*;
 import of_f.of_f_spring.domain.mapper.store.StoreMapper;
@@ -14,7 +15,9 @@ import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
 import of_f.of_f_spring.dto.store.menu.StoreMenuDTO;
+import of_f.of_f_spring.dto.store.qr.QRStoreInfoDTO;
 import of_f.of_f_spring.dto.user.UserDTO;
+import of_f.of_f_spring.repository.store.QRStoreInfoRepository;
 import of_f.of_f_spring.repository.store.StoreCategoryRepository;
 import of_f.of_f_spring.repository.store.StoreMenuRepository;
 import of_f.of_f_spring.repository.store.StoreRepository;
@@ -54,6 +57,9 @@ public class StoreService {
 
     @Autowired
     private StoreMenuRepository storeMenuRepository;
+
+    @Autowired
+    private QRStoreInfoRepository qrStoreInfoRepository;
 
     public ApiResponseDTO applicationNewStore(StoreDTO storeDTO, Principal principal) {  // 가맹점 신청
 
@@ -385,4 +391,34 @@ public class StoreService {
     }
 
 
+    public ApiResponseDTO saveStoreQRInfo(QRStoreInfoDTO qrStoreInfoDTO) {
+
+        QRStoreInfo qrStoreInfo;
+
+        QRStoreInfoDTO resQRStoreInfoDTO;
+
+        try {
+
+            qrStoreInfo = QRStoreInfo.builder()
+                    .seq(qrStoreInfoDTO.getSeq())
+                    .storeSeq(qrStoreInfoDTO.getStoreSeq())
+                    .qrPayMoney(qrStoreInfoDTO.getQrPayMoney())
+                    .qrPayDate(qrStoreInfoDTO.getQrPayDate())
+                    .qrSubscribeSeq(qrStoreInfoDTO.getQrSubscribeSeq())
+                    .qrSize(qrStoreInfoDTO.getQrSize())
+                    .qrPayStatus(qrStoreInfoDTO.isQrPayStatus())
+                    .build();
+
+            resQRStoreInfoDTO = StoreMapper.instance.qrStoreInfoToQRStoreInfoDTO(qrStoreInfoRepository.save(qrStoreInfo));
+        } catch (Exception e) {
+            throw new AdminException(AdminExceptionEnum.STORE_QR_INFO_FAIL);
+        }
+
+
+        return ApiResponseDTO.builder()
+                .message("가맹점 QR 정보 저장 성공")
+                .detail("가맹점의 QR 정보를 저장했습니다.")
+                .data(resQRStoreInfoDTO)
+                .build();
+    }
 }

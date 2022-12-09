@@ -21,7 +21,6 @@ import of_f.of_f_spring.domain.entity.store.order.StoreOrderVanInfo;
 import of_f.of_f_spring.domain.entity.store.qr.QRStoreInfo;
 import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.domain.entity.user.UserRole;
-import of_f.of_f_spring.dto.store.QRStoreInfoDTO;
 import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.StorePgSettingDTO;
 import of_f.of_f_spring.dto.store.StoreVanSettingDTO;
@@ -37,6 +36,7 @@ import of_f.of_f_spring.dto.store.order.StoreOrderMenuDTO;
 import of_f.of_f_spring.dto.store.order.StoreOrderPgInfoDTO;
 import of_f.of_f_spring.dto.store.order.StoreOrderSideDTO;
 import of_f.of_f_spring.dto.store.order.StoreOrderVanInfoDTO;
+import of_f.of_f_spring.dto.store.qr.QRStoreInfoDTO;
 import of_f.of_f_spring.dto.user.ResUserDTO;
 import of_f.of_f_spring.dto.user.UserDTO;
 import of_f.of_f_spring.dto.user.UserRoleDTO;
@@ -44,7 +44,7 @@ import of_f.of_f_spring.dto.user.UserSignInDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-09T16:21:20+0900",
+    date = "2022-12-09T17:01:49+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class UserMapperImpl implements UserMapper {
@@ -173,17 +173,17 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        QRStoreInfoDTO qRStoreInfoDTO = new QRStoreInfoDTO();
+        QRStoreInfoDTO.QRStoreInfoDTOBuilder qRStoreInfoDTO = QRStoreInfoDTO.builder();
 
-        qRStoreInfoDTO.setSeq( qRStoreInfo.getSeq() );
-        qRStoreInfoDTO.setStoreSeq( qRStoreInfo.getStoreSeq() );
-        qRStoreInfoDTO.setQrSubscribeSeq( qRStoreInfo.getQrSubscribeSeq() );
-        qRStoreInfoDTO.setQrSize( qRStoreInfo.getQrSize() );
-        qRStoreInfoDTO.setQrPayMoney( qRStoreInfo.getQrPayMoney() );
-        qRStoreInfoDTO.setQrPayStatus( qRStoreInfo.getQrPayStatus() );
-        qRStoreInfoDTO.setQrPayDate( qRStoreInfo.getQrPayDate() );
+        qRStoreInfoDTO.seq( qRStoreInfo.getSeq() );
+        qRStoreInfoDTO.storeSeq( qRStoreInfo.getStoreSeq() );
+        qRStoreInfoDTO.qrSubscribeSeq( qRStoreInfo.getQrSubscribeSeq() );
+        qRStoreInfoDTO.qrSize( qRStoreInfo.getQrSize() );
+        qRStoreInfoDTO.qrPayMoney( qRStoreInfo.getQrPayMoney() );
+        qRStoreInfoDTO.qrPayStatus( qRStoreInfo.isQrPayStatus() );
+        qRStoreInfoDTO.qrPayDate( qRStoreInfo.getQrPayDate() );
 
-        return qRStoreInfoDTO;
+        return qRStoreInfoDTO.build();
     }
 
     protected StorePgSettingDTO storePgSettingToStorePgSettingDTO(StorePgSetting storePgSetting) {

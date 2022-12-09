@@ -1,16 +1,18 @@
-package of_f.of_f_spring.dto.store;
+package of_f.of_f_spring.dto.store.qr;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class QRStoreInfoDTO {
     private Long seq;
     private Long storeSeq;
     private Long qrSubscribeSeq;
     private int qrSize;
     private String qrPayMoney;
-    private String qrPayStatus;
+    private boolean qrPayStatus;
     private String qrPayDate;
 }

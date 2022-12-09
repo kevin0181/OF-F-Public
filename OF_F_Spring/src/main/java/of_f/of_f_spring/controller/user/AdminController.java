@@ -1,7 +1,10 @@
 package of_f.of_f_spring.controller.user;
 
 
+import of_f.of_f_spring.domain.exception.ApiException;
+import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
+import of_f.of_f_spring.dto.store.qr.QRStoreInfoDTO;
 import of_f.of_f_spring.service.store.StoreService;
 import of_f.of_f_spring.service.user.RoleService;
 import of_f.of_f_spring.service.user.UserService;
@@ -29,6 +32,20 @@ public class AdminController {
             @RequestParam String email,
             @RequestParam Long roleId) {
         return roleService.updateRole(email, roleId);
+    }
+
+    @PostMapping("/store/QR/info")
+    public ApiResponseDTO storeQRInfo(@RequestParam String status,
+                                      @RequestBody QRStoreInfoDTO qrStoreInfoDTO) {
+
+        switch (status) {
+            case "insert":
+                return storeService.saveStoreQRInfo(qrStoreInfoDTO);
+            case "update":
+            case "delete":
+        }
+
+        throw new ApiException(ExceptionEnum.INVALID_PARAMS);
     }
 
 }
