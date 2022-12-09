@@ -272,7 +272,7 @@ public class StoreService {
         List<StoreMenuImg> storeMenuImgs = null;
 
         if (imgFile != null) // 이미지가 존재하는 경우
-            storeMenuImgs = imgService.saveMenuImg(imgFile);
+            storeMenuImgs = imgService.saveMenuImg(imgFile, storeCategory.getStore());
 
         StoreMenu storeMenu = StoreMapper.instance.storeMenuToStoreMenuDTO(storeMenuDTO);
 
@@ -345,6 +345,10 @@ public class StoreService {
 
         try {
             checkMenu(storeMenuDTO, principal, storeMenu.getStoreCategory().getStore()); // request 상태 체크
+
+            if (storeMenu.getStoreMenuImgs().size() != 0)
+                imgService.deleteImg(storeMenu.getStoreMenuImgs());
+
             storeMenuRepository.deleteById(storeMenu.getSeq());
         } catch (NullPointerException e) {
             throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_BY_INFO); //존재하지 않는 정보

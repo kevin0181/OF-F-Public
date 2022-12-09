@@ -9,9 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Entity(name = "User")
 @Getter
@@ -56,11 +54,6 @@ public class User implements UserDetails {
     @JoinColumn(name = "User_seq")
     private List<Store> stores;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "User_seq")
-    private List<StoreOrder> storeOrders;
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         ArrayList<GrantedAuthority> authorities = new ArrayList<>();
@@ -68,6 +61,15 @@ public class User implements UserDetails {
             authorities.add(new SimpleGrantedAuthority(userRoles.get(i).getRoles().getRoleName()));
         }
         return authorities;
+//        List<Role> roles = new ArrayList<>();
+//
+//        for (UserRole userRole : userRoles) {
+//            roles.add(userRole.getRoles());
+//        }
+//
+//        for (int i = 0; i < roles.size(); i++) {
+//            authorities.add(new SimpleGrantedAuthority(roles.get(i).getRoleName()));
+//        }
     }
 
 

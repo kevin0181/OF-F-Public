@@ -5,18 +5,22 @@ import of_f.of_f_spring.config.jwt.TokenInfo;
 import of_f.of_f_spring.domain.entity.user.EmailToken;
 import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
+import of_f.of_f_spring.dto.store.menu.StoreMenuDTO;
 import of_f.of_f_spring.dto.user.ChangeUserDTO;
 import of_f.of_f_spring.dto.user.UserLoginDTO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.io.FileInputStream;
 import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
@@ -44,6 +48,8 @@ public class StoreControllerTest {
     Long storeSeq = null;
 
     Long categorySeq = null;
+
+    Long menuSeq = null;
 
     @Order(1)
     @Test
@@ -89,7 +95,7 @@ public class StoreControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(BASE_URL + "/app/req")
-                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
                         .content(objectMapper.writeValueAsString(storeDTO))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -138,7 +144,7 @@ public class StoreControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/v1/admin/user/role")
-                        .header("Authorization", adminToken.getGrantType() + " " + adminToken.getRefreshToken())
+                        .header("Authorization", adminToken.getGrantType() + " " + adminToken.getAccessToken())
                         .param("email", "test1@test1.com")
                         .param("roleId", "3")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -154,7 +160,7 @@ public class StoreControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/v1/admin/app/res")
-                        .header("Authorization", adminToken.getGrantType() + " " + adminToken.getRefreshToken())
+                        .header("Authorization", adminToken.getGrantType() + " " + adminToken.getAccessToken())
                         .param("storeId", String.valueOf(storeSeq))
                         .param("status", "0")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -170,7 +176,7 @@ public class StoreControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get(BASE_URL + "/admin")
-                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", is(200)))
@@ -197,7 +203,7 @@ public class StoreControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(BASE_URL + "/admin/category")
-                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
                         .param("status", "insert")
                         .content(objectMapper.writeValueAsString(storeCategoryDTO))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -225,7 +231,7 @@ public class StoreControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(BASE_URL + "/admin/category")
-                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
                         .param("status", "update")
                         .content(objectMapper.writeValueAsString(storeCategoryDTO))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -251,10 +257,131 @@ public class StoreControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(BASE_URL + "/admin/category")
-                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getRefreshToken())
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
                         .param("status", "delete")
                         .content(objectMapper.writeValueAsString(storeCategoryDTO))
                         .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
+
+    @Order(9)
+    @Test
+    @DisplayName("가맹점 메뉴 추가(이미지 제외)")
+    public void 가맹점_메뉴_추가() throws Exception {
+
+        MockMultipartFile jsonFile = new MockMultipartFile("menu", "", "application/json", ("{\n" +
+                "    \"storeCategorySeq\":\"2\",\n" +
+                "    \"name\":\"1\",\n" +
+                "    \"price\":\"1\",\n" +
+                "    \"status\":\"false\"\n" +
+                "}").getBytes());
+
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .multipart(BASE_URL + "/admin/menu")
+                        .file(jsonFile)
+                        .param("status", "insert")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+//                .andDo(result -> {
+//                    JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
+//                    jsonObject = new JSONObject(jsonObject.getString("data"));
+//                    menuSeq = jsonObject.getLong("seq");
+//                })
+                .andDo(print());
+    }
+
+
+    @Order(10)
+    @Test
+    @DisplayName("가맹점 메뉴 추가(이미지 포함)")
+    public void 가맹점_메뉴_추가2() throws Exception {
+
+
+        final String fileName = "dog"; //파일명
+        final String contentType = "jpeg"; //파일타입
+        final String filePath = "/Users/yuyeongbin/of_f/" + fileName + "." + contentType; //파일경로
+        FileInputStream fileInputStream = new FileInputStream(filePath);
+
+        MockMultipartFile jsonFile = new MockMultipartFile("menu", "", "application/json", ("{\n" +
+                "    \"storeCategorySeq\":\"2\",\n" +
+                "    \"name\":\"1\",\n" +
+                "    \"price\":\"1\",\n" +
+                "    \"status\":\"false\"\n" +
+                "}").getBytes());
+        MockMultipartFile secondFile = new MockMultipartFile(
+                "img",
+                fileName + "." + contentType,
+                contentType,
+                fileInputStream);
+
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .multipart(BASE_URL + "/admin/menu")
+                        .file(jsonFile)
+                        .file(secondFile)
+                        .param("status", "insert")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(result -> {
+                    JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
+                    jsonObject = new JSONObject(jsonObject.getString("data"));
+                    menuSeq = jsonObject.getLong("seq");
+                })
+                .andDo(print());
+    }
+
+    @Order(11)
+    @Test
+    @DisplayName("가맹점 메뉴 변경(이미지 제외)")
+    public void 가맹점_메뉴_변경() throws Exception {
+
+        MockMultipartFile jsonFile = new MockMultipartFile("menu", "", "application/json", ("{\n" +
+                "    \"seq\":\"" + menuSeq + "\",\n" +
+                "    \"storeCategorySeq\":\"2\",\n" +
+                "    \"name\":\"" + "변경된 메뉴" + "\",\n" +
+                "    \"price\":\"010101\",\n" +
+                "    \"status\":\"true\"\n" +
+                "}").getBytes());
+
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .multipart(BASE_URL + "/admin/menu")
+                        .file(jsonFile)
+                        .param("status", "update")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
+
+    @Order(12)
+    @Test
+    @DisplayName("가맹점 메뉴 삭제")
+    public void 가맹점_메뉴_삭제() throws Exception {
+
+        MockMultipartFile jsonFile = new MockMultipartFile("menu", "", "application/json", ("{\n" +
+                "    \"seq\":\"" + menuSeq + "\",\n" +
+                "    \"storeCategorySeq\":\"2\",\n" +
+                "    \"name\":\"" + "변경된 메뉴" + "\",\n" +
+                "    \"price\":\"010101\",\n" +
+                "    \"status\":\"true\"\n" +
+                "}").getBytes());
+
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .multipart(BASE_URL + "/admin/menu")
+                        .file(jsonFile)
+                        .param("status", "delete")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", is(200)))
                 .andDo(print());

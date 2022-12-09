@@ -1,7 +1,6 @@
 package of_f.of_f_spring.dto.store.order;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -21,13 +20,13 @@ public class StoreOrderDTO {
     private String totalPrice;
     private String cancelAfterPrice;
     private String date;
-    private Long place;
-    private Long status;
-    private Long payStatus;
+    private Integer place;
+    private Integer status;
+    private Integer payStatus;
     private String phoneNumber;
     private String email;
-    private boolean emailReceiveStatus;
-    private boolean phoneNumberReceiveStatus;
+    private Boolean emailReceiveStatus;
+    private Boolean phoneNumberReceiveStatus;
 
     private OrderUserDTO user;
     private StoreOrderPgInfoDTO storeOrderPgInfo;

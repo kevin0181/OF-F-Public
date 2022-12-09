@@ -1,7 +1,7 @@
 package of_f.of_f_spring.service.config;
 
+import of_f.of_f_spring.domain.entity.store.Store;
 import of_f.of_f_spring.domain.entity.store.menu.StoreMenuImg;
-import of_f.of_f_spring.domain.entity.user.EmailToken;
 import of_f.of_f_spring.domain.exception.ApiException;
 import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import of_f.of_f_spring.domain.exception.StoreException;
@@ -9,7 +9,6 @@ import of_f.of_f_spring.domain.exception.StoreExceptionEnum;
 import of_f.of_f_spring.dto.store.menu.StoreMenuDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -23,11 +22,11 @@ public class ImgService {
     @Value("${img.connect.path}")
     private String fileDir;
 
-    public List<StoreMenuImg> saveMenuImg(List<MultipartFile> imgFile) {
+    public List<StoreMenuImg> saveMenuImg(List<MultipartFile> imgFile, Store store) {
 
         try {
             //폴더 없을 경우, 폴더 생성.
-            File file = new File(fileDir);
+            File file = new File(fileDir + store.getName());
             if (!file.exists()) {
                 file.mkdirs();
             }
@@ -49,7 +48,7 @@ public class ImgService {
                 String savedName = uuid + extension;
 
                 // 파일을 불러올 때 사용할 파일 경로
-                String savedPath = fileDir + savedName;
+                String savedPath = fileDir + store.getName() + "/" + savedName;
 
                 // 실제로 로컬에 uuid를 파일명으로 저장
                 fileList.transferTo(new File(savedPath));
@@ -77,6 +76,19 @@ public class ImgService {
         return simpleDateFormat.format(new Date());
     }
 
-    public void deleteAndUpdateImg(StoreMenuDTO storeMenuDTO, List<MultipartFile> imgFile) {
+    public void deleteImg(List<StoreMenuImg> storeMenuImgs) {
+
+        for (StoreMenuImg storeMenuImg : storeMenuImgs) {
+
+            File file = new File(storeMenuImg.getUrl());
+
+            if (file.exists()) {
+                file.delete();
+            } else {
+                return;
+            }
+
+        }
+
     }
 }

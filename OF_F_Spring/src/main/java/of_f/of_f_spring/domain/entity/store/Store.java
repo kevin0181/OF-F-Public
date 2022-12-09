@@ -7,6 +7,8 @@ import lombok.Setter;
 import of_f.of_f_spring.domain.entity.store.menu.StoreCategory;
 import of_f.of_f_spring.domain.entity.store.order.StoreOrder;
 import of_f.of_f_spring.domain.entity.user.User;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.List;
@@ -63,6 +65,10 @@ public class Store extends StoreStatusCheck {
 
     @OneToMany
     @JoinColumn(name = "Store_seq")
+    private List<StoreOrder> storeOrders;
+
+    @OneToMany
+    @JoinColumn(name = "Store_seq")
     private List<StorePgSetting> storePgSettings;
 
     @OneToMany
@@ -73,8 +79,5 @@ public class Store extends StoreStatusCheck {
     @JoinColumn(name = "Store_seq")
     private List<StoreCategory> storeCategories;
 
-    @OneToMany
-    @JoinColumn(name = "Store_seq")
-    private List<StoreOrder> storeOrders;
 
 }
