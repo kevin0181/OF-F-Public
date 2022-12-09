@@ -21,6 +21,9 @@ public class StoreOrder {
     @Column(name = "Store_seq")
     private Long storeSeq;
 
+    @Column(name = "Store_QR_ID_seq")
+    private Long storeQRIdSeq;
+
     @Column
     private String id;
 

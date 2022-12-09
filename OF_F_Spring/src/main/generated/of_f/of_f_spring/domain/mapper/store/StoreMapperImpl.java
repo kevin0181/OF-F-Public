@@ -3,7 +3,6 @@ package of_f.of_f_spring.domain.mapper.store;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Generated;
-import of_f.of_f_spring.domain.entity.store.QRStoreInfo;
 import of_f.of_f_spring.domain.entity.store.Store;
 import of_f.of_f_spring.domain.entity.store.StorePgSetting;
 import of_f.of_f_spring.domain.entity.store.StoreVanSetting;
@@ -19,6 +18,7 @@ import of_f.of_f_spring.domain.entity.store.order.StoreOrderMenu;
 import of_f.of_f_spring.domain.entity.store.order.StoreOrderPgInfo;
 import of_f.of_f_spring.domain.entity.store.order.StoreOrderSide;
 import of_f.of_f_spring.domain.entity.store.order.StoreOrderVanInfo;
+import of_f.of_f_spring.domain.entity.store.qr.QRStoreInfo;
 import of_f.of_f_spring.dto.store.QRStoreInfoDTO;
 import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.StorePgSettingDTO;
@@ -38,7 +38,7 @@ import of_f.of_f_spring.dto.store.order.StoreOrderVanInfoDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-08T16:46:58+0900",
+    date = "2022-12-09T16:21:21+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class StoreMapperImpl implements StoreMapper {
