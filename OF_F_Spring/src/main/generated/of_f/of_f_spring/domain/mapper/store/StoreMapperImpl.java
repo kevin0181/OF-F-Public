@@ -40,7 +40,7 @@ import of_f.of_f_spring.dto.store.qr.StoreQRIdDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-12T20:01:17+0900",
+    date = "2022-12-12T20:46:06+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class StoreMapperImpl implements StoreMapper {
@@ -260,6 +260,23 @@ public class StoreMapperImpl implements StoreMapper {
         storeSideCategory.setStoreSideMenus( storeSideMenuDTOListToStoreSideMenuList( storeSideCategoryDTO.getStoreSideMenus() ) );
 
         return storeSideCategory;
+    }
+
+    @Override
+    public StoreSideCategoryDTO storeSideCategoryToStoreSideCategoryDTO(StoreSideCategory storeSideCategory) {
+        if ( storeSideCategory == null ) {
+            return null;
+        }
+
+        StoreSideCategoryDTO.StoreSideCategoryDTOBuilder storeSideCategoryDTO = StoreSideCategoryDTO.builder();
+
+        storeSideCategoryDTO.seq( storeSideCategory.getSeq() );
+        storeSideCategoryDTO.storeSeq( storeSideCategory.getStoreSeq() );
+        storeSideCategoryDTO.name( storeSideCategory.getName() );
+        storeSideCategoryDTO.status( storeSideCategory.isStatus() );
+        storeSideCategoryDTO.storeSideMenus( storeSideMenuListToStoreSideMenuDTOList( storeSideCategory.getStoreSideMenus() ) );
+
+        return storeSideCategoryDTO.build();
     }
 
     protected StoreSideImg storeSideImgDTOToStoreSideImg(StoreSideImgDTO storeSideImgDTO) {
@@ -622,83 +639,6 @@ public class StoreMapperImpl implements StoreMapper {
         return list1;
     }
 
-    protected StoreSideImgDTO storeSideImgToStoreSideImgDTO(StoreSideImg storeSideImg) {
-        if ( storeSideImg == null ) {
-            return null;
-        }
-
-        StoreSideImgDTO storeSideImgDTO = new StoreSideImgDTO();
-
-        storeSideImgDTO.setSeq( storeSideImg.getSeq() );
-        storeSideImgDTO.setStoreSideMenuSeq( storeSideImg.getStoreSideMenuSeq() );
-        storeSideImgDTO.setName( storeSideImg.getName() );
-        storeSideImgDTO.setUrl( storeSideImg.getUrl() );
-        storeSideImgDTO.setExtension( storeSideImg.getExtension() );
-        storeSideImgDTO.setDate( storeSideImg.getDate() );
-
-        return storeSideImgDTO;
-    }
-
-    protected List<StoreSideImgDTO> storeSideImgListToStoreSideImgDTOList(List<StoreSideImg> list) {
-        if ( list == null ) {
-            return null;
-        }
-
-        List<StoreSideImgDTO> list1 = new ArrayList<StoreSideImgDTO>( list.size() );
-        for ( StoreSideImg storeSideImg : list ) {
-            list1.add( storeSideImgToStoreSideImgDTO( storeSideImg ) );
-        }
-
-        return list1;
-    }
-
-    protected StoreSideMenuDTO storeSideMenuToStoreSideMenuDTO(StoreSideMenu storeSideMenu) {
-        if ( storeSideMenu == null ) {
-            return null;
-        }
-
-        StoreSideMenuDTO storeSideMenuDTO = new StoreSideMenuDTO();
-
-        storeSideMenuDTO.setSeq( storeSideMenu.getSeq() );
-        storeSideMenuDTO.setStoreSideCategorySeq( storeSideMenu.getStoreSideCategorySeq() );
-        storeSideMenuDTO.setName( storeSideMenu.getName() );
-        storeSideMenuDTO.setPrice( storeSideMenu.getPrice() );
-        storeSideMenuDTO.setStatus( storeSideMenu.isStatus() );
-        storeSideMenuDTO.setSoldOutStatus( storeSideMenu.isSoldOutStatus() );
-        storeSideMenuDTO.setStoreSideImgs( storeSideImgListToStoreSideImgDTOList( storeSideMenu.getStoreSideImgs() ) );
-
-        return storeSideMenuDTO;
-    }
-
-    protected List<StoreSideMenuDTO> storeSideMenuListToStoreSideMenuDTOList(List<StoreSideMenu> list) {
-        if ( list == null ) {
-            return null;
-        }
-
-        List<StoreSideMenuDTO> list1 = new ArrayList<StoreSideMenuDTO>( list.size() );
-        for ( StoreSideMenu storeSideMenu : list ) {
-            list1.add( storeSideMenuToStoreSideMenuDTO( storeSideMenu ) );
-        }
-
-        return list1;
-    }
-
-    protected StoreSideCategoryDTO storeSideCategoryToStoreSideCategoryDTO(StoreSideCategory storeSideCategory) {
-        if ( storeSideCategory == null ) {
-            return null;
-        }
-
-        StoreSideCategoryDTO.StoreSideCategoryDTOBuilder storeSideCategoryDTO = StoreSideCategoryDTO.builder();
-
-        storeSideCategoryDTO.seq( storeSideCategory.getSeq() );
-        storeSideCategoryDTO.storeSeq( storeSideCategory.getStoreSeq() );
-        storeSideCategoryDTO.name( storeSideCategory.getName() );
-        storeSideCategoryDTO.status( storeSideCategory.isStatus() );
-        storeSideCategoryDTO.storeSideMenus( storeSideMenuListToStoreSideMenuDTOList( storeSideCategory.getStoreSideMenus() ) );
-
-        return storeSideCategoryDTO.build();
-    }
-
     protected StoreMSDTO storeMSToStoreMSDTO(StoreMS storeMS) {
         if ( storeMS == null ) {
             return null;
@@ -829,6 +769,54 @@ public class StoreMapperImpl implements StoreMapper {
         storeOrderVanInfoDTO.setDate( storeOrderVanInfo.getDate() );
 
         return storeOrderVanInfoDTO;
+    }
+
+    protected StoreSideImgDTO storeSideImgToStoreSideImgDTO(StoreSideImg storeSideImg) {
+        if ( storeSideImg == null ) {
+            return null;
+        }
+
+        StoreSideImgDTO storeSideImgDTO = new StoreSideImgDTO();
+
+        storeSideImgDTO.setSeq( storeSideImg.getSeq() );
+        storeSideImgDTO.setStoreSideMenuSeq( storeSideImg.getStoreSideMenuSeq() );
+        storeSideImgDTO.setName( storeSideImg.getName() );
+        storeSideImgDTO.setUrl( storeSideImg.getUrl() );
+        storeSideImgDTO.setExtension( storeSideImg.getExtension() );
+        storeSideImgDTO.setDate( storeSideImg.getDate() );
+
+        return storeSideImgDTO;
+    }
+
+    protected List<StoreSideImgDTO> storeSideImgListToStoreSideImgDTOList(List<StoreSideImg> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<StoreSideImgDTO> list1 = new ArrayList<StoreSideImgDTO>( list.size() );
+        for ( StoreSideImg storeSideImg : list ) {
+            list1.add( storeSideImgToStoreSideImgDTO( storeSideImg ) );
+        }
+
+        return list1;
+    }
+
+    protected StoreSideMenuDTO storeSideMenuToStoreSideMenuDTO(StoreSideMenu storeSideMenu) {
+        if ( storeSideMenu == null ) {
+            return null;
+        }
+
+        StoreSideMenuDTO storeSideMenuDTO = new StoreSideMenuDTO();
+
+        storeSideMenuDTO.setSeq( storeSideMenu.getSeq() );
+        storeSideMenuDTO.setStoreSideCategorySeq( storeSideMenu.getStoreSideCategorySeq() );
+        storeSideMenuDTO.setName( storeSideMenu.getName() );
+        storeSideMenuDTO.setPrice( storeSideMenu.getPrice() );
+        storeSideMenuDTO.setStatus( storeSideMenu.isStatus() );
+        storeSideMenuDTO.setSoldOutStatus( storeSideMenu.isSoldOutStatus() );
+        storeSideMenuDTO.setStoreSideImgs( storeSideImgListToStoreSideImgDTOList( storeSideMenu.getStoreSideImgs() ) );
+
+        return storeSideMenuDTO;
     }
 
     protected StoreOrderSideDTO storeOrderSideToStoreOrderSideDTO(StoreOrderSide storeOrderSide) {
@@ -981,6 +969,19 @@ public class StoreMapperImpl implements StoreMapper {
         List<StoreSideMenu> list1 = new ArrayList<StoreSideMenu>( list.size() );
         for ( StoreSideMenuDTO storeSideMenuDTO : list ) {
             list1.add( storeSideMenuDTOToStoreSideMenu( storeSideMenuDTO ) );
+        }
+
+        return list1;
+    }
+
+    protected List<StoreSideMenuDTO> storeSideMenuListToStoreSideMenuDTOList(List<StoreSideMenu> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<StoreSideMenuDTO> list1 = new ArrayList<StoreSideMenuDTO>( list.size() );
+        for ( StoreSideMenu storeSideMenu : list ) {
+            list1.add( storeSideMenuToStoreSideMenuDTO( storeSideMenu ) );
         }
 
         return list1;

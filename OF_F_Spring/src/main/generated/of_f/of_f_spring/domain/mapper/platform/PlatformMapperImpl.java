@@ -14,7 +14,7 @@ import of_f.of_f_spring.dto.user.RoleDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-12T20:01:18+0900",
+    date = "2022-12-12T20:46:06+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class PlatformMapperImpl implements PlatformMapper {

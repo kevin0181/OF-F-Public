@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import of_f.of_f_spring.domain.entity.store.menu.StoreCategory;
+import of_f.of_f_spring.domain.entity.store.menu.StoreSideCategory;
 import of_f.of_f_spring.domain.entity.store.order.StoreOrder;
 import of_f.of_f_spring.domain.entity.store.qr.QRStoreInfo;
 import of_f.of_f_spring.domain.entity.store.qr.StoreQRId;
@@ -84,6 +85,10 @@ public class Store extends StoreStatusCheck {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "Store_seq")
     private List<StoreQRId> storeQRIds;
+
+    @OneToMany
+    @JoinColumn(name = "Store_seq")
+    private List<StoreSideCategory> storeSideCategories;
 
 
 }

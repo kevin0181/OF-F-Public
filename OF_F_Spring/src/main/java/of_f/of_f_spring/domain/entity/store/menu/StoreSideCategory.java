@@ -2,6 +2,7 @@ package of_f.of_f_spring.domain.entity.store.menu;
 
 import lombok.Getter;
 import lombok.Setter;
+import of_f.of_f_spring.domain.entity.store.Store;
 
 import javax.persistence.*;
 import java.util.List;
@@ -30,5 +31,9 @@ public class StoreSideCategory {
     @OneToMany
     @JoinColumn(name = "Store_Side_Category_seq")
     private List<StoreSideMenu> storeSideMenus;
+
+    @ManyToOne
+    @JoinColumn(name = "Store_seq", insertable = false, updatable = false)
+    private Store store;
 
 }
