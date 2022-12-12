@@ -516,4 +516,24 @@ public class StoreControllerTest {
                 .andDo(print());
     }
 
+    @Order(19)
+    @Test
+    @DisplayName("가맹점 사이드 카테고리 삭제")
+    public void 가맹점_사이드_카테고리_삭제() throws Exception {
+
+        StoreSideCategoryDTO storeSideCategoryDTO = StoreSideCategoryDTO.builder()
+                .seq(storeSideCategorySeq)
+                .storeSeq(storeSeq)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "/admin/side/category")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+                        .param("status", "delete")
+                        .content(objectMapper.writeValueAsString(storeSideCategoryDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
 }

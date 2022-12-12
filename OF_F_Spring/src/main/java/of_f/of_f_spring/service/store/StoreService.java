@@ -492,7 +492,30 @@ public class StoreService {
     }
 
     public ApiResponseDTO deleteSideCategory(StoreSideCategoryDTO storeSideCategoryDTO, Principal principal) {
-        return null;
+
+        User user = userRepository.findByEmail(principal.getName());
+
+        checkStoreSize(user.getStores()); //가게가 존재하지 않을 경우
+
+        List<StoreSideCategory> storeSideCategories = findStoreSideCategory(user, storeSideCategoryDTO);
+
+        checkSideCategorySize(storeSideCategories); //가져온 가맹점의 카테고리가 존재하는지 확인하는 부분
+
+        try {
+            for (int i = 0; i < storeSideCategories.size(); i++) {
+                if (storeSideCategories.get(i).getSeq() == storeSideCategoryDTO.getSeq()) { //삭제할 카테고리를 찾으면?
+                    storeSideCategoryRepository.delete(storeSideCategories.get(i)); //카테고리 삭제
+                    return ApiResponseDTO.builder()
+                            .message("사이드 카테고리 삭제")
+                            .detail("사이드 카테고리를 삭제하였습니다.")
+                            .data(true)
+                            .build();
+                }
+            }
+            throw new StoreException(StoreExceptionEnum.DOES_NOT_EXIST_CATEGORY);
+        } catch (Exception e) {
+            throw new StoreException(StoreExceptionEnum.CAN_NOT_DELETE_CATEGORY);
+        }
     }
 
     public List<StoreCategory> findStoreCategory(User user, StoreCategoryDTO storeCategoryDTO) { // 해당되는 가맹점의 카테고리를 가져오는 함수
