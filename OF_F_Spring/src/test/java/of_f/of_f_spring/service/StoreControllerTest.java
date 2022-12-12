@@ -6,6 +6,8 @@ import of_f.of_f_spring.domain.entity.user.EmailToken;
 import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
 import of_f.of_f_spring.dto.store.menu.StoreMenuDTO;
+import of_f.of_f_spring.dto.store.menu.StoreSideCategoryDTO;
+import of_f.of_f_spring.dto.store.qr.QRStoreInfoDTO;
 import of_f.of_f_spring.dto.user.ChangeUserDTO;
 import of_f.of_f_spring.dto.user.UserLoginDTO;
 import org.json.JSONArray;
@@ -50,6 +52,10 @@ public class StoreControllerTest {
     Long categorySeq = null;
 
     Long menuSeq = null;
+
+    Long storeQRInfoSeq = null;
+
+    Long storeSideCategorySeq = null;
 
     @Order(1)
     @Test
@@ -384,6 +390,101 @@ public class StoreControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
+
+
+    @Order(13)
+    @Test
+    @DisplayName("가맹점 QR 정보 등록")
+    public void 가맹점_QR_정보_등록() throws Exception {
+
+        QRStoreInfoDTO qrStoreInfoDTO = QRStoreInfoDTO.builder()
+                .storeSeq(storeSeq)
+                .qrPayStatus(false)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/v1/admin/store/QR/info")
+                        .param("status", "insert")
+                        .content(objectMapper.writeValueAsString(qrStoreInfoDTO))
+                        .header("Authorization", adminToken.getGrantType() + " " + adminToken.getAccessToken())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(result -> {
+                    JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
+                    jsonObject = new JSONObject(jsonObject.getString("data"));
+                    storeQRInfoSeq = jsonObject.getLong("seq");
+                    storeSeq = jsonObject.getLong("storeSeq");
+                })
+                .andDo(print());
+    }
+
+
+    @Order(13)
+    @Test
+    @DisplayName("가맹점 QR 정보 변경 (최고 관리자)")
+    public void 가맹점_QR_정보_변경() throws Exception {
+
+        QRStoreInfoDTO qrStoreInfoDTO = QRStoreInfoDTO.builder()
+                .seq(storeQRInfoSeq)
+                .storeSeq(storeSeq)
+                .qrPayStatus(false)
+                .qrSize(30)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/v1/admin/store/QR/info")
+                        .param("status", "insert")
+                        .content(objectMapper.writeValueAsString(qrStoreInfoDTO))
+                        .header("Authorization", adminToken.getGrantType() + " " + adminToken.getAccessToken())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
+
+    @Order(14)
+    @Test
+    @DisplayName("가맹점 QR ID 저장")
+    public void 가맹점_QR_ID_저장() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(BASE_URL + "/admin/qr/code")
+                        .param("id", "1QR")
+                        .param("storeSeq", String.valueOf(storeSeq))
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
+
+    @Order(15)
+    @Test
+    @DisplayName("가맹점 사이드 카테고리 생성")
+    public void 가맹점_사이드_카테고리_생성() throws Exception {
+
+        StoreSideCategoryDTO storeSideCategoryDTO = StoreSideCategoryDTO.builder()
+                .storeSeq(storeSeq)
+                .name("test 사이드 카테고리")
+                .status(false)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "/admin/side/category")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+                        .param("status", "insert")
+                        .content(objectMapper.writeValueAsString(storeSideCategoryDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(result -> {
+                    JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
+                    jsonObject = new JSONObject(jsonObject.getString("data"));
+                    storeSideCategorySeq = jsonObject.getLong("seq");
+                })
                 .andDo(print());
     }
 

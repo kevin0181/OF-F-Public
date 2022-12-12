@@ -1,13 +1,15 @@
 package of_f.of_f_spring.domain.entity.store.qr;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import of_f.of_f_spring.domain.entity.store.Store;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "QR_Store_Info")
 public class QRStoreInfo {
     @Id
@@ -27,7 +29,7 @@ public class QRStoreInfo {
     private String qrPayMoney;
 
     @Column(name = "QR_pay_status")
-    private String qrPayStatus;
+    private boolean qrPayStatus;
 
     @Column(name = "QR_pay_date")
     private String qrPayDate;

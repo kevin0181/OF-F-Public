@@ -19,9 +19,9 @@ import of_f.of_f_spring.domain.entity.store.order.StoreOrderPgInfo;
 import of_f.of_f_spring.domain.entity.store.order.StoreOrderSide;
 import of_f.of_f_spring.domain.entity.store.order.StoreOrderVanInfo;
 import of_f.of_f_spring.domain.entity.store.qr.QRStoreInfo;
+import of_f.of_f_spring.domain.entity.store.qr.StoreQRId;
 import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.domain.entity.user.UserRole;
-import of_f.of_f_spring.dto.store.QRStoreInfoDTO;
 import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.StorePgSettingDTO;
 import of_f.of_f_spring.dto.store.StoreVanSettingDTO;
@@ -37,6 +37,8 @@ import of_f.of_f_spring.dto.store.order.StoreOrderMenuDTO;
 import of_f.of_f_spring.dto.store.order.StoreOrderPgInfoDTO;
 import of_f.of_f_spring.dto.store.order.StoreOrderSideDTO;
 import of_f.of_f_spring.dto.store.order.StoreOrderVanInfoDTO;
+import of_f.of_f_spring.dto.store.qr.QRStoreInfoDTO;
+import of_f.of_f_spring.dto.store.qr.StoreQRIdDTO;
 import of_f.of_f_spring.dto.user.ResUserDTO;
 import of_f.of_f_spring.dto.user.UserDTO;
 import of_f.of_f_spring.dto.user.UserRoleDTO;
@@ -44,7 +46,7 @@ import of_f.of_f_spring.dto.user.UserSignInDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-09T16:21:20+0900",
+    date = "2022-12-12T20:01:18+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class UserMapperImpl implements UserMapper {
@@ -173,17 +175,17 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        QRStoreInfoDTO qRStoreInfoDTO = new QRStoreInfoDTO();
+        QRStoreInfoDTO.QRStoreInfoDTOBuilder qRStoreInfoDTO = QRStoreInfoDTO.builder();
 
-        qRStoreInfoDTO.setSeq( qRStoreInfo.getSeq() );
-        qRStoreInfoDTO.setStoreSeq( qRStoreInfo.getStoreSeq() );
-        qRStoreInfoDTO.setQrSubscribeSeq( qRStoreInfo.getQrSubscribeSeq() );
-        qRStoreInfoDTO.setQrSize( qRStoreInfo.getQrSize() );
-        qRStoreInfoDTO.setQrPayMoney( qRStoreInfo.getQrPayMoney() );
-        qRStoreInfoDTO.setQrPayStatus( qRStoreInfo.getQrPayStatus() );
-        qRStoreInfoDTO.setQrPayDate( qRStoreInfo.getQrPayDate() );
+        qRStoreInfoDTO.seq( qRStoreInfo.getSeq() );
+        qRStoreInfoDTO.storeSeq( qRStoreInfo.getStoreSeq() );
+        qRStoreInfoDTO.qrSubscribeSeq( qRStoreInfo.getQrSubscribeSeq() );
+        qRStoreInfoDTO.qrSize( qRStoreInfo.getQrSize() );
+        qRStoreInfoDTO.qrPayMoney( qRStoreInfo.getQrPayMoney() );
+        qRStoreInfoDTO.qrPayStatus( qRStoreInfo.isQrPayStatus() );
+        qRStoreInfoDTO.qrPayDate( qRStoreInfo.getQrPayDate() );
 
-        return qRStoreInfoDTO;
+        return qRStoreInfoDTO.build();
     }
 
     protected StorePgSettingDTO storePgSettingToStorePgSettingDTO(StorePgSetting storePgSetting) {
@@ -338,14 +340,15 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        StoreSideCategoryDTO storeSideCategoryDTO = new StoreSideCategoryDTO();
+        StoreSideCategoryDTO.StoreSideCategoryDTOBuilder storeSideCategoryDTO = StoreSideCategoryDTO.builder();
 
-        storeSideCategoryDTO.setSeq( storeSideCategory.getSeq() );
-        storeSideCategoryDTO.setName( storeSideCategory.getName() );
-        storeSideCategoryDTO.setStatus( storeSideCategory.isStatus() );
-        storeSideCategoryDTO.setStoreSideMenus( storeSideMenuListToStoreSideMenuDTOList( storeSideCategory.getStoreSideMenus() ) );
+        storeSideCategoryDTO.seq( storeSideCategory.getSeq() );
+        storeSideCategoryDTO.storeSeq( storeSideCategory.getStoreSeq() );
+        storeSideCategoryDTO.name( storeSideCategory.getName() );
+        storeSideCategoryDTO.status( storeSideCategory.isStatus() );
+        storeSideCategoryDTO.storeSideMenus( storeSideMenuListToStoreSideMenuDTOList( storeSideCategory.getStoreSideMenus() ) );
 
-        return storeSideCategoryDTO;
+        return storeSideCategoryDTO.build();
     }
 
     protected StoreMSDTO storeMSToStoreMSDTO(StoreMS storeMS) {
@@ -573,6 +576,33 @@ public class UserMapperImpl implements UserMapper {
         return list1;
     }
 
+    protected StoreQRIdDTO storeQRIdToStoreQRIdDTO(StoreQRId storeQRId) {
+        if ( storeQRId == null ) {
+            return null;
+        }
+
+        StoreQRIdDTO.StoreQRIdDTOBuilder storeQRIdDTO = StoreQRIdDTO.builder();
+
+        storeQRIdDTO.seq( storeQRId.getSeq() );
+        storeQRIdDTO.storeSeq( storeQRId.getStoreSeq() );
+        storeQRIdDTO.id( storeQRId.getId() );
+
+        return storeQRIdDTO.build();
+    }
+
+    protected List<StoreQRIdDTO> storeQRIdListToStoreQRIdDTOList(List<StoreQRId> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<StoreQRIdDTO> list1 = new ArrayList<StoreQRIdDTO>( list.size() );
+        for ( StoreQRId storeQRId : list ) {
+            list1.add( storeQRIdToStoreQRIdDTO( storeQRId ) );
+        }
+
+        return list1;
+    }
+
     protected StoreDTO storeToStoreDTO(Store store) {
         if ( store == null ) {
             return null;
@@ -597,6 +627,7 @@ public class UserMapperImpl implements UserMapper {
         storeDTO.storeVanSettings( storeVanSettingListToStoreVanSettingDTOList( store.getStoreVanSettings() ) );
         storeDTO.storeCategories( storeCategoryListToStoreCategoryDTOList( store.getStoreCategories() ) );
         storeDTO.storeOrders( storeOrderListToStoreOrderDTOList( store.getStoreOrders() ) );
+        storeDTO.storeQRIds( storeQRIdListToStoreQRIdDTOList( store.getStoreQRIds() ) );
 
         return storeDTO.build();
     }

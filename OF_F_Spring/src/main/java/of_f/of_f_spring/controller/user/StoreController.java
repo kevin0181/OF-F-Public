@@ -6,6 +6,7 @@ import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
 import of_f.of_f_spring.dto.store.menu.StoreMenuDTO;
+import of_f.of_f_spring.dto.store.menu.StoreSideCategoryDTO;
 import of_f.of_f_spring.service.store.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -69,4 +70,24 @@ public class StoreController {
         throw new ApiException(ExceptionEnum.INVALID_PARAMS);
     }
 
+    @GetMapping("/admin/qr/code")
+    public ApiResponseDTO qrCodeIdSave(@RequestParam String id,
+                                       @RequestParam Long storeSeq,
+                                       Principal principal) {
+        return storeService.saveStoreQRId(id, storeSeq, principal);
+    }
+
+    @PostMapping("/admin/side/category")
+    public ApiResponseDTO sideCategory(@RequestParam String status,
+                                       @RequestBody @Valid StoreSideCategoryDTO storeSideCategoryDTO,
+                                       Principal principal) {
+        switch (status) {
+            case "insert":
+                return storeService.saveSideCategory(storeSideCategoryDTO, principal);
+            case "update":
+            case "delete":
+        }
+
+        throw new ApiException(ExceptionEnum.INVALID_PARAMS);
+    }
 }
