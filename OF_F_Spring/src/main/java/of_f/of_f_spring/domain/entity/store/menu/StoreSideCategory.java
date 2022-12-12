@@ -14,6 +14,9 @@ public class StoreSideCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
+    @Column(name = "Store_seq")
+    private Long storeSeq;
+
     @Column
     private String name;
 

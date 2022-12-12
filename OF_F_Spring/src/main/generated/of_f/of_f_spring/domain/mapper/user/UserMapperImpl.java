@@ -46,7 +46,7 @@ import of_f.of_f_spring.dto.user.UserSignInDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-12T18:34:05+0900",
+    date = "2022-12-12T20:01:18+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class UserMapperImpl implements UserMapper {
@@ -340,14 +340,15 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        StoreSideCategoryDTO storeSideCategoryDTO = new StoreSideCategoryDTO();
+        StoreSideCategoryDTO.StoreSideCategoryDTOBuilder storeSideCategoryDTO = StoreSideCategoryDTO.builder();
 
-        storeSideCategoryDTO.setSeq( storeSideCategory.getSeq() );
-        storeSideCategoryDTO.setName( storeSideCategory.getName() );
-        storeSideCategoryDTO.setStatus( storeSideCategory.isStatus() );
-        storeSideCategoryDTO.setStoreSideMenus( storeSideMenuListToStoreSideMenuDTOList( storeSideCategory.getStoreSideMenus() ) );
+        storeSideCategoryDTO.seq( storeSideCategory.getSeq() );
+        storeSideCategoryDTO.storeSeq( storeSideCategory.getStoreSeq() );
+        storeSideCategoryDTO.name( storeSideCategory.getName() );
+        storeSideCategoryDTO.status( storeSideCategory.isStatus() );
+        storeSideCategoryDTO.storeSideMenus( storeSideMenuListToStoreSideMenuDTOList( storeSideCategory.getStoreSideMenus() ) );
 
-        return storeSideCategoryDTO;
+        return storeSideCategoryDTO.build();
     }
 
     protected StoreMSDTO storeMSToStoreMSDTO(StoreMS storeMS) {

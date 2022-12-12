@@ -2,10 +2,7 @@ package of_f.of_f_spring.service.store;
 
 import lombok.extern.slf4j.Slf4j;
 import of_f.of_f_spring.domain.entity.store.Store;
-import of_f.of_f_spring.domain.entity.store.menu.StoreCategory;
-import of_f.of_f_spring.domain.entity.store.menu.StoreMS;
-import of_f.of_f_spring.domain.entity.store.menu.StoreMenu;
-import of_f.of_f_spring.domain.entity.store.menu.StoreMenuImg;
+import of_f.of_f_spring.domain.entity.store.menu.*;
 import of_f.of_f_spring.domain.entity.store.qr.QRStoreInfo;
 import of_f.of_f_spring.domain.entity.store.qr.StoreQRId;
 import of_f.of_f_spring.domain.entity.user.User;
@@ -16,12 +13,10 @@ import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
 import of_f.of_f_spring.dto.store.menu.StoreMenuDTO;
+import of_f.of_f_spring.dto.store.menu.StoreSideCategoryDTO;
 import of_f.of_f_spring.dto.store.qr.QRStoreInfoDTO;
 import of_f.of_f_spring.dto.user.UserDTO;
-import of_f.of_f_spring.repository.store.QRStoreInfoRepository;
-import of_f.of_f_spring.repository.store.StoreCategoryRepository;
-import of_f.of_f_spring.repository.store.StoreMenuRepository;
-import of_f.of_f_spring.repository.store.StoreRepository;
+import of_f.of_f_spring.repository.store.*;
 import of_f.of_f_spring.repository.user.UserRepository;
 import of_f.of_f_spring.service.config.ImgService;
 import of_f.of_f_spring.service.user.EmailService;
@@ -46,6 +41,9 @@ public class StoreService {
 
     @Autowired
     private StoreCategoryRepository storeCategoryRepository;
+
+    @Autowired
+    private StoreSideCategoryRepository storeSideCategoryRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -457,5 +455,31 @@ public class StoreService {
                 .detail("QR 정보를 저장했습니다.")
                 .data(storeDTO)
                 .build();
+    }
+
+    public ApiResponseDTO saveSideCategory(StoreSideCategoryDTO storeSideCategoryDTO, Principal principal) {
+
+        User user = userRepository.findByEmail(principal.getName());
+
+        checkStoreSize(user.getStores()); //가게가 존재하는지 먼저 체크
+
+        for (int i = 0; i < user.getStores().size(); i++) {
+            if (user.getStores().get(i).getSeq() == storeSideCategoryDTO.getStoreSeq()) {
+
+                user.getStores().get(i).checkStoreStatus(user.getStores().get(i).getStatus()); //가맹점 상태가 어떤지 확인
+
+                try {
+                    StoreSideCategory storeSideCategory = StoreMapper.instance.storeSideCategoryDTOToStoreSideCategory(storeSideCategoryDTO);
+                    return ApiResponseDTO.builder()
+                            .message("사이드 카테고리 저장 성공")
+                            .detail("사이드 카테고리를 저장하였습니다.")
+                            .data(storeSideCategoryRepository.save(storeSideCategory))
+                            .build();
+                } catch (Exception e) {
+                    throw new StoreException(StoreExceptionEnum.FAIL_SAVE_CATEGORY);
+                }
+            }
+        }
+        throw new StoreException(StoreExceptionEnum.FAIL_SAVE_CATEGORY);
     }
 }

@@ -40,7 +40,7 @@ import of_f.of_f_spring.dto.store.qr.StoreQRIdDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-12T18:34:04+0900",
+    date = "2022-12-12T20:01:17+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class StoreMapperImpl implements StoreMapper {
@@ -243,6 +243,23 @@ public class StoreMapperImpl implements StoreMapper {
         qRStoreInfoDTO.qrPayDate( qrStoreInfo.getQrPayDate() );
 
         return qRStoreInfoDTO.build();
+    }
+
+    @Override
+    public StoreSideCategory storeSideCategoryDTOToStoreSideCategory(StoreSideCategoryDTO storeSideCategoryDTO) {
+        if ( storeSideCategoryDTO == null ) {
+            return null;
+        }
+
+        StoreSideCategory storeSideCategory = new StoreSideCategory();
+
+        storeSideCategory.setSeq( storeSideCategoryDTO.getSeq() );
+        storeSideCategory.setStoreSeq( storeSideCategoryDTO.getStoreSeq() );
+        storeSideCategory.setName( storeSideCategoryDTO.getName() );
+        storeSideCategory.setStatus( storeSideCategoryDTO.isStatus() );
+        storeSideCategory.setStoreSideMenus( storeSideMenuDTOListToStoreSideMenuList( storeSideCategoryDTO.getStoreSideMenus() ) );
+
+        return storeSideCategory;
     }
 
     protected StoreSideImg storeSideImgDTOToStoreSideImg(StoreSideImgDTO storeSideImgDTO) {
@@ -560,34 +577,6 @@ public class StoreMapperImpl implements StoreMapper {
         return list1;
     }
 
-    protected List<StoreSideMenu> storeSideMenuDTOListToStoreSideMenuList(List<StoreSideMenuDTO> list) {
-        if ( list == null ) {
-            return null;
-        }
-
-        List<StoreSideMenu> list1 = new ArrayList<StoreSideMenu>( list.size() );
-        for ( StoreSideMenuDTO storeSideMenuDTO : list ) {
-            list1.add( storeSideMenuDTOToStoreSideMenu( storeSideMenuDTO ) );
-        }
-
-        return list1;
-    }
-
-    protected StoreSideCategory storeSideCategoryDTOToStoreSideCategory(StoreSideCategoryDTO storeSideCategoryDTO) {
-        if ( storeSideCategoryDTO == null ) {
-            return null;
-        }
-
-        StoreSideCategory storeSideCategory = new StoreSideCategory();
-
-        storeSideCategory.setSeq( storeSideCategoryDTO.getSeq() );
-        storeSideCategory.setName( storeSideCategoryDTO.getName() );
-        storeSideCategory.setStatus( storeSideCategoryDTO.isStatus() );
-        storeSideCategory.setStoreSideMenus( storeSideMenuDTOListToStoreSideMenuList( storeSideCategoryDTO.getStoreSideMenus() ) );
-
-        return storeSideCategory;
-    }
-
     protected StoreMS storeMSDTOToStoreMS1(StoreMSDTO storeMSDTO) {
         if ( storeMSDTO == null ) {
             return null;
@@ -699,14 +688,15 @@ public class StoreMapperImpl implements StoreMapper {
             return null;
         }
 
-        StoreSideCategoryDTO storeSideCategoryDTO = new StoreSideCategoryDTO();
+        StoreSideCategoryDTO.StoreSideCategoryDTOBuilder storeSideCategoryDTO = StoreSideCategoryDTO.builder();
 
-        storeSideCategoryDTO.setSeq( storeSideCategory.getSeq() );
-        storeSideCategoryDTO.setName( storeSideCategory.getName() );
-        storeSideCategoryDTO.setStatus( storeSideCategory.isStatus() );
-        storeSideCategoryDTO.setStoreSideMenus( storeSideMenuListToStoreSideMenuDTOList( storeSideCategory.getStoreSideMenus() ) );
+        storeSideCategoryDTO.seq( storeSideCategory.getSeq() );
+        storeSideCategoryDTO.storeSeq( storeSideCategory.getStoreSeq() );
+        storeSideCategoryDTO.name( storeSideCategory.getName() );
+        storeSideCategoryDTO.status( storeSideCategory.isStatus() );
+        storeSideCategoryDTO.storeSideMenus( storeSideMenuListToStoreSideMenuDTOList( storeSideCategory.getStoreSideMenus() ) );
 
-        return storeSideCategoryDTO;
+        return storeSideCategoryDTO.build();
     }
 
     protected StoreMSDTO storeMSToStoreMSDTO(StoreMS storeMS) {
@@ -981,5 +971,18 @@ public class StoreMapperImpl implements StoreMapper {
         storeQRId.id( storeQRIdDTO.getId() );
 
         return storeQRId.build();
+    }
+
+    protected List<StoreSideMenu> storeSideMenuDTOListToStoreSideMenuList(List<StoreSideMenuDTO> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<StoreSideMenu> list1 = new ArrayList<StoreSideMenu>( list.size() );
+        for ( StoreSideMenuDTO storeSideMenuDTO : list ) {
+            list1.add( storeSideMenuDTOToStoreSideMenu( storeSideMenuDTO ) );
+        }
+
+        return list1;
     }
 }
