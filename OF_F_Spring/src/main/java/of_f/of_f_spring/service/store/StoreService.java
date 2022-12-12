@@ -436,12 +436,15 @@ public class StoreService {
         if (!user.getEmail().equals(principal.getName())) //유저가 일치하지 않는 경우
             throw new StoreException(StoreExceptionEnum.AUTH_NOT_MATCH);
 
+        if (store.getQrStoreInfo().getQrSize() < store.getStoreQRIds().size())
+            throw new StoreException(StoreExceptionEnum.QR_SIZE_OVER);
+
         StoreQRId storeQRId = StoreQRId.builder()
                 .storeSeq(storeSeq)
                 .id(id)
                 .build();
 
-        List<StoreQRId> storeQRIds = new ArrayList<>();
+        List<StoreQRId> storeQRIds = store.getStoreQRIds();
 
         storeQRIds.add(storeQRId);
 
