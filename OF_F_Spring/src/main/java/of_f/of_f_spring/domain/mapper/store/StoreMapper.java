@@ -46,4 +46,6 @@ public interface StoreMapper {
 
     StoreSideCategory storeSideCategoryDTOToStoreSideCategory(StoreSideCategoryDTO storeSideCategoryDTO);
 
+    StoreSideCategoryDTO storeSideCategoryToStoreSideCategoryDTO(StoreSideCategory storeSideCategory);
+
 }

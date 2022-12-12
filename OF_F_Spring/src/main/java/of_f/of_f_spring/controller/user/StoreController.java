@@ -85,7 +85,9 @@ public class StoreController {
             case "insert":
                 return storeService.saveSideCategory(storeSideCategoryDTO, principal);
             case "update":
+                return storeService.updateSideCategory(storeSideCategoryDTO, principal);
             case "delete":
+                return storeService.deleteSideCategory(storeSideCategoryDTO, principal);
         }
 
         throw new ApiException(ExceptionEnum.INVALID_PARAMS);

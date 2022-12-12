@@ -251,7 +251,7 @@ public class StoreControllerTest {
                 .andDo(print());
     }
 
-    @Order(8)
+    @Order(9)
     @Test
     @DisplayName("가맹점 카테고리 삭제")
     public void 가맹점_카테고리_삭제() throws Exception {
@@ -272,7 +272,7 @@ public class StoreControllerTest {
                 .andDo(print());
     }
 
-    @Order(9)
+    @Order(10)
     @Test
     @DisplayName("가맹점 메뉴 추가(이미지 제외)")
     public void 가맹점_메뉴_추가() throws Exception {
@@ -302,7 +302,7 @@ public class StoreControllerTest {
     }
 
 
-    @Order(10)
+    @Order(11)
     @Test
     @DisplayName("가맹점 메뉴 추가(이미지 포함)")
     public void 가맹점_메뉴_추가2() throws Exception {
@@ -343,7 +343,7 @@ public class StoreControllerTest {
                 .andDo(print());
     }
 
-    @Order(11)
+    @Order(12)
     @Test
     @DisplayName("가맹점 메뉴 변경(이미지 제외)")
     public void 가맹점_메뉴_변경() throws Exception {
@@ -368,7 +368,7 @@ public class StoreControllerTest {
                 .andDo(print());
     }
 
-    @Order(12)
+    @Order(13)
     @Test
     @DisplayName("가맹점 메뉴 삭제")
     public void 가맹점_메뉴_삭제() throws Exception {
@@ -394,7 +394,7 @@ public class StoreControllerTest {
     }
 
 
-    @Order(13)
+    @Order(14)
     @Test
     @DisplayName("가맹점 QR 정보 등록")
     public void 가맹점_QR_정보_등록() throws Exception {
@@ -422,7 +422,7 @@ public class StoreControllerTest {
     }
 
 
-    @Order(13)
+    @Order(15)
     @Test
     @DisplayName("가맹점 QR 정보 변경 (최고 관리자)")
     public void 가맹점_QR_정보_변경() throws Exception {
@@ -445,7 +445,7 @@ public class StoreControllerTest {
                 .andDo(print());
     }
 
-    @Order(14)
+    @Order(16)
     @Test
     @DisplayName("가맹점 QR ID 저장")
     public void 가맹점_QR_ID_저장() throws Exception {
@@ -461,7 +461,7 @@ public class StoreControllerTest {
                 .andDo(print());
     }
 
-    @Order(15)
+    @Order(17)
     @Test
     @DisplayName("가맹점 사이드 카테고리 생성")
     public void 가맹점_사이드_카테고리_생성() throws Exception {
@@ -488,4 +488,52 @@ public class StoreControllerTest {
                 .andDo(print());
     }
 
+    @Order(18)
+    @Test
+    @DisplayName("가맹점 사이드 카테고리 변경")
+    public void 가맹점_사이드_카테고리_변경() throws Exception {
+
+        StoreSideCategoryDTO storeSideCategoryDTO = StoreSideCategoryDTO.builder()
+                .seq(storeSideCategorySeq)
+                .storeSeq(storeSeq)
+                .name("test 사이드 카테고리 변경")
+                .status(false)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "/admin/side/category")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+                        .param("status", "update")
+                        .content(objectMapper.writeValueAsString(storeSideCategoryDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(result -> {
+                    JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
+                    jsonObject = new JSONObject(jsonObject.getString("data"));
+                    storeSideCategorySeq = jsonObject.getLong("seq");
+                })
+                .andDo(print());
+    }
+
+    @Order(19)
+    @Test
+    @DisplayName("가맹점 사이드 카테고리 삭제")
+    public void 가맹점_사이드_카테고리_삭제() throws Exception {
+
+        StoreSideCategoryDTO storeSideCategoryDTO = StoreSideCategoryDTO.builder()
+                .seq(storeSideCategorySeq)
+                .storeSeq(storeSeq)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "/admin/side/category")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+                        .param("status", "delete")
+                        .content(objectMapper.writeValueAsString(storeSideCategoryDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
 }
