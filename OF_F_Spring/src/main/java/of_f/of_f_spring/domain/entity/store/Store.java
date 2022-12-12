@@ -81,7 +81,7 @@ public class Store extends StoreStatusCheck {
     @JoinColumn(name = "Store_seq")
     private List<StoreCategory> storeCategories;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "Store_seq")
     private List<StoreQRId> storeQRIds;
 

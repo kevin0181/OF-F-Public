@@ -8,7 +8,7 @@ import of_f.of_f_spring.dto.platform.SubscribeDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-09T17:01:48+0900",
+    date = "2022-12-12T18:34:05+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class SubscribeMapperImpl implements SubscribeMapper {

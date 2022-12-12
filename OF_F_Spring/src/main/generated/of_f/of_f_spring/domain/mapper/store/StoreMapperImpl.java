@@ -40,7 +40,7 @@ import of_f.of_f_spring.dto.store.qr.StoreQRIdDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-09T17:30:24+0900",
+    date = "2022-12-12T18:34:04+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class StoreMapperImpl implements StoreMapper {
@@ -70,6 +70,7 @@ public class StoreMapperImpl implements StoreMapper {
         store.setStorePgSettings( storePgSettingDTOListToStorePgSettingList( storeDTO.getStorePgSettings() ) );
         store.setStoreVanSettings( storeVanSettingDTOListToStoreVanSettingList( storeDTO.getStoreVanSettings() ) );
         store.setStoreCategories( storeCategoryDTOListToStoreCategoryList( storeDTO.getStoreCategories() ) );
+        store.setStoreQRIds( storeQRIdDTOToStoreQRId( storeDTO.getStoreQRIds() ) );
 
         return store;
     }
@@ -187,6 +188,7 @@ public class StoreMapperImpl implements StoreMapper {
         storeDTO.storeVanSettings( storeVanSettingListToStoreVanSettingDTOList( store.getStoreVanSettings() ) );
         storeDTO.storeCategories( storeCategoryListToStoreCategoryDTOList( store.getStoreCategories() ) );
         storeDTO.storeOrders( storeOrderListToStoreOrderDTOList( store.getStoreOrders() ) );
+        storeDTO.storeQRIds( storeQRIdListToStoreQRIdDTOList( store.getStoreQRIds() ) );
 
         return storeDTO.build();
     }
@@ -935,6 +937,33 @@ public class StoreMapperImpl implements StoreMapper {
         List<StoreOrderDTO> list1 = new ArrayList<StoreOrderDTO>( list.size() );
         for ( StoreOrder storeOrder : list ) {
             list1.add( storeOrderToStoreOrderDTO( storeOrder ) );
+        }
+
+        return list1;
+    }
+
+    protected StoreQRIdDTO storeQRIdToStoreQRIdDTO(StoreQRId storeQRId) {
+        if ( storeQRId == null ) {
+            return null;
+        }
+
+        StoreQRIdDTO.StoreQRIdDTOBuilder storeQRIdDTO = StoreQRIdDTO.builder();
+
+        storeQRIdDTO.seq( storeQRId.getSeq() );
+        storeQRIdDTO.storeSeq( storeQRId.getStoreSeq() );
+        storeQRIdDTO.id( storeQRId.getId() );
+
+        return storeQRIdDTO.build();
+    }
+
+    protected List<StoreQRIdDTO> storeQRIdListToStoreQRIdDTOList(List<StoreQRId> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<StoreQRIdDTO> list1 = new ArrayList<StoreQRIdDTO>( list.size() );
+        for ( StoreQRId storeQRId : list ) {
+            list1.add( storeQRIdToStoreQRIdDTO( storeQRId ) );
         }
 
         return list1;

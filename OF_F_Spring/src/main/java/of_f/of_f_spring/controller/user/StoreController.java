@@ -69,4 +69,10 @@ public class StoreController {
         throw new ApiException(ExceptionEnum.INVALID_PARAMS);
     }
 
+    @GetMapping("/admin/qr/code")
+    public ApiResponseDTO qrCodeIdSave(@RequestParam String id,
+                                       @RequestParam Long storeSeq,
+                                       Principal principal) {
+        return storeService.saveStoreQRId(id, storeSeq, principal);
+    }
 }

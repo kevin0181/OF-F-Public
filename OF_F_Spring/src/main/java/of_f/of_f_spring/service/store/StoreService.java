@@ -7,6 +7,7 @@ import of_f.of_f_spring.domain.entity.store.menu.StoreMS;
 import of_f.of_f_spring.domain.entity.store.menu.StoreMenu;
 import of_f.of_f_spring.domain.entity.store.menu.StoreMenuImg;
 import of_f.of_f_spring.domain.entity.store.qr.QRStoreInfo;
+import of_f.of_f_spring.domain.entity.store.qr.StoreQRId;
 import of_f.of_f_spring.domain.entity.user.User;
 import of_f.of_f_spring.domain.exception.*;
 import of_f.of_f_spring.domain.mapper.store.StoreMapper;
@@ -393,7 +394,10 @@ public class StoreService {
 
     public ApiResponseDTO saveStoreQRInfo(QRStoreInfoDTO qrStoreInfoDTO) {
 
-        QRStoreInfo qrStoreInfo;
+        QRStoreInfo qrStoreInfo = qrStoreInfoRepository.findByStoreSeq(qrStoreInfoDTO.getStoreSeq());
+
+        if (qrStoreInfo != null && qrStoreInfoDTO.getSeq() == null)
+            throw new AdminException(AdminExceptionEnum.ALREADY_STORE_QR_INFO);
 
         QRStoreInfoDTO resQRStoreInfoDTO;
 
@@ -419,6 +423,36 @@ public class StoreService {
                 .message("가맹점 QR 정보 저장 성공")
                 .detail("가맹점의 QR 정보를 저장했습니다.")
                 .data(resQRStoreInfoDTO)
+                .build();
+    }
+
+    public ApiResponseDTO saveStoreQRId(String id, Long storeSeq, Principal principal) {
+        Store store = storeRepository.findById(storeSeq).orElse(null);
+        if (store == null) //가맹점이 없을 경우
+            throw new StoreException(StoreExceptionEnum.CAN_NOT_FOUND_STORE);
+
+        User user = store.getUser();
+
+        if (!user.getEmail().equals(principal.getName())) //유저가 일치하지 않는 경우
+            throw new StoreException(StoreExceptionEnum.AUTH_NOT_MATCH);
+
+        StoreQRId storeQRId = StoreQRId.builder()
+                .storeSeq(storeSeq)
+                .id(id)
+                .build();
+
+        List<StoreQRId> storeQRIds = new ArrayList<>();
+
+        storeQRIds.add(storeQRId);
+
+        store.setStoreQRIds(storeQRIds);
+
+        StoreDTO storeDTO = StoreMapper.instance.storeToStoreDTO(storeRepository.save(store));
+
+        return ApiResponseDTO.builder()
+                .message("qr 정보 저장")
+                .detail("QR 정보를 저장했습니다.")
+                .data(storeDTO)
                 .build();
     }
 }

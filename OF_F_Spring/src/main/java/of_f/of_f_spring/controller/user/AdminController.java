@@ -41,8 +41,6 @@ public class AdminController {
         switch (status) {
             case "insert":
                 return storeService.saveStoreQRInfo(qrStoreInfoDTO);
-            case "update":
-            case "delete":
         }
 
         throw new ApiException(ExceptionEnum.INVALID_PARAMS);

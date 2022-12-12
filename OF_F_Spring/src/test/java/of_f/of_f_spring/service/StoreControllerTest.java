@@ -402,7 +402,7 @@ public class StoreControllerTest {
                 .build();
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .multipart("/api/v1/admin/store/QR/info")
+                        .post("/api/v1/admin/store/QR/info")
                         .param("status", "insert")
                         .content(objectMapper.writeValueAsString(qrStoreInfoDTO))
                         .header("Authorization", adminToken.getGrantType() + " " + adminToken.getAccessToken())
@@ -421,7 +421,7 @@ public class StoreControllerTest {
 
     @Order(13)
     @Test
-    @DisplayName("가맹점 QR 정보 변경")
+    @DisplayName("가맹점 QR 정보 변경 (최고 관리자)")
     public void 가맹점_QR_정보_변경() throws Exception {
 
         QRStoreInfoDTO qrStoreInfoDTO = QRStoreInfoDTO.builder()
@@ -432,10 +432,26 @@ public class StoreControllerTest {
                 .build();
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .multipart("/api/v1/admin/store/QR/info")
+                        .post("/api/v1/admin/store/QR/info")
                         .param("status", "insert")
                         .content(objectMapper.writeValueAsString(qrStoreInfoDTO))
                         .header("Authorization", adminToken.getGrantType() + " " + adminToken.getAccessToken())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
+
+    @Order(14)
+    @Test
+    @DisplayName("가맹점 QR ID 저장")
+    public void 가맹점_QR_ID_저장() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(BASE_URL + "/admin/qr/code")
+                        .param("id", "1QR")
+                        .param("storeSeq", String.valueOf(storeSeq))
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", is(200)))
