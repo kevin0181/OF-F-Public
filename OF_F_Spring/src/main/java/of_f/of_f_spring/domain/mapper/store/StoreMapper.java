@@ -8,7 +8,10 @@ import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.menu.*;
 import of_f.of_f_spring.dto.store.qr.QRStoreInfoDTO;
 import of_f.of_f_spring.dto.store.qr.StoreQRIdDTO;
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -20,6 +23,21 @@ public interface StoreMapper {
 
     Store storeDTOTOStore(StoreDTO storeDTO);
 
+
+    StoreDTO storeToStoreDTO(Store store);
+
+    @Mapping(target = "accountBankName", ignore = true)
+    @Mapping(target = "accountNumber", ignore = true)
+    @Mapping(target = "depositDate", ignore = true)
+    @Mapping(target = "openDate", ignore = true)
+    @Mapping(target = "status", ignore = true)
+    @Mapping(target = "qrStoreInfo", ignore = true)
+    @Mapping(target = "storePgSettings", ignore = true)
+    @Mapping(target = "storeVanSettings", ignore = true)
+    @Mapping(target = "storeOrders", ignore = true)
+    @Mapping(target = "storeQRIds", ignore = true)
+    StoreDTO storeToStoreDTOByOrderUser(Store store);
+
     StoreCategory storeCategoryDTOToStoreCategory(StoreCategoryDTO storeCategoryDTO);
 
     StoreCategoryDTO storeCategoryToStoreCategoryDTO(StoreCategory storeCategory);
@@ -29,12 +47,6 @@ public interface StoreMapper {
     List<StoreMS> storeMSDTOToStoreMS(List<StoreMSDTO> storeMSDTOS);
 
     StoreMenuDTO storeMenuToStoreMenuDTO(StoreMenu storeMenu);
-
-    StoreDTO storeToStoreDTO(Store store);
-
-    List<StoreQRId> storeQRIdDTOToStoreQRId(List<StoreQRIdDTO> storeQRIdDTO);
-
-    QRStoreInfo qrStoreInfoDTOToQRStoreInfo(QRStoreInfoDTO qrStoreInfoDTO);
 
     QRStoreInfoDTO qrStoreInfoToQRStoreInfoDTO(QRStoreInfo qrStoreInfo);
 

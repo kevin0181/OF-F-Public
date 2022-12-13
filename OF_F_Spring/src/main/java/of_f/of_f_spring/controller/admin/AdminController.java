@@ -1,4 +1,4 @@
-package of_f.of_f_spring.controller.user;
+package of_f.of_f_spring.controller.admin;
 
 
 import of_f.of_f_spring.domain.exception.ApiException;
