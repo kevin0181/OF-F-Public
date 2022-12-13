@@ -7,6 +7,7 @@ import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
 import of_f.of_f_spring.dto.store.menu.StoreMenuDTO;
 import of_f.of_f_spring.dto.store.menu.StoreSideCategoryDTO;
+import of_f.of_f_spring.dto.store.menu.StoreSideMenuDTO;
 import of_f.of_f_spring.service.store.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,8 +41,6 @@ public class StoreController {
                                    Principal principal) {
 
         switch (status) {
-//            case "list":
-//                return storeService.getCategoryList(storeCategoryDTO);
             case "insert":
                 return storeService.saveCategory(storeCategoryDTO, principal);
             case "update":
@@ -88,6 +87,23 @@ public class StoreController {
                 return storeService.updateSideCategory(storeSideCategoryDTO, principal);
             case "delete":
                 return storeService.deleteSideCategory(storeSideCategoryDTO, principal);
+        }
+
+        throw new ApiException(ExceptionEnum.INVALID_PARAMS);
+    }
+
+    @PostMapping("/admin/side/menu")
+    public ApiResponseDTO sideMenu(@RequestParam String status,
+                                   @RequestPart(value = "side-menu") @Valid StoreSideMenuDTO storeSideMenuDTO,
+                                   @RequestPart(value = "side-img", required = false) List<MultipartFile> imgFile,
+                                   Principal principal) {
+        switch (status) {
+            case "insert":
+                return storeService.saveSideMenu(storeSideMenuDTO, imgFile, principal);
+            case "update":
+                return storeService.updateSideMenu(storeSideMenuDTO, principal);
+            case "delete":
+                return storeService.deleteSideMenu(storeSideMenuDTO, principal);
         }
 
         throw new ApiException(ExceptionEnum.INVALID_PARAMS);

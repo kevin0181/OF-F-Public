@@ -1,13 +1,15 @@
 package of_f.of_f_spring.domain.entity.store.menu;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity(name = "Store_Side_Img")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class StoreSideImg {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

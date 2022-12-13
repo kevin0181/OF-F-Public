@@ -14,6 +14,7 @@ import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
 import of_f.of_f_spring.dto.store.menu.StoreMenuDTO;
 import of_f.of_f_spring.dto.store.menu.StoreSideCategoryDTO;
+import of_f.of_f_spring.dto.store.menu.StoreSideMenuDTO;
 import of_f.of_f_spring.dto.store.qr.QRStoreInfoDTO;
 import of_f.of_f_spring.dto.user.UserDTO;
 import of_f.of_f_spring.repository.store.*;
@@ -59,6 +60,9 @@ public class StoreService {
 
     @Autowired
     private QRStoreInfoRepository qrStoreInfoRepository;
+
+    @Autowired
+    private StoreSideMenuRepository storeSideMenuRepository;
 
     public ApiResponseDTO applicationNewStore(StoreDTO storeDTO, Principal principal) {  // 가맹점 신청
 
@@ -143,24 +147,6 @@ public class StoreService {
                 .data(userDTO)
                 .build();
     }
-
-
-//    public ApiResponseDTO getCategoryList(StoreCategoryDTO storeCategoryDTO) { //카테고리 리스트 가져오기
-//
-//        if (storeCategoryDTO == null || storeCategoryDTO.getSeq() == null || storeCategoryDTO.getSeq().equals("")) { //전체 리스트 가져오기
-//            return ApiResponseDTO.builder()
-//                    .message("카테고리 전체 가져오기")
-//                    .detail("카테고리 전체 가져오기")
-//                    .data(StoreMapper.instance.storeCategoryToStoreCategoryDTOList(storeCategoryRepository.findAll()))
-//                    .build();
-//        } else { //특정 카테고리 리스트 가져오기
-//            return ApiResponseDTO.builder()
-//                    .message("카테고리 가져오기")
-//                    .detail("카테고리 가져오기")
-//                    .data(StoreMapper.instance.storeCategoryToStoreCategoryDTO(storeCategoryRepository.findById(storeCategoryDTO.getSeq()).orElse(null)))
-//                    .build();
-//        }
-//    }
 
     public ApiResponseDTO saveCategory(StoreCategoryDTO storeCategoryDTO, Principal principal) { //카테고리 저장
         User user = userRepository.findByEmail(principal.getName());
@@ -266,6 +252,8 @@ public class StoreService {
         try {
             storeMenu = storeMenuRepository.save(storeMenu);
         } catch (Exception e) {
+            if (imgFile != null)
+                imgService.deleteMenuImg(storeMenuImgs);
             throw new StoreException(StoreExceptionEnum.CAN_NOT_SAVE_MENU);
         }
 
@@ -332,7 +320,7 @@ public class StoreService {
             checkMenu(storeMenuDTO, principal, storeMenu.getStoreCategory().getStore()); // request 상태 체크
 
             if (storeMenu.getStoreMenuImgs().size() != 0)
-                imgService.deleteImg(storeMenu.getStoreMenuImgs());
+                imgService.deleteMenuImg(storeMenu.getStoreMenuImgs());
 
             storeMenuRepository.deleteById(storeMenu.getSeq());
         } catch (NullPointerException e) {
@@ -346,27 +334,6 @@ public class StoreService {
                 .detail("메뉴를 삭제했습니다.")
                 .data(true)
                 .build();
-    }
-
-    private Store checkMenu(StoreMenuDTO storeMenuDTO, Principal principal, Store store) {
-
-        StoreCategory storeCategory = null;
-
-        for (int i = 0; i < store.getStoreCategories().size(); i++) {
-            if (storeMenuDTO.getStoreCategorySeq() == store.getStoreCategories().get(i).getSeq())
-                storeCategory = store.getStoreCategories().get(i);
-        }
-
-        if (storeCategory == null)
-            throw new StoreException(StoreExceptionEnum.DOES_NOT_EXIST_CATEGORY); //존재하지 않은 카테고리
-
-        if (!storeCategory.getStore().getUser().getEmail().equals(principal.getName()))
-            throw new ApiException(ExceptionEnum.AUTHORIZATION_FAILED_REQUEST); //허용되지 않은 접근
-
-        store.checkStoreStatus(store.getStatus()); // 가맹점 상태 체크
-
-
-        return store;
     }
 
 
@@ -518,6 +485,108 @@ public class StoreService {
         }
     }
 
+
+    public ApiResponseDTO saveSideMenu(StoreSideMenuDTO storeSideMenuDTO, List<MultipartFile> imgFile, Principal principal) {
+
+        StoreSideCategory storeSideCategory = storeSideCategoryRepository.findById(storeSideMenuDTO.getStoreSideCategorySeq()).orElse(null);
+
+        try {
+            checkSideMenu(storeSideMenuDTO, principal, storeSideCategory.getStore()); // request 상태 체크
+        } catch (NullPointerException e) {
+            throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_BY_INFO); //존재하지 않는 정보
+        }
+
+        List<StoreSideImg> storeSideImgs = null;
+
+        if (imgFile != null) // 이미지가 존재하는 경우
+            storeSideImgs = imgService.saveSideMenuImg(imgFile, storeSideCategory.getStore());
+
+        StoreSideMenu storeSideMenu = StoreMapper.instance.storeSideMenuDTOToStoreSideMenu(storeSideMenuDTO);
+
+        storeSideMenu.setStoreSideImgs(storeSideImgs);
+
+        try {
+            storeSideMenu = storeSideMenuRepository.save(storeSideMenu);
+        } catch (Exception e) {
+            if (imgFile != null)
+                imgService.deleteSideMenuImg(storeSideImgs);
+            throw new StoreException(StoreExceptionEnum.CAN_NOT_SAVE_MENU);
+        }
+
+
+        return ApiResponseDTO.builder()
+                .message("사이드 메뉴 저장")
+                .detail(storeSideMenu.getName() + "사이드 메뉴를 저장했습니다.")
+                .data(storeSideMenu)
+                .build();
+    }
+
+    public ApiResponseDTO updateSideMenu(StoreSideMenuDTO storeSideMenuDTO, Principal principal) {
+
+        StoreSideMenu storeSideMenu = storeSideMenuRepository.findById(storeSideMenuDTO.getSeq()).get();
+
+        try {
+            checkSideMenu(storeSideMenuDTO, principal, storeSideMenu.getStoreSideCategory().getStore()); // request 상태 체크
+        } catch (NullPointerException e) {
+            throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_BY_INFO); //존재하지 않는 정보
+        }
+
+        if (storeSideMenu == null)
+            throw new StoreException(StoreExceptionEnum.DOES_NOT_EXIST_SIDE_MENU);
+
+
+        try {
+
+            storeSideMenu = storeSideMenuRepository.save(storeSideMenu.builder()
+                    .seq(storeSideMenuDTO.getSeq())
+                    .price(storeSideMenuDTO.getPrice())
+                    .name(storeSideMenuDTO.getName())
+                    .status(storeSideMenuDTO.isStatus())
+                    .storeSideCategorySeq(storeSideMenuDTO.getStoreSideCategorySeq())
+                    .soldOutStatus(storeSideMenuDTO.isSoldOutStatus())
+                    .storeSideImgs(storeSideMenu.getStoreSideImgs())
+                    .build());
+
+        } catch (Exception e) {
+            throw new StoreException(StoreExceptionEnum.CAN_NOT_UPDATE_MENU);
+        }
+
+        StoreSideMenuDTO resStoreSideMenuUpdate = StoreMapper.instance.storeSideMenuToStoreSideMenuDTO(storeSideMenu);
+
+
+        return ApiResponseDTO.builder()
+                .message("사이드 메뉴 수정")
+                .detail("사이드 메뉴를 수정했습니다.")
+                .data(resStoreSideMenuUpdate)
+                .build();
+    }
+
+    public ApiResponseDTO deleteSideMenu(StoreSideMenuDTO storeSideMenuDTO, Principal principal) {
+        StoreSideMenu storeSideMenu = storeSideMenuRepository.findById(storeSideMenuDTO.getSeq()).orElse(null);
+
+        try {
+            checkSideMenu(storeSideMenuDTO, principal, storeSideMenu.getStoreSideCategory().getStore()); // request 상태 체크
+
+            if (storeSideMenu.getStoreSideImgs().size() != 0)
+                imgService.deleteSideMenuImg(storeSideMenu.getStoreSideImgs());
+
+            storeSideMenuRepository.deleteById(storeSideMenu.getSeq());
+        } catch (NullPointerException e) {
+            throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_BY_INFO); //존재하지 않는 정보
+        } catch (Exception e) {
+            throw new StoreException(StoreExceptionEnum.CAN_NOT_DELETE_MENU); //메뉴 삭제 실패
+        }
+
+        return ApiResponseDTO.builder()
+                .message("사이드 메뉴 삭제")
+                .detail("사이드 메뉴를 삭제했습니다.")
+                .data(true)
+                .build();
+    }
+
+
+    // ----------------------- 함수 -----------------------------
+
     public List<StoreCategory> findStoreCategory(User user, StoreCategoryDTO storeCategoryDTO) { // 해당되는 가맹점의 카테고리를 가져오는 함수
         for (int i = 0; i < user.getStores().size(); i++) {
             if (user.getStores().get(i).getSeq() == storeCategoryDTO.getStoreSeq()) {
@@ -551,6 +620,48 @@ public class StoreService {
     public void checkSideCategorySize(List<StoreSideCategory> storeSideCategories) { //가맹점의 카테고리가 존재하는지 확인
         if (storeSideCategories == null || storeSideCategories.size() == 0)
             throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_SIDE_CATEGORY);
+    }
+
+
+    private Store checkMenu(StoreMenuDTO storeMenuDTO, Principal principal, Store store) {
+
+        StoreCategory storeCategory = null;
+
+        for (int i = 0; i < store.getStoreCategories().size(); i++) {
+            if (storeMenuDTO.getStoreCategorySeq() == store.getStoreCategories().get(i).getSeq())
+                storeCategory = store.getStoreCategories().get(i);
+        }
+
+        if (storeCategory == null)
+            throw new StoreException(StoreExceptionEnum.DOES_NOT_EXIST_CATEGORY); //존재하지 않은 카테고리
+
+        if (!storeCategory.getStore().getUser().getEmail().equals(principal.getName()))
+            throw new ApiException(ExceptionEnum.AUTHORIZATION_FAILED_REQUEST); //허용되지 않은 접근
+
+        store.checkStoreStatus(store.getStatus()); // 가맹점 상태 체크
+
+
+        return store;
+    }
+
+    private Store checkSideMenu(StoreSideMenuDTO storeSideMenuDTO, Principal principal, Store store) {
+
+        StoreSideCategory storeSideCategory = null;
+
+        for (int i = 0; i < store.getStoreCategories().size(); i++) {
+            if (storeSideMenuDTO.getStoreSideCategorySeq() == store.getStoreSideCategories().get(i).getSeq())
+                storeSideCategory = store.getStoreSideCategories().get(i);
+        }
+
+        if (storeSideCategory == null)
+            throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_SIDE_CATEGORY); //존재하지 않은 카테고리
+
+        if (!storeSideCategory.getStore().getUser().getEmail().equals(principal.getName()))
+            throw new ApiException(ExceptionEnum.AUTHORIZATION_FAILED_REQUEST); //허용되지 않은 접근
+
+        store.checkStoreStatus(store.getStatus()); // 가맹점 상태 체크
+
+        return store;
     }
 
 }
