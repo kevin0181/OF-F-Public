@@ -1,17 +1,11 @@
 package of_f.of_f_spring.domain.mapper.store;
 
 import of_f.of_f_spring.domain.entity.store.Store;
-import of_f.of_f_spring.domain.entity.store.menu.StoreCategory;
-import of_f.of_f_spring.domain.entity.store.menu.StoreMS;
-import of_f.of_f_spring.domain.entity.store.menu.StoreMenu;
-import of_f.of_f_spring.domain.entity.store.menu.StoreSideCategory;
+import of_f.of_f_spring.domain.entity.store.menu.*;
 import of_f.of_f_spring.domain.entity.store.qr.QRStoreInfo;
 import of_f.of_f_spring.domain.entity.store.qr.StoreQRId;
 import of_f.of_f_spring.dto.store.StoreDTO;
-import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
-import of_f.of_f_spring.dto.store.menu.StoreMSDTO;
-import of_f.of_f_spring.dto.store.menu.StoreMenuDTO;
-import of_f.of_f_spring.dto.store.menu.StoreSideCategoryDTO;
+import of_f.of_f_spring.dto.store.menu.*;
 import of_f.of_f_spring.dto.store.qr.QRStoreInfoDTO;
 import of_f.of_f_spring.dto.store.qr.StoreQRIdDTO;
 import org.mapstruct.Mapper;
@@ -47,5 +41,9 @@ public interface StoreMapper {
     StoreSideCategory storeSideCategoryDTOToStoreSideCategory(StoreSideCategoryDTO storeSideCategoryDTO);
 
     StoreSideCategoryDTO storeSideCategoryToStoreSideCategoryDTO(StoreSideCategory storeSideCategory);
+
+    StoreSideMenu storeSideMenuDTOToStoreSideMenu(StoreSideMenuDTO storeSideMenuDTO);
+
+    StoreSideMenuDTO storeSideMenuToStoreSideMenuDTO(StoreSideMenu storeSideMenu);
 
 }

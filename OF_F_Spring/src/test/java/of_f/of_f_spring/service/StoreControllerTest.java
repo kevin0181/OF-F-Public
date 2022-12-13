@@ -57,6 +57,8 @@ public class StoreControllerTest {
 
     Long storeSideCategorySeq = null;
 
+    Long sideMenuSeq = null;
+
     @Order(1)
     @Test
     @DisplayName("로그인")
@@ -293,11 +295,6 @@ public class StoreControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", is(200)))
-//                .andDo(result -> {
-//                    JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
-//                    jsonObject = new JSONObject(jsonObject.getString("data"));
-//                    menuSeq = jsonObject.getLong("seq");
-//                })
                 .andDo(print());
     }
 
@@ -536,4 +533,98 @@ public class StoreControllerTest {
                 .andExpect(jsonPath("$.code", is(200)))
                 .andDo(print());
     }
+
+
+    @Order(20)
+    @Test
+    @DisplayName("가맹점 사이드 메뉴 추가(이미지 제외)")
+    public void 가맹점_사이드_메뉴_추가() throws Exception {
+
+        MockMultipartFile jsonFile = new MockMultipartFile("side-menu", "", "application/json", ("{\n" +
+                "    \"storeSideCategorySeq\":\"1\",\n" +
+                "    \"name\":\"1\",\n" +
+                "    \"price\":\"1\",\n" +
+                "    \"status\":\"false\"\n" +
+                "}").getBytes());
+
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .multipart(BASE_URL + "/admin/side/menu")
+                        .file(jsonFile)
+                        .param("status", "insert")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
+
+
+    @Order(21)
+    @Test
+    @DisplayName("가맹점 사이드 메뉴 추가(이미지 포함)")
+    public void 가맹점_사이드_메뉴_추가2() throws Exception {
+
+
+        final String fileName = "dog"; //파일명
+        final String contentType = "jpeg"; //파일타입
+        final String filePath = "/Users/yuyeongbin/of_f/" + fileName + "." + contentType; //파일경로
+        FileInputStream fileInputStream = new FileInputStream(filePath);
+
+        MockMultipartFile jsonFile = new MockMultipartFile("side-menu", "", "application/json", ("{\n" +
+                "    \"storeSideCategorySeq\":\"1\",\n" +
+                "    \"name\":\"1\",\n" +
+                "    \"price\":\"1\",\n" +
+                "    \"status\":\"false\"\n" +
+                "}").getBytes());
+        MockMultipartFile secondFile = new MockMultipartFile(
+                "side-img",
+                fileName + "." + contentType,
+                contentType,
+                fileInputStream);
+
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .multipart(BASE_URL + "/admin/side/menu")
+                        .file(jsonFile)
+                        .file(secondFile)
+                        .param("status", "insert")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(result -> {
+                    JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
+                    jsonObject = new JSONObject(jsonObject.getString("data"));
+                    sideMenuSeq = jsonObject.getLong("seq");
+                })
+                .andDo(print());
+    }
+
+    @Order(22)
+    @Test
+    @DisplayName("가맹점 사이드 메뉴 변경(이미지 제외)")
+    public void 가맹점_사이드_메뉴_변경() throws Exception {
+
+        MockMultipartFile jsonFile = new MockMultipartFile("side-menu", "", "application/json", ("{\n" +
+                "    \"seq\":\"" + sideMenuSeq + "\",\n" +
+                "    \"storeSideCategorySeq\":\"1\",\n" +
+                "    \"name\":\"" + "변경된 사이드 메뉴" + "\",\n" +
+                "    \"price\":\"010101\",\n" +
+                "    \"status\":\"true\"\n" +
+                "}").getBytes());
+
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .multipart(BASE_URL + "/admin/side/menu")
+                        .file(jsonFile)
+                        .param("status", "update")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
+
+
 }
