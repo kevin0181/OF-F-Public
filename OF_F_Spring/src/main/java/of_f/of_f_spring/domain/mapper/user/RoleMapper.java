@@ -11,9 +11,9 @@ import java.util.List;
 public interface RoleMapper {
     RoleMapper instance = Mappers.getMapper(RoleMapper.class);
 
-    Role RoleDTOTORole(RoleDTO roleDTO);
+//    Role RoleDTOTORole(RoleDTO roleDTO);
 
     List<RoleDTO> RolesTORoleDTOs(List<Role> roles);
 
-    List<Role> RoleDTOTORole(List<RoleDTO> roleDTOS);
+//    List<Role> RoleDTOTORole(List<RoleDTO> roleDTOS);
 }

@@ -46,7 +46,7 @@ import of_f.of_f_spring.dto.user.UserSignInDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-13T15:14:26+0900",
+    date = "2022-12-13T16:15:24+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class UserMapperImpl implements UserMapper {
@@ -356,14 +356,14 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        StoreMSDTO storeMSDTO = new StoreMSDTO();
+        StoreMSDTO.StoreMSDTOBuilder storeMSDTO = StoreMSDTO.builder();
 
-        storeMSDTO.setSeq( storeMS.getSeq() );
-        storeMSDTO.setStoreMenuSeq( storeMS.getStoreMenuSeq() );
-        storeMSDTO.setStoreSideCategorySeq( storeMS.getStoreSideCategorySeq() );
-        storeMSDTO.setStoreSideCategory( storeSideCategoryToStoreSideCategoryDTO( storeMS.getStoreSideCategory() ) );
+        storeMSDTO.seq( storeMS.getSeq() );
+        storeMSDTO.storeMenuSeq( storeMS.getStoreMenuSeq() );
+        storeMSDTO.storeSideCategorySeq( storeMS.getStoreSideCategorySeq() );
+        storeMSDTO.storeSideCategory( storeSideCategoryToStoreSideCategoryDTO( storeMS.getStoreSideCategory() ) );
 
-        return storeMSDTO;
+        return storeMSDTO.build();
     }
 
     protected List<StoreMSDTO> storeMSListToStoreMSDTOList(List<StoreMS> list) {

@@ -4,10 +4,7 @@ import of_f.of_f_spring.domain.exception.ApiException;
 import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.store.StoreDTO;
-import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
-import of_f.of_f_spring.dto.store.menu.StoreMenuDTO;
-import of_f.of_f_spring.dto.store.menu.StoreSideCategoryDTO;
-import of_f.of_f_spring.dto.store.menu.StoreSideMenuDTO;
+import of_f.of_f_spring.dto.store.menu.*;
 import of_f.of_f_spring.service.store.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -107,5 +104,11 @@ public class StoreController {
         }
 
         throw new ApiException(ExceptionEnum.INVALID_PARAMS);
+    }
+
+
+    @PostMapping("/admin/menu/side/connect")
+    public ApiResponseDTO menuAndSideConnect(@RequestBody List<StoreMSDTO> storeMSDTOS) {
+        return storeService.menuConnectSideService(storeMSDTOS);
     }
 }

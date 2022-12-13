@@ -11,10 +11,7 @@ import of_f.of_f_spring.domain.mapper.store.StoreMapper;
 import of_f.of_f_spring.domain.mapper.user.UserMapper;
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.store.StoreDTO;
-import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
-import of_f.of_f_spring.dto.store.menu.StoreMenuDTO;
-import of_f.of_f_spring.dto.store.menu.StoreSideCategoryDTO;
-import of_f.of_f_spring.dto.store.menu.StoreSideMenuDTO;
+import of_f.of_f_spring.dto.store.menu.*;
 import of_f.of_f_spring.dto.store.qr.QRStoreInfoDTO;
 import of_f.of_f_spring.dto.user.UserDTO;
 import of_f.of_f_spring.repository.store.*;
@@ -63,6 +60,9 @@ public class StoreService {
 
     @Autowired
     private StoreSideMenuRepository storeSideMenuRepository;
+
+    @Autowired
+    private StoreMSRepository storeMSRepository;
 
     public ApiResponseDTO applicationNewStore(StoreDTO storeDTO, Principal principal) {  // 가맹점 신청
 
@@ -664,4 +664,13 @@ public class StoreService {
         return store;
     }
 
+    public ApiResponseDTO menuConnectSideService(List<StoreMSDTO> storeMSDTOS) {
+        List<StoreMS> storeMS = StoreMapper.instance.storeMSDTOToStoreMS(storeMSDTOS);
+        storeMSRepository.saveAll(storeMS);
+        return ApiResponseDTO.builder()
+                .message("메뉴에 사이드 추가")
+                .detail("메뉴에 사이드를 추가하였습니다.")
+                .data(true)
+                .build();
+    }
 }

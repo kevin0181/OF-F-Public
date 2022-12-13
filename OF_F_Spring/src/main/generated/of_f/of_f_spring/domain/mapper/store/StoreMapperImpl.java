@@ -40,7 +40,7 @@ import of_f.of_f_spring.dto.store.qr.StoreQRIdDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-13T15:32:49+0900",
+    date = "2022-12-13T16:15:23+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class StoreMapperImpl implements StoreMapper {
@@ -65,12 +65,12 @@ public class StoreMapperImpl implements StoreMapper {
         store.setBusinessPhoneNumber( storeDTO.getBusinessPhoneNumber() );
         store.setOpenDate( storeDTO.getOpenDate() );
         store.setStatus( storeDTO.getStatus() );
-        store.setQrStoreInfo( qrStoreInfoDTOToQRStoreInfo( storeDTO.getQrStoreInfo() ) );
+        store.setQrStoreInfo( qRStoreInfoDTOToQRStoreInfo( storeDTO.getQrStoreInfo() ) );
         store.setStoreOrders( storeOrderDTOListToStoreOrderList( storeDTO.getStoreOrders() ) );
         store.setStorePgSettings( storePgSettingDTOListToStorePgSettingList( storeDTO.getStorePgSettings() ) );
         store.setStoreVanSettings( storeVanSettingDTOListToStoreVanSettingList( storeDTO.getStoreVanSettings() ) );
         store.setStoreCategories( storeCategoryDTOListToStoreCategoryList( storeDTO.getStoreCategories() ) );
-        store.setStoreQRIds( storeQRIdDTOToStoreQRId( storeDTO.getStoreQRIds() ) );
+        store.setStoreQRIds( storeQRIdDTOListToStoreQRIdList( storeDTO.getStoreQRIds() ) );
 
         return store;
     }
@@ -214,39 +214,6 @@ public class StoreMapperImpl implements StoreMapper {
     }
 
     @Override
-    public List<StoreQRId> storeQRIdDTOToStoreQRId(List<StoreQRIdDTO> storeQRIdDTO) {
-        if ( storeQRIdDTO == null ) {
-            return null;
-        }
-
-        List<StoreQRId> list = new ArrayList<StoreQRId>( storeQRIdDTO.size() );
-        for ( StoreQRIdDTO storeQRIdDTO1 : storeQRIdDTO ) {
-            list.add( storeQRIdDTOToStoreQRId1( storeQRIdDTO1 ) );
-        }
-
-        return list;
-    }
-
-    @Override
-    public QRStoreInfo qrStoreInfoDTOToQRStoreInfo(QRStoreInfoDTO qrStoreInfoDTO) {
-        if ( qrStoreInfoDTO == null ) {
-            return null;
-        }
-
-        QRStoreInfo.QRStoreInfoBuilder qRStoreInfo = QRStoreInfo.builder();
-
-        qRStoreInfo.seq( qrStoreInfoDTO.getSeq() );
-        qRStoreInfo.storeSeq( qrStoreInfoDTO.getStoreSeq() );
-        qRStoreInfo.qrSubscribeSeq( qrStoreInfoDTO.getQrSubscribeSeq() );
-        qRStoreInfo.qrSize( qrStoreInfoDTO.getQrSize() );
-        qRStoreInfo.qrPayMoney( qrStoreInfoDTO.getQrPayMoney() );
-        qRStoreInfo.qrPayStatus( qrStoreInfoDTO.isQrPayStatus() );
-        qRStoreInfo.qrPayDate( qrStoreInfoDTO.getQrPayDate() );
-
-        return qRStoreInfo.build();
-    }
-
-    @Override
     public QRStoreInfoDTO qrStoreInfoToQRStoreInfoDTO(QRStoreInfo qrStoreInfo) {
         if ( qrStoreInfo == null ) {
             return null;
@@ -335,6 +302,24 @@ public class StoreMapperImpl implements StoreMapper {
         storeSideMenuDTO.setStoreSideImgs( storeSideImgListToStoreSideImgDTOList( storeSideMenu.getStoreSideImgs() ) );
 
         return storeSideMenuDTO;
+    }
+
+    protected QRStoreInfo qRStoreInfoDTOToQRStoreInfo(QRStoreInfoDTO qRStoreInfoDTO) {
+        if ( qRStoreInfoDTO == null ) {
+            return null;
+        }
+
+        QRStoreInfo.QRStoreInfoBuilder qRStoreInfo = QRStoreInfo.builder();
+
+        qRStoreInfo.seq( qRStoreInfoDTO.getSeq() );
+        qRStoreInfo.storeSeq( qRStoreInfoDTO.getStoreSeq() );
+        qRStoreInfo.qrSubscribeSeq( qRStoreInfoDTO.getQrSubscribeSeq() );
+        qRStoreInfo.qrSize( qRStoreInfoDTO.getQrSize() );
+        qRStoreInfo.qrPayMoney( qRStoreInfoDTO.getQrPayMoney() );
+        qRStoreInfo.qrPayStatus( qRStoreInfoDTO.isQrPayStatus() );
+        qRStoreInfo.qrPayDate( qRStoreInfoDTO.getQrPayDate() );
+
+        return qRStoreInfo.build();
     }
 
     protected StoreOrderSide storeOrderSideDTOToStoreOrderSide(StoreOrderSideDTO storeOrderSideDTO) {
@@ -543,6 +528,33 @@ public class StoreMapperImpl implements StoreMapper {
         List<StoreCategory> list1 = new ArrayList<StoreCategory>( list.size() );
         for ( StoreCategoryDTO storeCategoryDTO : list ) {
             list1.add( storeCategoryDTOToStoreCategory( storeCategoryDTO ) );
+        }
+
+        return list1;
+    }
+
+    protected StoreQRId storeQRIdDTOToStoreQRId(StoreQRIdDTO storeQRIdDTO) {
+        if ( storeQRIdDTO == null ) {
+            return null;
+        }
+
+        StoreQRId.StoreQRIdBuilder storeQRId = StoreQRId.builder();
+
+        storeQRId.seq( storeQRIdDTO.getSeq() );
+        storeQRId.storeSeq( storeQRIdDTO.getStoreSeq() );
+        storeQRId.id( storeQRIdDTO.getId() );
+
+        return storeQRId.build();
+    }
+
+    protected List<StoreQRId> storeQRIdDTOListToStoreQRIdList(List<StoreQRIdDTO> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<StoreQRId> list1 = new ArrayList<StoreQRId>( list.size() );
+        for ( StoreQRIdDTO storeQRIdDTO : list ) {
+            list1.add( storeQRIdDTOToStoreQRId( storeQRIdDTO ) );
         }
 
         return list1;
@@ -886,14 +898,14 @@ public class StoreMapperImpl implements StoreMapper {
             return null;
         }
 
-        StoreMSDTO storeMSDTO = new StoreMSDTO();
+        StoreMSDTO.StoreMSDTOBuilder storeMSDTO = StoreMSDTO.builder();
 
-        storeMSDTO.setSeq( storeMS.getSeq() );
-        storeMSDTO.setStoreMenuSeq( storeMS.getStoreMenuSeq() );
-        storeMSDTO.setStoreSideCategorySeq( storeMS.getStoreSideCategorySeq() );
-        storeMSDTO.setStoreSideCategory( storeSideCategoryToStoreSideCategoryDTO( storeMS.getStoreSideCategory() ) );
+        storeMSDTO.seq( storeMS.getSeq() );
+        storeMSDTO.storeMenuSeq( storeMS.getStoreMenuSeq() );
+        storeMSDTO.storeSideCategorySeq( storeMS.getStoreSideCategorySeq() );
+        storeMSDTO.storeSideCategory( storeSideCategoryToStoreSideCategoryDTO( storeMS.getStoreSideCategory() ) );
 
-        return storeMSDTO;
+        return storeMSDTO.build();
     }
 
     protected List<StoreMSDTO> storeMSListToStoreMSDTOList(List<StoreMS> list) {
@@ -907,20 +919,6 @@ public class StoreMapperImpl implements StoreMapper {
         }
 
         return list1;
-    }
-
-    protected StoreQRId storeQRIdDTOToStoreQRId1(StoreQRIdDTO storeQRIdDTO) {
-        if ( storeQRIdDTO == null ) {
-            return null;
-        }
-
-        StoreQRId.StoreQRIdBuilder storeQRId = StoreQRId.builder();
-
-        storeQRId.seq( storeQRIdDTO.getSeq() );
-        storeQRId.storeSeq( storeQRIdDTO.getStoreSeq() );
-        storeQRId.id( storeQRIdDTO.getId() );
-
-        return storeQRId.build();
     }
 
     protected List<StoreSideMenu> storeSideMenuDTOListToStoreSideMenuList(List<StoreSideMenuDTO> list) {
