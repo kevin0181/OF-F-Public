@@ -626,5 +626,27 @@ public class StoreControllerTest {
                 .andDo(print());
     }
 
+    @Order(23)
+    @Test
+    @DisplayName("가맹점 사이드 메뉴 삭제")
+    public void 가맹점_사이드_메뉴_삭제() throws Exception {
+
+        MockMultipartFile jsonFile = new MockMultipartFile("side-menu", "", "application/json", ("{\n" +
+                "    \"seq\":\"" + sideMenuSeq + "\",\n" +
+                "    \"storeSideCategorySeq\":\"1\"\n" +
+                "}").getBytes());
+
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .multipart(BASE_URL + "/admin/side/menu")
+                        .file(jsonFile)
+                        .param("status", "delete")
+                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(200)))
+                .andDo(print());
+    }
+
 
 }

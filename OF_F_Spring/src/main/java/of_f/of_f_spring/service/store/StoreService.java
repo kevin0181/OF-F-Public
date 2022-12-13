@@ -252,7 +252,8 @@ public class StoreService {
         try {
             storeMenu = storeMenuRepository.save(storeMenu);
         } catch (Exception e) {
-            imgService.deleteMenuImg(storeMenuImgs);
+            if (imgFile != null)
+                imgService.deleteMenuImg(storeMenuImgs);
             throw new StoreException(StoreExceptionEnum.CAN_NOT_SAVE_MENU);
         }
 
@@ -507,7 +508,8 @@ public class StoreService {
         try {
             storeSideMenu = storeSideMenuRepository.save(storeSideMenu);
         } catch (Exception e) {
-            imgService.deleteSideMenuImg(storeSideImgs);
+            if (imgFile != null)
+                imgService.deleteSideMenuImg(storeSideImgs);
             throw new StoreException(StoreExceptionEnum.CAN_NOT_SAVE_MENU);
         }
 
@@ -560,7 +562,26 @@ public class StoreService {
     }
 
     public ApiResponseDTO deleteSideMenu(StoreSideMenuDTO storeSideMenuDTO, Principal principal) {
-        return null;
+        StoreSideMenu storeSideMenu = storeSideMenuRepository.findById(storeSideMenuDTO.getSeq()).orElse(null);
+
+        try {
+            checkSideMenu(storeSideMenuDTO, principal, storeSideMenu.getStoreSideCategory().getStore()); // request 상태 체크
+
+            if (storeSideMenu.getStoreSideImgs().size() != 0)
+                imgService.deleteSideMenuImg(storeSideMenu.getStoreSideImgs());
+
+            storeSideMenuRepository.deleteById(storeSideMenu.getSeq());
+        } catch (NullPointerException e) {
+            throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_BY_INFO); //존재하지 않는 정보
+        } catch (Exception e) {
+            throw new StoreException(StoreExceptionEnum.CAN_NOT_DELETE_MENU); //메뉴 삭제 실패
+        }
+
+        return ApiResponseDTO.builder()
+                .message("사이드 메뉴 삭제")
+                .detail("사이드 메뉴를 삭제했습니다.")
+                .data(true)
+                .build();
     }
 
 
