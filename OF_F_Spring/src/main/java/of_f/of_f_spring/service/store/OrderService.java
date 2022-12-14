@@ -30,6 +30,7 @@ public class OrderService {
 
     @Transactional
     public ApiResponseDTO getStoreMenuList(Long storeSeq) {
+        List<StoreOrder> storeOrderList = storeOrderRepository.findAll();
         Store store = storeRepository.findById(storeSeq).orElse(null);
         StoreDTO storeDTO = StoreMapper.instance.storeToStoreDTOByOrderUser(store);
         return ApiResponseDTO.builder()

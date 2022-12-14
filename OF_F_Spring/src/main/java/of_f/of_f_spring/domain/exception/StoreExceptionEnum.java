@@ -39,8 +39,8 @@ public enum StoreExceptionEnum {
     AUTH_NOT_MATCH(HttpServletResponse.SC_UNAUTHORIZED, "BAD", "S0026", "not match user", "권한이 일치하지 않음", "해당 가맹점에 권한이 없습니다."),
     QR_SIZE_OVER(HttpServletResponse.SC_UNAUTHORIZED, "BAD", "S0027", "qr size over", "QR 개수를 초과", "지정된 QR 개수를 초과했습니다."),
     NONEXISTENT_STORE_SIDE_CATEGORY(HttpServletResponse.SC_NOT_FOUND, "BAD", "S0028", "does not exist side category", "존재하지 않는 사이드 카테고리", "사이드 카테고리가 존재하지 않습니다."),
-    DOES_NOT_EXIST_SIDE_MENU(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "BAD", "S0029", "does not exist side menu", "존재하지 않는 사이드 메뉴", "존재하지 않는 사이드 메뉴입니다.");
-
+    DOES_NOT_EXIST_SIDE_MENU(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "BAD", "S0029", "does not exist side menu", "존재하지 않는 사이드 메뉴", "존재하지 않는 사이드 메뉴입니다."),
+    CAN_NOT_OVERLAPPING_QR_ID(HttpServletResponse.SC_UNAUTHORIZED, "BAD", "S0030", "unique qr id", "QR ID 중복", "QR ID의 이름은 중복될 수 없습니다.");
 
 
     private final int code;
