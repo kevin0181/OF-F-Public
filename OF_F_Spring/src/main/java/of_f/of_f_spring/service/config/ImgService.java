@@ -20,14 +20,30 @@ import java.util.*;
 
 @Service
 public class ImgService {
-    @Value("${img.connect.path}")
     private String fileDir;
+
+    @Value("${img.connect.path.mac}")
+    private String macUrl;
+    @Value("${img.connect.path.windows}")
+    private String windowUrl;
+
+    private String os;
 
     public List<StoreMenuImg> saveMenuImg(List<MultipartFile> imgFile, Store store) {
 
         try {
+            os = System.getProperty("os.name").toLowerCase();
+
+            if (os.contains("win")) {
+                fileDir = windowUrl;
+            } else if (os.contains("mac")) {
+                fileDir = macUrl;
+            } else {
+                fileDir = macUrl;
+            }
+
             //폴더 없을 경우, 폴더 생성.
-            File file = new File(fileDir + store.getName()+"/menu");
+            File file = new File(fileDir + store.getName() + "/menu");
             if (!file.exists()) {
                 file.mkdirs();
             }
@@ -76,7 +92,7 @@ public class ImgService {
 
         try {
             //폴더 없을 경우, 폴더 생성.
-            File file = new File(fileDir + store.getName()+"/side");
+            File file = new File(fileDir + store.getName() + "/side");
             if (!file.exists()) {
                 file.mkdirs();
             }

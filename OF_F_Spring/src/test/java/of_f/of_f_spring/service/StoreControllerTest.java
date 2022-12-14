@@ -65,6 +65,21 @@ public class StoreControllerTest {
 
     Long connectMenuSeq = null;
 
+    String os;
+
+    String fileUrl;
+
+    public StoreControllerTest() {
+        this.os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")) {
+            fileUrl="/C:/of_f/";
+        }else if(os.contains("mac")){
+            fileUrl="/Users/yuyeongbin/of_f/uploaded/";
+        }else{
+            fileUrl="/Users/yuyeongbin/of_f/uploaded/";
+        }
+    }
+
     @Order(1)
     @Test
     @DisplayName("로그인")
@@ -318,7 +333,7 @@ public class StoreControllerTest {
 
         final String fileName = "dog"; //파일명
         final String contentType = "jpeg"; //파일타입
-        final String filePath = "/Users/yuyeongbin/of_f/" + fileName + "." + contentType; //파일경로
+        final String filePath = fileUrl + fileName + "." + contentType; //파일경로
         FileInputStream fileInputStream = new FileInputStream(filePath);
 
         MockMultipartFile jsonFile = new MockMultipartFile("menu", "", "application/json", ("{\n" +
@@ -579,7 +594,7 @@ public class StoreControllerTest {
 
         final String fileName = "dog"; //파일명
         final String contentType = "jpeg"; //파일타입
-        final String filePath = "/Users/yuyeongbin/of_f/" + fileName + "." + contentType; //파일경로
+        final String filePath = fileUrl + fileName + "." + contentType; //파일경로
         FileInputStream fileInputStream = new FileInputStream(filePath);
 
         MockMultipartFile jsonFile = new MockMultipartFile("side-menu", "", "application/json", ("{\n" +
