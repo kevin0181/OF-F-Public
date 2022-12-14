@@ -386,7 +386,7 @@ public class StoreService {
 
         StoreQRId storeQRId = StoreQRId.builder()
                 .storeSeq(storeSeq)
-                .id(id)
+                .qrId(id)
                 .build();
 
         List<StoreQRId> storeQRIds = store.getStoreQRIds();
