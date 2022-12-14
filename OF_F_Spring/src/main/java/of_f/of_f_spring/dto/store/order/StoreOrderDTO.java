@@ -1,6 +1,7 @@
 package of_f.of_f_spring.dto.store.order;
 
 import lombok.*;
+import of_f.of_f_spring.domain.entity.store.qr.StoreQRId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -10,13 +11,18 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class StoreOrderDTO {
     private Long seq;
     private Long storeSeq;
-    private Long userSeq;
+    private Long storeQRIdSeq;
     private String id;
+
     private Long kind;
     private String orderNumber;
+
     private String totalPrice;
     private String cancelAfterPrice;
     private String date;
@@ -32,5 +38,4 @@ public class StoreOrderDTO {
     private StoreOrderPgInfoDTO storeOrderPgInfo;
     private StoreOrderVanInfoDTO storeOrderVanInfo;
     private List<StoreOrderMenuDTO> storeOrderMenus;
-
 }

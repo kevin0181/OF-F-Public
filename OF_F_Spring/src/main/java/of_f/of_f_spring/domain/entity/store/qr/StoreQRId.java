@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import of_f.of_f_spring.domain.entity.store.Store;
+import of_f.of_f_spring.domain.entity.store.order.StoreOrder;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Builder
@@ -21,10 +23,15 @@ public class StoreQRId {
     @Column(name = "Store_seq")
     private Long storeSeq;
 
-    @Column
-    private String id;
+    @Column(name = "QR_Id")
+    private String qrId;
 
     @ManyToOne
     @JoinColumn(name = "Store_seq", insertable = false, updatable = false)
     private Store store;
+
+    @OneToMany
+    @JoinColumn(name = "Store_QR_ID_seq")
+    private List<StoreOrder> storeOrderList;
+
 }
