@@ -20,7 +20,7 @@ import java.util.*;
 
 @Service
 public class ImgService {
-    @Value("${img.connect.path}")
+    @Value("${img.connect.path.mac}")
     private String fileDir;
 
     public List<StoreMenuImg> saveMenuImg(List<MultipartFile> imgFile, Store store) {
