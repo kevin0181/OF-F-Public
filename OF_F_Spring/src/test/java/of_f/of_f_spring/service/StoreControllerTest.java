@@ -470,7 +470,7 @@ public class StoreControllerTest {
 
     @Order(16)
     @Test
-    @DisplayName("가맹점 QR ID 저장")
+    @DisplayName("가맹점 QR ID 저장(가맹점용)")
     public void 가맹점_QR_ID_저장() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders

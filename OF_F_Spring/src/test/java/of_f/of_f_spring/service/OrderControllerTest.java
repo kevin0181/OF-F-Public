@@ -79,7 +79,7 @@ public class OrderControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(BASE_URL + "/qr")
-                        .param("qrId", "2QR")
+                        .param("qrId", "1QR")
                         .content(objectMapper.writeValueAsString(storeOrderDTO))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

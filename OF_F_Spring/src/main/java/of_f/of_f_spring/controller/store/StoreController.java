@@ -66,7 +66,7 @@ public class StoreController {
         throw new ApiException(ExceptionEnum.INVALID_PARAMS);
     }
 
-    @GetMapping("/admin/qr/code")
+    @GetMapping("/admin/qr/code") //qr코드 저장
     public ApiResponseDTO qrCodeIdSave(@RequestParam String id,
                                        @RequestParam Long storeSeq,
                                        Principal principal) {
