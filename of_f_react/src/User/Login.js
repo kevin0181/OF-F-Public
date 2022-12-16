@@ -1,4 +1,4 @@
-import {customAxios} from "../Config/customAxios";
+import customAxios from "../Config/customAxios";
 import {setCookie} from "../Config/cookie";
 
 let Login = () => {
@@ -12,7 +12,7 @@ let Login = () => {
                 password: 'test1234@'
             }
         }).then(res => {
-            console.log(res)
+            setCookie("accessToken", res.data.data.accessToken, "/")
         });
     }
 

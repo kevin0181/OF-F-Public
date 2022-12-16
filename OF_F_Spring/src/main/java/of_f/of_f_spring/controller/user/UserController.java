@@ -10,6 +10,7 @@ import of_f.of_f_spring.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
@@ -44,7 +45,7 @@ public class UserController {
      */
     @PostMapping("/y/refresh-token") // 토큰 재발행
     public ApiResponseDTO refreshToken(@RequestHeader(required = false) String Authorization,
-                                       @RequestBody @Valid TokenInfo tokenInfo) {
+                                       @RequestBody @Valid TokenInfo tokenInfo, HttpServletRequest request) {
         return userService.refreshTokenService(Authorization, tokenInfo);
     }
 
