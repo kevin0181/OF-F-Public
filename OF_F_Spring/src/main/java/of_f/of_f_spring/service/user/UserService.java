@@ -122,7 +122,7 @@ public class UserService {
         jwtTokenProvider.saveToken(tokenInfo, authentication);
 
 
-        Cookie cookie = new Cookie("refresh-token", tokenInfo.getRefreshToken());
+        Cookie cookie = new Cookie("refreshToken", tokenInfo.getRefreshToken());
 
         // expires in 7 days
         cookie.setMaxAge(7 * 24 * 60 * 60);
