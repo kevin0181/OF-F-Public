@@ -416,7 +416,6 @@ public class StoreControllerTest {
 //                .andDo(print());
 //    }
 
-
     @Order(14)
     @Test
     @DisplayName("가맹점 QR 정보 등록")
