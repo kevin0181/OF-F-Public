@@ -3,6 +3,7 @@ package of_f.of_f_spring.domain.entity.store.order;
 import lombok.Getter;
 import lombok.Setter;
 import of_f.of_f_spring.domain.entity.store.Store;
+import of_f.of_f_spring.domain.entity.store.qr.StoreQRId;
 import of_f.of_f_spring.domain.entity.user.User;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
@@ -63,9 +64,6 @@ public class StoreOrder {
     @Column(name = "phone_number_receive_status")
     private Boolean phoneNumberReceiveStatus;
 
-    @ManyToOne
-    @JoinColumn(name = "Store_seq", insertable = false, updatable = false)
-    private Store store;
 
     @OneToMany
     @JoinColumn(name = "Store_Order_seq")
@@ -76,5 +74,13 @@ public class StoreOrder {
 
     @OneToOne(mappedBy = "storeOrder")
     private StoreOrderVanInfo storeOrderVanInfo;
+
+    @ManyToOne
+    @JoinColumn(name = "Store_seq", insertable = false, updatable = false)
+    private Store store;
+
+    @ManyToOne
+    @JoinColumn(name = "Store_QR_ID_seq", insertable = false, updatable = false)
+    private StoreQRId storeQRId;
 
 }

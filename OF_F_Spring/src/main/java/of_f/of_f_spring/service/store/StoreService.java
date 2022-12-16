@@ -373,8 +373,14 @@ public class StoreService {
 
     public ApiResponseDTO saveStoreQRId(String id, Long storeSeq, Principal principal) {
         Store store = storeRepository.findById(storeSeq).orElse(null);
+
         if (store == null) //가맹점이 없을 경우
             throw new StoreException(StoreExceptionEnum.CAN_NOT_FOUND_STORE);
+
+        for (StoreQRId storeQRId : store.getStoreQRIds()) {
+            if (storeQRId.getQrId().equals(id))
+                throw new StoreException(StoreExceptionEnum.CAN_NOT_OVERLAPPING_QR_ID);
+        }
 
         User user = store.getUser();
 
@@ -386,7 +392,7 @@ public class StoreService {
 
         StoreQRId storeQRId = StoreQRId.builder()
                 .storeSeq(storeSeq)
-                .id(id)
+                .qrId(id)
                 .build();
 
         List<StoreQRId> storeQRIds = store.getStoreQRIds();

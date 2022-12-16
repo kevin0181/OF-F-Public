@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class StoreQRIdDTO {
     private Long seq;
     private Long storeSeq;
-    private String id;
+    private String QR_Id;
 }
