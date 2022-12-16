@@ -44,9 +44,9 @@ public class UserController {
     }
      */
     @PostMapping("/y/refresh-token") // 토큰 재발행
-    public ApiResponseDTO refreshToken(@RequestHeader(required = false) String Authorization,
-                                       @RequestBody @Valid TokenInfo tokenInfo, HttpServletRequest request) {
-        return userService.refreshTokenService(Authorization, tokenInfo);
+    public ApiResponseDTO refreshToken(@RequestHeader(required = false) String Authorization, HttpServletRequest request) {
+//        return userService.refreshTokenService(Authorization, tokenInfo);
+        return null;
     }
 
     @PostMapping("/y/logout") // 로그아웃

@@ -1,10 +1,11 @@
-import customAxios from "../Config/customAxios";
 import {setCookie} from "../Config/cookie";
+import getRefreshToken from "../Config/getRefreshToken";
+import {notTokenAxios} from "../Config/customAxios";
 
 let Login = () => {
 
     let loginBtn = () => {
-        customAxios({
+        notTokenAxios({
             method: 'post',
             url: '/api/v1/auth/n/login',
             data: {
@@ -12,12 +13,15 @@ let Login = () => {
                 password: 'test1234@'
             }
         }).then(res => {
+
             const expires = new Date();
             expires.setMinutes(expires.getMinutes() + 30);
             setCookie("accessToken", res.data.data.accessToken, {
                 path: "/",
                 expires
-            })
+            });
+
+            getRefreshToken();
         });
     }
 
