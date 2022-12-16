@@ -7,3 +7,4 @@ export const customAxios: AxiosInstance = axios.create({
     },
     withCredentials: true
 });
+
