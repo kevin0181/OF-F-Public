@@ -1,10 +1,9 @@
-import axios from "axios";
+import {customAxios} from "../Config/customAxios";
 
 let Login = () => {
-    axios.defaults.baseURL = 'http://localhost:8080';
 
     let loginBtn = () => {
-        axios({
+        customAxios({
             method: 'post',
             url: '/api/v1/auth/n/login',
             data: {
@@ -18,6 +17,7 @@ let Login = () => {
 
     return (
         <>
+
             <button onClick={loginBtn}>11</button>
         </>
     );
