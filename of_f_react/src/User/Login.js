@@ -12,13 +12,17 @@ let Login = () => {
                 password: 'test1234@'
             }
         }).then(res => {
-            setCookie("accessToken", res.data.data.accessToken, "/")
+            const expires = new Date();
+            expires.setMinutes(expires.getMinutes() + 30);
+            setCookie("accessToken", res.data.data.accessToken, {
+                path: "/",
+                expires
+            })
         });
     }
 
     return (
         <>
-
             <button onClick={loginBtn}>11</button>
         </>
     );
