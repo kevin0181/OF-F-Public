@@ -10,6 +10,7 @@ import of_f.of_f_spring.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
 
@@ -24,8 +25,8 @@ public class UserController {
 
 
     @PostMapping("/n/login") // 로그인
-    public ApiResponseDTO login(@RequestBody @Valid UserLoginDTO userLoginDTO) {
-        return userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
+    public ApiResponseDTO login(@RequestBody @Valid UserLoginDTO userLoginDTO, HttpServletResponse response) {
+        return userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword(), response);
     }
 
     @PostMapping("/n/signIn") // 회원가입
