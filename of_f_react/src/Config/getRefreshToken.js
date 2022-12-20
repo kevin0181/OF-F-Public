@@ -1,12 +1,30 @@
-import {tokenAxios} from "./customAxios";
+import {refreshTokenAxios, tokenAxios} from "./customAxios";
+import {setCookie} from "./cookie";
 
-let getRefreshToken = () => {
-    tokenAxios({
+let getRefreshToken = async () => {
+
+    const data = await refreshTokenAxios({
+        headers: {"Authorization": ""},
         method: 'post',
-        url: '/api/v1/auth/y/refresh-token',
-    }).then(res => {
-        console.log("리프레시")
-    })
+        url: '/api/v1/auth/n/refresh-token'
+    });
+
+    const {accessToken} = data.data.data;
+
+    const expires = new Date();
+    expires.setMinutes(expires.getMinutes() + 30);
+    setCookie("accessToken", accessToken, {
+        path: "/",
+        expires
+    });
+
+    setCookie("l-st", true, {
+        path: "/",
+        expires
+    });
+
+    return accessToken;
+
 }
 
 export default getRefreshToken;

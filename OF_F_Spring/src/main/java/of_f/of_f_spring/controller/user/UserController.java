@@ -43,10 +43,9 @@ public class UserController {
         tokenInfo
     }
      */
-    @PostMapping("/y/refresh-token") // 토큰 재발행
-    public ApiResponseDTO refreshToken(@RequestHeader(required = false) String Authorization, HttpServletRequest request) {
-//        return userService.refreshTokenService(Authorization, tokenInfo);
-        return null;
+    @PostMapping("/n/refresh-token") // 토큰 재발행
+    public ApiResponseDTO refreshToken(HttpServletRequest request, HttpServletResponse response) {
+        return userService.refreshTokenService(request, response);
     }
 
     @PostMapping("/y/logout") // 로그아웃
@@ -91,6 +90,11 @@ public class UserController {
             @RequestParam(required = false) String emailToken,
             @RequestBody @Valid UserLoginDTO userLoginDTO) {
         return emailService.checkFindPasswordToken(Authorization, emailToken, userLoginDTO);
+    }
+
+    @PostMapping("/y/test")
+    public String test() {
+        return "hihi";
     }
 
 }

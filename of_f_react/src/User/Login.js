@@ -1,6 +1,6 @@
 import {setCookie} from "../Config/cookie";
-import getRefreshToken from "../Config/getRefreshToken";
 import {notTokenAxios} from "../Config/customAxios";
+import test from "../Config/test";
 
 let Login = () => {
 
@@ -21,13 +21,21 @@ let Login = () => {
                 expires
             });
 
-            getRefreshToken();
+            setCookie("l-st", true, {
+                path: "/",
+                expires
+            })
+
         });
     }
 
     return (
         <>
             <button onClick={loginBtn}>11</button>
+            <button onClick={() => {
+                test();
+            }}>test
+            </button>
         </>
     );
 }

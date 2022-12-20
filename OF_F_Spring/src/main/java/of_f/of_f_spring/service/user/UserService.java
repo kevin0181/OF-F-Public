@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -165,28 +166,41 @@ public class UserService {
 
     // jwt token 재발급
 
-    public ApiResponseDTO refreshTokenService(String Authorization, TokenInfo tokenInfo) {
+    public ApiResponseDTO refreshTokenService(HttpServletRequest request, HttpServletResponse response) {
+        String refreshToken = request.getHeader("cookie");
 
-        if (Authorization == null)
+        Cookie[] list = request.getCookies();
+        for (Cookie cookie : list) {
+            if (cookie.getName().equals("refreshToken")) {
+                refreshToken = cookie.getValue();
+            }
+        }
+
+        if (refreshToken == null)
             throw new ApiException(ExceptionEnum.TOKEN_DOES_NOT_EXIT);
 
+        TokenInfo token = jwtTokenProvider.refreshToken(refreshToken);
 
-        String headerRefreshToken = "";
-        if (StringUtils.hasText(Authorization) && Authorization.startsWith("Bearer")) {
-            headerRefreshToken = Authorization.substring(7);
-        }
+        Cookie cookie = new Cookie("refreshToken", token.getRefreshToken());
 
-        if (headerRefreshToken.equals(tokenInfo.getRefreshToken())) {
-            TokenInfo token = jwtTokenProvider.refreshToken(tokenInfo);
-            return ApiResponseDTO.builder()
-                    .message("토큰 재발행")
-                    .detail("토큰이 재발행 되었습니다.")
-                    .data(token)
-                    .build();
-        } else {
-            throw new ApiException(ExceptionEnum.NOT_MATCH_TOKEN);
-        }
+        // expires in 7 days
+        cookie.setMaxAge(7 * 24 * 60 * 60);
 
+        // optional properties
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+
+        // add cookie to response
+        response.addCookie(cookie);
+
+        token.setRefreshToken(null);
+
+        return ApiResponseDTO.builder()
+                .message("토큰 재발행")
+                .detail("토큰이 재발행 되었습니다.")
+                .data(token)
+                .build();
     }
 
     public ApiResponseDTO deleteRefreshToken(Principal principal) {
@@ -251,5 +265,6 @@ public class UserService {
                 .build();
 
     }
+
 
 }
