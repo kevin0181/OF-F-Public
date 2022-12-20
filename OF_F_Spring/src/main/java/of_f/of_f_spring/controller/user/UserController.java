@@ -10,6 +10,7 @@ import of_f.of_f_spring.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
@@ -42,10 +43,9 @@ public class UserController {
         tokenInfo
     }
      */
-    @PostMapping("/y/refresh-token") // 토큰 재발행
-    public ApiResponseDTO refreshToken(@RequestHeader(required = false) String Authorization,
-                                       @RequestBody @Valid TokenInfo tokenInfo) {
-        return userService.refreshTokenService(Authorization, tokenInfo);
+    @PostMapping("/n/refresh-token") // 토큰 재발행
+    public ApiResponseDTO refreshToken(HttpServletRequest request, HttpServletResponse response) {
+        return userService.refreshTokenService(request, response);
     }
 
     @PostMapping("/y/logout") // 로그아웃
@@ -90,6 +90,11 @@ public class UserController {
             @RequestParam(required = false) String emailToken,
             @RequestBody @Valid UserLoginDTO userLoginDTO) {
         return emailService.checkFindPasswordToken(Authorization, emailToken, userLoginDTO);
+    }
+
+    @PostMapping("/y/test")
+    public String test() {
+        return "hihi";
     }
 
 }

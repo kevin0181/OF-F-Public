@@ -1,10 +1,11 @@
-import axios from "axios";
+import {setCookie} from "../Config/cookie";
+import {notTokenAxios} from "../Config/customAxios";
+import test from "../Config/test";
 
 let Login = () => {
-    axios.defaults.baseURL = 'http://localhost:8080';
 
     let loginBtn = () => {
-        axios({
+        notTokenAxios({
             method: 'post',
             url: '/api/v1/auth/n/login',
             data: {
@@ -12,13 +13,29 @@ let Login = () => {
                 password: 'test1234@'
             }
         }).then(res => {
-            console.log(res)
+
+            const expires = new Date();
+            expires.setMinutes(expires.getMinutes() + 30);
+            setCookie("accessToken", res.data.data.accessToken, {
+                path: "/",
+                expires
+            });
+
+            setCookie("l-st", true, {
+                path: "/",
+                expires
+            })
+
         });
     }
 
     return (
         <>
             <button onClick={loginBtn}>11</button>
+            <button onClick={() => {
+                test();
+            }}>test
+            </button>
         </>
     );
 }

@@ -2,6 +2,7 @@ package of_f.of_f_spring.config.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import of_f.of_f_spring.domain.exception.ApiException;
+import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -28,17 +29,12 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
 
     public void setErrorResponse(HttpServletRequest req, HttpServletResponse res, ApiException e) throws IOException {
 
-        res.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        final Map<String, Object> body = new HashMap<>();
-        body.put("code", e.getError().getCode());
-        body.put("status", e.getError().getStatus());
-        body.put("error", e.getError());
-        body.put("message", e.getMessage());
-        body.put("detail", e.getError().getDetail());
-        body.put("timestamp",e.getError().getLocalDateTime());
-        body.put("path", req.getServletPath());
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(res.getOutputStream(), body);
-        res.setStatus(HttpServletResponse.SC_OK);
+//        switch (e.getError().getErrorCode()) {
+//            case "TO0001":
+                throw new ApiException(ExceptionEnum.INVALID_TOKEN_INFO);
+//            case "TO0002":
+//                throw new ApiException(ExceptionEnum.TIMEOUT_TOKEN); //-> 토큰 재발행 요청
+//        }
+
     }
 }
