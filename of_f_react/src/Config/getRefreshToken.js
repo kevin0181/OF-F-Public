@@ -12,7 +12,9 @@ let getRefreshToken = async () => {
     const {accessToken} = data.data.data;
 
     const expires = new Date();
+
     expires.setMinutes(expires.getMinutes() + 30);
+
     setCookie("accessToken", accessToken, {
         path: "/",
         expires

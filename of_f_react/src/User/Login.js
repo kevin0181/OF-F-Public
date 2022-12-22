@@ -16,6 +16,7 @@ let Login = () => {
 
             const expires = new Date();
             expires.setMinutes(expires.getMinutes() + 30);
+
             setCookie("accessToken", res.data.data.accessToken, {
                 path: "/",
                 expires
@@ -24,7 +25,7 @@ let Login = () => {
             setCookie("l-st", true, {
                 path: "/",
                 expires
-            })
+            });
 
         });
     }
