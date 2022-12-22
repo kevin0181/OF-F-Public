@@ -54,15 +54,19 @@ tokenAxios.interceptors.response.use(
         return config;
     },
     async err => {
+
         const {config} = err;
-        if (err.response.data.code == "401") { // accessToken이 유효하지 않을때
+
+        console.log(err)
+
+        if (err.response.data.code == "401" && err.response.data.errorCode == "TO0001") { // accessToken이 유효하지 않을때
 
             let accessToken = await getRefreshToken();
 
             if (accessToken) {
                 config.headers.Authorization = `Bearer ${accessToken}`;
             }
-            
+
             return axios(config);
         }
         return Promise.reject(err);
