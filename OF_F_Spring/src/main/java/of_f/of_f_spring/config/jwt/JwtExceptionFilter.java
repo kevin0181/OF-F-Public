@@ -19,22 +19,27 @@ import java.util.Map;
 public class JwtExceptionFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        try {
+//        try {
             filterChain.doFilter(request, response); // JwtAuthenticationFilter로 이동
-        } catch (ApiException e) {
-            // JwtAuthenticationFilter에서 예외 발생하면 바로 setErrorResponse 호출
-            setErrorResponse(request, response, e);
-        }
+//        } catch (ApiException e) {
+//            // JwtAuthenticationFilter에서 예외 발생하면 바로 setErrorResponse 호출
+//            setErrorResponse(request, response, e);
+//        }
     }
 
     public void setErrorResponse(HttpServletRequest req, HttpServletResponse res, ApiException e) throws IOException {
-
-//        switch (e.getError().getErrorCode()) {
-//            case "TO0001":
-                throw new ApiException(ExceptionEnum.INVALID_TOKEN_INFO);
-//            case "TO0002":
-//                throw new ApiException(ExceptionEnum.TIMEOUT_TOKEN); //-> 토큰 재발행 요청
-//        }
-
+        res.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        final Map<String, Object> body = new HashMap<>();
+        body.put("code", e.getError().getCode());
+        body.put("codeError", e.getError().getErrorCode());
+        body.put("status", e.getError().getStatus());
+        body.put("error", e.getError());
+        body.put("message", e.getMessage());
+        body.put("detail", e.getError().getDetail());
+        body.put("timestamp", e.getError().getLocalDateTime());
+        body.put("path", req.getServletPath());
+        final ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(res.getOutputStream(), body);
+        res.setStatus(HttpServletResponse.SC_FORBIDDEN);
     }
 }
