@@ -1,0 +1,24 @@
+.header {
+    width: 100%;
+    padding: 2% 7%;
+}
+
+
+.header > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.logo {
+    margin-left: 1%;
+    width: 12%;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+}
+
+.nav > ul {
+    display: flex;
+    flex-direction: row;
+}
