@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+.root {
+    width: 100vw;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+a {
+    text-decoration: none
+}
+
+*,
+*::before,
+*::after {
+    /* 테두리를 기준으로 크기를 정합니다. */
+    box-sizing: border-box;
+}
+
+/* 텍스트 마우스 드래그시 색상 변경방법 */
+::selection,
+::-moz-selection {
+    background: #39f;
+    color: #fff;
+    text-shadow: none;
+}
