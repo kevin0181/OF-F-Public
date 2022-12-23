@@ -1,4 +1,5 @@
 import "./../../styles/css/main/main.css";
+import "./../../styles/css/main/service.css";
 import mainLogo from "./../../assets/icon/main_logo.svg";
 import phoneLogo from "./../../assets/icon/connect_phone_logo.svg";
 import platformImg from "./../../assets/icon/test_platform_img.svg";
@@ -47,6 +48,9 @@ let Main = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className={"service"}>
+
             </div>
         </div>
     );
