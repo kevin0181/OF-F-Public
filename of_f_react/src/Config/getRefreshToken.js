@@ -1,4 +1,4 @@
-import {refreshTokenAxios, tokenAxios} from "./customAxios";
+import {refreshTokenAxios} from "./customAxios";
 import {setCookie} from "./cookie";
 
 let getRefreshToken = async () => {

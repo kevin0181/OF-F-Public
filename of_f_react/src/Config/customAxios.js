@@ -1,5 +1,5 @@
 import axios, {AxiosInstance} from 'axios';
-import {getCookie, setCookie} from "./cookie";
+import {getCookie} from "./cookie";
 import getRefreshToken from "./getRefreshToken";
 
 
@@ -37,7 +37,7 @@ tokenAxios.interceptors.request.use(
         let accessToken = getCookie("accessToken");
         let status = getCookie("l-st");
 
-        if (accessToken == null && status == null) {
+        if (accessToken === null && status === null) {
             alert("로그인 후 이용해주세요.");
             return Promise.reject("Should be login");
         }
@@ -59,7 +59,7 @@ tokenAxios.interceptors.response.use(
 
         console.log(err)
 
-        if (err.response.data.code == "401" && err.response.data.errorCode == "TO0001") { // accessToken이 유효하지 않을때
+        if (err.response.data.code === "401" && err.response.data.errorCode === "TO0001") { // accessToken이 유효하지 않을때
 
             let accessToken = await getRefreshToken();
 
