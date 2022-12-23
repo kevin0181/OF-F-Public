@@ -1,6 +1,6 @@
 .header {
     width: 100%;
-    padding: 2% 7%;
+    padding: 30px 3%;
 }
 
 
@@ -8,17 +8,70 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    height: 50px;
 }
 
 .logo {
     margin-left: 1%;
-    width: 12%;
+    width: 45%;
     height: 50px;
     display: flex;
     flex-direction: row;
 }
 
+.logo div {
+    display: flex;
+}
+
+.nav {
+    width: 35%;
+    height: 50px;
+}
+
 .nav > ul {
     display: flex;
     flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+.nav > ul > li {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav > ul > li > a {
+    padding: 16px 20%;
+    font-size: 1rem;
+}
+
+.auth-btn {
+    width: 20%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-btn > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 146px;
+    height: 42px;
+    background-color: #1A72C3;
+    color: white;
+    border-radius: 24px;
+    font-size: 15px;
+}
+
+.auth-btn > div > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'nanum_gothic_bold';
+    padding: 0px 5px;
 }

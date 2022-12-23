@@ -1,8 +1,10 @@
 @charset "UTF-8";
 
+/*setting*/
 .root {
     width: 100vw;
 }
+
 
 * {
     padding: 0;
@@ -14,7 +16,8 @@ ul, ol {
 }
 
 a {
-    text-decoration: none
+    text-decoration: none;
+    color: black;
 }
 
 *,
@@ -22,6 +25,7 @@ a {
 *::after {
     /* 테두리를 기준으로 크기를 정합니다. */
     box-sizing: border-box;
+    font-family: 'nanum_gothic';
 }
 
 /* 텍스트 마우스 드래그시 색상 변경방법 */
@@ -30,4 +34,20 @@ a {
     background: #39f;
     color: #fff;
     text-shadow: none;
+}
+
+/*font*/
+@font-face {
+    font-family: 'nanum_gothic';
+    src: url("./../../assets/font/Nanum_Gothic/NanumGothic-Regular.ttf");
+}
+
+@font-face {
+    font-family: 'nanum_gothic_bold';
+    src: url("./../../assets/font/Nanum_Gothic/NanumGothic-Bold.ttf");
+}
+
+@font-face {
+    font-family: 'gamja_flower';
+    src: url("./../../assets/font/Gamja_Flower/GamjaFlower-Regular.ttf");
 }
