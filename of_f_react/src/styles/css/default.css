@@ -1,13 +1,18 @@
 @charset "UTF-8";
 
 /*setting*/
-#root, html, body {
-    overflow-x: hidden;
+#root {
 }
 
 html, body {
     min-height: 100vh;
     min-width: 100vw;
+    /*overflow-x: hidden;*/
+}
+
+/*스크롤바 숨김*/
+body::-webkit-scrollbar {
+    display: none;
 }
 
 

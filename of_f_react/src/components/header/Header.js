@@ -5,7 +5,7 @@ import startIcon from "./../../assets/icon/start_icon.svg";
 
 let Header = () => {
     return (
-        <div className={"header"}>
+        <div className={"header"} id={"header"}>
             <div>
                 <div className={"logo"}>
                     <div>
@@ -18,13 +18,13 @@ let Header = () => {
                 <div className={"nav"}>
                     <ul>
                         <li>
-                            <a href="#!">홈</a>
+                            <a href="#header">홈</a>
                         </li>
                         <li>
-                            <a href="#!">소개</a>
+                            <a href="#introduction">소개</a>
                         </li>
                         <li>
-                            <a href="#!">구독료</a>
+                            <a href="#subscribe">구독료</a>
                         </li>
                     </ul>
                 </div>

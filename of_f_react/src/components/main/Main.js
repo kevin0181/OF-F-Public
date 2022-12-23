@@ -1,8 +1,16 @@
 import "./../../styles/css/main/main.css";
-import "./../../styles/css/main/service.css";
+import "../../styles/css/main/introduction.css";
+import "../../styles/css/main/subscribe.css";
+import "../../styles/css/main/inquiry.css";
+
+
 import mainLogo from "./../../assets/icon/main_logo.svg";
 import phoneLogo from "./../../assets/icon/connect_phone_logo.svg";
 import platformImg from "./../../assets/icon/test_platform_img.svg";
+import testSection1 from "../../assets/test/test_section1.png";
+import testSection2 from "../../assets/test/test_section2.png";
+import testSection3 from "../../assets/test/test_section3.png";
+
 
 let Main = () => {
     return (
@@ -49,9 +57,24 @@ let Main = () => {
                     </div>
                 </div>
             </div>
-            <div className={"service"}>
-
+            <div className={"introduction"} id={"introduction"}>
+                {/*<img src={testSection1} alt={"1"} style={{*/}
+                {/*    width: '100%',*/}
+                {/*    height: '100%'*/}
+                {/*}}/>*/}
             </div>
+            {/*<div className={"subscribe"} id={"subscribe"}>*/}
+            {/*    <img src={testSection2} alt={"1"} style={{*/}
+            {/*        width: '100%',*/}
+            {/*        height: '100%'*/}
+            {/*    }}/>*/}
+            {/*</div>*/}
+            {/*<div className={"inquiry"} id={"inquiry"}>*/}
+            {/*    <img src={testSection3} alt={"1"} style={{*/}
+            {/*        width: '100%',*/}
+            {/*        height: '100%'*/}
+            {/*    }}/>*/}
+            {/*</div>*/}
         </div>
     );
 }
