@@ -1,0 +1,136 @@
+.main {
+    height: 86%;
+    display: flex;
+    justify-content: center;
+    padding-top: 110px;
+}
+
+.main-logo {
+    z-index: -1;
+    position: absolute;
+    left: 15%;
+    top: 20%;
+    width: auto;
+    height: auto;
+}
+
+.main-center {
+    width: 100%;
+}
+
+.main-center > div {
+    text-align: center;
+    padding: 10px 0px;
+}
+
+.main-center > div > p {
+    font-size: 4rem;
+    text-align: center;
+}
+
+.main-center > div > small {
+    font-size: 17px;
+    color: #4B5563;
+}
+
+
+.main-center > div > p > span {
+    color: #1A72C3;
+}
+
+.main-btn {
+    display: flex;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.main-center .main-btn {
+    padding: 20px 30%;
+}
+
+.main-btn > div {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+}
+
+.connect-btn > div {
+    display: flex;
+    width: 80%;
+    height: 45px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    border: 1px solid #E5E7EB;
+}
+
+.connect-btn > div > div {
+    padding: 0px 5px;
+}
+
+.experience-btn > div {
+    width: 80%;
+    height: 45px;
+    background-color: #1A72C3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 50px;
+}
+
+.main-btn + div {
+    padding: 40px 0px 30px 0px;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+.platform-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.platform-bottom > .polygon-icon {
+    transition: 1.3s;
+    transform-origin: 50% 50%;
+    content: url("./../../../assets/icon/main_polygon_icon.svg");
+}
+
+.platform-bottom > .polygon-icon:hover {
+    transform: rotate(360deg);
+    content: url("./../../../assets/icon/main_polygon_icon2.svg");
+}
+
+.platform-bottom > .polygon-icon:hover + .platform-list {
+    opacity: 1;
+}
+
+.platform-list {
+    padding: 15px 0px;
+    width: 100%;
+    height: 100%;
+    transition: 1.7s;
+    opacity: 0;
+}
+
+.platform-list > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+@media screen and (max-width: 1200px) {
+    .main-center > div > p {
+        font-size: 3rem;
+    }
+
+    .main-logo > img {
+        width: 90%;
+    }
+
+}

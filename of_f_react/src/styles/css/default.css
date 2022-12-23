@@ -1,8 +1,9 @@
 @charset "UTF-8";
 
 /*setting*/
-.root {
+#root {
     width: 100vw;
+    height: 100vh;
 }
 
 
@@ -45,6 +46,11 @@ a {
 @font-face {
     font-family: 'nanum_gothic_bold';
     src: url("./../../assets/font/Nanum_Gothic/NanumGothic-Bold.ttf");
+}
+
+@font-face {
+    font-family: 'nanum_gothic_extra_bold';
+    src: url("./../../assets/font/Nanum_Gothic/NanumGothic-ExtraBold.ttf");
 }
 
 @font-face {
