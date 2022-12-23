@@ -7,9 +7,7 @@ import "../../styles/css/main/inquiry.css";
 import mainLogo from "./../../assets/icon/main_logo.svg";
 import phoneLogo from "./../../assets/icon/connect_phone_logo.svg";
 import platformImg from "./../../assets/icon/test_platform_img.svg";
-import testSection1 from "../../assets/test/test_section1.png";
-import testSection2 from "../../assets/test/test_section2.png";
-import testSection3 from "../../assets/test/test_section3.png";
+import ipad from "./../../assets/icon/ipad.svg";
 
 
 let Main = () => {
@@ -58,23 +56,58 @@ let Main = () => {
                 </div>
             </div>
             <div className={"introduction"} id={"introduction"}>
-                {/*<img src={testSection1} alt={"1"} style={{*/}
-                {/*    width: '100%',*/}
-                {/*    height: '100%'*/}
-                {/*}}/>*/}
+                <div>
+                    <div className={"introduction-top"}>
+                        <p>사용자에 따라 다르게 제공되는 서비스</p>
+                        <small>OF_F는 다양한 플랫폼의 기능들을 제공하여 사용자들이 보다 편한게<br/>
+                            서비스를 사용할 수 있도록 도와줍니다.</small>
+                    </div>
+                    <div className={"introduction-bottom"}>
+                        <div>
+                            <div className={"introduction-list"}>
+                                <div className={"introduction-list-part"}>
+                                    <div>
+                                        <p>Payroll</p>
+                                        <p>Keep track of everyone's salaries and whether or not they've been paid.
+                                            Direct
+                                            deposit not supported.</p>
+                                    </div>
+                                </div>
+                                <div className={"introduction-list-part"}>
+                                    <div>
+                                        <p>Claim expenses</p>
+                                        <p>All of your receipts organized into one place, as long as you don't mind
+                                            typing
+                                            in the data by hand.</p>
+                                    </div>
+                                </div>
+                                <div className={"introduction-list-part"}>
+                                    <div>
+                                        <p>VAT handling</p>
+                                        <p>We only sell our software to companies who don't deal with VAT at all, so
+                                            technically we do all the VAT stuff they need.</p>
+                                    </div>
+                                </div>
+                                <div className={"introduction-list-part"}>
+                                    <div>
+                                        <p>Reporting</p>
+                                        <p>Easily export your data into an Excel spreadsheet where you can do whatever
+                                            the
+                                            hell you want with it.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={"introduction-ipad"}>
+                            <div>
+                                <img src={ipad} alt={"아이패드"}/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            {/*<div className={"subscribe"} id={"subscribe"}>*/}
-            {/*    <img src={testSection2} alt={"1"} style={{*/}
-            {/*        width: '100%',*/}
-            {/*        height: '100%'*/}
-            {/*    }}/>*/}
-            {/*</div>*/}
-            {/*<div className={"inquiry"} id={"inquiry"}>*/}
-            {/*    <img src={testSection3} alt={"1"} style={{*/}
-            {/*        width: '100%',*/}
-            {/*        height: '100%'*/}
-            {/*    }}/>*/}
-            {/*</div>*/}
+            <div className={"subscribe"} id={"subscribe"}>
+            </div>
         </div>
     );
 }
