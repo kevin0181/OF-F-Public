@@ -3,6 +3,7 @@ import "../../styles/css/main/introduction.css";
 import "../../styles/css/main/subscribe.css";
 import "../../styles/css/main/inquiry.css";
 import "../../styles/css/main/contactUs.css";
+import "../../styles/css/main/footer.css";
 
 
 import mainLogo from "./../../assets/icon/main_logo.svg";
@@ -12,7 +13,9 @@ import ipad from "./../../assets/icon/ipad.svg";
 import subBackIcon from "./../../assets/icon/subscribe_back_icon.svg";
 import checkCircle from "./../../assets/icon/check-circle.svg";
 import CustomSelect from "../custom/CustomSelect";
-
+import footerLogo from "./../../assets/icon/footer_logo.svg";
+import gitIcon from "./../../assets/icon/Git_icon.svg";
+import twitterIcon from "./../../assets/icon/Twitter_icon.svg";
 
 let Main = () => {
     return (
@@ -37,7 +40,10 @@ let Main = () => {
                             <div>Get 3 months free</div>
                         </div>
                         <div className={"connect-btn"}>
-                            <div>
+                            <div onClick={() => {
+                                // eslint-disable-next-line no-restricted-globals
+                                location.href = "#contact-us";
+                            }}>
                                 <img src={phoneLogo} alt={"connect logo"}/>
                                 <div>Contact us</div>
                             </div>
@@ -400,7 +406,34 @@ let Main = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className={"contact-us-footer"}></div>
+                        <div className={"contact-us-footer"}>
+                            <div className={"footer-top"}>
+                                <div>
+                                    <img src={footerLogo} alt={"logo"}/>
+                                </div>
+                                <div>
+                                    <p>Features</p>
+                                    <p>Testimonials</p>
+                                    <p>Pricing</p>
+                                </div>
+                            </div>
+                            <div className={"footer-body"}>
+                                <div></div>
+                            </div>
+                            <div className={"footer-bottom"}>
+                                <div>
+                                    <div>
+                                        <p>Copyright © 2022 TaxPal. All rights reserved.</p>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <img src={twitterIcon} alt={"twitter icon"}/>
+                                            <img src={gitIcon} alt={"git icon"}/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
