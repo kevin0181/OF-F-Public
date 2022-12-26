@@ -10,9 +10,10 @@ function App() {
         <CookiesProvider>
             <BrowserRouter>
                 <div className={"container"}>
-                    <Header/>
                     <Routes>
-                        <Route path={"/"} element={<Main/>}/>
+                        <Route element={<Header/>}>
+                            <Route path={"/*"} element={<Main/>}/>
+                        </Route>
                         <Route path={"/login"} element={<Login/>}/>
                     </Routes>
                 </div>

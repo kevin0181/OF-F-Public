@@ -78,6 +78,7 @@ a {
     border-radius: 10px;
     height: 35px;
     border: 1px solid #D1D5DB;
+    padding: 10px;
 }
 
 .c-select {
