@@ -2,6 +2,7 @@ import "./../../styles/css/header/header.css";
 import logo2 from "./../../assets/logo2.svg";
 import logo1 from "./../../assets/logo1.svg";
 import startIcon from "./../../assets/icon/start_icon.svg";
+import startIconHover from "./../../assets/icon/start_icon_hover.svg";
 
 let Header = () => {
     return (
@@ -29,12 +30,22 @@ let Header = () => {
                     </ul>
                 </div>
                 <div className={"auth-btn"}>
-                    <div>
-                        <div>
-                            <img src={startIcon} alt={"start icon"}/>
-                        </div>
-                        <div>시작하기</div>
-                    </div>
+                    <ul className="auth-btn-start">
+                        <li>
+                            <a href="#" className={"start-btn"}><span className={"start-img"}><img src={startIcon} alt={"start icon"}
+                                                                           className={"start-icon"}/></span>시작하기</a>
+                            <ul className="auth-btn-hide">
+                                <li><a href="#"><span className={"start-img"}><img src={startIconHover}
+                                                                                   alt={"start icon"}
+                                                                                   className={"start-icon-blue"}/></span>로그인</a>
+                                </li>
+                                <li><a href="#"><span className={"start-img"}><img src={startIconHover}
+                                                                                   alt={"start icon"}
+                                                                                   className={"start-icon-blue"}/></span>회원가입</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
