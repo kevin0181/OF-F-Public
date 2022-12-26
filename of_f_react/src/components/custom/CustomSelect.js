@@ -15,9 +15,16 @@ let CustomSelect = ({getData, defaultData, onchange}) => {
 
         if (getData != null) {
             setData(getData);
+            return;
         }
 
-    }, []);
+    }, [getData]);
+
+    const onClickSelect = (seq, name) => {
+        setSelectData({
+            seq, name
+        })
+    }
 
     return (
         <div style={{
@@ -41,7 +48,10 @@ let CustomSelect = ({getData, defaultData, onchange}) => {
                         <div className={"c-select-list"}>
                             {
                                 data.map((data, index) => (
-                                    <div key={index}>{data.name}</div>
+                                    <div key={index} onClick={() => {
+                                        onClickSelect(data.seq, data.name);
+                                        setSelectActive(!selectActive);
+                                    }}>{data.name}</div>
                                 ))
                             }
                         </div>

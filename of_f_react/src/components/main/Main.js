@@ -37,7 +37,10 @@ let Main = () => {
                             <div>Get 3 months free</div>
                         </div>
                         <div className={"connect-btn"}>
-                            <div>
+                            <div onClick={() => {
+                                // eslint-disable-next-line no-restricted-globals
+                                location.href = "#contact-us";
+                            }}>
                                 <img src={phoneLogo} alt={"connect logo"}/>
                                 <div>Contact us</div>
                             </div>
