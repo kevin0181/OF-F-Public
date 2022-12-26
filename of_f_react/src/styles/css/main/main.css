@@ -126,6 +126,9 @@
     height: 100%;
 }
 
+.background-color-gradation {
+    background: linear-gradient(to top, #1A72C3 3%, #1a72c330 40%, white 56%, #1a72c330 67%, #1A72C3);
+}
 
 @media screen and (max-width: 1200px) {
     .main-center > div > p {

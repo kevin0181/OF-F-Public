@@ -1,0 +1,82 @@
+.contact-us {
+    width: 100vw;
+    height: 100vh;
+    padding: 20px 3%;
+}
+
+.contact-us > div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 70px 2% 0px 2%;
+    color: white;
+}
+
+
+.contact-us-header {
+    text-align: center;
+}
+
+.contact-us-header h1 {
+    padding: 10px;
+}
+
+.contact-us-header p {
+    padding: 5px;
+}
+
+
+.contact-us-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.contact-card {
+    background-color: white;
+    border-radius: 20px;
+    width: 80%;
+    height: 400px;
+    display: flex;
+}
+
+.contact-card > div {
+    flex: 1;
+    padding: 50px 20px;
+}
+
+.contact-card-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-card-left > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0px 20px;
+}
+
+.contact-card-left p {
+    color: black;
+    width: 100%;
+    font-size: 12px;
+    padding: 5px 0px;
+}
+
+.contact-card-phoneNumber {
+    display: flex;
+    color: black;
+    align-items: center;
+}
+
+.contact-card-phoneNumber > div {
+    flex: 1;
+}
