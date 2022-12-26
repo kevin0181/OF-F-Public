@@ -1,40 +1,12 @@
-import {setCookie} from "../Config/cookie";
-import {notTokenAxios} from "../Config/customAxios";
 import "../styles/css/login/auth.css";
 import logo1 from "./../assets/logo1.svg";
 import logo2 from "./../assets/logo2.svg";
 import loginLogo from "./../assets/icon/userLoginLogo.svg";
 import {useNavigate} from "react-router-dom";
 
-let Login = () => {
+let SignUp = () => {
 
     const navigate = useNavigate();
-
-    let loginBtn = () => {
-        notTokenAxios({
-            method: 'post',
-            url: '/api/v1/auth/n/login',
-            data: {
-                email: 'test1@test1.com',
-                password: 'test1234@'
-            }
-        }).then(res => {
-
-            const expires = new Date();
-            expires.setMinutes(expires.getMinutes() + 30);
-
-            setCookie("accessToken", res.data.data.accessToken, {
-                path: "/",
-                expires
-            });
-
-            setCookie("l-st", true, {
-                path: "/",
-                expires
-            });
-
-        });
-    }
 
     return (
         <div className={"login-Container"}>
@@ -54,18 +26,21 @@ let Login = () => {
                         <p>이메일</p>
                         <input className={"login-input m-input "}/>
                     </div>
-                    <div style={{
-                        padding: "10px 0px 0px 0px"
-                    }}>
+                    <div>
                         <p>비밀번호</p>
                         <input className={"login-input m-input"}/>
                     </div>
-                    <div style={{
-                        padding: "3px 3px",
-                        fontSize: "12px"
-                    }}>
-                        <span>아이디 찾기</span>&nbsp;&nbsp;||&nbsp;&nbsp;
-                        <span>비밀번호 찾기</span>
+                    <div>
+                        <p>비밀번호 확인</p>
+                        <input className={"login-input m-input"}/>
+                    </div>
+                    <div>
+                        <p>이름</p>
+                        <input className={"login-input m-input"}/>
+                    </div>
+                    <div>
+                        <p>전화번호</p>
+                        <input className={"login-input m-input"}/>
                     </div>
                     <div className={"login-btn-div"}>
                         <div className={"login-btn"}>
@@ -75,7 +50,7 @@ let Login = () => {
                                 }}>
                                 <img src={loginLogo} alt={"login Logo"}/>
                                 </span>
-                                로그인</p>
+                                회원가입</p>
                         </div>
                     </div>
                 </div>
@@ -85,4 +60,4 @@ let Login = () => {
         </div>
     );
 }
-export default Login;
+export default SignUp;
