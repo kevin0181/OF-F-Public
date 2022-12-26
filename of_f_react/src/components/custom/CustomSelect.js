@@ -23,25 +23,31 @@ let CustomSelect = ({getData, defaultData, onchange}) => {
         <div style={{
             width: "100%"
         }}>
-            <div className={"c-select"}>
-                <div className={"c-select-name"}>
-                    <div>{selectData.name}</div>
-                </div>
-                <div className={"c-select-arrow"}>
-                    <div>></div>
-                </div>
-            </div>
-            {
-                selectActive === true ? (
-                    <div className={"c-select-list"}>
+            <div className={"c-select-div"}>
+                <div className={"c-select"} onClick={() => {
+                    setSelectActive(!selectActive);
+                }}>
+                    <div className={"c-select-name"}>
+                        <div>{selectData.name}</div>
+                    </div>
+                    <div className={"c-select-arrow"}>
                         {
-                            data.map(data => (
-                                <div>{data.name}</div>
-                            ))
+                            selectActive === true ? (<div className={"under-arrow-animation"}>></div>) : (<div>></div>)
                         }
                     </div>
-                ) : (<></>)
-            }
+                </div>
+                {
+                    selectActive === true ? (
+                        <div className={"c-select-list"}>
+                            {
+                                data.map((data, index) => (
+                                    <div key={index}>{data.name}</div>
+                                ))
+                            }
+                        </div>
+                    ) : (<></>)
+                }
+            </div>
         </div>
     );
 }

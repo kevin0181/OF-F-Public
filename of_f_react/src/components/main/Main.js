@@ -335,7 +335,22 @@ let Main = () => {
                                                 <CustomSelect defaultData={{
                                                     seq: 1,
                                                     name: "123"
-                                                }}/>
+                                                }}
+                                                              getData={[
+                                                                  {
+                                                                      seq: 2,
+                                                                      name: "321"
+                                                                  },
+                                                                  {
+                                                                      seq: 3,
+                                                                      name: "5213"
+                                                                  }
+                                                                  , {
+                                                                      seq: 4,
+                                                                      name: "123123sdfsdfsdf"
+                                                                  }
+                                                              ]}
+                                                />
                                             </div>
                                             &nbsp; - &nbsp;
                                             <div>

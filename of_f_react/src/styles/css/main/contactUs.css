@@ -75,6 +75,7 @@
     display: flex;
     color: black;
     align-items: center;
+    width: 100%;
 }
 
 .contact-card-phoneNumber > div {
