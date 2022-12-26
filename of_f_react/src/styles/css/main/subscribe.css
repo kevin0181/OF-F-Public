@@ -1,4 +1,122 @@
 .subscribe {
     width: 100vw;
     height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 40px 2%;
+    position: relative;
+}
+
+.subscribe > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.subscribe h2 {
+    text-align: center;
+    font-size: 2rem;
+}
+
+.sub-back-icon {
+    position: absolute;
+    top: 11%;
+    left: 25%;
+    z-index: -1;
+}
+
+.sub-body {
+    width: 100%;
+    height: 100%;
+}
+
+.sub-body > div {
+    padding: 10px 0px;
+    text-align: center;
+}
+
+.sub-card-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.sub-card-container > div {
+    flex: 1;
+    position: relative;
+    padding: 5% 2%;
+}
+
+.sub-card {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    color: white;
+}
+
+.card-sky {
+    background-color: #1a72c3b0;
+}
+
+.card-blue {
+    background-color: #15426B;
+}
+
+.sub-card-header {
+    text-align: left;
+    padding: 10px 20px;
+}
+
+.sub-card-header > div {
+    padding: 10px 5px;
+}
+
+.sub-card-header p {
+    font-weight: bolder;
+    padding: 10px 0px;
+}
+
+.sub-card-header h1 {
+    font-size: 3rem;
+}
+
+.sub-card-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sub-card-body > .sub-card-btn {
+    background-color: white;
+    color: black;
+    width: 75%;
+    height: 35px;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sub-card-body > .sub-card-btn > p {
+    font-weight: bolder;
+    font-size: 13px;
+}
+
+.sub-card-footer {
+    display: flex;
+    flex-direction: column;
+    padding: 25px 20px;
+}
+
+.sub-card-footer > .sub-list {
+    display: flex;
+    color: white;
+    padding: 10px 0px;
+}
+
+.sub-list > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 5px;
+    font-size: 14px;
 }
