@@ -367,7 +367,37 @@ let Main = () => {
                                         <input className={"m-input"}/>
                                     </div>
                                 </div>
-                                <div className={"contact-card-right"}></div>
+                                <div className={"contact-card-right"}>
+                                    <div>
+                                        <p style={{
+                                            padding: "10px 0px 5px 0px"
+                                        }}>문의 내용</p>
+                                        <textarea className={"m-input"} style={{
+                                            height: "75%",
+                                            padding: "20px"
+                                        }}/>
+                                        <div style={{
+                                            display: "flex",
+                                            padding: "20px 0px"
+                                        }}>
+                                            <div style={{
+                                                flex: "1"
+                                            }}>
+                                            </div>
+                                            <div style={{
+                                                flex: "1"
+                                            }}>
+                                            </div>
+                                            <div style={{
+                                                flex: "1"
+                                            }}>
+                                            </div>
+                                            <div className={"emailSendBtn"}>
+                                                <p>이메일 보내기</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className={"contact-us-footer"}></div>

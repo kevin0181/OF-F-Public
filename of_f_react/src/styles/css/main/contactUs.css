@@ -81,3 +81,24 @@
 .contact-card-phoneNumber > div {
     flex: 1;
 }
+
+.contact-card-right {
+    color: black;
+    font-size: 12px;
+}
+
+.contact-card-right > div {
+    padding: 0px 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.emailSendBtn {
+    flex: 1;
+    text-align: center;
+    padding: 15px 20px;
+    background-color: #5680BF;
+    color: white;
+    border-radius: 10px;
+}
