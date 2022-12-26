@@ -380,7 +380,8 @@ let Main = () => {
                                         }}>문의 내용</p>
                                         <textarea className={"m-input"} style={{
                                             height: "75%",
-                                            padding: "20px"
+                                            padding: "20px",
+                                            resize: "none"
                                         }}/>
                                         <div style={{
                                             display: "flex",
