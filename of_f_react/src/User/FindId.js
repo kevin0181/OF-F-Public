@@ -1,40 +1,10 @@
-import {setCookie} from "../Config/cookie";
-import {notTokenAxios} from "../Config/customAxios";
-import "../styles/css/login/auth.css";
-import logo1 from "./../assets/logo1.svg";
-import logo2 from "./../assets/logo2.svg";
-import loginLogo from "./../assets/icon/userLoginLogo.svg";
 import {Link, useNavigate} from "react-router-dom";
+import logo2 from "../assets/logo2.svg";
+import logo1 from "../assets/logo1.svg";
+import loginLogo from "../assets/icon/userLoginLogo.svg";
 
-let Login = () => {
-
+let FindId = () => {
     const navigate = useNavigate();
-
-    let loginBtn = () => {
-        notTokenAxios({
-            method: 'post',
-            url: '/api/v1/auth/n/login',
-            data: {
-                email: 'test1@test1.com',
-                password: 'test1234@'
-            }
-        }).then(res => {
-
-            const expires = new Date();
-            expires.setMinutes(expires.getMinutes() + 30);
-
-            setCookie("accessToken", res.data.data.accessToken, {
-                path: "/",
-                expires
-            });
-
-            setCookie("l-st", true, {
-                path: "/",
-                expires
-            });
-
-        });
-    }
 
     return (
         <div className={"login-Container"}>
@@ -50,21 +20,16 @@ let Login = () => {
                     </div>
                 </div>
                 <div className={"login-form"}>
-                    <div>
-                        <p>이메일</p>
-                        <input className={"login-input m-input "}/>
-                    </div>
                     <div style={{
                         padding: "10px 0px 0px 0px"
                     }}>
-                        <p>비밀번호</p>
-                        <input className={"login-input m-input"}/>
+                        <p>이메일</p>
+                        <input className={"login-input m-input "}/>
                     </div>
                     <div style={{
                         padding: "3px 3px",
                         fontSize: "12px"
                     }}>
-                        <span><Link to={"/find/id"}>아이디 찾기</Link></span>&nbsp;&nbsp;||&nbsp;&nbsp;
                         <span><Link to={"/find/pwd"}>비밀번호 찾기</Link></span>
                     </div>
                     <div className={"login-btn-div"}>
@@ -75,7 +40,7 @@ let Login = () => {
                                 }}>
                                 <img src={loginLogo} alt={"login Logo"}/>
                                 </span>
-                                로그인</p>
+                                아이디 찾기</p>
                         </div>
                     </div>
                 </div>
@@ -85,4 +50,5 @@ let Login = () => {
         </div>
     );
 }
-export default Login;
+
+export default FindId;

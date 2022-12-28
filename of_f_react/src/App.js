@@ -5,6 +5,8 @@ import "./styles/css/default.css"
 import Header from "./components/header/Header";
 import Main from "./components/main/Main";
 import SignUp from "./User/SignUp";
+import FindId from "./User/FindId";
+import FindPwd from "./User/FindPwd";
 
 function App() {
     return (
@@ -17,6 +19,8 @@ function App() {
                         </Route>
                         <Route path={"/login"} element={<Login/>}/>
                         <Route path={"/signUp"} element={<SignUp/>}/>
+                        <Route path={"/find/id"} element={<FindId/>}/>
+                        <Route path={"/find/pwd"} element={<FindPwd/>}/>
                     </Routes>
                 </div>
             </BrowserRouter>
