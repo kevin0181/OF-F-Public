@@ -16,17 +16,25 @@ let Login = () => {
         password: ""
     });
 
-    const [errorMsg, setErrorMsg] = useState("")
+    const [errorMsg, setErrorMsg] = useState("");
+
+    let onChangeAuth = (e) => {
+        setErrorMsg("");
+        setAuth({
+            ...auth,
+            [e.target.name]: e.target.value
+        })
+    }
 
     let loginBtn = () => {
 
         if (auth.email === "") {
-            alert("이메일을 입력하세요.");
+            setErrorMsg("이메일을 입력하세요.");
             return;
         }
 
         if (auth.password === "") {
-            alert("비밀번호를 입력하세요.");
+            setErrorMsg("비밀번호를 입력하세요.");
             return;
         }
 
@@ -59,13 +67,6 @@ let Login = () => {
             console.log(err);
             setErrorMsg(err.response.data.detail);
         });
-    }
-
-    let onChangeAuth = (e) => {
-        setAuth({
-            ...auth,
-            [e.target.name]: e.target.value
-        })
     }
 
     return (
