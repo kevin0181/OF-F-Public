@@ -12,8 +12,8 @@ let Login = () => {
     const navigate = useNavigate();
 
     const [auth, setAuth] = useState({
-        email: "",
-        password: ""
+        email: "test1@test1.com",
+        password: "test1234@"
     });
 
     const [errorMsg, setErrorMsg] = useState("");
@@ -43,8 +43,6 @@ let Login = () => {
             method: 'post',
             url: '/api/v1/auth/n/login',
             data: {
-                // email: 'test1@test1.com',
-                // password: 'test1234@'
                 email: auth.email,
                 password: auth.password
             }
@@ -58,10 +56,7 @@ let Login = () => {
                 expires
             });
 
-            setCookie("l-st", true, {
-                path: "/",
-                expires
-            });
+            localStorage.setItem("l-st", true); // -> 로그인 된 상태
 
         }).catch((err) => {
             console.log(err);

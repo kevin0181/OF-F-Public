@@ -4,6 +4,7 @@ import logo2 from "./../assets/logo2.svg";
 import loginLogo from "./../assets/icon/userLoginLogo.svg";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
+import {notTokenAxios} from "../Config/customAxios";
 
 let SignUp = () => {
 
@@ -50,10 +51,25 @@ let SignUp = () => {
             return;
         }
 
-        if (auth.password != auth.rePassword) {
+        if (auth.password !== auth.rePassword) {
             setErrorMsg("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
             return;
         }
+
+
+        notTokenAxios({
+            method: 'post',
+            url: '/api/v1/auth/n/signIn',
+            data: {
+                email: auth.email,
+                password: auth.password,
+                rePassword: auth.rePassword,
+                name: auth.name,
+phoneNumber:auth.phoneNumber,
+                emailReceiveStatus:auth.emailReceiveStatus,
+
+            }
+        })
     }
 
 
