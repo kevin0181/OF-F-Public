@@ -49,6 +49,11 @@
     align-items: center;
 }
 
+.error-msg {
+    color: red;
+    font-size: 12px;
+}
+
 .login-btn {
     padding: 5px 30px;
     background-color: #1A72C3;
