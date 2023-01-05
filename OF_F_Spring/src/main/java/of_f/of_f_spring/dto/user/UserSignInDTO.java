@@ -46,10 +46,12 @@ public class UserSignInDTO {
 
     @NotNull
     @AssertTrue(message = "이메일 수신 동의는 필수 입력 값입니다.")
+    @AssertTrue(message = "이메일 수신 동의가 필요합니다.")
     private boolean emailReceiveStatus;
 
     @NotNull
     @AssertTrue(message = "번호 수신 동의는 필수 입력 값입니다.")
+    @AssertTrue(message = "sms 수신 동의가 필요합니다.")
     private boolean phoneNumberReceiveStatus;
 
     private List<UserRoleDTO> userRoles;

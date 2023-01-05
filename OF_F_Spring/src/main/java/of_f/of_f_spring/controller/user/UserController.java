@@ -57,8 +57,8 @@ public class UserController {
     error -> 400 email 없음
      */
     @GetMapping("/n/email/check") // 이메일 인증
-    public ApiResponseDTO checkEmail(@RequestBody @Valid EmailToken emailToken) {
-        return emailService.saveEmailToken(emailToken);
+    public ApiResponseDTO checkEmail(@RequestParam String email) {
+        return emailService.saveEmailToken(email);
     }
 
     @PostMapping("/y/check/user") //사용자 비밀번호 확인

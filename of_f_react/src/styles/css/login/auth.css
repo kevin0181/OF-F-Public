@@ -70,3 +70,17 @@
 .login-input {
     height: 40px !important;
 }
+
+.input-checkbox-div {
+    display: flex;
+    font-size: 12px;
+    padding: 0 !important;
+}
+
+.m-checkbox-signUp {
+    margin: 0px 5px;
+}
+
+.email-p:hover {
+    color: blue;
+}
