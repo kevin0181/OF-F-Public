@@ -7,24 +7,27 @@ import Main from "./components/main/Main";
 import SignUp from "./User/SignUp";
 import FindId from "./User/FindId";
 import FindPwd from "./User/FindPwd";
+import {RecoilRoot} from "recoil";
 
 function App() {
     return (
-        <CookiesProvider>
-            <BrowserRouter>
-                <div className={"container"}>
-                    <Routes>
-                        <Route element={<Header/>}>
-                            <Route path={"/*"} element={<Main/>}/>
-                        </Route>
-                        <Route path={"/login"} element={<Login/>}/>
-                        <Route path={"/signUp"} element={<SignUp/>}/>
-                        <Route path={"/find/id"} element={<FindId/>}/>
-                        <Route path={"/find/pwd"} element={<FindPwd/>}/>
-                    </Routes>
-                </div>
-            </BrowserRouter>
-        </CookiesProvider>
+        <RecoilRoot>
+            <CookiesProvider>
+                <BrowserRouter>
+                    <div className={"container"}>
+                        <Routes>
+                            <Route element={<Header/>}>
+                                <Route path={"/*"} element={<Main/>}/>
+                            </Route>
+                            <Route path={"/login"} element={<Login/>}/>
+                            <Route path={"/signUp"} element={<SignUp/>}/>
+                            <Route path={"/find/id"} element={<FindId/>}/>
+                            <Route path={"/find/pwd"} element={<FindPwd/>}/>
+                        </Routes>
+                    </div>
+                </BrowserRouter>
+            </CookiesProvider>
+        </RecoilRoot>
     );
 }
 

@@ -3,9 +3,45 @@ import logo2 from "./../../assets/logo2.svg";
 import logo1 from "./../../assets/logo1.svg";
 import startIcon from "./../../assets/icon/start_icon.svg";
 import startIconHover from "./../../assets/icon/start_icon_hover.svg";
-import {Outlet} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
+import {useRecoilState} from "recoil";
+import authState from "./../../store/auth";
+import {useEffect} from "react";
+import {removeCookie} from "../../Config/cookie";
+import {tokenAxios} from "../../Config/customAxios";
 
 let Header = () => {
+
+    const navigate = useNavigate();
+
+    let [auth, setAuth] = useRecoilState(authState);
+
+    useEffect(() => {
+
+        if (localStorage.getItem("l-st")) {
+            setAuth(true);
+        }
+
+    }, []);
+
+    let logout = () => {
+        tokenAxios({
+            method: 'post',
+            url: '/api/v1/auth/y/logout',
+        }).then(res => {
+            console.log(res);
+            if (res.data.data) {
+                removeCookie("accessToken", {
+                    path: "/"
+                });
+                localStorage.removeItem("l-st");
+
+                // eslint-disable-next-line no-restricted-globals
+                location.reload();
+
+            }
+        });
+    }
 
     return (
         <>
@@ -38,16 +74,39 @@ let Header = () => {
                                 <a href={"/"} className={"start-btn"}><span className={"start-img"}><img src={startIcon}
                                                                                                          alt={"start icon"}
                                                                                                          className={"start-icon"}/></span>시작하기</a>
-                                <ul className="auth-btn-hide">
-                                    <li><a href={"/login"}><span className={"start-img"}><img src={startIconHover}
-                                                                                              alt={"start icon"}
-                                                                                              className={"start-icon-blue"}/></span>로그인</a>
-                                    </li>
-                                    <li><a href={"/signUp"}><span className={"start-img"}><img src={startIconHover}
-                                                                                               alt={"start icon"}
-                                                                                               className={"start-icon-blue"}/></span>회원가입</a>
-                                    </li>
-                                </ul>
+                                {
+                                    auth === false ? (
+                                        <>
+                                            <ul className="auth-btn-hide">
+                                                <li><a href={"/login"}><span className={"start-img"}><img
+                                                    src={startIconHover}
+                                                    alt={"start icon"}
+                                                    className={"start-icon-blue"}/></span>로그인</a>
+                                                </li>
+                                                <li><a href={"/signUp"}><span className={"start-img"}><img
+                                                    src={startIconHover}
+                                                    alt={"start icon"}
+                                                    className={"start-icon-blue"}/></span>회원가입</a>
+                                                </li>
+                                            </ul>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <ul className="auth-btn-hide">
+                                                <li><a href={"/login"}><span className={"start-img"}><img
+                                                    src={startIconHover}
+                                                    alt={"start icon"}
+                                                    className={"start-icon-blue"}/></span>관리자</a>
+                                                </li>
+                                                <li><a onClick={logout}><span className={"start-img"}><img
+                                                    src={startIconHover}
+                                                    alt={"start icon"}
+                                                    className={"start-icon-blue"}/></span>로그아웃</a>
+                                                </li>
+                                            </ul>
+                                        </>
+                                    )
+                                }
                             </li>
                         </ul>
                     </div>
