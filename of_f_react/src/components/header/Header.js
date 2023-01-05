@@ -3,7 +3,7 @@ import logo2 from "./../../assets/logo2.svg";
 import logo1 from "./../../assets/logo1.svg";
 import startIcon from "./../../assets/icon/start_icon.svg";
 import startIconHover from "./../../assets/icon/start_icon_hover.svg";
-import {Outlet, useNavigate} from "react-router-dom";
+import {Outlet} from "react-router-dom";
 import {useRecoilState} from "recoil";
 import authState from "./../../store/auth";
 import {useEffect} from "react";
@@ -12,7 +12,6 @@ import {tokenAxios} from "../../Config/customAxios";
 
 let Header = () => {
 
-    const navigate = useNavigate();
 
     let [auth, setAuth] = useRecoilState(authState);
 
@@ -22,7 +21,7 @@ let Header = () => {
             setAuth(true);
         }
 
-    }, []);
+    }, [setAuth]);
 
     let logout = () => {
         tokenAxios({
@@ -98,7 +97,7 @@ let Header = () => {
                                                     alt={"start icon"}
                                                     className={"start-icon-blue"}/></span>관리자</a>
                                                 </li>
-                                                <li><a onClick={logout}><span className={"start-img"}><img
+                                                <li><a href={"#!"} onClick={logout}><span className={"start-img"}><img
                                                     src={startIconHover}
                                                     alt={"start icon"}
                                                     className={"start-icon-blue"}/></span>로그아웃</a>
