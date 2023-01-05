@@ -58,9 +58,12 @@ let Login = () => {
 
             localStorage.setItem("l-st", true); // -> 로그인 된 상태
 
+
         }).catch((err) => {
             console.log(err);
             setErrorMsg(err.response.data.detail);
+        }).finally(() => {
+            navigate("/")
         });
     }
 
