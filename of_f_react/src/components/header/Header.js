@@ -3,15 +3,19 @@ import logo2 from "./../../assets/logo2.svg";
 import logo1 from "./../../assets/logo1.svg";
 import startIcon from "./../../assets/icon/start_icon.svg";
 import startIconHover from "./../../assets/icon/start_icon_hover.svg";
-import {Outlet} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import {useRecoilState} from "recoil";
 import authState from "./../../store/auth";
 import {useEffect} from "react";
-import {removeCookie} from "../../Config/cookie";
 import {tokenAxios} from "../../Config/customAxios";
+import {useCookies} from "react-cookie";
 
 let Header = () => {
 
+
+    const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
+
+    const navigate = useNavigate();
 
     let [auth, setAuth] = useRecoilState(authState);
 
@@ -24,20 +28,18 @@ let Header = () => {
     }, [setAuth]);
 
     let logout = () => {
+
         tokenAxios({
             method: 'post',
             url: '/api/v1/auth/y/logout',
         }).then(res => {
-            console.log(res);
             if (res.data.data) {
                 removeCookie("accessToken", {
                     path: "/"
                 });
                 localStorage.removeItem("l-st");
 
-                // eslint-disable-next-line no-restricted-globals
-                location.reload();
-
+                window.location.reload();
             }
         });
     }
