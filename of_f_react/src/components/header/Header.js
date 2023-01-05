@@ -7,10 +7,13 @@ import {Outlet, useNavigate} from "react-router-dom";
 import {useRecoilState} from "recoil";
 import authState from "./../../store/auth";
 import {useEffect} from "react";
-import {removeCookie} from "../../Config/cookie";
 import {tokenAxios} from "../../Config/customAxios";
+import {useCookies} from "react-cookie";
 
 let Header = () => {
+
+
+    const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
 
     const navigate = useNavigate();
 
@@ -22,23 +25,21 @@ let Header = () => {
             setAuth(true);
         }
 
-    }, []);
+    }, [setAuth]);
 
     let logout = () => {
+
         tokenAxios({
             method: 'post',
             url: '/api/v1/auth/y/logout',
         }).then(res => {
-            console.log(res);
             if (res.data.data) {
                 removeCookie("accessToken", {
                     path: "/"
                 });
                 localStorage.removeItem("l-st");
 
-                // eslint-disable-next-line no-restricted-globals
-                location.reload();
-
+                window.location.reload();
             }
         });
     }
@@ -98,7 +99,7 @@ let Header = () => {
                                                     alt={"start icon"}
                                                     className={"start-icon-blue"}/></span>관리자</a>
                                                 </li>
-                                                <li><a onClick={logout}><span className={"start-img"}><img
+                                                <li><a href={"#!"} onClick={logout}><span className={"start-img"}><img
                                                     src={startIconHover}
                                                     alt={"start icon"}
                                                     className={"start-icon-blue"}/></span>로그아웃</a>

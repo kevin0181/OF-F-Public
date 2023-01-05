@@ -1,4 +1,3 @@
-import {setCookie} from "../Config/cookie";
 import {notTokenAxios} from "../Config/customAxios";
 import "../styles/css/login/auth.css";
 import logo1 from "./../assets/logo1.svg";
@@ -6,8 +5,11 @@ import logo2 from "./../assets/logo2.svg";
 import loginLogo from "./../assets/icon/userLoginLogo.svg";
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
+import {useCookies} from "react-cookie";
 
 let Login = () => {
+
+    const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
 
     const navigate = useNavigate();
 
@@ -63,7 +65,7 @@ let Login = () => {
             console.log(err);
             setErrorMsg(err.response.data.detail);
         }).finally(() => {
-            navigate("/")
+            window.location.replace("/");
         });
     }
 
