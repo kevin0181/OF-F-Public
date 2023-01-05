@@ -59,8 +59,7 @@ tokenAxios.interceptors.response.use(
 
         console.log(err)
 
-        if (err.response.data.code === "401" && err.response.data.errorCode === "TO0001") { // accessToken이 유효하지 않을때
-
+        if (err.response.data.code == "401" && err.response.data.errorCode == "TO0001") { // accessToken이 유효하지 않을때
             let accessToken = await getRefreshToken();
 
             if (accessToken) {

@@ -20,10 +20,8 @@ let getRefreshToken = async () => {
         expires
     });
 
-    setCookie("l-st", true, {
-        path: "/",
-        expires
-    });
+    localStorage.setItem("l-st", true);
+
 
     return accessToken;
 
