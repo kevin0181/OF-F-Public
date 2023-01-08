@@ -38,14 +38,14 @@ public class EmailService {
     @Autowired
     private RefreshTokenInfoRedisRepository refreshTokenInfoRedisRepository;
 
-    public ApiResponseDTO saveEmailToken(EmailToken emailToken) {
+    public ApiResponseDTO saveEmailToken(String email) {
 
-        EmailToken getEmailToken = emailTokenRedisRepository.save(createRandomToken(emailToken.getEmail()));
+        EmailToken getEmailToken = emailTokenRedisRepository.save(createRandomToken(email));
 
         if (getEmailToken == null)
             throw new AuthException(ExceptionEnum.NOT_EXIT_USER);
 
-        sendEmail(getEmailToken.getEmail(), "off 회원가입 인증 메일입니다.", createEmailTokenText(getEmailToken.getEmailToken()));
+        sendEmail(getEmailToken.getEmail(), "off 회원가입 인증 메일입니다.", createEmailTokenText(getEmailToken.getEmailToken(), email));
 
         return ApiResponseDTO.builder()
                 .message("이메일 인증 발송 완료")
@@ -92,11 +92,10 @@ public class EmailService {
         return String.valueOf(text);
     }
 
-    private String createEmailTokenText(String token) {
+    private String createEmailTokenText(String token, String email) {
 
         StringBuffer text = new StringBuffer();
-        text.append("<a href=" + "" + token + ">" //리엑트에서 회원가입 페이지로 리다이렉트
-                + "off 인증하러가기 (" + token + ")" + "</a>");
+        text.append("<a href=" + "http://localhost:3000/signUp?id=" + token + "&email=" + email + ">" + "off 인증하러가기" + "</a>");
 
         return String.valueOf(text);
 
