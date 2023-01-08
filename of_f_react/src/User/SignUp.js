@@ -70,7 +70,7 @@ let SignUp = () => {
 
         await notTokenAxios({
             method: 'post',
-            url: '/api/v1/auth/n/signIn',
+            url: '/api/v1/auth/n/signIn?emailToken=' + query.get("id"),
             data: {
                 email: auth.email,
                 password: auth.password,
@@ -81,7 +81,8 @@ let SignUp = () => {
                 phoneNumberReceiveStatus: auth.phoneNumberReceiveStatus
             }
         }).then(res => {
-            console.log(res);
+            alert(res.data.data.name+"님 회원 가입이 완료되었습니다. 다시 로그인해주세요.");
+            navigate("/login");
         }).catch(err => {
             setErrorMsg(err.response.data.detail);
         });
@@ -130,6 +131,8 @@ let SignUp = () => {
             url: '/api/v1/auth/n/email/check?email=' + auth.email,
         }).then(res => {
             console.log(res)
+            alert(res.data.detail);
+            navigate("/");
         }).catch(err => {
             console.log(err)
         });
@@ -150,28 +153,43 @@ let SignUp = () => {
                     </div>
                 </div>
                 <div className={"login-form"}>
-                    <div style={{
-                        padding: "10px 0px 0px 0px"
-                    }}>
-                        <p>이메일</p>
-                        <input className={"login-input m-input "} onChange={onChangeAuth} type={"text"} name={"email"}
-                               value={auth.email}/>
-                    </div>
-                    <div style={{
-                        padding: "0",
-                        fontSize: "12px"
-                    }}>
-                        {
-                            emailStatus === true ? (<>
-                                <p
-                                    onClick={sendEmailCertification}
-                                    style={{
-                                        padding: "3px 1px",
-                                        width: "50%"
-                                    }} className={"email-p"}>이메일 인증하기</p>
-                            </>) : (<></>)
-                        }
-                    </div>
+                    {
+                        query.get("id") != null ? (<>
+                            <div style={{
+                                padding: "10px 0px 0px 0px"
+                            }}>
+                                <p>이메일</p>
+                                <input className={"login-input m-input "} disabled={true} onChange={onChangeAuth}
+                                       type={"text"} name={"email"}
+                                       value={auth.email}/>
+                            </div>
+                        </>) : (<>
+                            <div style={{
+                                padding: "10px 0px 0px 0px"
+                            }}>
+                                <p>이메일</p>
+                                <input className={"login-input m-input "} onChange={onChangeAuth} type={"text"}
+                                       name={"email"}
+                                       value={auth.email}/>
+                            </div>
+                            <div style={{
+                                padding: "0",
+                                fontSize: "12px"
+                            }}>
+                                {
+                                    emailStatus === true ? (<>
+                                        <p
+                                            onClick={sendEmailCertification}
+                                            style={{
+                                                padding: "3px 1px",
+                                                width: "50%"
+                                            }} className={"email-p"}>이메일 인증하기</p>
+                                    </>) : (<></>)
+                                }
+                            </div>
+                        </>)
+                    }
+
                     {
                         query.get("id") !== null ? (<>
                             <div>

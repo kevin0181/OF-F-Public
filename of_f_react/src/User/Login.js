@@ -14,8 +14,10 @@ let Login = () => {
     const navigate = useNavigate();
 
     const [auth, setAuth] = useState({
-        email: "test1@test1.com",
-        password: "test1234@"
+        // email: "test1@test1.com",
+        // password: "test1234@"
+        email: "",
+        password: ""
     });
 
     const [errorMsg, setErrorMsg] = useState("");
