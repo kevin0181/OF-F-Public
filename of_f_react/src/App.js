@@ -8,6 +8,7 @@ import SignUp from "./User/SignUp";
 import FindId from "./User/FindId";
 import FindPwd from "./User/FindPwd";
 import {RecoilRoot} from "recoil";
+import ManagementLogin from "./management/ManagementLogin";
 
 function App() {
     return (
@@ -23,6 +24,8 @@ function App() {
                             <Route path={"/signUp"} element={<SignUp/>}/>
                             <Route path={"/find/id"} element={<FindId/>}/>
                             <Route path={"/find/pwd"} element={<FindPwd/>}/>
+                            {/* ---------- store ---------- */}
+                            <Route path={"/manage/login"} element={<ManagementLogin/>}/>
                         </Routes>
                     </div>
                 </BrowserRouter>

@@ -64,8 +64,6 @@ let Login = () => {
             }
         }).then(res => {
 
-            console.log(res);
-
             if (res.data.code === 401) { //로그인 실패
                 setErrorMsg(res.data.detail);
                 return;
