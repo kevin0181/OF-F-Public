@@ -14,7 +14,7 @@ let ManagementLogin = () => {
 
     useEffect(() => {
         if (localStorage.getItem("l-st") === "true") { //이미 로그인 되어 있는 상태라면?
-            navigate("/");
+            navigate("/manage/store");
         }
     }, []);
 
@@ -72,7 +72,7 @@ let ManagementLogin = () => {
             });
 
             localStorage.setItem("l-st", true); // -> 로그인 된 상태
-            window.location.replace("/");
+            window.location.replace("/manage/store");
 
         }).catch((err) => {
             console.log(err);
