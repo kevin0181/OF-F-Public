@@ -12,6 +12,7 @@ import ManagementLogin from "./management/ManagementLogin";
 import PrivateRouter from "./components/PrivateRouter";
 import ManageDashBoard from "./management/ManageDashBoard";
 import ErrorPage from "./components/exception/ErrorPage";
+import ManageNav from "./management/components/ManageNav";
 
 function App() {
 
@@ -33,10 +34,13 @@ function App() {
                             <Route path={"/find/pwd"} element={<FindPwd/>}/>
                             <Route path={"/error/:code"} element={<ErrorPage/>}/>
 
-                            {/* ---------- store ---------- */}
+                            {/* ---------- management ---------- */}
                             <Route path={"/manage/login"} element={<ManagementLogin/>}/>
+
                             <Route element={<PrivateRouter loginStatus={loginStatus} cookies={cookies}/>}>
-                                <Route path={"/manage/store"} element={<ManageDashBoard/>}/>
+                                <Route element={<ManageNav/>}>
+                                    <Route path={"/manage/store"} element={<ManageDashBoard/>}/>
+                                </Route>
                             </Route>
                         </Routes>
                     </div>
