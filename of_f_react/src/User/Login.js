@@ -52,6 +52,13 @@ let Login = () => {
             }
         }).then(res => {
 
+            console.log(res);
+
+            if (res.data.code === 401) { //로그인 실패
+                setErrorMsg(res.data.detail);
+                return;
+            }
+
             const expires = new Date();
             expires.setMinutes(expires.getMinutes() + 30);
 
@@ -61,13 +68,10 @@ let Login = () => {
             });
 
             localStorage.setItem("l-st", true); // -> 로그인 된 상태
-
+            window.location.replace("/");
 
         }).catch((err) => {
-            console.log(err);
             setErrorMsg(err.response.data.detail);
-        }).finally(() => {
-            window.location.replace("/");
         });
     }
 
