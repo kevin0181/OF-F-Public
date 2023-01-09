@@ -1,0 +1,72 @@
+.management-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ecf6ff;
+}
+
+.management-login-form {
+    width: 40%;
+    height: 70%;
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 15px 15px 64px grey;
+    flex-direction: column;
+    padding: 0px 0px 2% 0px;
+}
+
+.management-login-form-top {
+    padding: 10px 0px 35px 0px;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.management-login-form-top > h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.management-login-form-div > input {
+    height: 50px;
+}
+
+.management-login-form-div {
+    padding: 10px 0px;
+}
+
+.management-login-form-body {
+    width: 80%;
+    padding: 0 12%;
+}
+
+.management-login-form-bottom {
+    width: 80%;
+    padding: 20px 12%;
+}
+
+.manage-login-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.manage-login-btn > .login-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 65%;
+    height: 40px;
+    font-size: 20px;
+}
+
+.manage-login-logo{
+}
