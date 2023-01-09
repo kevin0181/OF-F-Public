@@ -171,19 +171,20 @@ public class ApiExceptionAdvice {
                         .build());
     }
 
-    @ExceptionHandler(Exception.class) // total exception
-    public ResponseEntity<ApiExceptionDTO> totalException(HttpServletRequest request, Exception e) {
-        e.printStackTrace();
-        return ResponseEntity
-                .status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
-                .body(ApiExceptionDTO.builder()
-                        .code(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
-                        .status("BAD")
-                        .errorCode("SR0001")
-                        .error("server error")
-                        .errorMessage(String.valueOf(e))
-                        .detail("서버 오류")
-                        .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
-                        .build());
-    }
+//    @ExceptionHandler(Exception.class) // total exception
+//    public ResponseEntity<ApiExceptionDTO> totalException(HttpServletRequest request, Exception e) {
+//        e.printStackTrace();
+//        return ResponseEntity
+//                .status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
+//                .body(ApiExceptionDTO.builder()
+//                        .code(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
+//                        .status("BAD")
+//                        .errorCode("SR0001")
+//                        .error("server error")
+//                        .errorMessage(String.valueOf(e))
+//                        .detail("서버 오류")
+//                        .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
+//                        .build());
+//    }
+
 }
