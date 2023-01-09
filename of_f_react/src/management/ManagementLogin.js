@@ -1,5 +1,6 @@
 import "./../styles/css/management/managementLogin.css";
 import logo from "./../assets/logo1.svg";
+import userLogo from "./../assets/icon/user.svg";
 
 let ManagementLogin = () => {
     return (<>
@@ -19,7 +20,11 @@ let ManagementLogin = () => {
                 <div className={"management-login-form-bottom"}>
                     <div className={"manage-login-btn"}>
                         <div className={"login-btn"}>
-                            <p>로그인</p>
+                            <img src={userLogo} style={{
+                                width: "20%",
+                                height: "90%",
+                                marginRight: "5px"
+                            }}/> <p>로그인</p>
                         </div>
                     </div>
                 </div>
