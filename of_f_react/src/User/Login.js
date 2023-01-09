@@ -4,7 +4,7 @@ import logo1 from "./../assets/logo1.svg";
 import logo2 from "./../assets/logo2.svg";
 import loginLogo from "./../assets/icon/userLoginLogo.svg";
 import {Link, useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useCookies} from "react-cookie";
 
 let Login = () => {
@@ -12,6 +12,12 @@ let Login = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (localStorage.getItem("l-st") === "true") { //이미 로그인 되어 있는 상태라면?
+            navigate("/");
+        }
+    }, []);
 
     const [auth, setAuth] = useState({
         // email: "test1@test1.com",
@@ -28,6 +34,12 @@ let Login = () => {
             ...auth,
             [e.target.name]: e.target.value
         })
+    }
+
+    let onKeyPressLogin = (e) => {
+        if (e.key === "Enter") {
+            loginBtn();
+        }
     }
 
     let loginBtn = () => {
@@ -99,7 +111,7 @@ let Login = () => {
                     }}>
                         <p>비밀번호</p>
                         <input type={"password"} className={"login-input m-input"} name={"password"}
-                               onChange={onChangeAuth}
+                               onChange={onChangeAuth} onKeyPress={onKeyPressLogin}
                                value={auth.password}/>
                     </div>
                     <div style={{
