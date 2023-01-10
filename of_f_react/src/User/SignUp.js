@@ -2,9 +2,10 @@ import "../styles/css/login/auth.css";
 import logo1 from "./../assets/logo1.svg";
 import logo2 from "./../assets/logo2.svg";
 import loginLogo from "./../assets/icon/userLoginLogo.svg";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {notTokenAxios} from "../Config/customAxios";
+import {useQuery} from "../Config/getQuery";
 
 let SignUp = () => {
 
@@ -13,10 +14,6 @@ let SignUp = () => {
     const [emailStatus, setEmailStatus] = useState(false);
 
     const query = useQuery();
-
-    function useQuery() {
-        return new URLSearchParams(useLocation().search);
-    }
 
     useEffect(() => {
         if (query.get("email") !== null) {
@@ -81,7 +78,7 @@ let SignUp = () => {
                 phoneNumberReceiveStatus: auth.phoneNumberReceiveStatus
             }
         }).then(res => {
-            alert(res.data.data.name+"님 회원 가입이 완료되었습니다. 다시 로그인해주세요.");
+            alert(res.data.data.name + "님 회원 가입이 완료되었습니다. 다시 로그인해주세요.");
             navigate("/login");
         }).catch(err => {
             setErrorMsg(err.response.data.detail);
