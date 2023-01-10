@@ -5,14 +5,14 @@
 }
 
 .manage-left-nav {
-    width: 23%;
+    width: 25%;
     height: 100%;
     border-right: 1px solid #bcbcbc;
 }
 
 .nav-close {
     position: absolute;
-    left: -23%;
+    left: -25%;
 }
 
 .nav-close {
