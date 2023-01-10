@@ -235,9 +235,9 @@ let ManageNav = () => {
                             </div>
                         </div>
                         <div className={"nav-list-card"}>
-                            <div className={"card-container " + (kindStatus === "setting" ? ('active') : (''))}
+                            <div className={"card-container " + (kindStatus === "Setting" ? ('active') : (''))}
                                  onClick={() => {
-                                     onClickNav("setting")
+                                     onClickNav("Setting")
                                  }}>
                                 <div className={"card-name"}>
                                     <div className={"card-icon"}>
