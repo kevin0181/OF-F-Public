@@ -10,6 +10,15 @@
     border-right: 1px solid #bcbcbc;
 }
 
+.nav-close {
+    position: absolute;
+    left: -23%;
+}
+
+.nav-close {
+    transition: all 1s ease-in-out;
+}
+
 .manage-nav-container {
     width: 97%;
     height: 100%;
@@ -17,6 +26,9 @@
 }
 
 .nav-btn {
+    position: absolute;
+    width: 24px;
+    height: 24px;
 }
 
 .manage-dash-board-container {

@@ -1,5 +1,5 @@
 import {Outlet} from "react-router-dom";
-import "./../../../styles/css/management/manageDashBoard.css"
+import "./../../../styles/css/management/manageDashBoard.css";
 import chevronLeft from "./../../../assets/icon/chevron-left.svg";
 import logo from "./../../../assets/logo1.svg";
 import {ReactComponent as HomeIcon} from "./../../../assets/icon/view-grid.svg";
@@ -9,12 +9,46 @@ import {ReactComponent as BookMarkIcon} from "./../../../assets/icon/bookmark.sv
 import {ReactComponent as BookMarkAlt} from "./../../../assets/icon/bookmark-alt.svg";
 import {ReactComponent as CogIcon} from "./../../../assets/icon/cog.svg";
 import {ReactComponent as LockIcon} from "./../../../assets/icon/lock-open.svg";
-
+import chevronRight from "./../../../assets/icon/chevron-right.svg";
+import {useState} from "react";
+import 'animate.css';
 
 let ManageNav = () => {
+
+    const [navStatus, setNavStatus] = useState(true);
+
+    let navOnClick = () => {
+        setNavStatus(!navStatus);
+    }
+
     return (<>
         <div className={"manage-container"}>
-            <div className={"manage-left-nav"}>
+            <div
+                className={"manage-left-nav animate__animated animate__slideInLeft " +
+                    (navStatus === true ? '' : 'nav-close animate__slideInRight')}>
+                <div style={{
+                    position: "absolute",
+                    left: "100%"
+                }}>
+                    <div
+                        className={"nav-btn animate__animated animate__slideInLeft " + (navStatus === true ? '' : 'animate__slideInRight')}
+                        onClick={navOnClick}>
+                        {
+                            navStatus === true ? (<img
+                                className={"animate__animated " + (navStatus === true ? 'animate__rotateIn' : '')}
+                                src={chevronLeft} style={{
+                                width: "100%",
+                                height: "100%"
+                            }}/>) : (
+                                <img
+                                    src={chevronRight} style={{
+                                    width: "100%",
+                                    height: "100%"
+                                }}/>
+                            )
+                        }
+                    </div>
+                </div>
                 <div className={"manage-nav-container"}>
                     <div className={"nav-list"}>
                         <div className={"nav-list-top"}>
@@ -169,14 +203,6 @@ let ManageNav = () => {
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div>
-                <div className={"nav-btn"}>
-                    <img src={chevronLeft} style={{
-                        width: "100%",
-                        height: "100%"
-                    }}/>
                 </div>
             </div>
             <Outlet/>
