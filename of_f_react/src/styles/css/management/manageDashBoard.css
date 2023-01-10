@@ -1,0 +1,156 @@
+.manage-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.manage-left-nav {
+    width: 23%;
+    height: 100%;
+    border-right: 1px solid #bcbcbc;
+}
+
+.nav-close {
+    position: absolute;
+    left: -23%;
+}
+
+.nav-close {
+    transition: all 1s ease-in-out;
+}
+
+.manage-nav-container {
+    width: 97%;
+    height: 100%;
+    border-right: 1px solid #bcbcbc;
+}
+
+.nav-btn {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+}
+
+.manage-dash-board-container {
+    width: 100%;
+    height: 100%;
+}
+
+.nav-list {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding: 10px 0px 10px 0px;
+    color: #697a8d;
+}
+
+.nav-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.nav-list::-webkit-scrollbar-thumb {
+    background-color: #c9c9c9;
+    border-radius: 20px;
+}
+
+
+.nav-list::-webkit-scrollbar-track {
+}
+
+.nav-list-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 75px;
+}
+
+.card-container {
+    width: 90%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-name {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.card-name > div {
+    padding: 0px 3px 0px 15px;
+}
+
+.card-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+}
+
+.card-icon-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.nav-icon-path {
+    stroke: #697a8d;
+}
+
+.card-p {
+    font-size: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.card-container:hover {
+    background-color: #f2f2f2;
+    border-radius: 10px;
+}
+
+.nav-list-top {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-hr {
+    width: 100%;
+    height: 30px;
+}
+
+.nav-hr-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-hr-line {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-hr-line > div {
+    width: 100%;
+    border-bottom: 1px solid #697a8d;
+}
+
+.nav-hr-p {
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+}
+
+.nav-hr-p > p {
+}

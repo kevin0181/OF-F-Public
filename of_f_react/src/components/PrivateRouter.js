@@ -1,6 +1,8 @@
 import {Navigate, Outlet, useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 import jwtDecode from "jwt-decode";
+import {refreshTokenAxios} from "../Config/customAxios";
+import getRefreshToken from "../Config/getRefreshToken";
 
 let PrivateRouter = ({loginStatus, cookies}) => {
 
@@ -10,11 +12,17 @@ let PrivateRouter = ({loginStatus, cookies}) => {
             return <Navigate to={"/manage/login"} replace/>;
         }
 
-        console.log(jwtDecode(cookies.accessToken));
+        if (cookies.accessToken === undefined || cookies.accessToken === null) {
+            getRefreshToken().then(() => {
+                window.location.reload();
+            }).catch(() => {
+                alert("로그인 오류입니다. 재로그인을 해주세요.");
+                return <Navigate to={"/manage/login"} replace/>;
+            });
+        }
+
 
         let arrRole = jwtDecode(cookies.accessToken).auth.split(',');
-
-        console.log(arrRole);
 
         let ST_ROLE = arrRole.indexOf("ROLE_ST_ADMIN");
         let TT_ROLE = arrRole.indexOf("ROLE_TT_ADMIN");

@@ -8,11 +8,11 @@ import SignUp from "./User/SignUp";
 import FindId from "./User/FindId";
 import FindPwd from "./User/FindPwd";
 import {RecoilRoot} from "recoil";
-import ManagementLogin from "./management/ManagementLogin";
+import ManagementLogin from "./components/management/ManagementLogin";
 import PrivateRouter from "./components/PrivateRouter";
-import ManageDashBoard from "./management/ManageDashBoard";
+import ManageDashBoard from "./components/management/ManageDashBoard";
 import ErrorPage from "./components/exception/ErrorPage";
-import ManageNav from "./management/components/ManageNav";
+import ManageNav from "./components/management/components/ManageNav";
 
 function App() {
 

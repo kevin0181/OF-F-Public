@@ -1,7 +1,7 @@
-import "./../styles/css/management/managementLogin.css";
-import logo from "./../assets/logo1.svg";
-import userLogo from "./../assets/icon/user.svg";
-import {notTokenAxios} from "../Config/customAxios";
+import "../../styles/css/management/managementLogin.css";
+import logo from "../../assets/logo1.svg";
+import userLogo from "../../assets/icon/user.svg";
+import {notTokenAxios} from "../../Config/customAxios";
 import {useEffect, useState} from "react";
 import {useCookies} from "react-cookie";
 import {useNavigate} from "react-router-dom";
