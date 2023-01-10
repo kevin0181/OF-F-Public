@@ -2,7 +2,14 @@ import {Outlet} from "react-router-dom";
 import "./../../../styles/css/management/manageDashBoard.css"
 import chevronLeft from "./../../../assets/icon/chevron-left.svg";
 import logo from "./../../../assets/logo1.svg";
-import {ReactComponent as HomeLogo} from "./../../../assets/icon/view-grid.svg";
+import {ReactComponent as HomeIcon} from "./../../../assets/icon/view-grid.svg";
+import {ReactComponent as PlayIcon} from "./../../../assets/icon/play.svg";
+import {ReactComponent as HistoryIcon} from "./../../../assets/icon/document-text.svg";
+import {ReactComponent as BookMarkIcon} from "./../../../assets/icon/bookmark.svg";
+import {ReactComponent as BookMarkAlt} from "./../../../assets/icon/bookmark-alt.svg";
+import {ReactComponent as CogIcon} from "./../../../assets/icon/cog.svg";
+import {ReactComponent as LockIcon} from "./../../../assets/icon/lock-open.svg";
+
 
 let ManageNav = () => {
     return (<>
@@ -17,10 +24,10 @@ let ManageNav = () => {
                             <div className={"card-container"}>
                                 <div className={"card-name"}>
                                     <div className={"card-icon"}>
-                                        <HomeLogo/>
+                                        <HomeIcon/>
                                     </div>
                                     <div className={"card-p"}>
-                                        <p>HOME</p>
+                                        <p>Home</p>
                                     </div>
                                 </div>
                             </div>
@@ -31,7 +38,7 @@ let ManageNav = () => {
                                     <div></div>
                                 </div>
                                 <div className={"nav-hr-p"}>
-                                    <p>menu</p>
+                                    <p>ORDER</p>
                                 </div>
                             </div>
                         </div>
@@ -39,22 +46,10 @@ let ManageNav = () => {
                             <div className={"card-container"}>
                                 <div className={"card-name"}>
                                     <div className={"card-icon"}>
-                                        <HomeLogo/>
+                                        <PlayIcon/>
                                     </div>
                                     <div className={"card-p"}>
-                                        <p>HOME</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={"nav-list-card"}>
-                            <div className={"card-container"}>
-                                <div className={"card-name"}>
-                                    <div className={"card-icon"}>
-                                        <HomeLogo/>
-                                    </div>
-                                    <div className={"card-p"}>
-                                        <p>HOME</p>
+                                        <p>Order Start</p>
                                     </div>
                                 </div>
                             </div>
@@ -63,10 +58,32 @@ let ManageNav = () => {
                             <div className={"card-container"}>
                                 <div className={"card-name"}>
                                     <div className={"card-icon"}>
-                                        <HomeLogo/>
+                                        <HistoryIcon/>
                                     </div>
                                     <div className={"card-p"}>
-                                        <p>HOME</p>
+                                        <p>Order History</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={"nav-hr"}>
+                            <div className={"nav-hr-container"}>
+                                <div className={"nav-hr-line"}>
+                                    <div></div>
+                                </div>
+                                <div className={"nav-hr-p"}>
+                                    <p>MENU</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={"nav-list-card"}>
+                            <div className={"card-container"}>
+                                <div className={"card-name"}>
+                                    <div className={"card-icon"}>
+                                        <BookMarkIcon/>
+                                    </div>
+                                    <div className={"card-p"}>
+                                        <p>Category</p>
                                     </div>
                                 </div>
                             </div>
@@ -75,10 +92,78 @@ let ManageNav = () => {
                             <div className={"card-container"}>
                                 <div className={"card-name"}>
                                     <div className={"card-icon"}>
-                                        <HomeLogo/>
+                                        <BookMarkAlt/>
                                     </div>
                                     <div className={"card-p"}>
-                                        <p>HOME</p>
+                                        <p>Menu</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={"nav-hr"}>
+                            <div className={"nav-hr-container"}>
+                                <div className={"nav-hr-line"}>
+                                    <div></div>
+                                </div>
+                                <div className={"nav-hr-p"}>
+                                    <p>SIDE</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={"nav-list-card"}>
+                            <div className={"card-container"}>
+                                <div className={"card-name"}>
+                                    <div className={"card-icon"}>
+                                        <BookMarkIcon/>
+                                    </div>
+                                    <div className={"card-p"}>
+                                        <p>Side Category</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={"nav-list-card"}>
+                            <div className={"card-container"}>
+                                <div className={"card-name"}>
+                                    <div className={"card-icon"}>
+                                        <BookMarkAlt/>
+                                    </div>
+                                    <div className={"card-p"}>
+                                        <p>Side Menu</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={"nav-hr"}>
+                            <div className={"nav-hr-container"}>
+                                <div className={"nav-hr-line"}>
+                                    <div></div>
+                                </div>
+                                <div className={"nav-hr-p"}>
+                                    <p>SET</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={"nav-list-card"}>
+                            <div className={"card-container"}>
+                                <div className={"card-name"}>
+                                    <div className={"card-icon"}>
+                                        <LockIcon/>
+                                    </div>
+                                    <div className={"card-p"}>
+                                        <p>Info</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={"nav-list-card"}>
+                            <div className={"card-container"}>
+                                <div className={"card-name"}>
+                                    <div className={"card-icon"}>
+                                        <CogIcon/>
+                                    </div>
+                                    <div className={"card-p"}>
+                                        <p>Setting</p>
                                     </div>
                                 </div>
                             </div>

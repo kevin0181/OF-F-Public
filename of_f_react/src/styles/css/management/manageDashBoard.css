@@ -63,12 +63,13 @@
 
 .card-name {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
 
 .card-name > div {
-    padding: 0px 3px;
+    padding: 0px 3px 0px 15px;
 }
 
 .card-icon {
@@ -89,6 +90,9 @@
 
 .card-p {
     font-size: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .card-container:hover {
@@ -129,7 +133,7 @@
 }
 
 .nav-hr-p {
-    font-size: 14px;
+    font-size: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -137,5 +141,4 @@
 }
 
 .nav-hr-p > p {
-    padding-bottom: 3px;
 }
