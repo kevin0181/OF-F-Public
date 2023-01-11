@@ -1,4 +1,4 @@
-import {Outlet} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import "./../../../styles/css/management/manageDashBoard.css";
 import chevronLeft from "./../../../assets/icon/chevron-left.svg";
 import logo from "./../../../assets/logo1.svg";
@@ -10,15 +10,59 @@ import {ReactComponent as BookMarkAlt} from "./../../../assets/icon/bookmark-alt
 import {ReactComponent as CogIcon} from "./../../../assets/icon/cog.svg";
 import {ReactComponent as LockIcon} from "./../../../assets/icon/lock-open.svg";
 import chevronRight from "./../../../assets/icon/chevron-right.svg";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import 'animate.css';
+import {useQuery} from "../../../Config/getQuery";
+import {useRecoilState} from "recoil";
+import navStatusState from "./../../../store/navStatus";
+import storeInfoState from "../../../store/storeInfo";
+import {tokenAxios} from "../../../Config/customAxios";
+import storeIdState from "../../../store/storeId";
 
 let ManageNav = () => {
 
-    const [navStatus, setNavStatus] = useState(true);
+    const navigate = useNavigate();
+
+    const query = useQuery();
+
+    const [navStatus, setNavStatus] = useRecoilState(navStatusState);
+
+    const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 정보
+
+    const [kindStatus, setKindStatus] = useState("");
+
+    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoState);
+
+    useEffect(() => {
+        tokenAxios({
+            method: 'get',
+            url: '/api/v1/store/admin',
+        }).then(res => {
+            setStoreInfo(res.data.data);
+        });
+
+        if (query.get("storeId") !== null) {
+            setStoreId(Number(query.get("storeId")));
+        }
+
+    }, []);
+
+    useEffect(() => {
+
+        if (query.get("kind") !== null) {
+            setKindStatus(query.get("kind"));
+        } else {
+            setKindStatus("Home");
+        }
+
+    }, [query]);
 
     let navOnClick = () => {
         setNavStatus(!navStatus);
+    }
+
+    let onClickNav = (kind) => {
+        navigate("/manage/store?kind=" + kind);
     }
 
     return (<>
@@ -28,10 +72,12 @@ let ManageNav = () => {
                     (navStatus === true ? '' : 'nav-close animate__slideInRight')}>
                 <div style={{
                     position: "absolute",
-                    left: "100%"
+                    left: "100%",
+                    width: "24px",
+                    height: "24px"
                 }}>
                     <div
-                        className={"nav-btn animate__animated animate__slideInLeft " + (navStatus === true ? '' : 'animate__slideInRight')}
+                        className={"nav-btn animate__animated " + (navStatus === true ? '' : 'animate__slideInRight')}
                         onClick={navOnClick}>
                         {
                             navStatus === true ? (<img
@@ -55,7 +101,10 @@ let ManageNav = () => {
                             <img src={logo} alt={"logo"}/>
                         </div>
                         <div className={"nav-list-card"}>
-                            <div className={"card-container"}>
+                            <div className={"card-container " + (kindStatus === "Home" ? ('active') : (''))}
+                                 onClick={() => {
+                                     onClickNav("Home")
+                                 }}>
                                 <div className={"card-name"}>
                                     <div className={"card-icon"}>
                                         <HomeIcon/>
@@ -77,7 +126,10 @@ let ManageNav = () => {
                             </div>
                         </div>
                         <div className={"nav-list-card"}>
-                            <div className={"card-container"}>
+                            <div className={"card-container " + (kindStatus === "orderStart" ? ('active') : (''))}
+                                 onClick={() => {
+                                     onClickNav("orderStart")
+                                 }}>
                                 <div className={"card-name"}>
                                     <div className={"card-icon"}>
                                         <PlayIcon/>
@@ -89,7 +141,10 @@ let ManageNav = () => {
                             </div>
                         </div>
                         <div className={"nav-list-card"}>
-                            <div className={"card-container"}>
+                            <div className={"card-container " + (kindStatus === "orderHistory" ? ('active') : (''))}
+                                 onClick={() => {
+                                     onClickNav("orderHistory")
+                                 }}>
                                 <div className={"card-name"}>
                                     <div className={"card-icon"}>
                                         <HistoryIcon/>
@@ -111,7 +166,10 @@ let ManageNav = () => {
                             </div>
                         </div>
                         <div className={"nav-list-card"}>
-                            <div className={"card-container"}>
+                            <div className={"card-container " + (kindStatus === "Category" ? ('active') : (''))}
+                                 onClick={() => {
+                                     onClickNav("Category")
+                                 }}>
                                 <div className={"card-name"}>
                                     <div className={"card-icon"}>
                                         <BookMarkIcon/>
@@ -123,7 +181,10 @@ let ManageNav = () => {
                             </div>
                         </div>
                         <div className={"nav-list-card"}>
-                            <div className={"card-container"}>
+                            <div className={"card-container " + (kindStatus === "Menu" ? ('active') : (''))}
+                                 onClick={() => {
+                                     onClickNav("Menu")
+                                 }}>
                                 <div className={"card-name"}>
                                     <div className={"card-icon"}>
                                         <BookMarkAlt/>
@@ -145,7 +206,10 @@ let ManageNav = () => {
                             </div>
                         </div>
                         <div className={"nav-list-card"}>
-                            <div className={"card-container"}>
+                            <div className={"card-container " + (kindStatus === "sideCategory" ? ('active') : (''))}
+                                 onClick={() => {
+                                     onClickNav("sideCategory")
+                                 }}>
                                 <div className={"card-name"}>
                                     <div className={"card-icon"}>
                                         <BookMarkIcon/>
@@ -157,7 +221,10 @@ let ManageNav = () => {
                             </div>
                         </div>
                         <div className={"nav-list-card"}>
-                            <div className={"card-container"}>
+                            <div className={"card-container " + (kindStatus === "sideMenu" ? ('active') : (''))}
+                                 onClick={() => {
+                                     onClickNav("sideMenu")
+                                 }}>
                                 <div className={"card-name"}>
                                     <div className={"card-icon"}>
                                         <BookMarkAlt/>
@@ -179,7 +246,10 @@ let ManageNav = () => {
                             </div>
                         </div>
                         <div className={"nav-list-card"}>
-                            <div className={"card-container"}>
+                            <div className={"card-container " + (kindStatus === "Info" ? ('active') : (''))}
+                                 onClick={() => {
+                                     onClickNav("Info")
+                                 }}>
                                 <div className={"card-name"}>
                                     <div className={"card-icon"}>
                                         <LockIcon/>
@@ -191,7 +261,10 @@ let ManageNav = () => {
                             </div>
                         </div>
                         <div className={"nav-list-card"}>
-                            <div className={"card-container"}>
+                            <div className={"card-container " + (kindStatus === "Setting" ? ('active') : (''))}
+                                 onClick={() => {
+                                     onClickNav("Setting")
+                                 }}>
                                 <div className={"card-name"}>
                                     <div className={"card-icon"}>
                                         <CogIcon/>

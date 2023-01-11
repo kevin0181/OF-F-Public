@@ -85,7 +85,7 @@ public class UserService {
         emailTokenRedisRepository.deleteById(emailToken); // -> 유효성 검사후 토큰 삭제
 
         UserRoleDTO userRoleDTO = new UserRoleDTO();
-        userRoleDTO.setRoleSeq(2L); // 회원가입 시, 기본 권한
+        userRoleDTO.setRoleSeq(3L); // 회원가입 시, 기본 권한
 
         List<UserRoleDTO> userRoleDTOS = new ArrayList<>();
         userRoleDTOS.add(userRoleDTO);
