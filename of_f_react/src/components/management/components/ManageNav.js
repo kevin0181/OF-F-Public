@@ -50,7 +50,9 @@ let ManageNav = () => {
                     (navStatus === true ? '' : 'nav-close animate__slideInRight')}>
                 <div style={{
                     position: "absolute",
-                    left: "100%"
+                    left: "100%",
+                    width: "24px",
+                    height: "24px"
                 }}>
                     <div
                         className={"nav-btn animate__animated " + (navStatus === true ? '' : 'animate__slideInRight')}
