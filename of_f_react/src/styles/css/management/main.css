@@ -5,9 +5,14 @@
     -webkit-user-select: none;
 }
 
+.manage-main-container > div {
+    background-color: white;
+}
+
 .f-line {
     width: 30%;
     border-right: 1px solid #bcbcbc;
+    z-index: 3;
 }
 
 .f-line > div {
@@ -26,14 +31,10 @@
     border-radius: 20px;
 }
 
-.name-card {
-    width: 100%;
-    height: 80px;
-}
-
 .c-line {
     width: 30%;
     border-right: 1px solid #bcbcbc;
+    z-index: 2;
 }
 
 .c-line > div {
@@ -45,6 +46,7 @@
 
 .l-line {
     width: 40%;
+    z-index: 1;
 }
 
 .l-line > div {
@@ -59,4 +61,44 @@
 
 .m-40 {
     width: 40% !important;
+}
+
+
+.name-card {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.name-card-part {
+    width: 80%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.name-card-part:hover {
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    transition: all 1s;
+}
+
+.name-card-active {
+    width: 1%;
+    height: 30px;
+    background-color: #a1c4ff;
+    position: absolute;
+    left: 28.2%;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.name-card > .active {
+    background-color: #a1c4ff;
+    border-radius: 10px;
+    color: white;
+    font-width: border;
 }

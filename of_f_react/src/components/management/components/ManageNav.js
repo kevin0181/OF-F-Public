@@ -15,6 +15,9 @@ import 'animate.css';
 import {useQuery} from "../../../Config/getQuery";
 import {useRecoilState} from "recoil";
 import navStatusState from "./../../../store/navStatus";
+import storeInfoState from "../../../store/storeInfo";
+import {tokenAxios} from "../../../Config/customAxios";
+import storeIdState from "../../../store/storeId";
 
 let ManageNav = () => {
 
@@ -24,13 +27,32 @@ let ManageNav = () => {
 
     const [navStatus, setNavStatus] = useRecoilState(navStatusState);
 
+    const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 정보
+
     const [kindStatus, setKindStatus] = useState("");
 
+    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoState);
+
     useEffect(() => {
+        tokenAxios({
+            method: 'get',
+            url: '/api/v1/store/admin',
+        }).then(res => {
+            setStoreInfo(res.data.data);
+        });
+
+        if (query.get("storeId") !== null) {
+            setStoreId(Number(query.get("storeId")));
+        }
+
+    }, []);
+
+    useEffect(() => {
+
         if (query.get("kind") !== null) {
             setKindStatus(query.get("kind"));
         } else {
-            setKindStatus("Home")
+            setKindStatus("Home");
         }
 
     }, [query]);
