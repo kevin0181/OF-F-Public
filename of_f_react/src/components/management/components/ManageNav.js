@@ -13,6 +13,8 @@ import chevronRight from "./../../../assets/icon/chevron-right.svg";
 import {useEffect, useState} from "react";
 import 'animate.css';
 import {useQuery} from "../../../Config/getQuery";
+import {useRecoilState} from "recoil";
+import navStatusState from "./../../../store/navStatus";
 
 let ManageNav = () => {
 
@@ -20,7 +22,7 @@ let ManageNav = () => {
 
     const query = useQuery();
 
-    const [navStatus, setNavStatus] = useState(true);
+    const [navStatus, setNavStatus] = useRecoilState(navStatusState);
 
     const [kindStatus, setKindStatus] = useState("");
 

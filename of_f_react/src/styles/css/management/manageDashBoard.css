@@ -8,6 +8,7 @@
     width: 25%;
     height: 100%;
     border-right: 1px solid #bcbcbc;
+    background-color: white;
 }
 
 .nav-close {
@@ -34,6 +35,7 @@
 .manage-dash-board-container {
     width: 100%;
     height: 100%;
+    z-index: -1;
 }
 
 .nav-list {
@@ -42,10 +44,10 @@
     overflow: auto;
     padding: 10px 0px 10px 0px;
     color: #697a8d;
-    -webkit-user-select:none;
-    -moz-user-select:none;
-    -ms-user-select:none;
-    user-select:none
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
 }
 
 .nav-list::-webkit-scrollbar {
@@ -161,7 +163,4 @@
     justify-content: center;
     align-items: center;
     padding-left: 10px;
-}
-
-.nav-hr-p > p {
 }
