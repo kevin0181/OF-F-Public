@@ -67,10 +67,10 @@ let AddCategory = () => {
 
     return (
         <div>
-            <div className={"main-container-top"}>
+            <div className={"main-container2-top"}>
                 <h2>카테고리 추가</h2>
             </div>
-            <div className={"main-container-body"}>
+            <div className={"main-container2-body"}>
                 <div>
                     <div className={"category-add-input-part"}>
                         <span>이름</span>
@@ -93,7 +93,7 @@ let AddCategory = () => {
                     </div>
                 </div>
             </div>
-            <div className={"main-container-footer"}>
+            <div className={"main-container2-footer"}>
                 <div>
                     <div className={"main-btn-false m-f-1 position-center"}>
                         <div onClick={() => {
