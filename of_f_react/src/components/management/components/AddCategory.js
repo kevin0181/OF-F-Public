@@ -1,9 +1,9 @@
 import {ReactComponent as ExclamationCircle} from "../../../assets/icon/exclamation-circle.svg";
 import {useEffect, useState} from "react";
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {useRecoilState} from "recoil";
 import storeIdState from "../../../store/storeId";
-import {tokenAxios} from "../../../Config/customAxios";
-import {storeInfoRecoil, storeListSelector} from "../../../store/storeInfo";
+import {storeInfoRecoil} from "../../../store/storeInfo";
+import {tokenStoreAdminAxios} from "../../../Config/customStoreAdminAjax";
 
 let AddCategory = () => {
 
@@ -25,13 +25,10 @@ let AddCategory = () => {
                 storeSeq: storeInfo.stores[storeId].seq
             })
         }
-
-        console.log(storeInfo);
-
     }, [storeInfo]);
 
     useEffect(() => {
-        console.log(store);
+
         if (store.length !== 0) {
             let storeFilterData = storeInfo.stores.filter(data => {
                 return data.seq !== store.seq
@@ -75,16 +72,13 @@ let AddCategory = () => {
             return;
         }
 
-        tokenAxios({
+        tokenStoreAdminAxios({
             method: "post",
             url: "/api/v1/store/admin/category?status=insert",
             data: addCategory
         }).then((res) => {
-
             let data = res.data.data;
-
             try {
-
                 setStore(
                     {
                         ...storeInfo.stores[storeId],
@@ -100,16 +94,17 @@ let AddCategory = () => {
                         ]
                     }
                 );
-
+                setAddCategory({
+                    ...addCategory,
+                    name: ""
+                });
             } catch (e) {
                 console.log(e)
             }
-
-        }).catch(() => {
-
-        }).finally(() => {
-
-        })
+        }).catch((e) => {
+            console.log(e)
+            alert("카테고리를 추가하지 못했습니다. 관리자에게 문의 주세요.");
+        });
     }
 
     return (
