@@ -51,6 +51,17 @@ let Category = () => {
                                 <PlusCircle/>
                             </div>
                         </div>
+                        <div style={{
+                            width: "3%"
+                        }}>
+                            {
+                                query.get("status") === 'add' ? (
+                                    <div className={"name-card-active"}>
+                                    </div>) : (
+                                    <></>
+                                )
+                            }
+                        </div>
                     </div>
                     {
                         categories.map((data, index) => (
