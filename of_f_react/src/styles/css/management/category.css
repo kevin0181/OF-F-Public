@@ -1,3 +1,44 @@
 .category-main {
-    background-color: red;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.category-main > div {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #bcbcbc;
+    padding: 15px;
+}
+
+.category-status {
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.category-status > p {
+    padding: 0px 5px 2px 5px;
+    color: green;
+}
+
+.category-status > .warning-p {
+    color: red;
+}
+
+.checkCircleIcon {
+    width: 15px;
+}
+
+.checkCircleIcon > path {
+    stroke: green;
+}
+
+.xCircleIcon {
+    width: 15px;
+}
+
+.xCircleIcon > path {
+    stroke: red;
 }

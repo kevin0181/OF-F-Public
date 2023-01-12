@@ -6,39 +6,42 @@ import {useEffect, useState} from "react";
 import {useRecoilState} from "recoil";
 import storeInfoState from "../../../store/storeInfo";
 import storeIdState from "../../../store/storeId";
+import {ReactComponent as CheckCircle} from "./../../../assets/icon/check-circle.svg";
+import {ReactComponent as XCircle} from "./../../../assets/icon/x-circle.svg";
 
 
 let Category = () => {
+
+    const query = useQuery();
+
+    const navigate = useNavigate();
 
     const [storeInfo, setStoreInfo] = useRecoilState(storeInfoState);
 
     const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 정보
 
-    const [category, setCategory] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [category, setCategory] = useState({});
 
     useEffect(() => {
 
         if (Object.keys(storeInfo).length !== 0) { //key가 존재하는지 확인하고 있으면 데이터 넣기
-            setCategory(storeInfo.stores[storeId].storeCategories);
+            setCategories(storeInfo.stores[storeId].storeCategories);
         }
 
     }, [storeInfo]);
 
     useEffect(() => {
-        console.log(category);
-        console.log(category[Number(query.get("f"))])
-    }, [category]);
-
-    const query = useQuery();
-
-    const navigate = useNavigate();
+        setCategory(categories[Number(query.get("f"))]);
+        console.log(category)
+    }, [query])
 
     return (
         <div className={"manage-main-container"}>
             <div className={"f-line m-scroll "}>
                 <div>
                     {
-                        category.map((data, index) => (
+                        categories.map((data, index) => (
                             <div
                                 className={"name-card "}
                                 key={index}>
@@ -75,7 +78,21 @@ let Category = () => {
                         className={"l-line m-scroll m-70"}>
                         <div
                             className={"category-main m-100 animate__animated " + (query.get("f") !== null ? 'animate__slideInLeft' : '')}>
-
+                            <div>
+                                {
+                                    category !== undefined && category.status ? (
+                                        <div className={"category-status"}>
+                                            <CheckCircle/>
+                                            <p>Active...</p>
+                                        </div>
+                                    ) : (
+                                        <div className={"category-status"}>
+                                            <XCircle/>
+                                            <p className={"warning-p"}>Disabled...</p>
+                                        </div>
+                                    )
+                                }
+                            </div>
                         </div>
                     </div>) : (
                     <></>

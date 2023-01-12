@@ -59,6 +59,10 @@
     flex: 1;
 }
 
+.warning-p {
+    color: red;
+}
+
 .m-40 {
     width: 40% !important;
 }
