@@ -10,6 +10,8 @@ let AddCategory = () => {
     const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 정보
     const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil);
 
+    const [categories, setCategories] = useState([]);
+
     const [addCategory, setAddCategory] = useState({
         storeSeq: "",
         name: "",
@@ -27,6 +29,10 @@ let AddCategory = () => {
         console.log(storeInfo);
 
     }, [storeInfo]);
+
+    useEffect(() => {
+        console.log(categories)
+    }, [categories])
 
 
     let onChangeAddCategory = (e) => {
@@ -52,17 +58,33 @@ let AddCategory = () => {
             method: "post",
             url: "/api/v1/store/admin/category?status=insert",
             data: addCategory
-        }).then(async (res) => {
+        }).then((res) => {
+
+            try {
+                let data = res.data.data;
+
+                setCategories([
+                    ...storeInfo.stores[storeId].storeCategories,
+                    {
+                        name: data.name,
+                        seq: data.seq,
+                        status: data.status,
+                        storeSeq: data.storeSeq,
+                        storeMenus: []
+                    }
+                ]);
+
+                console.log(categories)
+
+            } catch (e) {
+                console.log(e);
+            }
 
         }).catch(() => {
 
         }).finally(() => {
 
         })
-    }
-
-    let f1 = async () => {
-
     }
 
     return (
