@@ -9,7 +9,7 @@ import storeIdState from "../../../store/storeId";
 import {ReactComponent as CheckCircle} from "./../../../assets/icon/check-circle.svg";
 import {ReactComponent as PlusCircle} from "./../../../assets/icon/plus-circle.svg";
 import {ReactComponent as XCircle} from "./../../../assets/icon/x-circle.svg";
-import {ReactComponent as ExclamationCircle} from "./../../../assets/icon/exclamation-circle.svg";
+import AddCategory from "../components/AddCategory";
 
 
 let Category = () => {
@@ -35,7 +35,6 @@ let Category = () => {
 
     useEffect(() => {
         setCategory(categories[Number(query.get("f"))]);
-        console.log(category)
     }, [query])
 
     return (
@@ -130,47 +129,7 @@ let Category = () => {
                         className={"l-line m-scroll m-70"}>
                         <div
                             className={"main-container m-100 animate__animated " + (query.get("status") !== null ? 'animate__slideInLeft' : '')}>
-                            <div>
-                                <div className={"main-container-top"}>
-                                    <h2>카테고리 추가</h2>
-                                </div>
-                                <div className={"main-container-body"}>
-                                    <div>
-                                        <div className={"category-add-input-part"}>
-                                            <span>이름</span>
-                                            <input className={"m-input"}/>
-                                        </div>
-                                        <div className={"category-add-input-part position-left"} style={{
-                                            padding: "10px 0px"
-                                        }}>
-                                            <div>
-                                                <label className="switch toggle-disable">
-                                                    <input type="checkbox"/>
-                                                    <span className="slider round"></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div className={"category-add-input-part position-right"}>
-                                            <ExclamationCircle/>
-                                            <small>카테고리는 기본적으로 비활성화 상태로 생성됩니다.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className={"main-container-footer"}>
-                                    <div>
-                                        <div className={"main-btn-false m-f-1 position-center"}>
-                                            <div>
-                                                <p>되돌리기</p>
-                                            </div>
-                                        </div>
-                                        <div className={"main-btn-true m-f-1 position-center"}>
-                                            <div>
-                                                <p>추가하기</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <AddCategory/>
                         </div>
                     </div>) : (
                     <></>
