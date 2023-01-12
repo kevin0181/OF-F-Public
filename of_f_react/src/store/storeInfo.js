@@ -1,8 +1,14 @@
-import {atom} from "recoil";
+import {atom, selector} from "recoil";
 
-const storeInfo = atom({
+export const storeInfoRecoil = atom({
     key: "storeInfo",
     default: {}
 });
 
-export default storeInfo;
+export const storeListSelector = selector({
+    key: "storeInfoSelector",
+    get: ({get}) => {
+        let storeInfo = get(storeInfoRecoil);
+        return storeInfo.stores;
+    }
+});
