@@ -1,16 +1,3 @@
-.category-main {
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.category-main > div {
-    width: 100%;
-    height: 100%;
-    border: 1px solid #bcbcbc;
-    padding: 15px;
-}
 
 .category-status {
     width: 100%;
@@ -45,19 +32,39 @@
     stroke: red;
 }
 
-.category-container {
-    width: 100%;
-    height: 97%;
+.addIcon > svg > path {
+    stroke: white;
+}
+
+
+.category-add-input-part {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.category-add-input-part > input {
+    width: 70%;
+    height: 45px;
+}
+
+.category-add-footer > div {
+    width: 80%;
+    height: 80%;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
 }
 
-.plusCircle {
-
+.category-add-input-part > small {
+    color: red;
 }
 
-.addIcon > svg > path {
-    stroke: white;
+.exclamationCircle {
+    width: 19px;
+    padding-right: 2px;
+}
+
+.exclamationCircle > path {
+    stroke: red;
 }
