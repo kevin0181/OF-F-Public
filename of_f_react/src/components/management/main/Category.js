@@ -100,7 +100,7 @@ let Category = () => {
                     <div
                         className={"l-line m-scroll m-70"}>
                         <div
-                            className={"main-container m-100 animate__animated " + (query.get("f") !== null ? 'animate__slideInLeft' : '')}>
+                            className={"main-container2 m-100 animate__animated " + (query.get("f") !== null ? 'animate__slideInLeft' : '')}>
                             <div>
                                 {
                                     category !== undefined && category.status ? (
@@ -128,7 +128,7 @@ let Category = () => {
                     <div
                         className={"l-line m-scroll m-70"}>
                         <div
-                            className={"main-container m-100 animate__animated " + (query.get("status") !== null ? 'animate__slideInLeft' : '')}>
+                            className={"main-container2 m-100 animate__animated " + (query.get("status") !== null ? 'animate__slideInLeft' : '')}>
                             <AddCategory/>
                         </div>
                     </div>) : (

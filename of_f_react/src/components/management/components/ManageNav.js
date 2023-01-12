@@ -13,11 +13,16 @@ import chevronRight from "./../../../assets/icon/chevron-right.svg";
 import {useEffect, useState} from "react";
 import 'animate.css';
 import {useQuery} from "../../../Config/getQuery";
-import {useRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import navStatusState from "./../../../store/navStatus";
 import {storeInfoRecoil} from "../../../store/storeInfo";
-import {tokenAxios} from "../../../Config/customAxios";
 import storeIdState from "../../../store/storeId";
+import {tokenStoreAdminAxios} from "../../../Config/customStoreAdminAjax";
+import Loading from "./Loading";
+import adminStoreLoading from "../../../store/adminStoreLoading";
+import {getCookie} from "../../../Config/cookie";
+import getRefreshToken from "../../../Config/getRefreshToken";
+import axios from "axios";
 
 let ManageNav = () => {
 
@@ -33,8 +38,10 @@ let ManageNav = () => {
 
     const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil);
 
+    const [loading, setLoading] = useRecoilState(adminStoreLoading);
+
     useEffect(() => {
-        tokenAxios({
+        tokenStoreAdminAxios({
             method: 'get',
             url: '/api/v1/store/admin',
         }).then(res => {
@@ -65,8 +72,31 @@ let ManageNav = () => {
         navigate("/manage/store?kind=" + kind);
     }
 
+    tokenStoreAdminAxios.interceptors.request.use(
+        async config => {
+            setLoading(true);
+            return config;
+        },
+        error => {
+            setLoading(false)
+            return Promise.reject(error);
+        }
+    )
+    tokenStoreAdminAxios.interceptors.response.use(
+        async config => {
+            setLoading(false)
+            return config;
+        },
+        async err => {
+            setLoading(false)
+            return Promise.reject(err);
+        },
+    );
     return (<>
         <div className={"manage-container"}>
+            {
+                loading ? (<Loading/>) : (<></>)
+            }
             <div
                 className={"manage-left-nav animate__animated animate__slideInLeft " +
                     (navStatus === true ? '' : 'nav-close animate__slideInRight')}>

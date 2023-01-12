@@ -1,14 +1,16 @@
 import {ReactComponent as ExclamationCircle} from "../../../assets/icon/exclamation-circle.svg";
 import {useEffect, useState} from "react";
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {useRecoilState} from "recoil";
 import storeIdState from "../../../store/storeId";
-import {tokenAxios} from "../../../Config/customAxios";
-import {storeInfoRecoil, storeListSelector} from "../../../store/storeInfo";
+import {storeInfoRecoil} from "../../../store/storeInfo";
+import {tokenStoreAdminAxios} from "../../../Config/customStoreAdminAjax";
 
 let AddCategory = () => {
 
     const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 정보
     const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil);
+
+    const [store, setStore] = useState([])
 
     const [addCategory, setAddCategory] = useState({
         storeSeq: "",
@@ -23,11 +25,33 @@ let AddCategory = () => {
                 storeSeq: storeInfo.stores[storeId].seq
             })
         }
-
-        console.log(storeInfo);
-
     }, [storeInfo]);
 
+    useEffect(() => {
+
+        if (store.length !== 0) {
+            let storeFilterData = storeInfo.stores.filter(data => {
+                return data.seq !== store.seq
+            });
+
+            if (storeFilterData.length !== 0) {
+                setStoreInfo({
+                    ...storeInfo,
+                    stores: [
+                        storeFilterData,
+                        store
+                    ]
+                });
+            } else {
+                setStoreInfo({
+                    ...storeInfo,
+                    stores: [
+                        store
+                    ]
+                });
+            }
+        }
+    }, [store])
 
     let onChangeAddCategory = (e) => {
         setAddCategory({
@@ -48,29 +72,47 @@ let AddCategory = () => {
             return;
         }
 
-        tokenAxios({
+        tokenStoreAdminAxios({
             method: "post",
             url: "/api/v1/store/admin/category?status=insert",
             data: addCategory
-        }).then(async (res) => {
-
-        }).catch(() => {
-
-        }).finally(() => {
-
-        })
-    }
-
-    let f1 = async () => {
-
+        }).then((res) => {
+            let data = res.data.data;
+            try {
+                setStore(
+                    {
+                        ...storeInfo.stores[storeId],
+                        storeCategories: [
+                            ...storeInfo.stores[storeId].storeCategories,
+                            {
+                                name: data.name,
+                                seq: data.seq,
+                                status: data.status,
+                                storeSeq: data.storeSeq,
+                                storeMenus: []
+                            }
+                        ]
+                    }
+                );
+                setAddCategory({
+                    ...addCategory,
+                    name: ""
+                });
+            } catch (e) {
+                console.log(e)
+            }
+        }).catch((e) => {
+            console.log(e)
+            alert("카테고리를 추가하지 못했습니다. 관리자에게 문의 주세요.");
+        });
     }
 
     return (
         <div>
-            <div className={"main-container-top"}>
+            <div className={"main-container2-top"}>
                 <h2>카테고리 추가</h2>
             </div>
-            <div className={"main-container-body"}>
+            <div className={"main-container2-body"}>
                 <div>
                     <div className={"category-add-input-part"}>
                         <span>이름</span>
@@ -93,7 +135,7 @@ let AddCategory = () => {
                     </div>
                 </div>
             </div>
-            <div className={"main-container-footer"}>
+            <div className={"main-container2-footer"}>
                 <div>
                     <div className={"main-btn-false m-f-1 position-center"}>
                         <div onClick={() => {
