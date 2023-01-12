@@ -15,7 +15,7 @@ import 'animate.css';
 import {useQuery} from "../../../Config/getQuery";
 import {useRecoilState} from "recoil";
 import navStatusState from "./../../../store/navStatus";
-import storeInfoState from "../../../store/storeInfo";
+import {storeInfoRecoil} from "../../../store/storeInfo";
 import {tokenAxios} from "../../../Config/customAxios";
 import storeIdState from "../../../store/storeId";
 
@@ -31,7 +31,7 @@ let ManageNav = () => {
 
     const [kindStatus, setKindStatus] = useState("");
 
-    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoState);
+    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil);
 
     useEffect(() => {
         tokenAxios({

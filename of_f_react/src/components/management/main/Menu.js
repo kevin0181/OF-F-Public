@@ -1,5 +1,5 @@
 import {useRecoilState} from "recoil";
-import storeInfoState from "../../../store/storeInfo";
+import {storeInfoRecoil} from "../../../store/storeInfo";
 import storeIdState from "../../../store/storeId";
 import {useEffect, useState} from "react";
 import {useQuery} from "../../../Config/getQuery";
@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 
 let Menu = () => {
 
-    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoState);
+    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil);
 
     const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 정보
 
@@ -20,11 +20,6 @@ let Menu = () => {
         }
 
     }, [storeInfo]);
-
-    useEffect(() => {
-        console.log(category);
-        console.log(category[Number(query.get("f"))])
-    }, [category]);
 
     const query = useQuery();
 

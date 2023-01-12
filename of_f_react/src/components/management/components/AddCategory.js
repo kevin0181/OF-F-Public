@@ -1,21 +1,20 @@
 import {ReactComponent as ExclamationCircle} from "../../../assets/icon/exclamation-circle.svg";
 import {useEffect, useState} from "react";
-import {useRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import storeIdState from "../../../store/storeId";
 import {tokenAxios} from "../../../Config/customAxios";
-import storeInfoState from "../../../store/storeInfo";
+import {storeInfoRecoil, storeListSelector} from "../../../store/storeInfo";
 
 let AddCategory = () => {
 
     const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 정보
-    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoState);
+    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil);
 
     const [addCategory, setAddCategory] = useState({
         storeSeq: "",
         name: "",
         status: false
     });
-
 
     useEffect(() => {
         if (storeInfo.stores !== undefined) {
@@ -24,7 +23,11 @@ let AddCategory = () => {
                 storeSeq: storeInfo.stores[storeId].seq
             })
         }
+
+        console.log(storeInfo);
+
     }, [storeInfo]);
+
 
     let onChangeAddCategory = (e) => {
         setAddCategory({
@@ -49,11 +52,17 @@ let AddCategory = () => {
             method: "post",
             url: "/api/v1/store/admin/category?status=insert",
             data: addCategory
-        }).then((res) => {
-            console.log(res);
+        }).then(async (res) => {
+
         }).catch(() => {
 
+        }).finally(() => {
+
         })
+    }
+
+    let f1 = async () => {
+
     }
 
     return (

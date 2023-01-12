@@ -4,7 +4,7 @@ import {useQuery} from "../../../Config/getQuery";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useRecoilState} from "recoil";
-import storeInfoState from "../../../store/storeInfo";
+import {storeInfoRecoil} from "../../../store/storeInfo";
 import storeIdState from "../../../store/storeId";
 import {ReactComponent as CheckCircle} from "./../../../assets/icon/check-circle.svg";
 import {ReactComponent as PlusCircle} from "./../../../assets/icon/plus-circle.svg";
@@ -18,7 +18,7 @@ let Category = () => {
 
     const navigate = useNavigate();
 
-    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoState);
+    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil);
 
     const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 정보
 
