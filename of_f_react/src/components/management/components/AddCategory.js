@@ -10,7 +10,7 @@ let AddCategory = () => {
     const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 정보
     const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil);
 
-    const [categories, setCategories] = useState([]);
+    const [store, setStore] = useState([])
 
     const [addCategory, setAddCategory] = useState({
         storeSeq: "",
@@ -31,9 +31,30 @@ let AddCategory = () => {
     }, [storeInfo]);
 
     useEffect(() => {
-        console.log(categories)
-    }, [categories])
+        console.log(store);
+        if (store.length !== 0) {
+            let storeFilterData = storeInfo.stores.filter(data => {
+                return data.seq !== store.seq
+            });
 
+            if (storeFilterData.length !== 0) {
+                setStoreInfo({
+                    ...storeInfo,
+                    stores: [
+                        storeFilterData,
+                        store
+                    ]
+                });
+            } else {
+                setStoreInfo({
+                    ...storeInfo,
+                    stores: [
+                        store
+                    ]
+                });
+            }
+        }
+    }, [store])
 
     let onChangeAddCategory = (e) => {
         setAddCategory({
@@ -60,24 +81,28 @@ let AddCategory = () => {
             data: addCategory
         }).then((res) => {
 
+            let data = res.data.data;
+
             try {
-                let data = res.data.data;
 
-                setCategories([
-                    ...storeInfo.stores[storeId].storeCategories,
+                setStore(
                     {
-                        name: data.name,
-                        seq: data.seq,
-                        status: data.status,
-                        storeSeq: data.storeSeq,
-                        storeMenus: []
+                        ...storeInfo.stores[storeId],
+                        storeCategories: [
+                            ...storeInfo.stores[storeId].storeCategories,
+                            {
+                                name: data.name,
+                                seq: data.seq,
+                                status: data.status,
+                                storeSeq: data.storeSeq,
+                                storeMenus: []
+                            }
+                        ]
                     }
-                ]);
-
-                console.log(categories)
+                );
 
             } catch (e) {
-                console.log(e);
+                console.log(e)
             }
 
         }).catch(() => {
