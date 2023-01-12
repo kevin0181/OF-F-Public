@@ -63,6 +63,14 @@
     width: 40% !important;
 }
 
+.m-70 {
+    width: 70% !important;
+}
+
+.m-100 {
+    width: 100% !important;
+}
+
 
 .name-card {
     width: 100%;
@@ -72,8 +80,17 @@
     align-items: center;
 }
 
+.name-card-btn {
+    width: 97%;
+    height: 80%;
+    padding: 0px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .name-card-part {
-    width: 80%;
+    width: 95%;
     height: 80%;
     display: flex;
     justify-content: center;
@@ -87,18 +104,16 @@
 }
 
 .name-card-active {
-    width: 1%;
-    height: 30px;
+    width: 80%;
+    height: 15px;
     background-color: #a1c4ff;
-    position: absolute;
-    left: 28.2%;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    position: relative;
+    border-radius: 100px;
 }
 
-.name-card > .active {
+.name-card > div > .active {
     background-color: #a1c4ff;
     border-radius: 10px;
     color: white;
-    font-width: border;
+    font-weight: bolder;
 }

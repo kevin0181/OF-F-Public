@@ -6,6 +6,7 @@ import {useRecoilState} from "recoil";
 import navStatusState from "../../store/navStatus";
 import 'animate.css';
 import Category from "./main/Category";
+import Menu from "./main/Menu";
 
 
 let ManageDashBoard = () => {
@@ -32,7 +33,7 @@ let ManageDashBoard = () => {
             case "Category":
                 return <Category/>
             case "Menu":
-                return <></>
+                return <Menu/>
             case "sideCategory":
                 return <></>
             case "sideMenu":

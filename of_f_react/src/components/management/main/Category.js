@@ -42,20 +42,27 @@ let Category = () => {
                             <div
                                 className={"name-card "}
                                 key={index}>
-                                <div
-                                    className={"name-card-part " + (query.get("f") === String(index) ? 'active' : '')}
-                                    onClick={() => {
-                                        navigate("/manage/store?kind=Category&f=" + index)
-                                    }}
-                                >
-                                    <p>{data.name}</p>
+                                <div className={"name-card-btn"}>
+                                    <div
+                                        className={"name-card-part " + (query.get("f") === String(index) ? 'active' : '')}
+                                        onClick={() => {
+                                            navigate("/manage/store?kind=Category&f=" + index)
+                                        }}
+                                    >
+                                        <p>{data.name}</p>
+                                    </div>
                                 </div>
-                                {
-                                    query.get("f") === String(index) ? (
-                                        <div className={"name-card-active"}></div>) : (
-                                        <></>
-                                    )
-                                }
+                                <div style={{
+                                    width: "3%"
+                                }}>
+                                    {
+                                        query.get("f") === String(index) ? (
+                                            <div className={"name-card-active"}>
+                                            </div>) : (
+                                            <></>
+                                        )
+                                    }
+                                </div>
                             </div>
                         ))
                     }
@@ -65,52 +72,14 @@ let Category = () => {
             {
                 query.get("f") !== null ? (
                     <div
-                        className={"c-line m-scroll animate__animated " + (query.get("f") !== null ? 'animate__slideInLeft' : '')}>
-                        <div>
-                            {
-                                category.length !== 0 && category[Number(query.get("f"))] !== undefined ? (
-                                    <>
-                                        {
-                                            category[Number(query.get("f"))].storeMenus.map((data, index) => (
-                                                <div
-                                                    className={"name-card "}
-                                                    key={index}>
-                                                    <div
-                                                        className={"name-card-part " + (query.get("c") === String(index) ? 'active' : '')}
-                                                        onClick={() => {
-                                                            navigate("/manage/store?kind=Category&f=" + query.get("f") + "&c=" + index)
-                                                        }}
-                                                    >
-                                                        <p>{data.name}</p>
-                                                    </div>
-                                                    {
-                                                        query.get("c") === String(index) ? (
-                                                            <div className={"name-card-active"}></div>) : (
-                                                            <></>
-                                                        )
-                                                    }
-                                                </div>
-                                            ))
-                                        }
-                                    </>
-                                ) : (
-                                    <></>
-                                )
-                            }
+                        className={"l-line m-scroll m-70"}>
+                        <div
+                            className={"category-main m-100 animate__animated " + (query.get("f") !== null ? 'animate__slideInLeft' : '')}>
+
                         </div>
                     </div>) : (
                     <></>
                 )
-            }
-            {
-                query.get("c") !== null ? (
-                    <div
-                        className={"l-line m-scroll animate__animated " + (query.get("c") !== null ? 'animate__slideInLeft' : '')}>
-                        <div>
-
-                        </div>
-                    </div>
-                ) : (<></>)
             }
         </div>
     )
