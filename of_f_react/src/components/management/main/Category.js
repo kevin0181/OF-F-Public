@@ -7,6 +7,7 @@ import {useRecoilState} from "recoil";
 import storeInfoState from "../../../store/storeInfo";
 import storeIdState from "../../../store/storeId";
 import {ReactComponent as CheckCircle} from "./../../../assets/icon/check-circle.svg";
+import {ReactComponent as PlusCircle} from "./../../../assets/icon/plus-circle.svg";
 import {ReactComponent as XCircle} from "./../../../assets/icon/x-circle.svg";
 
 
@@ -40,6 +41,17 @@ let Category = () => {
         <div className={"manage-main-container"}>
             <div className={"f-line m-scroll "}>
                 <div>
+                    <div className={"name-card "}>
+                        <div className={"name-card-btn"}>
+                            <div
+                                className={"name-card-part " + (query.get("status") === 'add' ? 'active addIcon' : '')}
+                                onClick={() => {
+                                    navigate("/manage/store?kind=Category&status=add");
+                                }}>
+                                <PlusCircle/>
+                            </div>
+                        </div>
+                    </div>
                     {
                         categories.map((data, index) => (
                             <div
@@ -73,7 +85,7 @@ let Category = () => {
                 </div>
             </div>
             {
-                query.get("f") !== null ? (
+                query.get("f") !== null & query.get("status") === null ? (
                     <div
                         className={"l-line m-scroll m-70"}>
                         <div
@@ -92,6 +104,25 @@ let Category = () => {
                                         </div>
                                     )
                                 }
+                                <div className={"category-container"}>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>) : (
+                    <></>
+                )
+            }
+            {
+                query.get("status") !== null & query.get("f") === null ? (
+                    <div
+                        className={"l-line m-scroll m-70"}>
+                        <div
+                            className={"category-main m-100 animate__animated " + (query.get("status") !== null ? 'animate__slideInLeft' : '')}>
+                            <div>
                             </div>
                         </div>
                     </div>) : (
