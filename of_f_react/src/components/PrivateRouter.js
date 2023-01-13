@@ -16,7 +16,7 @@ let PrivateRouter = ({loginStatus, cookies}) => {
             getRefreshToken().then(() => {
                 window.location.reload();
             }).catch(() => {
-                alert("로그인 오류입니다. 재로그인을 해주세요.");
+                // alert("로그인 오류입니다. 재로그인을 해주세요.");
                 return <Navigate to={"/manage/login"} replace/>;
             });
         }
