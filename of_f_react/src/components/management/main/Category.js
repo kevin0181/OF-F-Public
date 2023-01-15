@@ -10,6 +10,7 @@ import {ReactComponent as CheckCircle} from "./../../../assets/icon/check-circle
 import {ReactComponent as PlusCircle} from "./../../../assets/icon/plus-circle.svg";
 import {ReactComponent as XCircle} from "./../../../assets/icon/x-circle.svg";
 import AddCategory from "../components/AddCategory";
+import CategoryDetail from "../components/CategoryDetail";
 
 
 let Category = () => {
@@ -66,7 +67,7 @@ let Category = () => {
                     {
                         categories.map((data, index) => (
                             <div
-                                className={"name-card "}
+                                className={"name-card "} id={index + "-category"}
                                 key={index}>
                                 <div className={"name-card-btn"}>
                                     <div
@@ -115,6 +116,7 @@ let Category = () => {
                                         </div>
                                     )
                                 }
+                                <CategoryDetail/>
                             </div>
                         </div>
                     </div>) : (
