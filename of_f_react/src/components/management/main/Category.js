@@ -116,7 +116,7 @@ let Category = () => {
                                         </div>
                                     )
                                 }
-                                <CategoryDetail/>
+                                <CategoryDetail category={category}/>
                             </div>
                         </div>
                     </div>) : (
