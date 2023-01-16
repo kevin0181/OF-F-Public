@@ -1,7 +1,11 @@
 import {useEffect, useState} from "react";
 import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
+import {useRecoilState} from "recoil";
+import {storeInfoRecoil} from "../../../../store/storeInfo";
 
 let CategoryDetail = ({category}) => {
+
+    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil);
 
     const [categoryDetail, setCategoryDetail] = useState({
         seq: "",
@@ -37,7 +41,8 @@ let CategoryDetail = ({category}) => {
             url: "/api/v1/store/admin/category?status=update",
             data: categoryDetail
         }).then(res => {
-            console.log(res)
+            console.log(res);
+
         }).catch(err => {
             console.error(err);
         });
