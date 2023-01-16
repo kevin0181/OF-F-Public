@@ -1,5 +1,6 @@
 import axios, {AxiosInstance} from 'axios';
 import {getCookie} from "./cookie";
+import {removeCookie} from "./cookie";
 import getRefreshToken from "./getRefreshToken";
 
 
@@ -68,6 +69,7 @@ tokenAxios.interceptors.response.use(
 
             return axios(config);
         }
+
         return Promise.reject(err);
     },
 );

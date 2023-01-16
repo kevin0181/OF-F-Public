@@ -1,29 +1,43 @@
 import {refreshTokenAxios} from "./customAxios";
-import {setCookie} from "./cookie";
+import {removeCookie, setCookie} from "./cookie";
 
 let getRefreshToken = async () => {
 
-    const data = await refreshTokenAxios({
-        headers: {"Authorization": ""},
-        method: 'post',
-        url: '/api/v1/auth/n/refresh-token'
-    });
+    try {
 
-    const {accessToken} = data.data.data;
+        const data = await refreshTokenAxios({
+            headers: {"Authorization": ""},
+            method: 'post',
+            url: '/api/v1/auth/n/refresh-token'
+        });
 
-    const expires = new Date();
+        const {accessToken} = data.data.data;
 
-    expires.setMinutes(expires.getMinutes() + 30);
+        const expires = new Date();
 
-    setCookie("accessToken", accessToken, {
-        path: "/",
-        expires
-    });
+        expires.setMinutes(expires.getMinutes() + 30);
 
-    localStorage.setItem("l-st", true);
+        setCookie("accessToken", accessToken, {
+            path: "/",
+            expires
+        });
+
+        localStorage.setItem("l-st", true);
 
 
-    return accessToken;
+        return accessToken;
+    } catch (error) {
+        console.log(error)
+        if (error.response.data.code == "404" && error.response.data.errorCode == "TO0003") {
+            alert("로그아웃 된 상태입니다. 재로그인이 필요합니다.");
+            removeCookie("accessToken", {
+                path: "/"
+            });
+            localStorage.removeItem("l-st");
+
+            window.location.reload();
+        }
+    }
 
 }
 
