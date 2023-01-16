@@ -1,13 +1,12 @@
 import axios, {AxiosInstance} from 'axios';
 import {getCookie} from "./cookie";
-import {removeCookie} from "./cookie";
 import getRefreshToken from "./getRefreshToken";
 
 
 export const notTokenAxios: AxiosInstance = axios.create({ // 리프레시 토큰을 가지고 보내지 않는 axios
     baseURL: process.env.REACT_APP_SERVER_URL_PORT, // 기본 서버 주소 입력
     headers: {
-        'Access-Control-Allow-Origin': 'http://localhost:8080',	// 서버 domain
+        'Access-Control-Allow-Origin': process.env.REACT_APP_SERVER_URL_PORT,	// 서버 domain
     },
     withCredentials: true,
 });
@@ -25,7 +24,7 @@ notTokenAxios.interceptors.response.use(
 export const tokenAxios: AxiosInstance = axios.create({ // 토큰을 가지고 보내는 axios
     baseURL: process.env.REACT_APP_SERVER_URL_PORT, // 기본 서버 주소 입력
     headers: {
-        'Access-Control-Allow-Origin': 'http://localhost:8080',	// 서버 domain
+        'Access-Control-Allow-Origin': process.env.REACT_APP_SERVER_URL_PORT,	// 서버 domain
         'Authorization': 'Bearer ' + getCookie("accessToken")
     },
     withCredentials: true,
@@ -78,7 +77,7 @@ tokenAxios.interceptors.response.use(
 export const refreshTokenAxios: AxiosInstance = axios.create({ // 리프레시 토큰 발급 전용
     baseURL: process.env.REACT_APP_SERVER_URL_PORT, // 기본 서버 주소 입력
     headers: {
-        'Access-Control-Allow-Origin': 'http://localhost:8080',	// 서버 domain
+        'Access-Control-Allow-Origin': process.env.REACT_APP_SERVER_URL_PORT,	// 서버 domain
     },
     withCredentials: true,
 });

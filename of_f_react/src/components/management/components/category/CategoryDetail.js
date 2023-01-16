@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
 
 let CategoryDetail = ({category}) => {
 
@@ -16,10 +17,6 @@ let CategoryDetail = ({category}) => {
         }
     }, [category]);
 
-    useEffect(() => {
-        console.log(categoryDetail);
-    }, [categoryDetail]);
-
     let onChangeCategoryDetail = (e) => {
         setCategoryDetail({
             ...categoryDetail,
@@ -32,6 +29,18 @@ let CategoryDetail = ({category}) => {
             ...categoryDetail,
             status: !categoryDetail.status
         })
+    }
+
+    let onClickCategoryUpdate = () => {
+        tokenStoreAdminAxios({
+            method: "POST",
+            url: "/api/v1/store/admin/category?status=update",
+            data: categoryDetail
+        }).then(res => {
+            console.log(res)
+        }).catch(err => {
+            console.error(err);
+        });
     }
 
 
@@ -68,7 +77,7 @@ let CategoryDetail = ({category}) => {
                         </div>
                     </div>
                     <div className={"main-btn-true m-f-1 position-center"}>
-                        <div>
+                        <div onClick={onClickCategoryUpdate}>
                             <p>수정하기</p>
                         </div>
                     </div>
