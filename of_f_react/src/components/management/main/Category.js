@@ -9,8 +9,8 @@ import storeIdState from "../../../store/storeId";
 import {ReactComponent as CheckCircle} from "./../../../assets/icon/check-circle.svg";
 import {ReactComponent as PlusCircle} from "./../../../assets/icon/plus-circle.svg";
 import {ReactComponent as XCircle} from "./../../../assets/icon/x-circle.svg";
-import AddCategory from "../components/AddCategory";
-import CategoryDetail from "../components/CategoryDetail";
+import AddCategory from "../components/category/AddCategory";
+import CategoryDetail from "../components/category/CategoryDetail";
 
 
 let Category = () => {
@@ -116,7 +116,7 @@ let Category = () => {
                                         </div>
                                     )
                                 }
-                                <CategoryDetail/>
+                                <CategoryDetail category={category}/>
                             </div>
                         </div>
                     </div>) : (

@@ -1,9 +1,9 @@
-import {ReactComponent as ExclamationCircle} from "../../../assets/icon/exclamation-circle.svg";
+import {ReactComponent as ExclamationCircle} from "../../../../assets/icon/exclamation-circle.svg";
 import {useEffect, useState} from "react";
 import {useRecoilState} from "recoil";
-import storeIdState from "../../../store/storeId";
-import {storeInfoRecoil} from "../../../store/storeInfo";
-import {tokenStoreAdminAxios} from "../../../Config/customStoreAdminAjax";
+import storeIdState from "../../../../store/storeId";
+import {storeInfoRecoil} from "../../../../store/storeInfo";
+import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
 
 let AddCategory = () => {
 
