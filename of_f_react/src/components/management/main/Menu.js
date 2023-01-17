@@ -4,6 +4,8 @@ import storeIdState from "../../../store/storeId";
 import {useEffect, useState} from "react";
 import {useQuery} from "../../../Config/getQuery";
 import {useNavigate} from "react-router-dom";
+import {ReactComponent as PlusCircle} from "../../../assets/icon/plus-circle.svg";
+import AddCategory from "../components/category/AddCategory";
 
 let Menu = () => {
 
@@ -69,6 +71,28 @@ let Menu = () => {
                             {
                                 categories.length !== 0 && categories[Number(query.get("f"))] !== undefined ? (
                                     <>
+                                        <div className={"name-card "}>
+                                            <div className={"name-card-btn"}>
+                                                <div
+                                                    className={"name-card-part " + (query.get("status") === 'add' ? 'active addIcon' : '')}
+                                                    onClick={() => {
+                                                        navigate(`/manage/store?kind=Menu&f=${query.get("f")}&status=add`);
+                                                    }}>
+                                                    <PlusCircle/>
+                                                </div>
+                                            </div>
+                                            <div style={{
+                                                width: "3%"
+                                            }}>
+                                                {
+                                                    query.get("status") === 'add' ? (
+                                                        <div className={"name-card-active"}>
+                                                        </div>) : (
+                                                        <></>
+                                                    )
+                                                }
+                                            </div>
+                                        </div>
                                         {
                                             categories[Number(query.get("f"))].storeMenus.map((data, index) => (
                                                 <div
@@ -112,10 +136,23 @@ let Menu = () => {
                     <div
                         className={"l-line m-scroll animate__animated " + (query.get("c") !== null ? 'animate__slideInLeft' : '')}>
                         <div>
-
+                            메뉴123
                         </div>
                     </div>
                 ) : (<></>)
+            }
+
+            {
+                query.get("status") !== null & query.get("f") !== null ? (
+                    <div
+                        className={"l-line m-scroll m-70"}>
+                        <div
+                            className={"main-container2 m-100 animate__animated " + (query.get("status") !== null ? 'animate__slideInLeft' : '')}>
+                            메뉴추가
+                        </div>
+                    </div>) : (
+                    <></>
+                )
             }
         </div>
     )
