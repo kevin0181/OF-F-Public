@@ -42,6 +42,7 @@ let ManageNav = () => {
             url: '/api/v1/store/admin',
         }).then(res => {
             setStoreInfo(res.data.data);
+            setStore(res.data.data.stores[storeId]);
         });
     }, []);
 
@@ -67,8 +68,12 @@ let ManageNav = () => {
 
     }, [query.get("storeId")]);
 
+    useEffect(() => {
+        console.log(store);
+    }, [store]);
+
     useEffect(() => { //가게 정보 변경시 적용되는 부분
-        if (store.length !== 0) {
+        if (Object.keys(store).length !== 0) {
             setStoreInfo({
                 ...storeInfo,
                 stores: store

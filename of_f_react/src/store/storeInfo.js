@@ -7,7 +7,7 @@ export const storeInfoRecoil = atom({
 
 export const selectStoreInfoRecoil = atom({
     key: "selectStore",
-    default: []
+    default: {}
 });
 
 

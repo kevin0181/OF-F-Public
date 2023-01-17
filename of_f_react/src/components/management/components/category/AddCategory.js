@@ -19,13 +19,13 @@ let AddCategory = () => {
     });
 
     useEffect(() => {
-        if (storeInfo.stores !== undefined) {
+        if (Object.keys(store).length !== 0) {
             setAddCategory({
                 ...addCategory,
-                storeSeq: storeInfo.stores[storeId].seq
+                storeSeq: store.seq
             })
         }
-    }, [storeInfo]);
+    }, [store]);
 
     let onChangeAddCategory = (e) => {
         setAddCategory({
@@ -55,22 +55,19 @@ let AddCategory = () => {
             let data = res.data.data;
             try {
 
-                setStore([
+                setStore({
                     ...store,
-                    {
-                        ...storeInfo.stores[storeId],
-                        storeCategories: [
-                            ...storeInfo.stores[storeId].storeCategories,
-                            {
-                                name: data.name,
-                                seq: data.seq,
-                                status: data.status,
-                                storeSeq: data.storeSeq,
-                                storeMenus: []
-                            }
-                        ]
-                    }
-                ])
+                    storeCategories: [
+                        ...store.storeCategories,
+                        {
+                            name: data.name,
+                            seq: data.seq,
+                            status: data.status,
+                            storeSeq: data.storeSeq,
+                            storeMenus: []
+                        }
+                    ]
+                });
 
             } catch (e) {
                 console.log(e)
