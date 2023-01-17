@@ -1,11 +1,13 @@
 import {useEffect, useState} from "react";
 import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
 import {useRecoilState} from "recoil";
-import {storeInfoRecoil} from "../../../../store/storeInfo";
+import {selectStoreInfoRecoil} from "../../../../store/storeInfo";
+import {useQuery} from "../../../../Config/getQuery";
 
 let CategoryDetail = ({category}) => {
 
-    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil);
+    const [store, setStore] = useRecoilState(selectStoreInfoRecoil);
+    const query = useQuery();
 
     const [categoryDetail, setCategoryDetail] = useState({
         seq: "",
@@ -36,13 +38,22 @@ let CategoryDetail = ({category}) => {
     }
 
     let onClickCategoryUpdate = () => {
+
         tokenStoreAdminAxios({
             method: "POST",
             url: "/api/v1/store/admin/category?status=update",
             data: categoryDetail
         }).then(res => {
             console.log(res);
-            let data = res.data.data;
+            let resData = res.data.data;
+            let updateCategories = [...store.storeCategories];
+
+            updateCategories[Number(query.get("f"))] = resData;
+
+            setStore({
+                ...store,
+                storeCategories: updateCategories
+            })
 
         }).catch(err => {
             console.error(err);
