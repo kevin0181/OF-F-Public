@@ -2,7 +2,7 @@ import {ReactComponent as ExclamationCircle} from "../../../../assets/icon/excla
 import {useEffect, useState} from "react";
 import {useRecoilState} from "recoil";
 import storeIdState from "../../../../store/storeId";
-import {storeInfoRecoil} from "../../../../store/storeInfo";
+import {selectStoreInfoRecoil, storeInfoRecoil} from "../../../../store/storeInfo";
 import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
 
 let AddCategory = () => {
@@ -10,7 +10,7 @@ let AddCategory = () => {
     const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 정보
     const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil);
 
-    const [store, setStore] = useState([])
+    const [store, setStore] = useRecoilState(selectStoreInfoRecoil);
 
     const [addCategory, setAddCategory] = useState({
         storeSeq: "",
@@ -26,32 +26,6 @@ let AddCategory = () => {
             })
         }
     }, [storeInfo]);
-
-    useEffect(() => {
-
-        if (store.length !== 0) {
-            let storeFilterData = storeInfo.stores.filter(data => {
-                return data.seq !== store.seq
-            });
-
-            if (storeFilterData.length !== 0) {
-                setStoreInfo({
-                    ...storeInfo,
-                    stores: [
-                        storeFilterData,
-                        store
-                    ]
-                });
-            } else {
-                setStoreInfo({
-                    ...storeInfo,
-                    stores: [
-                        store
-                    ]
-                });
-            }
-        }
-    }, [store])
 
     let onChangeAddCategory = (e) => {
         setAddCategory({
@@ -77,9 +51,12 @@ let AddCategory = () => {
             url: "/api/v1/store/admin/category?status=insert",
             data: addCategory
         }).then((res) => {
+
             let data = res.data.data;
             try {
-                setStore(
+
+                setStore([
+                    ...store,
                     {
                         ...storeInfo.stores[storeId],
                         storeCategories: [
@@ -93,18 +70,22 @@ let AddCategory = () => {
                             }
                         ]
                     }
-                );
-                setAddCategory({
-                    ...addCategory,
-                    name: ""
-                });
+                ])
+
             } catch (e) {
                 console.log(e)
             }
         }).catch((e) => {
             console.log(e)
             alert("카테고리를 추가하지 못했습니다. 관리자에게 문의 주세요.");
-        });
+        }).finally(() => {
+
+            setAddCategory({ //카테고리 초기화
+                ...addCategory,
+                name: ""
+            });
+
+        })
     }
 
     return (

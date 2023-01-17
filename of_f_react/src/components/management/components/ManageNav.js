@@ -13,16 +13,13 @@ import chevronRight from "./../../../assets/icon/chevron-right.svg";
 import {useEffect, useState} from "react";
 import 'animate.css';
 import {useQuery} from "../../../Config/getQuery";
-import {useRecoilState, useRecoilValue} from "recoil";
+import {useRecoilState} from "recoil";
 import navStatusState from "./../../../store/navStatus";
-import {storeInfoRecoil} from "../../../store/storeInfo";
+import {selectStoreInfoRecoil, storeInfoRecoil} from "../../../store/storeInfo";
 import storeIdState from "../../../store/storeId";
 import {tokenStoreAdminAxios} from "../../../Config/customStoreAdminAjax";
 import Loading from "./Loading";
 import adminStoreLoading from "../../../store/adminStoreLoading";
-import {getCookie} from "../../../Config/cookie";
-import getRefreshToken from "../../../Config/getRefreshToken";
-import axios from "axios";
 
 let ManageNav = () => {
 
@@ -30,17 +27,16 @@ let ManageNav = () => {
 
     const query = useQuery();
 
-    const [navStatus, setNavStatus] = useRecoilState(navStatusState);
+    const [navStatus, setNavStatus] = useRecoilState(navStatusState); //nav 활성화 비활성화
+    const [kindStatus, setKindStatus] = useState(""); // 현재 선택한 nav 상태
 
-    const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 정보
+    const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 id
+    const [store, setStore] = useRecoilState(selectStoreInfoRecoil);
+    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil); // 로그인시 가져오는 전체 정보
 
-    const [kindStatus, setKindStatus] = useState("");
+    const [loading, setLoading] = useRecoilState(adminStoreLoading); // 로딩
 
-    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil);
-
-    const [loading, setLoading] = useRecoilState(adminStoreLoading);
-
-    useEffect(() => {
+    useEffect(() => { //처음 가게 전체 데이터 가져옴
         tokenStoreAdminAxios({
             method: 'get',
             url: '/api/v1/store/admin',
@@ -48,13 +44,9 @@ let ManageNav = () => {
             setStoreInfo(res.data.data);
         });
 
-        if (query.get("storeId") !== null) {
-            setStoreId(Number(query.get("storeId")));
-        }
-
     }, []);
 
-    useEffect(() => {
+    useEffect(() => { // nav 종류
 
         if (query.get("kind") !== null) {
             setKindStatus(query.get("kind"));
@@ -64,6 +56,15 @@ let ManageNav = () => {
 
     }, [query]);
 
+    useEffect(() => { //가게 정보 변경시 적용되는 부분
+        if (store.length !== 0) {
+            setStoreInfo({
+                ...storeInfo,
+                stores: store
+            });
+        }
+    }, [store]);
+
     let navOnClick = () => {
         setNavStatus(!navStatus);
     }
@@ -72,6 +73,7 @@ let ManageNav = () => {
         navigate("/manage/store?kind=" + kind);
     }
 
+    // axios loading
     tokenStoreAdminAxios.interceptors.request.use(
         async config => {
             setLoading(true);
