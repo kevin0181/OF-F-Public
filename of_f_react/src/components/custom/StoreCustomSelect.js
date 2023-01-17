@@ -1,19 +1,19 @@
 import {useEffect, useState} from "react";
 
-let CustomSelect = ({getData, defaultData, onchange}) => {
+let CustomSelect = ({getData, onchange}) => {
 
     const [selectActive, setSelectActive] = useState(false);
 
     const [selectData, setSelectData] = useState({
-        seq: defaultData.seq,
-        name: defaultData.name
+        seq: null,
+        name: "사이드 선택"
     });
 
     const [data, setData] = useState([]);
 
     useEffect(() => {
 
-        if (getData != null) {
+        if (getData !== undefined) {
             setData(getData);
             return;
         }

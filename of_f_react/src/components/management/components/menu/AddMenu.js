@@ -1,8 +1,14 @@
 import {ReactComponent as ExclamationCircle} from "../../../../assets/icon/exclamation-circle.svg";
 import {useState} from "react";
 import StoreCustomSelect from "../../../custom/StoreCustomSelect";
+import {useRecoilState} from "recoil";
+import {selectStoreInfoRecoil} from "../../../../store/storeInfo";
+import {ReactComponent as Photograph} from "./../../../../assets/icon/photograph.svg";
+
 
 let AddMenu = () => {
+
+    const [store, setStore] = useRecoilState(selectStoreInfoRecoil); //선택된 가게 정보
 
     const [addMenu, setAddMenu] = useState({
         name: "",
@@ -41,24 +47,16 @@ let AddMenu = () => {
                     </div>
                     <div className={"add-input-part"}>
                         <span>사이드<br/>카테고리</span>
-                        <StoreCustomSelect defaultData={{
-                            seq: 1,
-                            name: "123"
-                        }}
-                                           getData={[
-                                               {
-                                                   seq: 2,
-                                                   name: "321"
-                                               },
-                                               {
-                                                   seq: 3,
-                                                   name: "5213"
-                                               }
-                                               , {
-                                                   seq: 4,
-                                                   name: "123123sdfsdfsdf"
-                                               }
-                                           ]}/>
+                        <StoreCustomSelect
+                            getData={store.storeSideCategories}/>
+                    </div>
+                    <div className={"add-img-part"}>
+                        <span style={{
+                            margin: "0px 0px 3px 0px"
+                        }}>이미지</span>
+                        <div className={"add-img-container"}>
+                            <Photograph/>
+                        </div>
                     </div>
                     <div className={"add-input-part position-left"} style={{
                         padding: "0px 10px"
