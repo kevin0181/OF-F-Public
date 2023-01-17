@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import {useQuery} from "../../../Config/getQuery";
 import {useNavigate} from "react-router-dom";
 import {ReactComponent as PlusCircle} from "../../../assets/icon/plus-circle.svg";
-import AddCategory from "../components/category/AddCategory";
+import AddMenu from "../components/menu/AddMenu";
 
 let Menu = () => {
 
@@ -148,7 +148,7 @@ let Menu = () => {
                         className={"l-line m-scroll m-70"}>
                         <div
                             className={"main-container2 m-100 animate__animated " + (query.get("status") !== null ? 'animate__slideInLeft' : '')}>
-                            메뉴추가
+                            <AddMenu/>
                         </div>
                     </div>) : (
                     <></>

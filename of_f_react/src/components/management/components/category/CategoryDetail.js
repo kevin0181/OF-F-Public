@@ -96,12 +96,12 @@ let CategoryDetail = ({category}) => {
             </div>
             <div className={"main-container2-body"}>
                 <div>
-                    <div className={"category-add-input-part"}>
+                    <div className={"add-input-part"}>
                         <span>이름</span>
                         <input className={"m-input"} type={"text"} name={"name"} value={categoryDetail.name || ""}
                                onChange={onChangeCategoryDetail}/>
                     </div>
-                    <div className={"category-add-input-part position-left"} style={{
+                    <div className={"add-input-part position-left"} style={{
                         padding: "10px 0px"
                     }}>
                         <div>

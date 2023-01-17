@@ -314,3 +314,19 @@ input:checked + .slider:before {
 .main-btn-false > div > p {
 
 }
+
+.add-input-part {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.add-input-part > input {
+    width: 70%;
+    height: 45px;
+}
+
+.add-input-part > small {
+    color: red;
+}

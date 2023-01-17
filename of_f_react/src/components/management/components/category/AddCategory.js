@@ -7,9 +7,6 @@ import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
 
 let AddCategory = () => {
 
-    const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 정보
-    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil);
-
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil);
 
     const [addCategory, setAddCategory] = useState({
@@ -92,12 +89,12 @@ let AddCategory = () => {
             </div>
             <div className={"main-container2-body"}>
                 <div>
-                    <div className={"category-add-input-part"}>
+                    <div className={"add-input-part"}>
                         <span>이름</span>
                         <input className={"m-input"} type={"text"} name={"name"} onChange={onChangeAddCategory}
                                value={addCategory.name}/>
                     </div>
-                    <div className={"category-add-input-part position-left"} style={{
+                    <div className={"add-input-part position-left"} style={{
                         padding: "10px 0px"
                     }}>
                         <div>
@@ -107,7 +104,7 @@ let AddCategory = () => {
                             </label>
                         </div>
                     </div>
-                    <div className={"category-add-input-part position-right"}>
+                    <div className={"add-input-part position-right"}>
                         <ExclamationCircle/>
                         <small>카테고리는 기본적으로 비활성화 상태로 생성됩니다.</small>
                     </div>
