@@ -3,11 +3,14 @@ import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
 import {useRecoilState} from "recoil";
 import {selectStoreInfoRecoil} from "../../../../store/storeInfo";
 import {useQuery} from "../../../../Config/getQuery";
+import {useNavigate} from "react-router-dom";
 
 let CategoryDetail = ({category}) => {
 
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil);
     const query = useQuery();
+
+    const navigate = useNavigate();
 
     const [categoryDetail, setCategoryDetail] = useState({
         seq: "",
@@ -52,7 +55,7 @@ let CategoryDetail = ({category}) => {
             setStore({
                 ...store,
                 storeCategories: updateCategories
-            })
+            });
 
         }).catch(err => {
             console.error(err);
@@ -77,6 +80,9 @@ let CategoryDetail = ({category}) => {
                     ...store,
                     storeCategories: deleteAfterCategories
                 });
+
+                navigate("/manage/store?kind=Category");
+
             }).catch(err => {
                 console.error(err);
                 alert("카테고리 삭제를 실패했습니다.");
