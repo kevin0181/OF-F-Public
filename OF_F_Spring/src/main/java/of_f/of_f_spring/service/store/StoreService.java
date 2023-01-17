@@ -185,7 +185,9 @@ public class StoreService {
         try {
 
             for (int i = 0; i < storeCategoryList.size(); i++) {
-                if (storeCategoryList.get(i).getSeq() == storeCategoryDTO.getSeq()) { // 변경해야될 카테고리 부분을 찾았다면?
+                System.out.println(storeCategoryList.get(i).getSeq() + " || " + storeCategoryDTO.getSeq());
+                System.out.println(storeCategoryList.get(i).getSeq() == storeCategoryDTO.getSeq());
+                if (storeCategoryList.get(i).getSeq().equals(storeCategoryDTO.getSeq())) {  // 변경해야될 카테고리 부분을 찾았다면?
                     storeCategoryList.get(i).setName(storeCategoryDTO.getName());
                     storeCategoryList.get(i).setStatus(storeCategoryDTO.isStatus());
                     return ApiResponseDTO.builder()
