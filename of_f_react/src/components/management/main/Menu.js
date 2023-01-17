@@ -145,9 +145,9 @@ let Menu = () => {
             {
                 query.get("status") !== null & query.get("f") !== null ? (
                     <div
-                        className={"l-line m-scroll m-70"}>
+                        className={"l-line m-scroll"}>
                         <div
-                            className={"main-container2 m-100 animate__animated " + (query.get("status") !== null ? 'animate__slideInLeft' : '')}>
+                            className={"main-container2 animate__animated " + (query.get("status") !== null ? 'animate__slideInLeft' : '')}>
                             <AddMenu/>
                         </div>
                     </div>) : (
