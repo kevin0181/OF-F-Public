@@ -46,7 +46,7 @@ import of_f.of_f_spring.dto.user.UserSignInDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-01-09T11:47:29+0900",
+    date = "2023-01-17T18:00:30+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class UserMapperImpl implements UserMapper {
@@ -603,6 +603,19 @@ public class UserMapperImpl implements UserMapper {
         return list1;
     }
 
+    protected List<StoreSideCategoryDTO> storeSideCategoryListToStoreSideCategoryDTOList(List<StoreSideCategory> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<StoreSideCategoryDTO> list1 = new ArrayList<StoreSideCategoryDTO>( list.size() );
+        for ( StoreSideCategory storeSideCategory : list ) {
+            list1.add( storeSideCategoryToStoreSideCategoryDTO( storeSideCategory ) );
+        }
+
+        return list1;
+    }
+
     protected StoreDTO storeToStoreDTO(Store store) {
         if ( store == null ) {
             return null;
@@ -628,6 +641,7 @@ public class UserMapperImpl implements UserMapper {
         storeDTO.storeCategories( storeCategoryListToStoreCategoryDTOList( store.getStoreCategories() ) );
         storeDTO.storeOrders( storeOrderListToStoreOrderDTOList( store.getStoreOrders() ) );
         storeDTO.storeQRIds( storeQRIdListToStoreQRIdDTOList( store.getStoreQRIds() ) );
+        storeDTO.storeSideCategories( storeSideCategoryListToStoreSideCategoryDTOList( store.getStoreSideCategories() ) );
 
         return storeDTO.build();
     }
