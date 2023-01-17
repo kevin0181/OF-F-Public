@@ -57,6 +57,8 @@ let CategoryDetail = ({category}) => {
 
         }).catch(err => {
             console.error(err);
+            alert("카테고리를 수정할 수 없습니다.");
+            return;
         });
     }
 
