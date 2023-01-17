@@ -43,7 +43,6 @@ let ManageNav = () => {
         }).then(res => {
             setStoreInfo(res.data.data);
         });
-
     }, []);
 
     useEffect(() => { // nav 종류
@@ -55,6 +54,18 @@ let ManageNav = () => {
         }
 
     }, [query]);
+
+    useEffect(() => { // store 부분 넣어줌 (가게에따라 현재 선택된 가게 정보 다르게)
+
+        if (storeInfo.stores !== undefined && storeInfo.stores.length >= Number(query.get("storeId"))) {
+            setStoreId(Number(query.get("storeId")))
+        }
+
+        if (storeInfo.stores !== undefined && query.get("storeId") !== undefined && query.get("storeId") !== null) {
+            setStore(storeInfo.stores[storeId]);
+        }
+
+    }, [query.get("storeId")]);
 
     useEffect(() => { //가게 정보 변경시 적용되는 부분
         if (store.length !== 0) {

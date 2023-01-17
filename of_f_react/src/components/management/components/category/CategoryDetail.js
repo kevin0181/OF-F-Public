@@ -42,6 +42,7 @@ let CategoryDetail = ({category}) => {
             data: categoryDetail
         }).then(res => {
             console.log(res);
+            let data = res.data.data;
 
         }).catch(err => {
             console.error(err);
