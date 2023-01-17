@@ -1,5 +1,5 @@
 import {useRecoilState} from "recoil";
-import {storeInfoRecoil} from "../../../store/storeInfo";
+import {selectStoreInfoRecoil, storeInfoRecoil} from "../../../store/storeInfo";
 import storeIdState from "../../../store/storeId";
 import {useEffect, useState} from "react";
 import {useQuery} from "../../../Config/getQuery";
@@ -7,19 +7,19 @@ import {useNavigate} from "react-router-dom";
 
 let Menu = () => {
 
-    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil);
+    const [store, setStore] = useRecoilState(selectStoreInfoRecoil); //선택된 가게 정보
 
-    const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 정보
+    const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 id
 
-    const [category, setCategory] = useState([]);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
 
-        if (Object.keys(storeInfo).length !== 0) { //key가 존재하는지 확인하고 있으면 데이터 넣기
-            setCategory(storeInfo.stores[storeId].storeCategories);
+        if (Object.keys(store).length !== 0) { //key가 존재하는지 확인하고 있으면 데이터 넣기
+            setCategories(store.storeCategories);
         }
 
-    }, [storeInfo]);
+    }, [store]);
 
     const query = useQuery();
 
@@ -30,7 +30,7 @@ let Menu = () => {
             <div className={"f-line m-scroll "}>
                 <div>
                     {
-                        category.map((data, index) => (
+                        categories.map((data, index) => (
                             <div
                                 className={"name-card "}
                                 key={index}>
@@ -67,10 +67,10 @@ let Menu = () => {
                         className={"c-line m-scroll animate__animated " + (query.get("f") !== null ? 'animate__slideInLeft' : '')}>
                         <div>
                             {
-                                category.length !== 0 && category[Number(query.get("f"))] !== undefined ? (
+                                categories.length !== 0 && categories[Number(query.get("f"))] !== undefined ? (
                                     <>
                                         {
-                                            category[Number(query.get("f"))].storeMenus.map((data, index) => (
+                                            categories[Number(query.get("f"))].storeMenus.map((data, index) => (
                                                 <div
                                                     className={"name-card "}
                                                     key={index}>
