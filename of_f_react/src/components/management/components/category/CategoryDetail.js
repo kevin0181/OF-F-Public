@@ -44,7 +44,6 @@ let CategoryDetail = ({category}) => {
             url: "/api/v1/store/admin/category?status=update",
             data: categoryDetail
         }).then(res => {
-            console.log(res);
             let resData = res.data.data;
             let updateCategories = [...store.storeCategories];
 
@@ -60,6 +59,33 @@ let CategoryDetail = ({category}) => {
             alert("카테고리를 수정할 수 없습니다.");
             return;
         });
+    }
+
+    let onClickCategoryDelete = () => {
+        // eslint-disable-next-line no-restricted-globals
+        if (confirm(categoryDetail.name + "를 삭제하시겠습니까?")) {
+            tokenStoreAdminAxios({
+                method: "POST",
+                url: "/api/v1/store/admin/category?status=delete",
+                data: categoryDetail
+            }).then(res => {
+                let deleteAfterCategories = store.storeCategories.filter(data => {
+                    return data.seq !== res.data.data.seq;
+                });
+
+                setStore({
+                    ...store,
+                    storeCategories: deleteAfterCategories
+                });
+            }).catch(err => {
+                console.error(err);
+                alert("카테고리 삭제를 실패했습니다.");
+                return;
+            });
+        } else {
+            return;
+        }
+
     }
 
 
@@ -91,7 +117,7 @@ let CategoryDetail = ({category}) => {
             <div className={"main-container2-footer"}>
                 <div>
                     <div className={"main-btn-false m-f-1 position-center"}>
-                        <div>
+                        <div onClick={onClickCategoryDelete}>
                             <p>삭제하기</p>
                         </div>
                     </div>

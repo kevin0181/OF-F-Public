@@ -216,12 +216,12 @@ public class StoreService {
 
         try {
             for (int i = 0; i < storeCategoryList.size(); i++) {
-                if (storeCategoryList.get(i).getSeq() == storeCategoryDTO.getSeq()) { //삭제할 카테고리를 찾으면?
+                if (storeCategoryList.get(i).getSeq().equals(storeCategoryDTO.getSeq())) { //삭제할 카테고리를 찾으면?
                     storeCategoryRepository.delete(storeCategoryList.get(i)); //카테고리 삭제
                     return ApiResponseDTO.builder()
                             .message("카테고리 삭제")
                             .detail("카테고리를 삭제하였습니다.")
-                            .data(true)
+                            .data(storeCategoryDTO)
                             .build();
                 }
             }
