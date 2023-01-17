@@ -1,5 +1,6 @@
 import {ReactComponent as ExclamationCircle} from "../../../../assets/icon/exclamation-circle.svg";
 import {useState} from "react";
+import StoreCustomSelect from "../../../custom/StoreCustomSelect";
 
 let AddMenu = () => {
 
@@ -30,16 +31,37 @@ let AddMenu = () => {
                 <div>
                     <div className={"add-input-part"}>
                         <span>이름</span>
-                        <input className={"m-input"} type={"text"} name={"name"} onChange={onChangeAddMenu}
+                        <input className={"m-input m-60"} type={"text"} name={"name"} onChange={onChangeAddMenu}
                                value={addMenu.name}/>
                     </div>
                     <div className={"add-input-part"}>
                         <span>가격</span>
-                        <input className={"m-input"} type={"text"} name={"name"} onChange={onChangeAddMenu}
+                        <input className={"m-input m-60"} type={"text"} name={"name"} onChange={onChangeAddMenu}
                                value={addMenu.name}/>
                     </div>
+                    <div className={"add-input-part"}>
+                        <span>사이드<br/>카테고리</span>
+                        <StoreCustomSelect defaultData={{
+                            seq: 1,
+                            name: "123"
+                        }}
+                                           getData={[
+                                               {
+                                                   seq: 2,
+                                                   name: "321"
+                                               },
+                                               {
+                                                   seq: 3,
+                                                   name: "5213"
+                                               }
+                                               , {
+                                                   seq: 4,
+                                                   name: "123123sdfsdfsdf"
+                                               }
+                                           ]}/>
+                    </div>
                     <div className={"add-input-part position-left"} style={{
-                        padding: "10px 0px"
+                        padding: "0px 10px"
                     }}>
                         <div>
                             <label className="switch toggle-disable">

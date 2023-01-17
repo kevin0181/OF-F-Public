@@ -67,6 +67,10 @@
     width: 40% !important;
 }
 
+.m-60 {
+    width: 60% !important;
+}
+
 .m-70 {
     width: 70% !important;
 }
@@ -78,6 +82,7 @@
 .m-f-1 {
     flex: 1 !important;
 }
+
 
 /*slide*/
 /* The switch - the box around the slider */
@@ -322,9 +327,27 @@ input:checked + .slider:before {
     padding: 10px;
 }
 
+.add-input-part > span {
+    width: 30%;
+    text-align: center;
+}
+
 .add-input-part > input {
     width: 70%;
     height: 45px;
+}
+
+.add-input-part > div {
+    width: 70%;
+    text-align: right;
+}
+
+.add-input-part > div > .c-select-div {
+    height: 45px;
+}
+
+.add-input-part > div > .c-select-div > .c-select-list > div {
+    padding: 14px 20px;
 }
 
 .add-input-part > small {

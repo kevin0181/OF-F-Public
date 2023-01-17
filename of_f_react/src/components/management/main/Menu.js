@@ -1,5 +1,5 @@
 import {useRecoilState} from "recoil";
-import {selectStoreInfoRecoil, storeInfoRecoil} from "../../../store/storeInfo";
+import {selectStoreInfoRecoil} from "../../../store/storeInfo";
 import storeIdState from "../../../store/storeId";
 import {useEffect, useState} from "react";
 import {useQuery} from "../../../Config/getQuery";

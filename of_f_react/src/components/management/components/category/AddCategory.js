@@ -95,7 +95,7 @@ let AddCategory = () => {
                                value={addCategory.name}/>
                     </div>
                     <div className={"add-input-part position-left"} style={{
-                        padding: "10px 0px"
+                        padding: "0px 10px"
                     }}>
                         <div>
                             <label className="switch toggle-disable">
