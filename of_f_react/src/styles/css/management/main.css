@@ -83,6 +83,14 @@
     flex: 1 !important;
 }
 
+.h-300p {
+    height: 300px !important;
+}
+
+.h-500 {
+    height: 500% !important;
+}
+
 
 /*slide*/
 /* The switch - the box around the slider */

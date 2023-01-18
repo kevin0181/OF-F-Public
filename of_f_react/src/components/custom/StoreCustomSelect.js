@@ -43,7 +43,7 @@ let CustomSelect = ({getData, onchange}) => {
                 </div>
                 {
                     selectActive === true ? (
-                        <div className={"c-select-list"}>
+                        <div className={"c-select-list " + (data.length > 5 ? 'h-500' : '')}>
                             {
                                 data.map((data, index) => (
                                     <div key={index} onClick={() => {
