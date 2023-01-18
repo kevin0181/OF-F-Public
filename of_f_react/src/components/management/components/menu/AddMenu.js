@@ -57,7 +57,7 @@ let AddMenu = () => {
                     </div>
                     <div className={"add-input-part"}>
                         <span>가격</span>
-                        <input className={"m-input m-60"} type={"text"} name={"name"} onChange={onChangeAddMenu}
+                        <input className={"m-input m-60"} type={"text"} name={"price"} onChange={onChangeAddMenu}
                                value={addMenu.name}/>
                     </div>
                     <div className={"add-input-part"}>
@@ -109,7 +109,8 @@ let AddMenu = () => {
                         <div onClick={() => {
                             setAddMenu({
                                 ...addMenu,
-                                name: ""
+                                name: "",
+                                price: "",
                             })
                         }}>
                             <p>되돌리기</p>
