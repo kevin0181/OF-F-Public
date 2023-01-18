@@ -7,6 +7,7 @@ import navStatusState from "../../store/navStatus";
 import 'animate.css';
 import Category from "./main/Category";
 import Menu from "./main/Menu";
+import SideCategoryModal from "./components/modal/SideCategoryModal";
 
 
 let ManageDashBoard = () => {
@@ -48,6 +49,11 @@ let ManageDashBoard = () => {
     return (<>
         <div
             className={"manage-dash-board-container animate__animated " + (navStatus === true ? 'animate__backInLeft' : '')}>
+            {
+                query.get("m-status") !== null ? (
+                    <SideCategoryModal/>
+                ) : (<></>)
+            }
             <MainPage/>
         </div>
     </>);

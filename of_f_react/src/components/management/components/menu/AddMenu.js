@@ -4,14 +4,21 @@ import {useRecoilState} from "recoil";
 import {selectStoreInfoRecoil} from "../../../../store/storeInfo";
 import {ReactComponent as Photograph} from "./../../../../assets/icon/photograph.svg";
 import "./../../../../styles/css/management/menu.css"
+import {useNavigate} from "react-router-dom";
+import {useQuery} from "../../../../Config/getQuery";
 
 
 let AddMenu = () => {
+
+    const navigate = useNavigate();
+
+    const query = useQuery();
 
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil); //선택된 가게 정보
     const imgRef = useRef();
 
     const [demoImgUrl, setDemoImgUrl] = useState("");
+
 
     const [addMenu, setAddMenu] = useState({
         name: "",
@@ -43,6 +50,10 @@ let AddMenu = () => {
 
     }
 
+    let onClickSideModal = () => {
+
+    }
+
     return (
         <div>
             <div className={"main-container2-top"}>
@@ -62,7 +73,10 @@ let AddMenu = () => {
                     </div>
                     <div className={"add-input-part"}>
                         <span>사이드<br/>카테고리</span>
-                        <input className={"m-input m-60 side-select-btn"} type={"button"} value={"선택하기"}/>
+                        <input className={"m-input m-60 side-select-btn"} type={"button"} value={"선택하기"}
+                               onClick={() => {
+                                   navigate(`/manage/store?kind=${query.get("kind")}&f=${query.get("f")}&status=${query.get("status")}&m-status=true`);
+                               }}/>
                     </div>
                     <div className={"add-img-part"}>
                         <span style={{
