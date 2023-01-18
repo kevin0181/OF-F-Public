@@ -1,5 +1,5 @@
 import {ReactComponent as ExclamationCircle} from "../../../../assets/icon/exclamation-circle.svg";
-import {useEffect, useRef, useState} from "react";
+import {useRef, useState} from "react";
 import StoreCustomSelect from "../../../custom/StoreCustomSelect";
 import {useRecoilState} from "recoil";
 import {selectStoreInfoRecoil} from "../../../../store/storeInfo";
