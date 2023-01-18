@@ -1,7 +1,7 @@
 import {ReactComponent as ExclamationCircle} from "../../../../assets/icon/exclamation-circle.svg";
 import {useRef, useState} from "react";
 import {useRecoilState} from "recoil";
-import {selectStoreInfoRecoil} from "../../../../store/storeInfo";
+import {selectStoreInfoRecoil} from "../../../../store/management/storeInfo";
 import {ReactComponent as Photograph} from "./../../../../assets/icon/photograph.svg";
 import "./../../../../styles/css/management/menu.css"
 import {useNavigate} from "react-router-dom";

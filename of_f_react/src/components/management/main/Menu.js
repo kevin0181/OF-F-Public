@@ -1,6 +1,6 @@
 import {useRecoilState} from "recoil";
-import {selectStoreInfoRecoil} from "../../../store/storeInfo";
-import storeIdState from "../../../store/storeId";
+import {selectStoreInfoRecoil} from "../../../store/management/storeInfo";
+import storeIdState from "../../../store/management/storeId";
 import {useEffect, useState} from "react";
 import {useQuery} from "../../../Config/getQuery";
 import {useNavigate} from "react-router-dom";

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
 import {useRecoilState} from "recoil";
-import {selectStoreInfoRecoil} from "../../../../store/storeInfo";
+import {selectStoreInfoRecoil} from "../../../../store/management/storeInfo";
 import {useQuery} from "../../../../Config/getQuery";
 import {useNavigate} from "react-router-dom";
 

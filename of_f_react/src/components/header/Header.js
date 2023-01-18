@@ -5,7 +5,7 @@ import startIcon from "./../../assets/icon/start_icon.svg";
 import startIconHover from "./../../assets/icon/start_icon_hover.svg";
 import {Outlet, useNavigate} from "react-router-dom";
 import {useRecoilState} from "recoil";
-import authState from "./../../store/auth";
+import authState from "../../store/management/auth";
 import {useEffect} from "react";
 import {tokenAxios} from "../../Config/customAxios";
 import {useCookies} from "react-cookie";

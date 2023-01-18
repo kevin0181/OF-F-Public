@@ -14,12 +14,12 @@ import {useEffect, useState} from "react";
 import 'animate.css';
 import {useQuery} from "../../../Config/getQuery";
 import {useRecoilState} from "recoil";
-import navStatusState from "./../../../store/navStatus";
-import {selectStoreInfoRecoil, storeInfoRecoil} from "../../../store/storeInfo";
-import storeIdState from "../../../store/storeId";
+import navStatusState from "../../../store/management/navStatus";
+import {selectStoreInfoRecoil, storeInfoRecoil} from "../../../store/management/storeInfo";
+import storeIdState from "../../../store/management/storeId";
 import {tokenStoreAdminAxios} from "../../../Config/customStoreAdminAjax";
 import Loading from "./Loading";
-import adminStoreLoading from "../../../store/adminStoreLoading";
+import adminStoreLoading from "../../../store/management/adminStoreLoading";
 
 let ManageNav = () => {
 

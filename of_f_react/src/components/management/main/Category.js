@@ -4,7 +4,7 @@ import {useQuery} from "../../../Config/getQuery";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useRecoilState} from "recoil";
-import {selectStoreInfoRecoil} from "../../../store/storeInfo";
+import {selectStoreInfoRecoil} from "../../../store/management/storeInfo";
 import {ReactComponent as CheckCircle} from "./../../../assets/icon/check-circle.svg";
 import {ReactComponent as PlusCircle} from "./../../../assets/icon/plus-circle.svg";
 import {ReactComponent as XCircle} from "./../../../assets/icon/x-circle.svg";
