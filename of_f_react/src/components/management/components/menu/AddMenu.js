@@ -1,5 +1,5 @@
 import {ReactComponent as ExclamationCircle} from "../../../../assets/icon/exclamation-circle.svg";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import StoreCustomSelect from "../../../custom/StoreCustomSelect";
 import {useRecoilState} from "recoil";
 import {selectStoreInfoRecoil} from "../../../../store/storeInfo";
@@ -9,6 +9,9 @@ import {ReactComponent as Photograph} from "./../../../../assets/icon/photograph
 let AddMenu = () => {
 
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil); //선택된 가게 정보
+    const imgRef = useRef();
+
+    const [demoImgUrl, setDemoImgUrl] = useState("");
 
     const [addMenu, setAddMenu] = useState({
         name: "",
@@ -26,6 +29,18 @@ let AddMenu = () => {
             ...addMenu,
             [e.target.name]: e.target.value
         })
+    }
+
+    let onClickImg = () => {
+        imgRef.current.click();
+    }
+
+    let onChangeUploadImg = (e) => {
+        setDemoImgUrl(URL.createObjectURL(e.target.files[0]));
+    }
+
+    let onClickAddMenuBtn = () => {
+
     }
 
     return (
@@ -54,12 +69,26 @@ let AddMenu = () => {
                         <span style={{
                             margin: "0px 0px 3px 0px"
                         }}>이미지</span>
-                        <div className={"add-img-container"}>
-                            <Photograph/>
+                        <div className={"add-img-container"} onClick={onClickImg}>
+                            {
+                                demoImgUrl !== "" ? (<>
+                                    <div>
+                                        <img alt={"view img"} src={demoImgUrl}/>
+                                    </div>
+                                </>) : (
+                                    <>
+                                        <Photograph/>
+                                    </>
+                                )
+                            }
                         </div>
+                        <input type={"file"} ref={imgRef} className={"add-img-input"}
+                               accept='image/*'
+                               onChange={onChangeUploadImg}
+                               name='storeMenuImgs'/>
                     </div>
                     <div className={"add-input-part position-left"} style={{
-                        padding: "0px 10px"
+                        padding: "10px"
                     }}>
                         <div>
                             <label className="switch toggle-disable">
@@ -87,7 +116,7 @@ let AddMenu = () => {
                         </div>
                     </div>
                     <div className={"main-btn-true m-f-1 position-center"}>
-                        <div>
+                        <div onClick={onClickAddMenuBtn}>
                             <p>추가하기</p>
                         </div>
                     </div>
