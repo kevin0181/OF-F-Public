@@ -4,8 +4,7 @@ import {useQuery} from "../../../Config/getQuery";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useRecoilState} from "recoil";
-import {storeInfoRecoil} from "../../../store/storeInfo";
-import storeIdState from "../../../store/storeId";
+import {selectStoreInfoRecoil} from "../../../store/management/storeInfo";
 import {ReactComponent as CheckCircle} from "./../../../assets/icon/check-circle.svg";
 import {ReactComponent as PlusCircle} from "./../../../assets/icon/plus-circle.svg";
 import {ReactComponent as XCircle} from "./../../../assets/icon/x-circle.svg";
@@ -19,20 +18,17 @@ let Category = () => {
 
     const navigate = useNavigate();
 
-    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil);
-
-    const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 정보
+    const [store, setStore] = useRecoilState(selectStoreInfoRecoil);
 
     const [categories, setCategories] = useState([]);
     const [category, setCategory] = useState({});
 
     useEffect(() => {
-
-        if (Object.keys(storeInfo).length !== 0) { //key가 존재하는지 확인하고 있으면 데이터 넣기
-            setCategories(storeInfo.stores[storeId].storeCategories);
+        if (Object.keys(store).length !== 0) { //key가 존재하는지 확인하고 있으면 데이터 넣기
+            setCategories(store.storeCategories);
         }
 
-    }, [storeInfo]);
+    }, [store]);
 
     useEffect(() => {
         setCategory(categories[Number(query.get("f"))]);

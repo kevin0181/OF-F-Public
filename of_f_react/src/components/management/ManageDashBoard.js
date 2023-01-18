@@ -3,10 +3,11 @@ import {useQuery} from "../../Config/getQuery";
 import {useEffect, useState} from "react";
 import Home from "./main/Home";
 import {useRecoilState} from "recoil";
-import navStatusState from "../../store/navStatus";
+import navStatusState from "../../store/management/navStatus";
 import 'animate.css';
 import Category from "./main/Category";
 import Menu from "./main/Menu";
+import SideCategoryModal from "./components/modal/SideCategoryModal";
 
 
 let ManageDashBoard = () => {

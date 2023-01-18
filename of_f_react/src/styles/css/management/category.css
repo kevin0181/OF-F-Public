@@ -37,17 +37,6 @@
 }
 
 
-.category-add-input-part {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.category-add-input-part > input {
-    width: 70%;
-    height: 45px;
-}
-
 .category-add-footer > div {
     width: 80%;
     height: 80%;
@@ -56,9 +45,6 @@
     align-items: center;
 }
 
-.category-add-input-part > small {
-    color: red;
-}
 
 .exclamationCircle {
     width: 19px;

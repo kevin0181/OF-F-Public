@@ -1,11 +1,16 @@
 import {useEffect, useState} from "react";
 import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
 import {useRecoilState} from "recoil";
-import {storeInfoRecoil} from "../../../../store/storeInfo";
+import {selectStoreInfoRecoil} from "../../../../store/management/storeInfo";
+import {useQuery} from "../../../../Config/getQuery";
+import {useNavigate} from "react-router-dom";
 
 let CategoryDetail = ({category}) => {
 
-    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil);
+    const [store, setStore] = useRecoilState(selectStoreInfoRecoil);
+    const query = useQuery();
+
+    const navigate = useNavigate();
 
     const [categoryDetail, setCategoryDetail] = useState({
         seq: "",
@@ -36,16 +41,57 @@ let CategoryDetail = ({category}) => {
     }
 
     let onClickCategoryUpdate = () => {
+
         tokenStoreAdminAxios({
             method: "POST",
             url: "/api/v1/store/admin/category?status=update",
             data: categoryDetail
         }).then(res => {
-            console.log(res);
+            let resData = res.data.data;
+            let updateCategories = [...store.storeCategories];
+
+            updateCategories[Number(query.get("f"))] = resData;
+
+            setStore({
+                ...store,
+                storeCategories: updateCategories
+            });
 
         }).catch(err => {
             console.error(err);
+            alert("카테고리를 수정할 수 없습니다.");
+            return;
         });
+    }
+
+    let onClickCategoryDelete = () => {
+        // eslint-disable-next-line no-restricted-globals
+        if (confirm(categoryDetail.name + "를 삭제하시겠습니까?")) {
+            tokenStoreAdminAxios({
+                method: "POST",
+                url: "/api/v1/store/admin/category?status=delete",
+                data: categoryDetail
+            }).then(res => {
+                let deleteAfterCategories = store.storeCategories.filter(data => {
+                    return data.seq !== res.data.data.seq;
+                });
+
+                setStore({
+                    ...store,
+                    storeCategories: deleteAfterCategories
+                });
+
+                navigate("/manage/store?kind=Category");
+
+            }).catch(err => {
+                console.error(err);
+                alert("카테고리 삭제를 실패했습니다.");
+                return;
+            });
+        } else {
+            return;
+        }
+
     }
 
 
@@ -56,13 +102,13 @@ let CategoryDetail = ({category}) => {
             </div>
             <div className={"main-container2-body"}>
                 <div>
-                    <div className={"category-add-input-part"}>
+                    <div className={"add-input-part"}>
                         <span>이름</span>
                         <input className={"m-input"} type={"text"} name={"name"} value={categoryDetail.name || ""}
                                onChange={onChangeCategoryDetail}/>
                     </div>
-                    <div className={"category-add-input-part position-left"} style={{
-                        padding: "10px 0px"
+                    <div className={"add-input-part position-left"} style={{
+                        padding: "0px 10px"
                     }}>
                         <div>
                             <label className="switch">
@@ -77,7 +123,7 @@ let CategoryDetail = ({category}) => {
             <div className={"main-container2-footer"}>
                 <div>
                     <div className={"main-btn-false m-f-1 position-center"}>
-                        <div>
+                        <div onClick={onClickCategoryDelete}>
                             <p>삭제하기</p>
                         </div>
                     </div>

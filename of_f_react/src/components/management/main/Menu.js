@@ -1,25 +1,27 @@
 import {useRecoilState} from "recoil";
-import {storeInfoRecoil} from "../../../store/storeInfo";
-import storeIdState from "../../../store/storeId";
+import {selectStoreInfoRecoil} from "../../../store/management/storeInfo";
+import storeIdState from "../../../store/management/storeId";
 import {useEffect, useState} from "react";
 import {useQuery} from "../../../Config/getQuery";
 import {useNavigate} from "react-router-dom";
+import {ReactComponent as PlusCircle} from "../../../assets/icon/plus-circle.svg";
+import AddMenu from "../components/menu/AddMenu";
 
 let Menu = () => {
 
-    const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil);
+    const [store, setStore] = useRecoilState(selectStoreInfoRecoil); //선택된 가게 정보
 
-    const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 정보
+    const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 id
 
-    const [category, setCategory] = useState([]);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
 
-        if (Object.keys(storeInfo).length !== 0) { //key가 존재하는지 확인하고 있으면 데이터 넣기
-            setCategory(storeInfo.stores[storeId].storeCategories);
+        if (Object.keys(store).length !== 0) { //key가 존재하는지 확인하고 있으면 데이터 넣기
+            setCategories(store.storeCategories);
         }
 
-    }, [storeInfo]);
+    }, [store]);
 
     const query = useQuery();
 
@@ -30,7 +32,7 @@ let Menu = () => {
             <div className={"f-line m-scroll "}>
                 <div>
                     {
-                        category.map((data, index) => (
+                        categories.map((data, index) => (
                             <div
                                 className={"name-card "}
                                 key={index}>
@@ -67,10 +69,32 @@ let Menu = () => {
                         className={"c-line m-scroll animate__animated " + (query.get("f") !== null ? 'animate__slideInLeft' : '')}>
                         <div>
                             {
-                                category.length !== 0 && category[Number(query.get("f"))] !== undefined ? (
+                                categories.length !== 0 && categories[Number(query.get("f"))] !== undefined ? (
                                     <>
+                                        <div className={"name-card "}>
+                                            <div className={"name-card-btn"}>
+                                                <div
+                                                    className={"name-card-part " + (query.get("status") === 'add' ? 'active addIcon' : '')}
+                                                    onClick={() => {
+                                                        navigate(`/manage/store?kind=Menu&f=${query.get("f")}&status=add`);
+                                                    }}>
+                                                    <PlusCircle/>
+                                                </div>
+                                            </div>
+                                            <div style={{
+                                                width: "3%"
+                                            }}>
+                                                {
+                                                    query.get("status") === 'add' ? (
+                                                        <div className={"name-card-active"}>
+                                                        </div>) : (
+                                                        <></>
+                                                    )
+                                                }
+                                            </div>
+                                        </div>
                                         {
-                                            category[Number(query.get("f"))].storeMenus.map((data, index) => (
+                                            categories[Number(query.get("f"))].storeMenus.map((data, index) => (
                                                 <div
                                                     className={"name-card "}
                                                     key={index}>
@@ -112,10 +136,23 @@ let Menu = () => {
                     <div
                         className={"l-line m-scroll animate__animated " + (query.get("c") !== null ? 'animate__slideInLeft' : '')}>
                         <div>
-
+                            메뉴123
                         </div>
                     </div>
                 ) : (<></>)
+            }
+
+            {
+                query.get("status") !== null & query.get("f") !== null ? (
+                    <div
+                        className={"l-line m-scroll"}>
+                        <div
+                            className={"main-container2 animate__animated " + (query.get("status") !== null ? 'animate__slideInLeft' : '')}>
+                            <AddMenu/>
+                        </div>
+                    </div>) : (
+                    <></>
+                )
             }
         </div>
     )

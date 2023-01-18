@@ -40,7 +40,7 @@ import of_f.of_f_spring.dto.store.qr.StoreQRIdDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-01-09T14:39:55+0900",
+    date = "2023-01-17T18:00:30+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class StoreMapperImpl implements StoreMapper {
@@ -71,6 +71,7 @@ public class StoreMapperImpl implements StoreMapper {
         store.setStoreVanSettings( storeVanSettingDTOListToStoreVanSettingList( storeDTO.getStoreVanSettings() ) );
         store.setStoreCategories( storeCategoryDTOListToStoreCategoryList( storeDTO.getStoreCategories() ) );
         store.setStoreQRIds( storeQRIdDTOListToStoreQRIdList( storeDTO.getStoreQRIds() ) );
+        store.setStoreSideCategories( storeSideCategoryDTOListToStoreSideCategoryList( storeDTO.getStoreSideCategories() ) );
 
         return store;
     }
@@ -101,6 +102,7 @@ public class StoreMapperImpl implements StoreMapper {
         storeDTO.storeCategories( storeCategoryListToStoreCategoryDTOList( store.getStoreCategories() ) );
         storeDTO.storeOrders( storeOrderListToStoreOrderDTOList( store.getStoreOrders() ) );
         storeDTO.storeQRIds( storeQRIdListToStoreQRIdDTOList( store.getStoreQRIds() ) );
+        storeDTO.storeSideCategories( storeSideCategoryListToStoreSideCategoryDTOList( store.getStoreSideCategories() ) );
 
         return storeDTO.build();
     }
@@ -121,6 +123,7 @@ public class StoreMapperImpl implements StoreMapper {
         storeDTO.detailAddress( store.getDetailAddress() );
         storeDTO.businessPhoneNumber( store.getBusinessPhoneNumber() );
         storeDTO.storeCategories( storeCategoryListToStoreCategoryDTOList( store.getStoreCategories() ) );
+        storeDTO.storeSideCategories( storeSideCategoryListToStoreSideCategoryDTOList( store.getStoreSideCategories() ) );
 
         return storeDTO.build();
     }
@@ -560,6 +563,19 @@ public class StoreMapperImpl implements StoreMapper {
         return list1;
     }
 
+    protected List<StoreSideCategory> storeSideCategoryDTOListToStoreSideCategoryList(List<StoreSideCategoryDTO> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<StoreSideCategory> list1 = new ArrayList<StoreSideCategory>( list.size() );
+        for ( StoreSideCategoryDTO storeSideCategoryDTO : list ) {
+            list1.add( storeSideCategoryDTOToStoreSideCategory( storeSideCategoryDTO ) );
+        }
+
+        return list1;
+    }
+
     protected StorePgSettingDTO storePgSettingToStorePgSettingDTO(StorePgSetting storePgSetting) {
         if ( storePgSetting == null ) {
             return null;
@@ -787,6 +803,19 @@ public class StoreMapperImpl implements StoreMapper {
         List<StoreQRIdDTO> list1 = new ArrayList<StoreQRIdDTO>( list.size() );
         for ( StoreQRId storeQRId : list ) {
             list1.add( storeQRIdToStoreQRIdDTO( storeQRId ) );
+        }
+
+        return list1;
+    }
+
+    protected List<StoreSideCategoryDTO> storeSideCategoryListToStoreSideCategoryDTOList(List<StoreSideCategory> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<StoreSideCategoryDTO> list1 = new ArrayList<StoreSideCategoryDTO>( list.size() );
+        for ( StoreSideCategory storeSideCategory : list ) {
+            list1.add( storeSideCategoryToStoreSideCategoryDTO( storeSideCategory ) );
         }
 
         return list1;
