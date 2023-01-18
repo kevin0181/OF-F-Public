@@ -1,5 +1,5 @@
 import {ReactComponent as ExclamationCircle} from "../../../../assets/icon/exclamation-circle.svg";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useRecoilState} from "recoil";
 import {selectStoreInfoRecoil} from "../../../../store/management/storeInfo";
 import {ReactComponent as Photograph} from "./../../../../assets/icon/photograph.svg";
@@ -19,6 +19,13 @@ let AddMenu = () => {
 
     const [demoImgUrl, setDemoImgUrl] = useState("");
 
+    const [sideCategory, setSideCategory] = useState([]);
+
+    useEffect(() => {
+        if (store.storeSideCategories !== undefined) {
+            setSideCategory(store.storeSideCategories);
+        }
+    }, [store]);
 
     const [addMenu, setAddMenu] = useState({
         name: "",
@@ -71,12 +78,17 @@ let AddMenu = () => {
                         <input className={"m-input m-60"} type={"text"} name={"price"} onChange={onChangeAddMenu}
                                value={addMenu.name}/>
                     </div>
-                    <div className={"add-input-part"}>
+                    <div className={"add-side-part"}>
                         <span>사이드<br/>카테고리</span>
-                        <input className={"m-input m-60 side-select-btn"} type={"button"} value={"선택하기"}
-                               onClick={() => {
-                                   navigate(`/manage/store?kind=${query.get("kind")}&f=${query.get("f")}&status=${query.get("status")}&m-status=true`);
-                               }}/>
+                        <div>
+                            <div className={"side-select-list-part"}>
+                                {
+                                    sideCategory.map((data, index) => (
+                                        <div key={index}></div>
+                                    ))
+                                }
+                            </div>
+                        </div>
                     </div>
                     <div className={"add-img-part"}>
                         <span style={{

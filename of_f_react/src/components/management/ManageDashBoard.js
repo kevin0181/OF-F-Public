@@ -49,11 +49,6 @@ let ManageDashBoard = () => {
     return (<>
         <div
             className={"manage-dash-board-container animate__animated " + (navStatus === true ? 'animate__backInLeft' : '')}>
-            {
-                query.get("m-status") !== null ? (
-                    <SideCategoryModal/>
-                ) : (<></>)
-            }
             <MainPage/>
         </div>
     </>);

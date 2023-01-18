@@ -14,10 +14,27 @@
     height: 70%;
     background-color: white;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 .side-modal-close-btn {
     position: fixed;
     left: 1%;
     top: 1%;
+}
+
+.side-modal-top {
+    width: 100%;
+    height: 20%;
+}
+
+.side-modal-body {
+    width: 100%;
+    height: 60%;
+}
+
+.side-modal-footer {
+    width: 100%;
+    height: 20%;
 }
