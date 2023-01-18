@@ -1,9 +1,9 @@
 import {ReactComponent as ExclamationCircle} from "../../../../assets/icon/exclamation-circle.svg";
 import {useRef, useState} from "react";
-import StoreCustomSelect from "../../../custom/StoreCustomSelect";
 import {useRecoilState} from "recoil";
 import {selectStoreInfoRecoil} from "../../../../store/storeInfo";
 import {ReactComponent as Photograph} from "./../../../../assets/icon/photograph.svg";
+import "./../../../../styles/css/management/menu.css"
 
 
 let AddMenu = () => {
@@ -62,8 +62,7 @@ let AddMenu = () => {
                     </div>
                     <div className={"add-input-part"}>
                         <span>사이드<br/>카테고리</span>
-                        <StoreCustomSelect
-                            getData={store.storeSideCategories}/>
+                        <input className={"m-input m-60 side-select-btn"} type={"button"} value={"선택하기"}/>
                     </div>
                     <div className={"add-img-part"}>
                         <span style={{
