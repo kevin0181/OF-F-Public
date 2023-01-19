@@ -92,6 +92,16 @@
 }
 
 
+.m-scroll2 > div::-webkit-scrollbar {
+    width: 0px;
+    height: 3px;
+}
+
+.m-scroll2 > div::-webkit-scrollbar-thumb {
+    background-color: #c9c9c9;
+    border-radius: 20px;
+}
+
 /*slide*/
 /* The switch - the box around the slider */
 .switch {
@@ -502,6 +512,8 @@ input:checked + .slider:before {
 .add-img-container > div {
     width: 80%;
     height: 100%;
+    display: flex;
+    overflow: scroll;
 }
 
 .add-img-container > div > img {

@@ -20,7 +20,7 @@ let AddMenu = () => {
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil); //선택된 가게 정보
     const imgRef = useRef([]);
 
-    const [demoImgUrl, setDemoImgUrl] = useState("");
+    const [demoImgUrl, setDemoImgUrl] = useState([]);
 
     const [sideCategory, setSideCategory] = useState([]);
 
@@ -54,6 +54,10 @@ let AddMenu = () => {
         console.log(addMenu);
     }, [addMenu]);
 
+    useEffect(() => {
+        console.log(demoImgUrl);
+    }, [demoImgUrl]);
+
     let onChangeAddMenu = (e) => {
         setAddMenu({
             ...addMenu,
@@ -66,7 +70,15 @@ let AddMenu = () => {
     }
 
     let onChangeUploadImg = (e) => {
-        setDemoImgUrl(URL.createObjectURL(e.target.files[0]));
+
+        let newFileArr = [];
+
+        for (let i = 0; i < e.target.files.length; i++) {
+            newFileArr.push(URL.createObjectURL(e.target.files[i]));
+        }
+
+        setDemoImgUrl(newFileArr);
+
     }
 
     let onClickSideCategory = (seq) => {
@@ -187,11 +199,15 @@ let AddMenu = () => {
                         <span style={{
                             margin: "0px 0px 3px 0px"
                         }}>이미지</span>
-                        <div className={"add-img-container"} onClick={onClickImg}>
+                        <div className={"add-img-container m-scroll2"} onClick={onClickImg}>
                             {
-                                demoImgUrl !== "" ? (<>
+                                demoImgUrl.length !== 0 ? (<>
                                     <div>
-                                        <img alt={"view img"} src={demoImgUrl}/>
+                                        {
+                                            demoImgUrl.map((data, index) => (
+                                                <img alt={"view img"} key={index} src={data}/>
+                                            ))
+                                        }
                                     </div>
                                 </>) : (
                                     <>
