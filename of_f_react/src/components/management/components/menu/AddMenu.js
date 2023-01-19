@@ -112,9 +112,11 @@ let AddMenu = () => {
                                 {
                                     sideCategory.map((data, index) => (
                                         <div key={index}>
-                                            <div className={"side-mini-select"} onClick={() => {
-                                                onClickSideCategory(data.seq)
-                                            }}>
+                                            <div
+                                                className={"side-mini-select " + (addMenu.storeMSs.includes(data.seq) ? 'side-select-back' : '')}
+                                                onClick={() => {
+                                                    onClickSideCategory(data.seq)
+                                                }}>
                                                 <div className={"side-mini-top"}>
                                                     <div>{data.name}</div>
                                                 </div>

@@ -440,6 +440,10 @@ input:checked + .slider:before {
     align-content: center;
 }
 
+.side-select-back {
+    background-color: #f0f0f0 !important;
+}
+
 .add-img-part {
     display: flex;
     flex-direction: column;
