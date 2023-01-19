@@ -3,6 +3,7 @@ import {useEffect, useRef, useState} from "react";
 import {useRecoilState} from "recoil";
 import {selectStoreInfoRecoil} from "../../../../store/management/storeInfo";
 import {ReactComponent as Photograph} from "./../../../../assets/icon/photograph.svg";
+import {ReactComponent as Plus} from "./../../../../assets/icon/plus.svg";
 import "./../../../../styles/css/management/menu.css"
 import {useNavigate} from "react-router-dom";
 import {useQuery} from "../../../../Config/getQuery";
@@ -90,7 +91,9 @@ let AddMenu = () => {
                                                     <div>{data.name}</div>
                                                 </div>
                                                 <div className={"side-mini-body"}>
-
+                                                    <div className={"side-mini-select-btn"}>
+                                                        <Plus/>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

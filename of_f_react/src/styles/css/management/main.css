@@ -383,6 +383,10 @@ input:checked + .slider:before {
 }
 
 .side-select-list-part > div {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
     width: 90%;
     height: auto;
     flex: 0 0 auto;
@@ -397,9 +401,6 @@ input:checked + .slider:before {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    position: relative;
-    left: 10%;
-    top: 10%;
 }
 
 .side-mini-select > div {
@@ -431,6 +432,12 @@ input:checked + .slider:before {
     align-content: center;
     width: 90%;
     height: 30%;
+}
+
+.side-mini-body > .side-mini-select-btn {
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
 
 .add-img-part {
