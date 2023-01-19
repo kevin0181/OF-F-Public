@@ -4,6 +4,7 @@ import {useRecoilState} from "recoil";
 import {selectStoreInfoRecoil} from "../../../../store/management/storeInfo";
 import {ReactComponent as Photograph} from "./../../../../assets/icon/photograph.svg";
 import {ReactComponent as Plus} from "./../../../../assets/icon/plus.svg";
+import {ReactComponent as Check} from "./../../../../assets/icon/check.svg";
 import "./../../../../styles/css/management/menu.css"
 import {useNavigate} from "react-router-dom";
 import {useQuery} from "../../../../Config/getQuery";
@@ -39,6 +40,10 @@ let AddMenu = () => {
         storeMenuImgs: []
     });
 
+    useEffect(() => {
+        console.log(addMenu)
+    }, [addMenu]);
+
     let onChangeAddMenu = (e) => {
         setAddMenu({
             ...addMenu,
@@ -58,7 +63,28 @@ let AddMenu = () => {
 
     }
 
-    let onClickSideModal = () => {
+    let onClickSideCategory = (seq) => {
+
+        if (addMenu.storeMSs.includes(seq)) { //있으면 삭제
+
+            let deleteAfterData = addMenu.storeMSs.filter((data) => {
+                return data !== seq;
+            });
+
+            setAddMenu({
+                ...addMenu,
+                storeMSs: deleteAfterData
+            });
+
+        } else { //없으면 추가
+            setAddMenu({
+                ...addMenu,
+                storeMSs: [
+                    ...addMenu.storeMSs,
+                    seq
+                ]
+            });
+        }
 
     }
 
@@ -86,13 +112,17 @@ let AddMenu = () => {
                                 {
                                     sideCategory.map((data, index) => (
                                         <div key={index}>
-                                            <div className={"side-mini-select"}>
+                                            <div className={"side-mini-select"} onClick={() => {
+                                                onClickSideCategory(data.seq)
+                                            }}>
                                                 <div className={"side-mini-top"}>
                                                     <div>{data.name}</div>
                                                 </div>
                                                 <div className={"side-mini-body"}>
                                                     <div className={"side-mini-select-btn"}>
-                                                        <Plus/>
+                                                        {
+                                                            addMenu.storeMSs.includes(data.seq) ? (<Check/>) : (<Plus/>)
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>
