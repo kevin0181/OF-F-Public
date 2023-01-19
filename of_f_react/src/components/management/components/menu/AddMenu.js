@@ -130,7 +130,6 @@ let AddMenu = () => {
         let formData = new FormData();
 
         formData.append("menu", new Blob([JSON.stringify(addMenu)], {type: "application/json"}));
-        formData.append("img", imgRef.current.files[0]);
 
         for (let i = 0; i < imgRef.current.files.length; i++) {
             formData.append("img", imgRef.current.files[i]);
@@ -142,6 +141,7 @@ let AddMenu = () => {
             }
         }).then(res => {
             console.log(res);
+            alert(res.data.detail);
         }).catch(err => {
             console.log(err);
         })
