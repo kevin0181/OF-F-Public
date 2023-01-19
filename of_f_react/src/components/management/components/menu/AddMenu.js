@@ -50,6 +50,10 @@ let AddMenu = () => {
         storeMenuImgs: []
     });
 
+    useEffect(() => {
+        console.log(addMenu);
+    }, [addMenu]);
+
     let onChangeAddMenu = (e) => {
         setAddMenu({
             ...addMenu,
@@ -67,23 +71,30 @@ let AddMenu = () => {
 
     let onClickSideCategory = (seq) => {
 
-        if (addMenu.storeMSs.includes(seq)) { //있으면 삭제
+        let checkData = addMenu.storeMSs.filter((data) => {
+            return data.storeSideCategorySeq === seq;
+        });
 
-            let deleteAfterData = addMenu.storeMSs.filter((data) => {
-                return data !== seq;
+        if (checkData.length !== 0) { //있으면 삭제
+
+            let deleteData = addMenu.storeMSs.filter((data) => {
+                return data.storeSideCategorySeq !== seq;
             });
 
             setAddMenu({
                 ...addMenu,
-                storeMSs: deleteAfterData
+                storeMSs: deleteData
             });
 
         } else { //없으면 추가
+
             setAddMenu({
                 ...addMenu,
                 storeMSs: [
                     ...addMenu.storeMSs,
-                    seq
+                    {
+                        storeSideCategorySeq: seq
+                    }
                 ]
             });
         }
@@ -152,9 +163,9 @@ let AddMenu = () => {
                                     sideCategory.map((data, index) => (
                                         <div key={index}>
                                             <div
-                                                className={"side-mini-select " + (addMenu.storeMSs.includes(data.seq) ? 'side-select-back' : '')}
+                                                className={"side-mini-select " + (addMenu.storeMSs.find(f => f.storeSideCategorySeq === data.seq) ? 'side-select-back' : '')}
                                                 onClick={() => {
-                                                    onClickSideCategory(data.seq)
+                                                    onClickSideCategory(data.seq);
                                                 }}>
                                                 <div className={"side-mini-top"}>
                                                     <div>{data.name}</div>
@@ -162,7 +173,8 @@ let AddMenu = () => {
                                                 <div className={"side-mini-body"}>
                                                     <div className={"side-mini-select-btn"}>
                                                         {
-                                                            addMenu.storeMSs.includes(data.seq) ? (<Check/>) : (<Plus/>)
+                                                            addMenu.storeMSs.find(f => f.storeSideCategorySeq === data.seq) ? (
+                                                                <Check/>) : (<Plus/>)
                                                         }
                                                     </div>
                                                 </div>
