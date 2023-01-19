@@ -18,7 +18,7 @@ let AddMenu = () => {
     const query = useQuery();
 
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil); //선택된 가게 정보
-    const imgRef = useRef();
+    const imgRef = useRef([]);
 
     const [demoImgUrl, setDemoImgUrl] = useState("");
 
@@ -117,19 +117,17 @@ let AddMenu = () => {
 
         let formData = new FormData();
 
-        let menuFormData = JSON.stringify(addMenu);
-        const menuBlob = new Blob([menuFormData], {type: "application/json"})
+        formData.append("menu", new Blob([JSON.stringify(addMenu)], {type: "application/json"}));
+        formData.append("img", imgRef.current.files[0]);
 
-        formData.append("menu", menuBlob);
-        formData.append("img", imgRef);
+        for (let i = 0; i < imgRef.current.files.length; i++) {
+            formData.append("img", imgRef.current.files[i]);
+        }
 
-        tokenStoreAdminAxios({
-            method: "POST",
-            url: "/api/v1/store/admin/menu?status=insert",
-            data: formData,
+        tokenStoreAdminAxios.post('/api/v1/store/admin/menu?status=insert', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
-            },
+            }
         }).then(res => {
             console.log(res);
         }).catch(err => {
@@ -202,7 +200,7 @@ let AddMenu = () => {
                                 )
                             }
                         </div>
-                        <input type={"file"} ref={imgRef} className={"add-img-input"}
+                        <input type={"file"} ref={imgRef} multiple={true} className={"add-img-input"}
                                accept='image/*'
                                onChange={onChangeUploadImg}
                                name='storeMenuImgs'/>
