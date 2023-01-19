@@ -8,6 +8,7 @@ import {ReactComponent as Check} from "./../../../../assets/icon/check.svg";
 import "./../../../../styles/css/management/menu.css"
 import {useNavigate} from "react-router-dom";
 import {useQuery} from "../../../../Config/getQuery";
+import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
 
 
 let AddMenu = () => {
@@ -40,7 +41,7 @@ let AddMenu = () => {
 
     const [addMenu, setAddMenu] = useState({
         name: "",
-        price: "",
+        price: 0,
         seq: "",
         soldOutStatus: false,
         status: false,
@@ -89,7 +90,41 @@ let AddMenu = () => {
     }
 
     let onClickAddMenuBtn = () => {
-        console.log(addMenu)
+        if (addMenu.name === "") {
+            alert("이름을 입력해주세요.");
+            return;
+        }
+        if (addMenu.price === "") {
+            alert("가격을 입력해주세요.");
+            return;
+        }
+
+        if (isNaN(addMenu.price)) {
+            alert("가격은 숫자이어야합니다.");
+            return;
+        }
+
+        let formData = new FormData();
+
+        let menuFormData = JSON.stringify(addMenu);
+        const menuBlob = new Blob([menuFormData], {type: "application/json"})
+
+        formData.append("menu", menuBlob);
+        formData.append("img", imgRef);
+
+        tokenStoreAdminAxios({
+            method: "POST",
+            url: "/api/v1/store/admin/menu?status=insert",
+            data: formData,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+        }).then(res => {
+            console.log(res);
+        }).catch(err => {
+            console.log(err);
+        })
+
     }
 
     return (
