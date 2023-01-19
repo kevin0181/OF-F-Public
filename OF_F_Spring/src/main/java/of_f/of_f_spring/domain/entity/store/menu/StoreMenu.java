@@ -40,7 +40,7 @@ public class StoreMenu {
     @JoinColumn(name = "Store_Menu_seq")
     private List<StoreMenuImg> storeMenuImgs;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "Store_Menu_seq")
     private List<StoreMS> storeMSs;
 

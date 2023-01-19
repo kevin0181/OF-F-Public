@@ -40,7 +40,7 @@ import of_f.of_f_spring.dto.store.qr.StoreQRIdDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-01-17T18:00:30+0900",
+    date = "2023-01-19T13:54:46+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class StoreMapperImpl implements StoreMapper {
