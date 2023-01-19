@@ -1,6 +1,6 @@
 import {ReactComponent as ExclamationCircle} from "../../../../assets/icon/exclamation-circle.svg";
 import {useEffect, useRef, useState} from "react";
-import {useRecoilState} from "recoil";
+import {useRecoilState, useSetRecoilState} from "recoil";
 import {selectStoreInfoRecoil} from "../../../../store/management/storeInfo";
 import {ReactComponent as Photograph} from "./../../../../assets/icon/photograph.svg";
 import {ReactComponent as Plus} from "./../../../../assets/icon/plus.svg";
@@ -9,6 +9,7 @@ import "./../../../../styles/css/management/menu.css"
 import {useNavigate} from "react-router-dom";
 import {useQuery} from "../../../../Config/getQuery";
 import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
+import {resAddMenu} from "../../../../service/management/menu/menu";
 
 
 let AddMenu = () => {
@@ -55,8 +56,8 @@ let AddMenu = () => {
     }, [addMenu]);
 
     useEffect(() => {
-        console.log(demoImgUrl);
-    }, [demoImgUrl]);
+        console.log(store);
+    }, [store]);
 
     let onChangeAddMenu = (e) => {
         setAddMenu({
@@ -139,14 +140,15 @@ let AddMenu = () => {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
-        }).then(res => {
-            console.log(res);
-            alert(res.data.detail);
+        }).then(async res => {
+            let c_id = await resAddMenu(res, store, query, setStore); //메뉴 추가하는 함수
+            navigate(`/manage/store?kind=${query.get("kind")}&f=${query.get("f")}&c=${c_id}`);
         }).catch(err => {
-            console.log(err);
+            alert("메뉴 추가를 실패했습니다.");
+            return;
         })
-
     }
+
 
     return (
         <div>
