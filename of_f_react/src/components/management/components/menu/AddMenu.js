@@ -24,9 +24,18 @@ let AddMenu = () => {
     const [sideCategory, setSideCategory] = useState([]);
 
     useEffect(() => {
+
         if (store.storeSideCategories !== undefined) {
             setSideCategory(store.storeSideCategories);
         }
+
+        if (Object.keys(store).length !== 0) {
+            setAddMenu({
+                ...addMenu,
+                storeCategorySeq: store.storeCategories[Number(query.get("f"))].seq
+            })
+        }
+
     }, [store]);
 
     const [addMenu, setAddMenu] = useState({
@@ -39,10 +48,6 @@ let AddMenu = () => {
         storeMSs: [],
         storeMenuImgs: []
     });
-
-    useEffect(() => {
-        console.log(addMenu)
-    }, [addMenu]);
 
     let onChangeAddMenu = (e) => {
         setAddMenu({
@@ -57,10 +62,6 @@ let AddMenu = () => {
 
     let onChangeUploadImg = (e) => {
         setDemoImgUrl(URL.createObjectURL(e.target.files[0]));
-    }
-
-    let onClickAddMenuBtn = () => {
-
     }
 
     let onClickSideCategory = (seq) => {
@@ -85,7 +86,10 @@ let AddMenu = () => {
                 ]
             });
         }
+    }
 
+    let onClickAddMenuBtn = () => {
+        console.log(addMenu)
     }
 
     return (
@@ -103,7 +107,7 @@ let AddMenu = () => {
                     <div className={"add-input-part"}>
                         <span>가격</span>
                         <input className={"m-input m-60"} type={"text"} name={"price"} onChange={onChangeAddMenu}
-                               value={addMenu.name}/>
+                               value={addMenu.price}/>
                     </div>
                     <div className={"add-side-part"}>
                         <span>사이드<br/>카테고리</span>
@@ -180,6 +184,8 @@ let AddMenu = () => {
                                 ...addMenu,
                                 name: "",
                                 price: "",
+                                storeMSs: [],
+                                storeMenuImgs: []
                             })
                         }}>
                             <p>되돌리기</p>
