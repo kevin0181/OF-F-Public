@@ -84,7 +84,16 @@ let AddMenu = () => {
                             <div className={"side-select-list-part"}>
                                 {
                                     sideCategory.map((data, index) => (
-                                        <div key={index}></div>
+                                        <div key={index}>
+                                            <div className={"side-mini-select"}>
+                                                <div className={"side-mini-top"}>
+                                                    <div>{data.name}</div>
+                                                </div>
+                                                <div className={"side-mini-body"}>
+
+                                                </div>
+                                            </div>
+                                        </div>
                                     ))
                                 }
                             </div>
