@@ -54,11 +54,3 @@
 .exclamationCircle > path {
     stroke: red;
 }
-
-.category-detail-container {
-    width: 100%;
-    height: 97%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
