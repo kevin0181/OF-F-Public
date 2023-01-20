@@ -1,6 +1,6 @@
 import {ReactComponent as ExclamationCircle} from "../../../../assets/icon/exclamation-circle.svg";
 import {useEffect, useRef, useState} from "react";
-import {useRecoilState, useSetRecoilState} from "recoil";
+import {useRecoilState} from "recoil";
 import {selectStoreInfoRecoil} from "../../../../store/management/storeInfo";
 import {ReactComponent as Photograph} from "./../../../../assets/icon/photograph.svg";
 import {ReactComponent as Plus} from "./../../../../assets/icon/plus.svg";
@@ -50,14 +50,6 @@ let AddMenu = () => {
         storeMSs: [],
         storeMenuImgs: []
     });
-
-    useEffect(() => {
-        console.log(addMenu);
-    }, [addMenu]);
-
-    useEffect(() => {
-        console.log(store);
-    }, [store]);
 
     let onChangeAddMenu = (e) => {
         setAddMenu({
@@ -127,6 +119,11 @@ let AddMenu = () => {
             alert("가격은 숫자이어야합니다.");
             return;
         }
+        console.log(addMenu.price.length);
+        if (addMenu.price.length > 7) {
+            alert("가격의 최대 제한은 7글자 입니다.");
+            return;
+        }
 
         let formData = new FormData();
 
@@ -144,7 +141,7 @@ let AddMenu = () => {
             let c_id = await resAddMenu(res, store, query, setStore); //메뉴 추가하는 함수
             navigate(`/manage/store?kind=${query.get("kind")}&f=${query.get("f")}&c=${c_id}`);
         }).catch(err => {
-            alert("메뉴 추가를 실패했습니다.");
+            alert(err.response.data.detail);
             return;
         })
     }
