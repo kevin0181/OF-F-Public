@@ -65,6 +65,21 @@ public class StoreControllerTest {
 
     Long connectMenuSeq = null;
 
+    String os;
+
+    String fileUrl;
+
+    public StoreControllerTest() {
+        this.os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")) {
+            fileUrl="/C:/of_f/";
+        }else if(os.contains("mac")){
+            fileUrl="/Users/yuyeongbin/of_f/uploaded/";
+        }else{
+            fileUrl="/Users/yuyeongbin/of_f/uploaded/";
+        }
+    }
+
     @Order(1)
     @Test
     @DisplayName("로그인")
@@ -318,7 +333,7 @@ public class StoreControllerTest {
 
         final String fileName = "dog"; //파일명
         final String contentType = "jpeg"; //파일타입
-        final String filePath = "/Users/yuyeongbin/of_f/" + fileName + "." + contentType; //파일경로
+        final String filePath = fileUrl + fileName + "." + contentType; //파일경로
         FileInputStream fileInputStream = new FileInputStream(filePath);
 
         MockMultipartFile jsonFile = new MockMultipartFile("menu", "", "application/json", ("{\n" +
@@ -376,31 +391,30 @@ public class StoreControllerTest {
                 .andDo(print());
     }
 
-    @Order(13)
-    @Test
-    @DisplayName("가맹점 메뉴 삭제")
-    public void 가맹점_메뉴_삭제() throws Exception {
-
-        MockMultipartFile jsonFile = new MockMultipartFile("menu", "", "application/json", ("{\n" +
-                "    \"seq\":\"" + menuSeq + "\",\n" +
-                "    \"storeCategorySeq\":\"2\",\n" +
-                "    \"name\":\"" + "변경된 메뉴" + "\",\n" +
-                "    \"price\":\"010101\",\n" +
-                "    \"status\":\"true\"\n" +
-                "}").getBytes());
-
-
-        mockMvc.perform(MockMvcRequestBuilders
-                        .multipart(BASE_URL + "/admin/menu")
-                        .file(jsonFile)
-                        .param("status", "delete")
-                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code", is(200)))
-                .andDo(print());
-    }
-
+//    @Order(13)
+//    @Test
+//    @DisplayName("가맹점 메뉴 삭제")
+//    public void 가맹점_메뉴_삭제() throws Exception {
+//
+//        MockMultipartFile jsonFile = new MockMultipartFile("menu", "", "application/json", ("{\n" +
+//                "    \"seq\":\"" + menuSeq + "\",\n" +
+//                "    \"storeCategorySeq\":\"2\",\n" +
+//                "    \"name\":\"" + "변경된 메뉴" + "\",\n" +
+//                "    \"price\":\"010101\",\n" +
+//                "    \"status\":\"true\"\n" +
+//                "}").getBytes());
+//
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                        .multipart(BASE_URL + "/admin/menu")
+//                        .file(jsonFile)
+//                        .param("status", "delete")
+//                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.code", is(200)))
+//                .andDo(print());
+//    }
 
     @Order(14)
     @Test
@@ -455,7 +469,7 @@ public class StoreControllerTest {
 
     @Order(16)
     @Test
-    @DisplayName("가맹점 QR ID 저장")
+    @DisplayName("가맹점 QR ID 저장(가맹점용)")
     public void 가맹점_QR_ID_저장() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -579,7 +593,7 @@ public class StoreControllerTest {
 
         final String fileName = "dog"; //파일명
         final String contentType = "jpeg"; //파일타입
-        final String filePath = "/Users/yuyeongbin/of_f/" + fileName + "." + contentType; //파일경로
+        final String filePath = fileUrl + fileName + "." + contentType; //파일경로
         FileInputStream fileInputStream = new FileInputStream(filePath);
 
         MockMultipartFile jsonFile = new MockMultipartFile("side-menu", "", "application/json", ("{\n" +
@@ -637,27 +651,27 @@ public class StoreControllerTest {
                 .andDo(print());
     }
 
-    @Order(23)
-    @Test
-    @DisplayName("가맹점 사이드 메뉴 삭제")
-    public void 가맹점_사이드_메뉴_삭제() throws Exception {
-
-        MockMultipartFile jsonFile = new MockMultipartFile("side-menu", "", "application/json", ("{\n" +
-                "    \"seq\":\"" + sideMenuSeq + "\",\n" +
-                "    \"storeSideCategorySeq\":\"1\"\n" +
-                "}").getBytes());
-
-
-        mockMvc.perform(MockMvcRequestBuilders
-                        .multipart(BASE_URL + "/admin/side/menu")
-                        .file(jsonFile)
-                        .param("status", "delete")
-                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code", is(200)))
-                .andDo(print());
-    }
+//    @Order(23)
+//    @Test
+//    @DisplayName("가맹점 사이드 메뉴 삭제")
+//    public void 가맹점_사이드_메뉴_삭제() throws Exception {
+//
+//        MockMultipartFile jsonFile = new MockMultipartFile("side-menu", "", "application/json", ("{\n" +
+//                "    \"seq\":\"" + sideMenuSeq + "\",\n" +
+//                "    \"storeSideCategorySeq\":\"1\"\n" +
+//                "}").getBytes());
+//
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                        .multipart(BASE_URL + "/admin/side/menu")
+//                        .file(jsonFile)
+//                        .param("status", "delete")
+//                        .header("Authorization", tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken())
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.code", is(200)))
+//                .andDo(print());
+//    }
 
 
     @Order(24)

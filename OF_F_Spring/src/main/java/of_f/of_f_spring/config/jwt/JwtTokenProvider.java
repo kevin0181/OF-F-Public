@@ -121,6 +121,8 @@ public class JwtTokenProvider {
             throw new ApiException(ExceptionEnum.INVALID_TOKEN_INFO);
         } catch (IllegalArgumentException e) {
             throw new ApiException(ExceptionEnum.INVALID_TOKEN_INFO);
+        } catch (Exception e){
+            throw new ApiException(ExceptionEnum.INVALID_TOKEN_INFO);
         }
     }
 
@@ -138,17 +140,17 @@ public class JwtTokenProvider {
     }
 
     //만약 validation에서 accessToken이 기한 만료 오류가 났다면 refreshToken을 전송해서 새로 발급받기.
-    public TokenInfo refreshToken(TokenInfo tokenInfo) {
+    public TokenInfo refreshToken(String refreshToken) {
         try {
 
             //refresh 토큰 복호화
-            Authentication authentication = getAuthentication(tokenInfo.getRefreshToken());
+            Authentication authentication = getAuthentication(refreshToken);
 
             //redis에 저장되어있는 refresh token을 가져옴
             RefreshTokenInfo getRedisRefreshToken = refreshTokenInfoRedisRepository.findById(authentication.getName()).get();
 
             TokenInfo refreshGetToken = null;
-            if (tokenInfo.getRefreshToken().equals(getRedisRefreshToken.getRefreshToken()))
+            if (refreshToken.equals(getRedisRefreshToken.getRefreshToken()))
                 refreshGetToken = generateToken(authentication);
 
             saveToken(refreshGetToken, authentication);

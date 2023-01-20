@@ -22,6 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +85,7 @@ public class UserService {
         emailTokenRedisRepository.deleteById(emailToken); // -> 유효성 검사후 토큰 삭제
 
         UserRoleDTO userRoleDTO = new UserRoleDTO();
-        userRoleDTO.setRoleSeq(2L); // 회원가입 시, 기본 권한
+        userRoleDTO.setRoleSeq(3L); // 회원가입 시, 기본 권한
 
         List<UserRoleDTO> userRoleDTOS = new ArrayList<>();
         userRoleDTOS.add(userRoleDTO);
@@ -92,7 +95,6 @@ public class UserService {
         userSignInDTO.setPassword(passwordEncoder.encode(userSignInDTO.getPassword())); //패스워드 암호화
 
         User user = UserMapper.instance.UserSignInDTOTOUser(userSignInDTO);
-
 
         ResUserDTO resUserDTO = UserMapper.instance.userTOResUserDTO(userRepository.save(user));
 
@@ -104,7 +106,8 @@ public class UserService {
     }
 
     // 로그인
-    public ApiResponseDTO login(String email, String password) {
+    public ApiResponseDTO login(String email, String password, HttpServletResponse response) {
+
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
@@ -117,6 +120,22 @@ public class UserService {
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
 
         jwtTokenProvider.saveToken(tokenInfo, authentication);
+
+
+        Cookie cookie = new Cookie("refreshToken", tokenInfo.getRefreshToken());
+
+        // expires in 7 days
+        cookie.setMaxAge(7 * 24 * 60 * 60);
+
+        // optional properties
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+
+        // add cookie to response
+        response.addCookie(cookie);
+
+        tokenInfo.setRefreshToken(null);
 
         return ApiResponseDTO.builder()
                 .message("로그인 성공")
@@ -146,28 +165,41 @@ public class UserService {
 
     // jwt token 재발급
 
-    public ApiResponseDTO refreshTokenService(String Authorization, TokenInfo tokenInfo) {
+    public ApiResponseDTO refreshTokenService(HttpServletRequest request, HttpServletResponse response) {
+        String refreshToken = request.getHeader("cookie");
 
-        if (Authorization == null)
+        Cookie[] list = request.getCookies();
+        for (Cookie cookie : list) {
+            if (cookie.getName().equals("refreshToken")) {
+                refreshToken = cookie.getValue();
+            }
+        }
+
+        if (refreshToken == null)
             throw new ApiException(ExceptionEnum.TOKEN_DOES_NOT_EXIT);
 
+        TokenInfo token = jwtTokenProvider.refreshToken(refreshToken);
 
-        String headerRefreshToken = "";
-        if (StringUtils.hasText(Authorization) && Authorization.startsWith("Bearer")) {
-            headerRefreshToken = Authorization.substring(7);
-        }
+        Cookie cookie = new Cookie("refreshToken", token.getRefreshToken());
 
-        if (headerRefreshToken.equals(tokenInfo.getRefreshToken())) {
-            TokenInfo token = jwtTokenProvider.refreshToken(tokenInfo);
-            return ApiResponseDTO.builder()
-                    .message("토큰 재발행")
-                    .detail("토큰이 재발행 되었습니다.")
-                    .data(token)
-                    .build();
-        } else {
-            throw new ApiException(ExceptionEnum.NOT_MATCH_TOKEN);
-        }
+        // expires in 7 days
+        cookie.setMaxAge(7 * 24 * 60 * 60);
 
+        // optional properties
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+
+        // add cookie to response
+        response.addCookie(cookie);
+
+        token.setRefreshToken(null);
+
+        return ApiResponseDTO.builder()
+                .message("토큰 재발행")
+                .detail("토큰이 재발행 되었습니다.")
+                .data(token)
+                .build();
     }
 
     public ApiResponseDTO deleteRefreshToken(Principal principal) {
@@ -232,5 +264,6 @@ public class UserService {
                 .build();
 
     }
+
 
 }

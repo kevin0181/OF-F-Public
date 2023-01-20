@@ -1,0 +1,531 @@
+.manage-main-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    -webkit-user-select: none;
+}
+
+.manage-main-container > div {
+    background-color: white;
+}
+
+.f-line {
+    width: 30%;
+    border-right: 1px solid #bcbcbc;
+    z-index: 3;
+}
+
+.f-line > div {
+    width: 98%;
+    height: 100%;
+    border-right: 1px solid #bcbcbc;
+    overflow: auto;
+}
+
+.m-scroll > div::-webkit-scrollbar {
+    width: 5px;
+}
+
+.m-scroll > div::-webkit-scrollbar-thumb {
+    background-color: #c9c9c9;
+    border-radius: 20px;
+}
+
+.c-line {
+    width: 30%;
+    border-right: 1px solid #bcbcbc;
+    z-index: 2;
+}
+
+.c-line > div {
+    width: 98%;
+    height: 100%;
+    border-right: 1px solid #bcbcbc;
+    overflow: auto;
+}
+
+.l-line {
+    width: 40%;
+    z-index: 1;
+}
+
+.l-line > div {
+    width: 98%;
+    height: 100%;
+    overflow: auto;
+}
+
+.t-line {
+    flex: 1;
+}
+
+.warning-p {
+    color: red;
+}
+
+.m-40 {
+    width: 40% !important;
+}
+
+.m-60 {
+    width: 60% !important;
+}
+
+.m-70 {
+    width: 70% !important;
+}
+
+.m-100 {
+    width: 100% !important;
+}
+
+.m-f-1 {
+    flex: 1 !important;
+}
+
+.h-300p {
+    height: 300px !important;
+}
+
+.h-500 {
+    height: 500% !important;
+}
+
+
+.m-scroll2 > div::-webkit-scrollbar {
+    width: 0px;
+    height: 3px;
+}
+
+.m-scroll2 > div::-webkit-scrollbar-thumb {
+    background-color: #c9c9c9;
+    border-radius: 20px;
+}
+
+/*slide*/
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.toggle-disable {
+    pointer-events: none;
+}
+
+.name-card {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.name-card-btn {
+    width: 97%;
+    height: 80%;
+    padding: 0px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.name-card-part {
+    width: 95%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.name-card-part:hover {
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    transition: all 1s;
+}
+
+.name-card-active {
+    width: 80%;
+    height: 15px;
+    background-color: #a1c4ff;
+    position: relative;
+    border-radius: 100px;
+}
+
+.name-card > div > .active {
+    background-color: #a1c4ff;
+    border-radius: 10px;
+    color: white;
+    font-weight: bolder;
+}
+
+.position-left {
+    justify-content: right !important;
+}
+
+.position-center {
+    justify-content: center !important;
+}
+
+.position-right {
+    justify-content: right !important;
+}
+
+.main-container2 {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-container2 > div {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #bcbcbc;
+    padding: 15px;
+}
+
+.main-container2-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 10%;
+}
+
+.main-container2-body {
+    width: 100%;
+    height: 80%;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: overlay;
+}
+
+
+.main-container2-body::-webkit-scrollbar {
+    width: 5px;
+}
+
+.main-container2-body::-webkit-scrollbar-thumb {
+    background-color: #c9c9c9;
+    border-radius: 20px;
+}
+
+.main-container2-body > div {
+    width: 90%;
+    height: 80%;
+}
+
+.main-container2-footer {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-container2-footer > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 80%;
+}
+
+.main-btn-false {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 5px 10px;
+}
+
+.main-btn-true {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 5px 10px;
+}
+
+.main-btn-false > div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e9e9e9;
+    border-radius: 10px;
+}
+
+.main-btn-true > div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #abbbfd;
+    border-radius: 10px;
+}
+
+.main-btn-false > div:hover {
+    background-color: #aba8a8;
+    color: white;
+    font-weight: bolder;
+}
+
+.main-btn-true > div:hover {
+    background-color: #7a84af;
+    color: white;
+    font-weight: bolder;
+}
+
+.main-btn-true > div > p {
+
+}
+
+.main-btn-false > div > p {
+
+}
+
+.add-input-part {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.add-side-part {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.add-side-part > span {
+    text-align: center;
+}
+
+.add-side-part > div {
+    width: 100%;
+    height: 150px;
+    padding: 10px 0px;
+}
+
+.side-select-list-part {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.side-select-list-part::-webkit-scrollbar {
+    width: 0px;
+    height: 3px;
+}
+
+.side-select-list-part::-webkit-scrollbar-thumb {
+    background-color: #c9c9c9;
+    border-radius: 20px;
+}
+
+.side-select-list-part > div {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    height: auto;
+    flex: 0 0 auto;
+}
+
+.side-mini-select {
+    width: 60%;
+    height: 80%;
+    border: 1px solid #c9c9c9;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.side-mini-select > div {
+}
+
+.side-mini-top {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 90%;
+    height: 70%;
+    font-size: 1rem;
+}
+
+.side-mini-top > div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    text-align: center;
+    word-break: break-all;
+}
+
+.side-mini-body {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 90%;
+    height: 30%;
+}
+
+.side-mini-body > .side-mini-select-btn {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.side-select-back {
+    background-color: #f0f0f0 !important;
+}
+
+.add-img-part {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    height: 200px;
+}
+
+.add-input-part > span {
+    width: 30%;
+    text-align: center;
+}
+
+.add-input-part > input {
+    width: 70%;
+    height: 45px;
+}
+
+.add-input-part > div {
+    width: 70%;
+    text-align: right;
+}
+
+.add-input-part > div > .c-select-div {
+    height: 45px;
+}
+
+.add-input-part > div > .c-select-div > .c-select-list > div {
+    padding: 14px 20px;
+}
+
+.add-input-part > small {
+    color: red;
+}
+
+.add-img-container {
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    border: 1px solid #D1D5DB;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-img-input {
+    display: none;
+}
+
+.add-img-container > svg > path {
+    stroke: #D1D5DB;
+}
+
+.add-img-container > div {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    overflow: scroll;
+}
+
+.add-img-container > div > img {
+    width: 100%;
+    height: 100%;
+}
+
+
+.detail-container {
+    width: 100%;
+    height: 97%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

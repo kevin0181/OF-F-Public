@@ -1,0 +1,123 @@
+.introduction {
+    width: 100vw;
+    height: 100vh;
+}
+
+.introduction > div {
+    /*background-color: #1a72c3b0;*/
+    /*background: url("./../../../assets/background/Section 2.svg");*/
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.introduction-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 28%;
+    padding-top: 100px;
+}
+
+.introduction-top > p {
+    color: white;
+    font-size: 2rem;
+}
+
+.introduction-top > small {
+    padding: 15px 0px;
+    text-align: center;
+    color: white;
+    font-size: 15px;
+}
+
+.introduction-bottom {
+    display: flex;
+    height: 72%;
+    padding: 0px 0px 40px 0px;
+    justify-content: center;
+    align-items: center;
+}
+
+.introduction-bottom > div {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.introduction-list {
+    width: 80%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+}
+
+.introduction-list > div {
+    color: white;
+    flex: 1;
+    border-top: 2px solid white;
+    border-right: 2px solid white;
+    border-left: 2px solid white;
+}
+
+.introduction-list-part > div {
+    width: 100%;
+    height: 100%;
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.introduction-list-part :hover {
+    color: black;
+    background-color: white;
+}
+
+.introduction-list > div:first-child {
+    border: 2px solid white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom: none;
+}
+
+.introduction-list > div:last-child {
+    border: 2px solid white;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.introduction-list-part > div > p {
+    padding: 3px;
+    font-size: 14px;
+}
+
+.introduction-list-part > div > p:first-child {
+    font-size: 18px;
+    font-weight: bolder;
+    padding-bottom: 6px;
+    width: 100%;
+}
+
+.introduction-ipad {
+    width: 100%;
+    height: 100%;
+}
+
+.introduction-ipad > div {
+    width: 100%;
+    height: 100%;
+    text-align: right;
+}
+
+.introduction-ipad > div > img {
+    width: 90%;
+    height: 100%;
+}

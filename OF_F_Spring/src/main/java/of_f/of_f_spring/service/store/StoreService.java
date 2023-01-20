@@ -185,7 +185,9 @@ public class StoreService {
         try {
 
             for (int i = 0; i < storeCategoryList.size(); i++) {
-                if (storeCategoryList.get(i).getSeq() == storeCategoryDTO.getSeq()) { // 변경해야될 카테고리 부분을 찾았다면?
+                System.out.println(storeCategoryList.get(i).getSeq() + " || " + storeCategoryDTO.getSeq());
+                System.out.println(storeCategoryList.get(i).getSeq() == storeCategoryDTO.getSeq());
+                if (storeCategoryList.get(i).getSeq().equals(storeCategoryDTO.getSeq())) {  // 변경해야될 카테고리 부분을 찾았다면?
                     storeCategoryList.get(i).setName(storeCategoryDTO.getName());
                     storeCategoryList.get(i).setStatus(storeCategoryDTO.isStatus());
                     return ApiResponseDTO.builder()
@@ -214,12 +216,12 @@ public class StoreService {
 
         try {
             for (int i = 0; i < storeCategoryList.size(); i++) {
-                if (storeCategoryList.get(i).getSeq() == storeCategoryDTO.getSeq()) { //삭제할 카테고리를 찾으면?
+                if (storeCategoryList.get(i).getSeq().equals(storeCategoryDTO.getSeq())) { //삭제할 카테고리를 찾으면?
                     storeCategoryRepository.delete(storeCategoryList.get(i)); //카테고리 삭제
                     return ApiResponseDTO.builder()
                             .message("카테고리 삭제")
                             .detail("카테고리를 삭제하였습니다.")
-                            .data(true)
+                            .data(storeCategoryDTO)
                             .build();
                 }
             }
@@ -240,7 +242,7 @@ public class StoreService {
             throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_BY_INFO); //존재하지 않는 정보
         }
 
-        List<StoreMenuImg> storeMenuImgs = null;
+        List<StoreMenuImg> storeMenuImgs = new ArrayList<>();
 
         if (imgFile != null) // 이미지가 존재하는 경우
             storeMenuImgs = imgService.saveMenuImg(imgFile, storeCategory.getStore());
@@ -373,8 +375,14 @@ public class StoreService {
 
     public ApiResponseDTO saveStoreQRId(String id, Long storeSeq, Principal principal) {
         Store store = storeRepository.findById(storeSeq).orElse(null);
+
         if (store == null) //가맹점이 없을 경우
             throw new StoreException(StoreExceptionEnum.CAN_NOT_FOUND_STORE);
+
+        for (StoreQRId storeQRId : store.getStoreQRIds()) {
+            if (storeQRId.getQrId().equals(id))
+                throw new StoreException(StoreExceptionEnum.CAN_NOT_OVERLAPPING_QR_ID);
+        }
 
         User user = store.getUser();
 
@@ -386,7 +394,7 @@ public class StoreService {
 
         StoreQRId storeQRId = StoreQRId.builder()
                 .storeSeq(storeSeq)
-                .id(id)
+                .qrId(id)
                 .build();
 
         List<StoreQRId> storeQRIds = store.getStoreQRIds();

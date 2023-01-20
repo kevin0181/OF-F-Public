@@ -1,8 +1,10 @@
 package of_f.of_f_spring.dto.store;
 
 import lombok.*;
+import of_f.of_f_spring.domain.entity.store.menu.StoreSideCategory;
 import of_f.of_f_spring.domain.entity.store.qr.StoreQRId;
 import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
+import of_f.of_f_spring.dto.store.menu.StoreSideCategoryDTO;
 import of_f.of_f_spring.dto.store.order.StoreOrderDTO;
 import of_f.of_f_spring.dto.store.qr.QRStoreInfoDTO;
 import of_f.of_f_spring.dto.store.qr.StoreQRIdDTO;
@@ -54,5 +56,6 @@ public class StoreDTO {
     private List<StoreCategoryDTO> storeCategories;
     private List<StoreOrderDTO> storeOrders;
     private List<StoreQRIdDTO> storeQRIds;
+    private List<StoreSideCategoryDTO> storeSideCategories;
 
 }

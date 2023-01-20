@@ -27,7 +27,7 @@ public enum ExceptionEnum {
     MISS_MATCH_PASSWORD(HttpServletResponse.SC_UNAUTHORIZED, "BAD", "AU0011", "miss match password", "비밀번호 및 비밀번호 확인 불일치", "비밀번호와 비밀번호 확인이 일치하지 않습니다."),
 
     // --token--
-    INVALID_TOKEN_INFO(HttpServletResponse.SC_NOT_FOUND, "BAD", "TO0001", "invalid token", "유효하지 않는 토큰", "토큰이 유효하지 않습니다."),
+    INVALID_TOKEN_INFO(HttpServletResponse.SC_UNAUTHORIZED, "BAD", "TO0001", "invalid token", "유효하지 않는 토큰", "토큰이 유효하지 않습니다."),
 
     TIMEOUT_TOKEN(HttpServletResponse.SC_UNAUTHORIZED, "BAD", "TO0002", "expiration date", "토큰 유효기간 만료", "토큰의 유효기간이 만료되었습니다."),
 
