@@ -92,6 +92,16 @@
 }
 
 
+.m-scroll2 > div::-webkit-scrollbar {
+    width: 0px;
+    height: 3px;
+}
+
+.m-scroll2 > div::-webkit-scrollbar-thumb {
+    background-color: #c9c9c9;
+    border-radius: 20px;
+}
+
 /*slide*/
 /* The switch - the box around the slider */
 .switch {
@@ -247,7 +257,7 @@ input:checked + .slider:before {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: auto;
+    overflow: overlay;
 }
 
 
@@ -367,8 +377,9 @@ input:checked + .slider:before {
 .side-select-list-part {
     width: 100%;
     height: 100%;
-    overflow: scroll;
-    white-space: nowrap;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
 }
 
 .side-select-list-part::-webkit-scrollbar {
@@ -382,11 +393,65 @@ input:checked + .slider:before {
 }
 
 .side-select-list-part > div {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    height: auto;
+    flex: 0 0 auto;
+}
+
+.side-mini-select {
     width: 60%;
+    height: 80%;
+    border: 1px solid #c9c9c9;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.side-mini-select > div {
+}
+
+.side-mini-top {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 90%;
+    height: 70%;
+    font-size: 1rem;
+}
+
+.side-mini-top > div {
+    width: 100%;
     height: 100%;
-    display: inline-block;
-    background-color: blue;
-    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    text-align: center;
+    word-break: break-all;
+}
+
+.side-mini-body {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 90%;
+    height: 30%;
+}
+
+.side-mini-body > .side-mini-select-btn {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.side-select-back {
+    background-color: #f0f0f0 !important;
 }
 
 .add-img-part {
@@ -447,9 +512,20 @@ input:checked + .slider:before {
 .add-img-container > div {
     width: 80%;
     height: 100%;
+    display: flex;
+    overflow: scroll;
 }
 
 .add-img-container > div > img {
     width: 100%;
     height: 100%;
+}
+
+
+.detail-container {
+    width: 100%;
+    height: 97%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

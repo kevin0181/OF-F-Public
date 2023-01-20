@@ -6,6 +6,9 @@ import {useQuery} from "../../../Config/getQuery";
 import {useNavigate} from "react-router-dom";
 import {ReactComponent as PlusCircle} from "../../../assets/icon/plus-circle.svg";
 import AddMenu from "../components/menu/AddMenu";
+import MenuDetail from "../components/menu/MenuDetail";
+import {ReactComponent as CheckCircle} from "../../../assets/icon/check-circle.svg";
+import {ReactComponent as XCircle} from "../../../assets/icon/x-circle.svg";
 
 let Menu = () => {
 
@@ -14,14 +17,19 @@ let Menu = () => {
     const [storeId, setStoreId] = useRecoilState(storeIdState); // 선택된 가게 id
 
     const [categories, setCategories] = useState([]);
+    const [menu, setMenu] = useState({});
 
     useEffect(() => {
-
         if (Object.keys(store).length !== 0) { //key가 존재하는지 확인하고 있으면 데이터 넣기
             setCategories(store.storeCategories);
         }
-
     }, [store]);
+
+    useEffect(() => {
+        if (categories.length !== 0) {
+            setMenu(categories[Number(query.get("f"))].storeMenus[Number(query.get("c"))]);
+        }
+    }, [categories]);
 
     const query = useQuery();
 
@@ -135,8 +143,24 @@ let Menu = () => {
                 query.get("c") !== null ? (
                     <div
                         className={"l-line m-scroll animate__animated " + (query.get("c") !== null ? 'animate__slideInLeft' : '')}>
-                        <div>
-                            메뉴123
+                        <div
+                            className={"main-container2 m-100 animate__animated " + (query.get("f") !== null ? 'animate__slideInLeft' : '')}>
+                            <div>
+                                {
+                                    menu !== undefined && menu.status ? (
+                                        <div className={"category-status"}>
+                                            <CheckCircle/>
+                                            <p>Active...</p>
+                                        </div>
+                                    ) : (
+                                        <div className={"category-status"}>
+                                            <XCircle/>
+                                            <p className={"warning-p"}>Disabled...</p>
+                                        </div>
+                                    )
+                                }
+                                <MenuDetail menu={menu}/>
+                            </div>
                         </div>
                     </div>
                 ) : (<></>)

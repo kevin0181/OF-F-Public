@@ -96,7 +96,7 @@ let CategoryDetail = ({category}) => {
 
 
     return (
-        <div className={"category-detail-container"}>
+        <div className={"detail-container"}>
             <div className={"main-container2-top"}>
                 <h2>카테고리 상세</h2>
             </div>

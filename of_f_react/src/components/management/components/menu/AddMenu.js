@@ -3,9 +3,13 @@ import {useEffect, useRef, useState} from "react";
 import {useRecoilState} from "recoil";
 import {selectStoreInfoRecoil} from "../../../../store/management/storeInfo";
 import {ReactComponent as Photograph} from "./../../../../assets/icon/photograph.svg";
+import {ReactComponent as Plus} from "./../../../../assets/icon/plus.svg";
+import {ReactComponent as Check} from "./../../../../assets/icon/check.svg";
 import "./../../../../styles/css/management/menu.css"
 import {useNavigate} from "react-router-dom";
 import {useQuery} from "../../../../Config/getQuery";
+import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
+import {resAddMenu} from "../../../../service/management/menu/menu";
 
 
 let AddMenu = () => {
@@ -15,21 +19,30 @@ let AddMenu = () => {
     const query = useQuery();
 
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil); //선택된 가게 정보
-    const imgRef = useRef();
+    const imgRef = useRef([]);
 
-    const [demoImgUrl, setDemoImgUrl] = useState("");
+    const [demoImgUrl, setDemoImgUrl] = useState([]);
 
     const [sideCategory, setSideCategory] = useState([]);
 
     useEffect(() => {
+
         if (store.storeSideCategories !== undefined) {
             setSideCategory(store.storeSideCategories);
         }
+
+        if (Object.keys(store).length !== 0) {
+            setAddMenu({
+                ...addMenu,
+                storeCategorySeq: store.storeCategories[Number(query.get("f"))].seq
+            })
+        }
+
     }, [store]);
 
     const [addMenu, setAddMenu] = useState({
         name: "",
-        price: "",
+        price: 0,
         seq: "",
         soldOutStatus: false,
         status: false,
@@ -50,16 +63,89 @@ let AddMenu = () => {
     }
 
     let onChangeUploadImg = (e) => {
-        setDemoImgUrl(URL.createObjectURL(e.target.files[0]));
+
+        let newFileArr = [];
+
+        for (let i = 0; i < e.target.files.length; i++) {
+            newFileArr.push(URL.createObjectURL(e.target.files[i]));
+        }
+
+        setDemoImgUrl(newFileArr);
+
+    }
+
+    let onClickSideCategory = (seq) => {
+
+        let checkData = addMenu.storeMSs.filter((data) => {
+            return data.storeSideCategorySeq === seq;
+        });
+
+        if (checkData.length !== 0) { //있으면 삭제
+
+            let deleteData = addMenu.storeMSs.filter((data) => {
+                return data.storeSideCategorySeq !== seq;
+            });
+
+            setAddMenu({
+                ...addMenu,
+                storeMSs: deleteData
+            });
+
+        } else { //없으면 추가
+
+            setAddMenu({
+                ...addMenu,
+                storeMSs: [
+                    ...addMenu.storeMSs,
+                    {
+                        storeSideCategorySeq: seq
+                    }
+                ]
+            });
+        }
     }
 
     let onClickAddMenuBtn = () => {
+        if (addMenu.name === "") {
+            alert("이름을 입력해주세요.");
+            return;
+        }
+        if (addMenu.price === "") {
+            alert("가격을 입력해주세요.");
+            return;
+        }
 
+        if (isNaN(addMenu.price)) {
+            alert("가격은 숫자이어야합니다.");
+            return;
+        }
+        console.log(addMenu.price.length);
+        if (addMenu.price.length > 7) {
+            alert("가격의 최대 제한은 7글자 입니다.");
+            return;
+        }
+
+        let formData = new FormData();
+
+        formData.append("menu", new Blob([JSON.stringify(addMenu)], {type: "application/json"}));
+
+        for (let i = 0; i < imgRef.current.files.length; i++) {
+            formData.append("img", imgRef.current.files[i]);
+        }
+
+        tokenStoreAdminAxios.post('/api/v1/store/admin/menu?status=insert', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(async res => {
+            let c_id = await resAddMenu(res, store, query, setStore); //메뉴 추가하는 함수
+            navigate(`/manage/store?kind=${query.get("kind")}&f=${query.get("f")}&c=${c_id}`);
+        }).catch(err => {
+            alert(err.response.data.detail);
+            return;
+        })
     }
 
-    let onClickSideModal = () => {
-
-    }
 
     return (
         <div>
@@ -76,7 +162,7 @@ let AddMenu = () => {
                     <div className={"add-input-part"}>
                         <span>가격</span>
                         <input className={"m-input m-60"} type={"text"} name={"price"} onChange={onChangeAddMenu}
-                               value={addMenu.name}/>
+                               value={addMenu.price}/>
                     </div>
                     <div className={"add-side-part"}>
                         <span>사이드<br/>카테고리</span>
@@ -84,7 +170,25 @@ let AddMenu = () => {
                             <div className={"side-select-list-part"}>
                                 {
                                     sideCategory.map((data, index) => (
-                                        <div key={index}></div>
+                                        <div key={index}>
+                                            <div
+                                                className={"side-mini-select " + (addMenu.storeMSs.find(f => f.storeSideCategorySeq === data.seq) ? 'side-select-back' : '')}
+                                                onClick={() => {
+                                                    onClickSideCategory(data.seq);
+                                                }}>
+                                                <div className={"side-mini-top"}>
+                                                    <div>{data.name}</div>
+                                                </div>
+                                                <div className={"side-mini-body"}>
+                                                    <div className={"side-mini-select-btn"}>
+                                                        {
+                                                            addMenu.storeMSs.find(f => f.storeSideCategorySeq === data.seq) ? (
+                                                                <Check/>) : (<Plus/>)
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     ))
                                 }
                             </div>
@@ -94,11 +198,15 @@ let AddMenu = () => {
                         <span style={{
                             margin: "0px 0px 3px 0px"
                         }}>이미지</span>
-                        <div className={"add-img-container"} onClick={onClickImg}>
+                        <div className={"add-img-container m-scroll2"} onClick={onClickImg}>
                             {
-                                demoImgUrl !== "" ? (<>
+                                demoImgUrl.length !== 0 ? (<>
                                     <div>
-                                        <img alt={"view img"} src={demoImgUrl}/>
+                                        {
+                                            demoImgUrl.map((data, index) => (
+                                                <img alt={"view img"} key={index} src={data}/>
+                                            ))
+                                        }
                                     </div>
                                 </>) : (
                                     <>
@@ -107,7 +215,7 @@ let AddMenu = () => {
                                 )
                             }
                         </div>
-                        <input type={"file"} ref={imgRef} className={"add-img-input"}
+                        <input type={"file"} ref={imgRef} multiple={true} className={"add-img-input"}
                                accept='image/*'
                                onChange={onChangeUploadImg}
                                name='storeMenuImgs'/>
@@ -136,6 +244,8 @@ let AddMenu = () => {
                                 ...addMenu,
                                 name: "",
                                 price: "",
+                                storeMSs: [],
+                                storeMenuImgs: []
                             })
                         }}>
                             <p>되돌리기</p>
