@@ -4,8 +4,6 @@ import {useQuery} from "../../../../Config/getQuery";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
-import {ReactComponent as Check} from "../../../../assets/icon/check.svg";
-import {ReactComponent as Plus} from "../../../../assets/icon/plus.svg";
 
 let MenuDetail = ({menu}) => {
 
