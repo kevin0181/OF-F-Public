@@ -18,13 +18,16 @@ let MenuDetail = ({menu}) => {
     const [menuDetail, setMenuDetail] = useState({
         seq: "",
         name: "",
+        price: 0,
+        soldOutStatus: false,
         status: false,
-        storeMenus: [],
-        storeSeq: ""
+        storeCategorySeq: "",
+        storeMSs: [],
+        storeMenuImgs: []
     });
 
     useEffect(() => {
-        if (menu !== undefined) {
+        if (menu !== undefined && Object.keys(menu).length !== 0) {
             setMenuDetail(menu);
         }
     }, [menu]);
@@ -121,7 +124,10 @@ let MenuDetail = ({menu}) => {
                                                     <div
                                                         className={"side-mini-select"}>
                                                         <div className={"side-mini-top"}>
-                                                            <div>{data.storeSideCategory.name}</div>
+                                                            {
+                                                                data.storeSideCategory !== undefined && data.storeSideCategory !== null ? (
+                                                                    <div>{data.storeSideCategory.name}</div>) : (<></>)
+                                                            }
                                                         </div>
                                                         <div className={"side-mini-body"}>
                                                             <div className={"side-mini-select-btn"}>
@@ -136,11 +142,13 @@ let MenuDetail = ({menu}) => {
                             </div>
                         ) : (<></>)
                     }
+
                     {
-                        menuDetail.storeMenuImgs !== undefined && menuDetail.storeMenuImgs.length !== 0 ? (
+                        menuDetail.storeMenuImgs.length !== 0 ? (
                             <div>1</div>
                         ) : (<></>)
                     }
+
                     <div className={"add-input-part position-left"} style={{
                         padding: "0px 10px"
                     }}>
