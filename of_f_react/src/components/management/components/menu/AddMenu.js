@@ -74,16 +74,18 @@ let AddMenu = () => {
 
     }
 
-    let onClickSideCategory = (seq) => {
+    let onClickSideCategory = (sideCategoryData) => {
+
+        console.log(sideCategoryData);
 
         let checkData = addMenu.storeMSs.filter((data) => {
-            return data.storeSideCategorySeq === seq;
+            return data.storeSideCategorySeq === sideCategoryData.seq;
         });
 
         if (checkData.length !== 0) { //있으면 삭제
 
             let deleteData = addMenu.storeMSs.filter((data) => {
-                return data.storeSideCategorySeq !== seq;
+                return data.storeSideCategorySeq !== sideCategoryData.seq;
             });
 
             setAddMenu({
@@ -98,7 +100,8 @@ let AddMenu = () => {
                 storeMSs: [
                     ...addMenu.storeMSs,
                     {
-                        storeSideCategorySeq: seq
+                        storeSideCategorySeq: sideCategoryData.seq,
+                        storeSideCategory: sideCategoryData
                     }
                 ]
             });
@@ -119,7 +122,7 @@ let AddMenu = () => {
             alert("가격은 숫자이어야합니다.");
             return;
         }
-        console.log(addMenu.price.length);
+
         if (addMenu.price.length > 7) {
             alert("가격의 최대 제한은 7글자 입니다.");
             return;
@@ -174,7 +177,7 @@ let AddMenu = () => {
                                             <div
                                                 className={"side-mini-select " + (addMenu.storeMSs.find(f => f.storeSideCategorySeq === data.seq) ? 'side-select-back' : '')}
                                                 onClick={() => {
-                                                    onClickSideCategory(data.seq);
+                                                    onClickSideCategory(data);
                                                 }}>
                                                 <div className={"side-mini-top"}>
                                                     <div>{data.name}</div>

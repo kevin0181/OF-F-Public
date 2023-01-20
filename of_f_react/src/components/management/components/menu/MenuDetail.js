@@ -18,13 +18,18 @@ let MenuDetail = ({menu}) => {
     const [menuDetail, setMenuDetail] = useState({
         seq: "",
         name: "",
+        price: "",
+        soldOutStatus: false,
         status: false,
-        storeMenus: [],
-        storeSeq: ""
+        storeCategorySeq: "",
+        storeMSs: [],
+        storeMenuImgs: [],
     });
 
     useEffect(() => {
-        if (menu !== undefined) {
+        if (menu !== undefined && Object.keys(menu).length !== 0) {
+            console.log(1);
+            console.log(menu);
             setMenuDetail(menu);
         }
     }, [menu]);

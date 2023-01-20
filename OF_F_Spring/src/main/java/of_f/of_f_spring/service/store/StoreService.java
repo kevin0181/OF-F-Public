@@ -242,7 +242,7 @@ public class StoreService {
             throw new StoreException(StoreExceptionEnum.NONEXISTENT_STORE_BY_INFO); //존재하지 않는 정보
         }
 
-        List<StoreMenuImg> storeMenuImgs = null;
+        List<StoreMenuImg> storeMenuImgs = new ArrayList<>();
 
         if (imgFile != null) // 이미지가 존재하는 경우
             storeMenuImgs = imgService.saveMenuImg(imgFile, storeCategory.getStore());

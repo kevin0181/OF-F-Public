@@ -6,6 +6,8 @@ export let resAddMenu = (res, store, query, setStore) => {
         return index !== Number(query.get("f"));
     })
 
+    console.log(resData);
+
     let updateCategory = store.storeCategories[Number(query.get("f"))];
 
     let updateMenu = [
