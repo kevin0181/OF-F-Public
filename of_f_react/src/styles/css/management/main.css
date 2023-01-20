@@ -397,13 +397,13 @@ input:checked + .slider:before {
     justify-content: center;
     align-content: center;
     flex-wrap: wrap;
-    width: 90%;
+    width: 100%;
     height: auto;
     flex: 0 0 auto;
 }
 
 .side-mini-select {
-    width: 80%;
+    width: 60%;
     height: 80%;
     border: 1px solid #c9c9c9;
     border-radius: 10px;

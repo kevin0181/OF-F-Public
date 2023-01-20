@@ -4,6 +4,8 @@ import {useQuery} from "../../../../Config/getQuery";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
+import {ReactComponent as Check} from "../../../../assets/icon/check.svg";
+import {ReactComponent as Plus} from "../../../../assets/icon/plus.svg";
 
 let MenuDetail = ({menu}) => {
 
@@ -31,45 +33,36 @@ let MenuDetail = ({menu}) => {
         console.log(menuDetail);
     }, [menuDetail]);
 
-    let onChangeCategoryDetail = (e) => {
+    let onChangeMenuDetail = (e) => {
         setMenuDetail({
             ...menuDetail,
             [e.target.name]: e.target.value
         })
     }
 
-    let onChangeCategoryStatusToggle = (e) => {
+    let onChangeMenuStatusToggle = (e) => {
         setMenuDetail({
             ...menuDetail,
             status: !menuDetail.status
         })
     }
 
-    let onClickCategoryUpdate = () => {
+    let onClickMenuUpdate = () => {
 
         tokenStoreAdminAxios({
             method: "POST",
-            url: "/api/v1/store/admin/category?status=update",
+            url: "/api/v1/store/admin/menu?status=update",
             data: menuDetail
         }).then(res => {
-            let resData = res.data.data;
-            let updateCategories = [...store.storeCategories];
-
-            updateCategories[Number(query.get("f"))] = resData;
-
-            setStore({
-                ...store,
-                storeCategories: updateCategories
-            });
-
+            console.log(res);
         }).catch(err => {
             console.error(err);
-            alert("카테고리를 수정할 수 없습니다.");
+            alert("메뉴를 수정할 수 없습니다.");
             return;
         });
     }
 
-    let onClickCategoryDelete = () => {
+    let onClickMenuDelete = () => {
         // eslint-disable-next-line no-restricted-globals
         if (confirm(menuDetail.name + "를 삭제하시겠습니까?")) {
             tokenStoreAdminAxios({
@@ -109,15 +102,52 @@ let MenuDetail = ({menu}) => {
                     <div className={"add-input-part"}>
                         <span>이름</span>
                         <input className={"m-input"} type={"text"} name={"name"} value={menuDetail.name || ""}
-                               onChange={onChangeCategoryDetail}/>
+                               onChange={onChangeMenuDetail}/>
                     </div>
+                    <div className={"add-input-part"}>
+                        <span>가격</span>
+                        <input className={"m-input"} type={"text"} name={"price"} value={menuDetail.price || ""}
+                               onChange={onChangeMenuDetail}/>
+                    </div>
+                    {
+                        menuDetail.storeMSs !== undefined && menuDetail.storeMSs.length !== 0 ? (
+                            <div className={"add-side-part"}>
+                                <span>사이드<br/>카테고리</span>
+                                <div>
+                                    <div className={"side-select-list-part"}>
+                                        {
+                                            menuDetail.storeMSs.map((data, index) => (
+                                                <div key={index}>
+                                                    <div
+                                                        className={"side-mini-select"}>
+                                                        <div className={"side-mini-top"}>
+                                                            <div>{data.storeSideCategory.name}</div>
+                                                        </div>
+                                                        <div className={"side-mini-body"}>
+                                                            <div className={"side-mini-select-btn"}>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (<></>)
+                    }
+                    {
+                        menuDetail.storeMenuImgs !== undefined && menuDetail.storeMenuImgs.length !== 0 ? (
+                            <div>1</div>
+                        ) : (<></>)
+                    }
                     <div className={"add-input-part position-left"} style={{
                         padding: "0px 10px"
                     }}>
                         <div>
                             <label className="switch">
                                 <input type="checkbox" name={"status"} checked={menuDetail.status || false}
-                                       onChange={onChangeCategoryStatusToggle}/>
+                                       onChange={onChangeMenuStatusToggle}/>
                                 <span className="slider round"></span>
                             </label>
                         </div>
@@ -127,12 +157,12 @@ let MenuDetail = ({menu}) => {
             <div className={"main-container2-footer"}>
                 <div>
                     <div className={"main-btn-false m-f-1 position-center"}>
-                        <div onClick={onClickCategoryDelete}>
+                        <div onClick={onClickMenuDelete}>
                             <p>삭제하기</p>
                         </div>
                     </div>
                     <div className={"main-btn-true m-f-1 position-center"}>
-                        <div onClick={onClickCategoryUpdate}>
+                        <div onClick={onClickMenuUpdate}>
                             <p>수정하기</p>
                         </div>
                     </div>
