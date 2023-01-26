@@ -460,7 +460,8 @@ input:checked + .slider:before {
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    height: 200px;
+    /*height: 200px;*/
+    height: auto;
 }
 
 .add-input-part > span {
