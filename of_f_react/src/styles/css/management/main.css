@@ -459,9 +459,20 @@ input:checked + .slider:before {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 20px 20px 5px 20px;
     /*height: 200px;*/
     height: auto;
+}
+
+.add-img-p {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 0px 20px 20px 20px;
+    font-size: 14px;
+}
+
+.add-img-p p:hover {
+    color: #1A72C3;
 }
 
 .add-input-part > span {

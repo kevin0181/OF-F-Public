@@ -5,6 +5,8 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
 import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
 import {ReactComponent as Photograph} from "../../../../assets/icon/photograph.svg";
+import {ReactComponent as XBtn} from "../../../../assets/icon/x.svg";
+
 
 let MenuDetail = ({menu}) => {
 
@@ -33,7 +35,6 @@ let MenuDetail = ({menu}) => {
     }, [menu]);
 
     useEffect(() => {
-        console.log(store);
         console.log(menuDetail);
     }, [menuDetail]);
 
@@ -100,6 +101,16 @@ let MenuDetail = ({menu}) => {
         imgRef.current.click();
     }
 
+    let deleteSideCategory = (seq, name) => {
+        // eslint-disable-next-line no-restricted-globals
+        if (confirm(name + " 사이드를 삭제하시겠습니까?")) {
+
+        } else {
+
+        }
+
+    }
+
     return (
         <div className={"detail-container"}>
             <div className={"main-container2-top"}>
@@ -132,7 +143,11 @@ let MenuDetail = ({menu}) => {
                                                             <div>{data.storeSideCategory.name}</div>
                                                         </div>
                                                         <div className={"side-mini-body"}>
-                                                            <div className={"side-mini-select-btn"}>
+                                                            <div className={"side-mini-select-btn"}
+                                                                 onClick={() => {
+                                                                     deleteSideCategory(data.storeSideCategory.seq, data.storeSideCategory.name)
+                                                                 }}>
+                                                                <XBtn/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -148,7 +163,7 @@ let MenuDetail = ({menu}) => {
                         <span style={{
                             margin: "0px 0px 3px 0px"
                         }}>이미지</span>
-                        <div className={"add-img-container m-scroll2"} onClick={onClickImg}>
+                        <div className={"add-img-container m-scroll2"}>
                             {
                                 menuDetail.storeMenuImgs !== undefined && menuDetail.storeMenuImgs.length !== 0 ? (<>
                                     <div>
@@ -166,10 +181,13 @@ let MenuDetail = ({menu}) => {
                                 )
                             }
                         </div>
-                        {/*<input type={"file"} ref={imgRef} multiple={true} className={"add-img-input"}*/}
-                        {/*       accept='image/*'*/}
-                        {/*       onChange={onChangeUploadImg}*/}
-                        {/*       name='storeMenuImgs'/>*/}
+                        <input type={"file"} ref={imgRef} multiple={true} className={"add-img-input"}
+                               accept='image/*'
+                            // onChange={onChangeUploadImg}
+                               name='storeMenuImgs'/>
+                    </div>
+                    <div
+                        className={"add-img-p"}><p onClick={onClickImg}>이미지 추가하기</p>
                     </div>
                     <div className={"add-input-part position-left"} style={{
                         padding: "0px 10px"
