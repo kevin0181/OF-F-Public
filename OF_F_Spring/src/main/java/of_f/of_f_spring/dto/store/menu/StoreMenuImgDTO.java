@@ -14,4 +14,5 @@ public class StoreMenuImgDTO {
     private String url;
     private String extension;
     private String date;
+    private String status;
 }

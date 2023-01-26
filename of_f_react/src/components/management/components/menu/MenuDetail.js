@@ -105,7 +105,43 @@ let MenuDetail = ({menu}) => {
         // eslint-disable-next-line no-restricted-globals
         if (confirm(name + " 사이드를 삭제하시겠습니까?")) {
 
-        } else {
+            let deleteMenuDetail = menuDetail.storeMSs.filter(data => {
+                return seq !== data.seq
+            });
+
+            setMenuDetail({
+                ...menuDetail,
+                storeMSs: deleteMenuDetail
+            });
+
+        }
+    }
+
+    let deleteMenuImg = (seq) => {
+        // eslint-disable-next-line no-restricted-globals
+        if (confirm("해당 이미지를 삭제하시겠습니까?")) {
+            let deleteMenuImg = menuDetail.storeMenuImgs.filter(data => {
+                return seq === data.seq
+            });
+
+            let afterMenuImg = menuDetail.storeMenuImgs.filter(data => {
+                return seq !== data.seq
+            });
+
+            deleteMenuImg[0] = {
+                ...deleteMenuImg[0],
+                status: false
+            }
+
+            setMenuDetail({
+                ...menuDetail,
+                storeMenuImgs: [
+                    ...afterMenuImg,
+                    deleteMenuImg[0]
+                ]
+            });
+
+            console.log(menuDetail);
 
         }
 
@@ -145,7 +181,7 @@ let MenuDetail = ({menu}) => {
                                                         <div className={"side-mini-body"}>
                                                             <div className={"side-mini-select-btn"}
                                                                  onClick={() => {
-                                                                     deleteSideCategory(data.storeSideCategory.seq, data.storeSideCategory.name)
+                                                                     deleteSideCategory(data.seq, data.storeSideCategory.name)
                                                                  }}>
                                                                 <XBtn/>
                                                             </div>
@@ -169,7 +205,9 @@ let MenuDetail = ({menu}) => {
                                     <div>
                                         {
                                             menuDetail.storeMenuImgs.map((data, index) => (
-                                                <img alt={"view img"} key={index}
+                                                <img alt={"view img"} key={index} onClick={() => {
+                                                    deleteMenuImg(data.seq)
+                                                }}
                                                      src={`${process.env.REACT_APP_SERVER_URL_PORT}/api/v1/img/get?name=${data.name}&kind=menu&store=${store.name}`}/>
                                             ))
                                         }
