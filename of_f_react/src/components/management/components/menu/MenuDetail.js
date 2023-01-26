@@ -33,6 +33,7 @@ let MenuDetail = ({menu}) => {
     }, [menu]);
 
     useEffect(() => {
+        console.log(store);
         console.log(menuDetail);
     }, [menuDetail]);
 
@@ -153,7 +154,8 @@ let MenuDetail = ({menu}) => {
                                     <div>
                                         {
                                             menuDetail.storeMenuImgs.map((data, index) => (
-                                                <img alt={"view img"} key={index} src={data.url}/>
+                                                <img alt={"view img"} key={index}
+                                                     src={`${process.env.REACT_APP_SERVER_URL_PORT}/api/v1/img/get?name=${data.name}&kind=menu&store=${store.name}`}/>
                                             ))
                                         }
                                     </div>

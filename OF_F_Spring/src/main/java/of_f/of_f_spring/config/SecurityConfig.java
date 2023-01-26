@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//security에서 사용하는 session 비활성화
                 .and()
                 .authorizeRequests() //인증절차 설정 시작
+                .antMatchers("/api/v1/img/**").permitAll()
                 .antMatchers("/api/v1/auth/n/**").permitAll() // 사용자 || 토큰x
                 .antMatchers("/api/v1/auth/y/**").hasAnyAuthority("ROLE_USER", "ROLE_TT_ADMIN", "ROLE_ST_ADMIN") // 사용자 || 토큰o
                 .antMatchers("/api/v1/main/**").permitAll() // 모든 사용자
