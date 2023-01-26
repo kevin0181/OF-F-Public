@@ -2,14 +2,16 @@ import {useRecoilState} from "recoil";
 import {selectStoreInfoRecoil} from "../../../../store/management/storeInfo";
 import {useQuery} from "../../../../Config/getQuery";
 import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
+import {ReactComponent as Photograph} from "../../../../assets/icon/photograph.svg";
 
 let MenuDetail = ({menu}) => {
 
 
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil);
     const query = useQuery();
+    const imgRef = useRef([]);
 
     const navigate = useNavigate();
 
@@ -26,8 +28,6 @@ let MenuDetail = ({menu}) => {
 
     useEffect(() => {
         if (menu !== undefined && Object.keys(menu).length !== 0) {
-            console.log(1);
-            console.log(menu);
             setMenuDetail(menu);
         }
     }, [menu]);
@@ -95,6 +95,10 @@ let MenuDetail = ({menu}) => {
 
     }
 
+    let onClickImg = () => {
+        imgRef.current.click();
+    }
+
     return (
         <div className={"detail-container"}>
             <div className={"main-container2-top"}>
@@ -119,7 +123,7 @@ let MenuDetail = ({menu}) => {
                                 <div>
                                     <div className={"side-select-list-part"}>
                                         {
-                                            menuDetail.storeMSs.map((data, index) => (
+                                            menuDetail.storeMSs.map((data, index) => ( //사이드 카테고리 부분
                                                 <div key={index}>
                                                     <div
                                                         className={"side-mini-select"}>
@@ -139,11 +143,32 @@ let MenuDetail = ({menu}) => {
                             </div>
                         ) : (<></>)
                     }
-                    {
-                        menuDetail.storeMenuImgs !== undefined && menuDetail.storeMenuImgs.length !== 0 ? (
-                            <div>1</div>
-                        ) : (<></>)
-                    }
+                    <div className={"add-img-part"}>
+                        <span style={{
+                            margin: "0px 0px 3px 0px"
+                        }}>이미지</span>
+                        <div className={"add-img-container m-scroll2"} onClick={onClickImg}>
+                            {
+                                menuDetail.storeMenuImgs !== undefined && menuDetail.storeMenuImgs.length !== 0 ? (<>
+                                    <div>
+                                        {
+                                            menuDetail.storeMenuImgs.map((data, index) => (
+                                                <img alt={"view img"} key={index} src={data.url}/>
+                                            ))
+                                        }
+                                    </div>
+                                </>) : (
+                                    <>
+                                        <Photograph/>
+                                    </>
+                                )
+                            }
+                        </div>
+                        {/*<input type={"file"} ref={imgRef} multiple={true} className={"add-img-input"}*/}
+                        {/*       accept='image/*'*/}
+                        {/*       onChange={onChangeUploadImg}*/}
+                        {/*       name='storeMenuImgs'/>*/}
+                    </div>
                     <div className={"add-input-part position-left"} style={{
                         padding: "0px 10px"
                     }}>
