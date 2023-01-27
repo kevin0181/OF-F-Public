@@ -124,12 +124,12 @@ let MenuDetail = ({menu}) => {
         imgRef.current.click();
     }
 
-    let deleteSideCategory = (seq, name) => { //사이드 카테고리 삭제
+    let deleteSideCategory = (index, name) => { //사이드 카테고리 삭제
         // eslint-disable-next-line no-restricted-globals
         if (confirm(name + " 사이드를 삭제하시겠습니까?")) {
 
-            let deleteMenuDetail = menuDetail.storeMSs.filter(data => {
-                return seq !== data.seq
+            let deleteMenuDetail = menuDetail.storeMSs.filter((data, indexS) => {
+                return index !== indexS
             });
 
             setMenuDetail({
@@ -201,7 +201,7 @@ let MenuDetail = ({menu}) => {
                                                         <div className={"side-mini-body"}>
                                                             <div className={"side-mini-select-btn"}
                                                                  onClick={() => {
-                                                                     deleteSideCategory(data.seq, data.storeSideCategory.name)
+                                                                     deleteSideCategory(index, data.storeSideCategory.name)
                                                                  }}>
                                                                 <XBtn/>
                                                             </div>
