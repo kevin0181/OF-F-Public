@@ -76,8 +76,6 @@ let AddMenu = () => {
 
     let onClickSideCategory = (sideCategoryData) => {
 
-        console.log(sideCategoryData);
-
         let checkData = addMenu.storeMSs.filter((data) => {
             return data.storeSideCategorySeq === sideCategoryData.seq;
         });
@@ -246,7 +244,7 @@ let AddMenu = () => {
                             setAddMenu({
                                 ...addMenu,
                                 name: "",
-                                price: "",
+                                price: 0,
                                 storeMSs: [],
                                 storeMenuImgs: []
                             })

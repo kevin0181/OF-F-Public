@@ -6,6 +6,10 @@ import {useEffect, useRef, useState} from "react";
 import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
 import {ReactComponent as Photograph} from "../../../../assets/icon/photograph.svg";
 import {ReactComponent as XBtn} from "../../../../assets/icon/x.svg";
+import {ReactComponent as PlusBtn} from "../../../../assets/icon/plus.svg";
+import {resAddMenu, resDeleteMenu} from "../../../../service/management/menu/menu";
+import SideSelectVar from "./SideSelectVar";
+import React from 'react';
 
 
 let MenuDetail = ({menu}) => {
@@ -27,6 +31,8 @@ let MenuDetail = ({menu}) => {
         storeMSs: [],
         storeMenuImgs: [],
     });
+
+    const [sideVarStatus, setSideVarStatus] = useState(false);
 
     useEffect(() => {
         if (menu !== undefined && Object.keys(menu).length !== 0) {
@@ -52,7 +58,26 @@ let MenuDetail = ({menu}) => {
         })
     }
 
-    let onClickMenuUpdate = () => {
+    let onClickMenuUpdate = () => { //메뉴 수정
+
+        if (menuDetail.name === "") {
+            alert("이름을 입력해주세요.");
+            return;
+        }
+        if (menuDetail.price === "") {
+            alert("가격을 입력해주세요.");
+            return;
+        }
+
+        if (isNaN(menuDetail.price)) {
+            alert("가격은 숫자이어야합니다.");
+            return;
+        }
+
+        if (menuDetail.price.length > 7) {
+            alert("가격의 최대 제한은 7글자 입니다.");
+            return;
+        }
 
         tokenStoreAdminAxios({
             method: "POST",
@@ -67,28 +92,27 @@ let MenuDetail = ({menu}) => {
         });
     }
 
-    let onClickMenuDelete = () => {
+    let onClickMenuDelete = () => { // 메뉴 삭제
         // eslint-disable-next-line no-restricted-globals
         if (confirm(menuDetail.name + "를 삭제하시겠습니까?")) {
+
+            let formData = new FormData();
+
+            formData.append("menu", new Blob([JSON.stringify(menuDetail)], {type: "application/json"}));
+
             tokenStoreAdminAxios({
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
                 method: "POST",
-                url: "/api/v1/store/admin/category?status=delete",
-                data: menuDetail
-            }).then(res => {
-                let deleteAfterCategories = store.storeCategories.filter(data => {
-                    return data.seq !== res.data.data.seq;
-                });
-
-                setStore({
-                    ...store,
-                    storeCategories: deleteAfterCategories
-                });
-
-                navigate("/manage/store?kind=Category");
-
+                url: "/api/v1/store/admin/menu?status=delete",
+                data: formData
+            }).then(async res => {
+                await resDeleteMenu(res, store, query, setStore);
+                navigate(`/manage/store?kind=${query.get("kind")}&f=${query.get("f")}`);
             }).catch(err => {
                 console.error(err);
-                alert("카테고리 삭제를 실패했습니다.");
+                alert("메뉴 삭제를 실패했습니다.");
                 return;
             });
         } else {
@@ -101,14 +125,46 @@ let MenuDetail = ({menu}) => {
         imgRef.current.click();
     }
 
-    let deleteSideCategory = (seq, name) => {
+    let deleteSideCategory = (index, name) => { //사이드 카테고리 삭제
         // eslint-disable-next-line no-restricted-globals
         if (confirm(name + " 사이드를 삭제하시겠습니까?")) {
 
-        } else {
+            let deleteMenuDetail = menuDetail.storeMSs.filter((data, indexS) => {
+                return index !== indexS
+            });
+
+            setMenuDetail({
+                ...menuDetail,
+                storeMSs: deleteMenuDetail
+            });
 
         }
+    }
 
+    let deleteMenuImg = (seq) => { //메뉴 이미지 삭제
+        // eslint-disable-next-line no-restricted-globals
+        if (confirm("해당 이미지를 삭제하시겠습니까?")) {
+            let deleteMenuImg = menuDetail.storeMenuImgs.filter(data => {
+                return seq === data.seq
+            });
+
+            let afterMenuImg = menuDetail.storeMenuImgs.filter(data => {
+                return seq !== data.seq
+            });
+
+            deleteMenuImg[0] = {
+                ...deleteMenuImg[0],
+                status: false
+            }
+
+            setMenuDetail({
+                ...menuDetail,
+                storeMenuImgs: [
+                    ...afterMenuImg,
+                    deleteMenuImg[0]
+                ]
+            });
+        }
     }
 
     return (
@@ -128,11 +184,12 @@ let MenuDetail = ({menu}) => {
                         <input className={"m-input"} type={"text"} name={"price"} value={menuDetail.price || ""}
                                onChange={onChangeMenuDetail}/>
                     </div>
-                    {
-                        menuDetail.storeMSs !== undefined && menuDetail.storeMSs.length !== 0 ? (
-                            <div className={"add-side-part"}>
-                                <span>사이드<br/>카테고리</span>
-                                <div>
+
+                    <div className={"add-side-part"}>
+                        <span>사이드<br/>카테고리</span>
+                        <div>
+                            {
+                                menuDetail.storeMSs !== undefined && menuDetail.storeMSs.length !== 0 ? (
                                     <div className={"side-select-list-part"}>
                                         {
                                             menuDetail.storeMSs.map((data, index) => ( //사이드 카테고리 부분
@@ -145,7 +202,7 @@ let MenuDetail = ({menu}) => {
                                                         <div className={"side-mini-body"}>
                                                             <div className={"side-mini-select-btn"}
                                                                  onClick={() => {
-                                                                     deleteSideCategory(data.storeSideCategory.seq, data.storeSideCategory.name)
+                                                                     deleteSideCategory(index, data.storeSideCategory.name)
                                                                  }}>
                                                                 <XBtn/>
                                                             </div>
@@ -154,10 +211,36 @@ let MenuDetail = ({menu}) => {
                                                 </div>
                                             ))
                                         }
+                                        <div>
+                                            <div
+                                                className={"side-mini-select"} onClick={() => {
+                                                setSideVarStatus(!sideVarStatus);
+                                            }}>
+                                                <PlusBtn/>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        ) : (<></>)
+                                ) : (
+                                    <>
+                                        <div className={"non-side-plus-btn"}>
+                                            <div
+                                                className={"side-mini-select"} onClick={() => {
+                                                setSideVarStatus(!sideVarStatus);
+                                            }}>
+                                                <PlusBtn/>
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
+                        </div>
+                    </div>
+                    {
+                        sideVarStatus ? (
+                            <div className={"add-side-part  animate__animated animate__slideInDown"}>
+                                <span>사이드 카테고리 추가</span>
+                                <SideSelectVar setSideVarStatus={setSideVarStatus} menuDetail={menuDetail}
+                                               setMenuDetail={setMenuDetail}/>
+                            </div>) : (<></>)
                     }
                     <div className={"add-img-part"}>
                         <span style={{
@@ -169,8 +252,17 @@ let MenuDetail = ({menu}) => {
                                     <div>
                                         {
                                             menuDetail.storeMenuImgs.map((data, index) => (
-                                                <img alt={"view img"} key={index}
-                                                     src={`${process.env.REACT_APP_SERVER_URL_PORT}/api/v1/img/get?name=${data.name}&kind=menu&store=${store.name}`}/>
+                                                <React.Fragment key={index}>
+                                                    {
+                                                        data.status === null || data.status === true ? (
+                                                            <img alt={"view img"} onClick={() => {
+                                                                deleteMenuImg(data.seq)
+                                                            }}
+                                                                 src={`${process.env.REACT_APP_SERVER_URL_PORT}/api/v1/img/get?name=${data.name}&kind=menu&store=${store.name}`}/>
+
+                                                        ) : (<></>)
+                                                    }
+                                                </React.Fragment>
                                             ))
                                         }
                                     </div>

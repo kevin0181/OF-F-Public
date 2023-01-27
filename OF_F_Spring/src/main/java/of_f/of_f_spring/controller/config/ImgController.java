@@ -27,12 +27,6 @@ public class ImgController {
 
     @GetMapping("/get")
     public ResponseEntity<Resource> showImage(@RequestParam Map<String, String> param) {
-        System.out.println("\n");
-        System.out.println("=======================================");
-        System.out.println("[ModuleApiController] : [showImage] : [start]");
-        System.out.println("[request name] : " + String.valueOf(param.get("name")));
-        System.out.println("=======================================");
-        System.out.println("\n");
 
         // 사진이 저장된 폴더 경로 변수 선언
         String imageRoot = "";
@@ -49,26 +43,16 @@ public class ImgController {
             imageRoot = macUrl;
         }
 
-
         // 서버 로컬 경로 + 파일 명 저장 실시
         imageRoot = imageRoot + param.get("store") + "/" + param.get("kind") + "/" + String.valueOf(param.get("name"));
-        System.out.println("\n");
-        System.out.println("=======================================");
-        System.out.println("[ModuleApiController] : [showImage] : [imageRoot]");
-        System.out.println("[경로] : " + imageRoot);
-        System.out.println("=======================================");
-        System.out.println("\n");
-
 
         // Resorce를 사용해서 로컬 서버에 저장된 이미지 경로 및 파일 명을 지정
         Resource resource = new FileSystemResource(imageRoot);
-
 
         // 로컬 서버에 저장된 이미지 파일이 없을 경우
         if (!resource.exists()) {
             return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND); // 리턴 결과 반환 404
         }
-
 
         // 로컬 서버에 저장된 이미지가 있는 경우 로직 처리
         HttpHeaders header = new HttpHeaders();
