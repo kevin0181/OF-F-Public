@@ -54,6 +54,25 @@ let MenuDetail = ({menu}) => {
 
     let onClickMenuUpdate = () => {
 
+        if (menuDetail.name === "") {
+            alert("이름을 입력해주세요.");
+            return;
+        }
+        if (menuDetail.price === "") {
+            alert("가격을 입력해주세요.");
+            return;
+        }
+
+        if (isNaN(menuDetail.price)) {
+            alert("가격은 숫자이어야합니다.");
+            return;
+        }
+
+        if (menuDetail.price.length > 7) {
+            alert("가격의 최대 제한은 7글자 입니다.");
+            return;
+        }
+
         tokenStoreAdminAxios({
             method: "POST",
             url: "/api/v1/store/admin/menu?status=update",
@@ -70,25 +89,23 @@ let MenuDetail = ({menu}) => {
     let onClickMenuDelete = () => {
         // eslint-disable-next-line no-restricted-globals
         if (confirm(menuDetail.name + "를 삭제하시겠습니까?")) {
+
+            let formData = new FormData();
+
+            formData.append("menu", new Blob([JSON.stringify(menuDetail)], {type: "application/json"}));
+
             tokenStoreAdminAxios({
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
                 method: "POST",
-                url: "/api/v1/store/admin/category?status=delete",
-                data: menuDetail
+                url: "/api/v1/store/admin/menu?status=delete",
+                data: formData
             }).then(res => {
-                let deleteAfterCategories = store.storeCategories.filter(data => {
-                    return data.seq !== res.data.data.seq;
-                });
-
-                setStore({
-                    ...store,
-                    storeCategories: deleteAfterCategories
-                });
-
-                navigate("/manage/store?kind=Category");
-
+                console.log(res);
             }).catch(err => {
                 console.error(err);
-                alert("카테고리 삭제를 실패했습니다.");
+                alert("메뉴 삭제를 실패했습니다.");
                 return;
             });
         } else {
@@ -140,11 +157,7 @@ let MenuDetail = ({menu}) => {
                     deleteMenuImg[0]
                 ]
             });
-
-            console.log(menuDetail);
-
         }
-
     }
 
     return (

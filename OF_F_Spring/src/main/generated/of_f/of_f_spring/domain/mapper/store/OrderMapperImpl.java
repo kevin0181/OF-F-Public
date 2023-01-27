@@ -28,7 +28,7 @@ import of_f.of_f_spring.dto.store.order.StoreOrderVanInfoDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-01-19T13:54:45+0900",
+    date = "2023-01-27T12:27:40+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class OrderMapperImpl implements OrderMapper {
