@@ -6,6 +6,7 @@ import {useEffect, useRef, useState} from "react";
 import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
 import {ReactComponent as Photograph} from "../../../../assets/icon/photograph.svg";
 import {ReactComponent as XBtn} from "../../../../assets/icon/x.svg";
+import {ReactComponent as PlusBtn} from "../../../../assets/icon/plus.svg";
 import {resAddMenu, resDeleteMenu} from "../../../../service/management/menu/menu";
 
 
@@ -179,11 +180,12 @@ let MenuDetail = ({menu}) => {
                         <input className={"m-input"} type={"text"} name={"price"} value={menuDetail.price || ""}
                                onChange={onChangeMenuDetail}/>
                     </div>
-                    {
-                        menuDetail.storeMSs !== undefined && menuDetail.storeMSs.length !== 0 ? (
-                            <div className={"add-side-part"}>
-                                <span>사이드<br/>카테고리</span>
-                                <div>
+
+                    <div className={"add-side-part"}>
+                        <span>사이드<br/>카테고리</span>
+                        <div>
+                            {
+                                menuDetail.storeMSs !== undefined && menuDetail.storeMSs.length !== 0 ? (
                                     <div className={"side-select-list-part"}>
                                         {
                                             menuDetail.storeMSs.map((data, index) => ( //사이드 카테고리 부분
@@ -205,11 +207,31 @@ let MenuDetail = ({menu}) => {
                                                 </div>
                                             ))
                                         }
+                                        <div>
+                                            <div
+                                                className={"side-mini-select"}>
+                                                <PlusBtn/>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        ) : (<></>)
-                    }
+                                ) : (
+                                    // <div className={"non-side-plus-btn"}>
+                                    //     <div>
+                                    //         {/*<div>*/}
+                                    //         <PlusBtn/>
+                                    //         {/*</div>*/}
+                                    //     </div>
+                                    // </div>
+                                    <div className={"non-side-plus-btn"}>
+                                        <div
+                                            className={"side-mini-select"}>
+                                            <PlusBtn/>
+                                        </div>
+                                    </div>
+                                )}
+                        </div>
+                    </div>
+
                     <div className={"add-img-part"}>
                         <span style={{
                             margin: "0px 0px 3px 0px"
