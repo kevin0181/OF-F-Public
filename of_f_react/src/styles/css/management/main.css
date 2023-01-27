@@ -553,3 +553,20 @@ input:checked + .slider:before {
     justify-content: center;
     align-items: center;
 }
+
+.side-update-part {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    height: 150px;
+}
+
+.sideVar-container {
+    width: 83%;
+    height: 18%;
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid #c9c9c9;
+}

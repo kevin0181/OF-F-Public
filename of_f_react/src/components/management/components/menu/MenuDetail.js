@@ -8,6 +8,7 @@ import {ReactComponent as Photograph} from "../../../../assets/icon/photograph.s
 import {ReactComponent as XBtn} from "../../../../assets/icon/x.svg";
 import {ReactComponent as PlusBtn} from "../../../../assets/icon/plus.svg";
 import {resAddMenu, resDeleteMenu} from "../../../../service/management/menu/menu";
+import SideSelectVar from "./SideSelectVar";
 
 
 let MenuDetail = ({menu}) => {
@@ -29,6 +30,8 @@ let MenuDetail = ({menu}) => {
         storeMSs: [],
         storeMenuImgs: [],
     });
+
+    const [sideVarStatus, setSideVarStatus] = useState(false);
 
     useEffect(() => {
         if (menu !== undefined && Object.keys(menu).length !== 0) {
@@ -209,29 +212,34 @@ let MenuDetail = ({menu}) => {
                                         }
                                         <div>
                                             <div
-                                                className={"side-mini-select"}>
+                                                className={"side-mini-select"} onClick={() => {
+                                                setSideVarStatus(!sideVarStatus);
+                                            }}>
                                                 <PlusBtn/>
                                             </div>
                                         </div>
                                     </div>
                                 ) : (
-                                    // <div className={"non-side-plus-btn"}>
-                                    //     <div>
-                                    //         {/*<div>*/}
-                                    //         <PlusBtn/>
-                                    //         {/*</div>*/}
-                                    //     </div>
-                                    // </div>
-                                    <div className={"non-side-plus-btn"}>
-                                        <div
-                                            className={"side-mini-select"}>
-                                            <PlusBtn/>
+                                    <>
+                                        <div className={"non-side-plus-btn"}>
+                                            <div
+                                                className={"side-mini-select"} onClick={() => {
+                                                setSideVarStatus(!sideVarStatus);
+                                            }}>
+                                                <PlusBtn/>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </>
                                 )}
                         </div>
                     </div>
-
+                    {
+                        sideVarStatus ? (
+                            <div className={"add-side-part  animate__animated animate__slideInDown"}>
+                                <span>사이드 카테고리 추가</span>
+                                <SideSelectVar setSideVarStatus={setSideVarStatus} menuDetail={menuDetail}/>
+                            </div>) : (<></>)
+                    }
                     <div className={"add-img-part"}>
                         <span style={{
                             margin: "0px 0px 3px 0px"
