@@ -6,6 +6,7 @@ import {useEffect, useRef, useState} from "react";
 import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
 import {ReactComponent as Photograph} from "../../../../assets/icon/photograph.svg";
 import {ReactComponent as XBtn} from "../../../../assets/icon/x.svg";
+import {resAddMenu, resDeleteMenu} from "../../../../service/management/menu/menu";
 
 
 let MenuDetail = ({menu}) => {
@@ -52,7 +53,7 @@ let MenuDetail = ({menu}) => {
         })
     }
 
-    let onClickMenuUpdate = () => {
+    let onClickMenuUpdate = () => { //메뉴 수정
 
         if (menuDetail.name === "") {
             alert("이름을 입력해주세요.");
@@ -86,7 +87,7 @@ let MenuDetail = ({menu}) => {
         });
     }
 
-    let onClickMenuDelete = () => {
+    let onClickMenuDelete = () => { // 메뉴 삭제
         // eslint-disable-next-line no-restricted-globals
         if (confirm(menuDetail.name + "를 삭제하시겠습니까?")) {
 
@@ -101,8 +102,9 @@ let MenuDetail = ({menu}) => {
                 method: "POST",
                 url: "/api/v1/store/admin/menu?status=delete",
                 data: formData
-            }).then(res => {
-                console.log(res);
+            }).then(async res => {
+                await resDeleteMenu(res, store, query, setStore);
+                navigate(`/manage/store?kind=${query.get("kind")}&f=${query.get("f")}`);
             }).catch(err => {
                 console.error(err);
                 alert("메뉴 삭제를 실패했습니다.");
@@ -118,7 +120,7 @@ let MenuDetail = ({menu}) => {
         imgRef.current.click();
     }
 
-    let deleteSideCategory = (seq, name) => {
+    let deleteSideCategory = (seq, name) => { //사이드 카테고리 삭제
         // eslint-disable-next-line no-restricted-globals
         if (confirm(name + " 사이드를 삭제하시겠습니까?")) {
 
@@ -134,7 +136,7 @@ let MenuDetail = ({menu}) => {
         }
     }
 
-    let deleteMenuImg = (seq) => {
+    let deleteMenuImg = (seq) => { //메뉴 이미지 삭제
         // eslint-disable-next-line no-restricted-globals
         if (confirm("해당 이미지를 삭제하시겠습니까?")) {
             let deleteMenuImg = menuDetail.storeMenuImgs.filter(data => {

@@ -246,7 +246,7 @@ let AddMenu = () => {
                             setAddMenu({
                                 ...addMenu,
                                 name: "",
-                                price: "",
+                                price: 0,
                                 storeMSs: [],
                                 storeMenuImgs: []
                             })

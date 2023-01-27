@@ -6,8 +6,6 @@ export let resAddMenu = (res, store, query, setStore) => {
         return index !== Number(query.get("f"));
     })
 
-    console.log(resData);
-
     let updateCategory = store.storeCategories[Number(query.get("f"))];
 
     let updateMenu = [
@@ -28,5 +26,29 @@ export let resAddMenu = (res, store, query, setStore) => {
     });
 
     return updateMenu.length - 1;
+}
 
+export let resDeleteMenu = (res, store, query, setStore) => {
+
+    let categories = [
+        ...store.storeCategories
+    ];
+
+    let category = categories[Number(query.get("f"))];
+
+    let updateMenu = category.storeMenus.filter((data, index) => {
+        return index !== Number(query.get("c"));
+    });
+
+    category = {
+        ...category,
+        storeMenus: updateMenu
+    }
+
+    categories.splice(Number(query.get("f")), 0, category);
+
+    setStore({
+        ...store,
+        storeCategories: categories
+    });
 }
