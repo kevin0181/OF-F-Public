@@ -44,10 +44,6 @@ let SideSelectVar = ({setSideVarStatus, menuDetail, setMenuDetail}) => {
 
     }, []);
 
-    useEffect(() => {
-        console.log(beforeStoreMSs);
-    }, [beforeStoreMSs]);
-
     let addSideCategory = (data) => {
 
         setMenuDetail({

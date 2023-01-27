@@ -9,6 +9,7 @@ import {ReactComponent as XBtn} from "../../../../assets/icon/x.svg";
 import {ReactComponent as PlusBtn} from "../../../../assets/icon/plus.svg";
 import {resAddMenu, resDeleteMenu} from "../../../../service/management/menu/menu";
 import SideSelectVar from "./SideSelectVar";
+import React from 'react';
 
 
 let MenuDetail = ({menu}) => {
@@ -251,10 +252,17 @@ let MenuDetail = ({menu}) => {
                                     <div>
                                         {
                                             menuDetail.storeMenuImgs.map((data, index) => (
-                                                <img alt={"view img"} key={index} onClick={() => {
-                                                    deleteMenuImg(data.seq)
-                                                }}
-                                                     src={`${process.env.REACT_APP_SERVER_URL_PORT}/api/v1/img/get?name=${data.name}&kind=menu&store=${store.name}`}/>
+                                                <React.Fragment key={index}>
+                                                    {
+                                                        data.status === null || data.status === true ? (
+                                                            <img alt={"view img"} onClick={() => {
+                                                                deleteMenuImg(data.seq)
+                                                            }}
+                                                                 src={`${process.env.REACT_APP_SERVER_URL_PORT}/api/v1/img/get?name=${data.name}&kind=menu&store=${store.name}`}/>
+
+                                                        ) : (<></>)
+                                                    }
+                                                </React.Fragment>
                                             ))
                                         }
                                     </div>
