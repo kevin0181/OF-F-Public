@@ -76,8 +76,6 @@ let AddMenu = () => {
 
     let onClickSideCategory = (sideCategoryData) => {
 
-        console.log(sideCategoryData);
-
         let checkData = addMenu.storeMSs.filter((data) => {
             return data.storeSideCategorySeq === sideCategoryData.seq;
         });

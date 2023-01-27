@@ -4,9 +4,10 @@ import {useRecoilState} from "recoil";
 import {selectStoreInfoRecoil} from "../../../../store/management/storeInfo";
 import {useEffect, useState} from "react";
 
-let SideSelectVar = ({setSideVarStatus, menuDetail}) => {
+let SideSelectVar = ({setSideVarStatus, menuDetail, setMenuDetail}) => {
 
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil); //선택된 가게 정보
+
     const [beforeStoreMSs, setBeforeStoreMSs] = useState([{
         seq: "",
         name: "",
@@ -18,10 +19,9 @@ let SideSelectVar = ({setSideVarStatus, menuDetail}) => {
     useEffect(() => {
         let findData = [];
         let status = true;
-        
+
         store.storeSideCategories.map((allSideData, indexF) => {
             menuDetail.storeMSs.map((selectSideData, indexS) => {
-                console.log(selectSideData.storeSideCategory.seq, allSideData.seq);
                 if (selectSideData.storeSideCategory.seq === allSideData.seq) {
                     status = false;
                     return;
@@ -33,15 +33,36 @@ let SideSelectVar = ({setSideVarStatus, menuDetail}) => {
             status = true;
         });
 
-        setBeforeStoreMSs([
-            ...findData
-        ]);
+        if (findData.length !== 0) {
+            setBeforeStoreMSs([
+                ...findData
+            ]);
+        } else {
+            setSideVarStatus(false);
+            alert("모든 사이드 카테고리가 존재합니다.");
+        }
 
     }, []);
 
     useEffect(() => {
         console.log(beforeStoreMSs);
     }, [beforeStoreMSs]);
+
+    let addSideCategory = (data) => {
+
+        setMenuDetail({
+            ...menuDetail,
+            storeMSs: [
+                ...menuDetail.storeMSs,
+                {
+                    storeSideCategorySeq: data.seq,
+                    storeSideCategory: data
+                }
+            ]
+        })
+
+        setSideVarStatus(false);
+    }
 
     return (
         <div className={"sideVar-container"}>
@@ -57,8 +78,10 @@ let SideSelectVar = ({setSideVarStatus, menuDetail}) => {
                                             <div>{data.name}</div>
                                         </div>
                                         <div className={"side-mini-body"}>
-                                            <div className={"side-mini-select-btn"}>
-                                                <XBtn/>
+                                            <div className={"side-mini-select-btn"} onClick={() => {
+                                                addSideCategory(data);
+                                            }}>
+                                                <PlusBtn/>
                                             </div>
                                         </div>
                                     </div>

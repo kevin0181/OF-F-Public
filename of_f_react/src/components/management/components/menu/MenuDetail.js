@@ -237,7 +237,8 @@ let MenuDetail = ({menu}) => {
                         sideVarStatus ? (
                             <div className={"add-side-part  animate__animated animate__slideInDown"}>
                                 <span>사이드 카테고리 추가</span>
-                                <SideSelectVar setSideVarStatus={setSideVarStatus} menuDetail={menuDetail}/>
+                                <SideSelectVar setSideVarStatus={setSideVarStatus} menuDetail={menuDetail}
+                                               setMenuDetail={setMenuDetail}/>
                             </div>) : (<></>)
                     }
                     <div className={"add-img-part"}>
