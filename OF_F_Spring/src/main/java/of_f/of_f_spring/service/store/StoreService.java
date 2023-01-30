@@ -512,7 +512,7 @@ public class StoreService {
                     return ApiResponseDTO.builder()
                             .message("사이드 카테고리 삭제")
                             .detail("사이드 카테고리를 삭제하였습니다.")
-                            .data(true)
+                            .data(storeSideCategoryDTO)
                             .build();
                 }
             }

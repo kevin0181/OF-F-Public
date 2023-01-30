@@ -9,6 +9,7 @@ import {ReactComponent as XCircle} from "../../../assets/icon/x-circle.svg";
 import CategoryDetail from "../components/category/CategoryDetail";
 import AddCategory from "../components/category/AddCategory";
 import AddSideCategory from "../components/sideCategory/AddSideCategory";
+import SideCategoryDetail from "../components/sideCategory/SideCategoryDetail";
 
 let SideCategory = () => {
 
@@ -110,7 +111,7 @@ let SideCategory = () => {
                                         </div>
                                     )
                                 }
-                                {/*<CategoryDetail category={sideCategory}/>*/}
+                                <SideCategoryDetail sideCategory={sideCategory}/>
                             </div>
                         </div>
                     </div>) : (

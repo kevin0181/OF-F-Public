@@ -5,14 +5,14 @@ import {selectStoreInfoRecoil} from "../../../../store/management/storeInfo";
 import {useQuery} from "../../../../Config/getQuery";
 import {useNavigate} from "react-router-dom";
 
-let SideCategoryDetail = ({category}) => {
+let SideCategoryDetail = ({sideCategory}) => {
 
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil);
     const query = useQuery();
 
     const navigate = useNavigate();
 
-    const [categoryDetail, setCategoryDetail] = useState({
+    const [sideCategoryDetail, setSideCategoryDetail] = useState({
         seq: "",
         name: "",
         status: false,
@@ -21,40 +21,40 @@ let SideCategoryDetail = ({category}) => {
     });
 
     useEffect(() => {
-        if (category !== undefined) {
-            setCategoryDetail(category);
+        if (sideCategory !== undefined) {
+            setSideCategoryDetail(sideCategory);
         }
-    }, [category]);
+    }, [sideCategory]);
 
-    let onChangeCategoryDetail = (e) => {
-        setCategoryDetail({
-            ...categoryDetail,
+    let onChangeSideCategoryDetail = (e) => {
+        setSideCategoryDetail({
+            ...sideCategoryDetail,
             [e.target.name]: e.target.value
         })
     }
 
-    let onChangeCategoryStatusToggle = (e) => {
-        setCategoryDetail({
-            ...categoryDetail,
-            status: !categoryDetail.status
+    let onChangeSideCategoryStatusToggle = (e) => {
+        setSideCategoryDetail({
+            ...sideCategoryDetail,
+            status: !sideCategoryDetail.status
         })
     }
 
-    let onClickCategoryUpdate = () => {
+    let onClickSideCategoryUpdate = () => {
 
         tokenStoreAdminAxios({
             method: "POST",
-            url: "/api/v1/store/admin/category?status=update",
-            data: categoryDetail
+            url: "/api/v1/store/admin/side/category?status=update",
+            data: sideCategoryDetail
         }).then(res => {
             let resData = res.data.data;
-            let updateCategories = [...store.storeCategories];
+            let updateSideCategories = [...store.storeSideCategories];
 
-            updateCategories[Number(query.get("f"))] = resData;
+            updateSideCategories[Number(query.get("f"))] = resData;
 
             setStore({
                 ...store,
-                storeCategories: updateCategories
+                storeSideCategories: updateSideCategories
             });
 
         }).catch(err => {
@@ -64,24 +64,27 @@ let SideCategoryDetail = ({category}) => {
         });
     }
 
-    let onClickCategoryDelete = () => {
+    let onClickSideCategoryDelete = () => {
         // eslint-disable-next-line no-restricted-globals
-        if (confirm(categoryDetail.name + "를 삭제하시겠습니까?")) {
+        if (confirm(sideCategoryDetail.name + "를 삭제하시겠습니까?")) {
             tokenStoreAdminAxios({
                 method: "POST",
-                url: "/api/v1/store/admin/category?status=delete",
-                data: categoryDetail
+                url: "/api/v1/store/admin/side/category?status=delete",
+                data: sideCategoryDetail
             }).then(res => {
-                let deleteAfterCategories = store.storeCategories.filter(data => {
+
+                console.log(res.data.data);
+
+                let deleteAfterSideCategories = store.storeSideCategories.filter(data => {
                     return data.seq !== res.data.data.seq;
                 });
 
                 setStore({
                     ...store,
-                    storeCategories: deleteAfterCategories
+                    storeSideCategories: deleteAfterSideCategories
                 });
 
-                navigate("/manage/store?kind=Category");
+                navigate("/manage/store?kind=sideCategory");
 
             }).catch(err => {
                 console.error(err);
@@ -98,22 +101,22 @@ let SideCategoryDetail = ({category}) => {
     return (
         <div className={"detail-container"}>
             <div className={"main-container2-top"}>
-                <h2>카테고리 상세</h2>
+                <h2>사이드 카테고리 상세</h2>
             </div>
             <div className={"main-container2-body"}>
                 <div>
                     <div className={"add-input-part"}>
                         <span>이름</span>
-                        <input className={"m-input"} type={"text"} name={"name"} value={categoryDetail.name || ""}
-                               onChange={onChangeCategoryDetail}/>
+                        <input className={"m-input"} type={"text"} name={"name"} value={sideCategoryDetail.name || ""}
+                               onChange={onChangeSideCategoryDetail}/>
                     </div>
                     <div className={"add-input-part position-left"} style={{
                         padding: "0px 10px"
                     }}>
                         <div>
                             <label className="switch">
-                                <input type="checkbox" name={"status"} checked={categoryDetail.status || false}
-                                       onChange={onChangeCategoryStatusToggle}/>
+                                <input type="checkbox" name={"status"} checked={sideCategoryDetail.status || false}
+                                       onChange={onChangeSideCategoryStatusToggle}/>
                                 <span className="slider round"></span>
                             </label>
                         </div>
@@ -123,12 +126,12 @@ let SideCategoryDetail = ({category}) => {
             <div className={"main-container2-footer"}>
                 <div>
                     <div className={"main-btn-false m-f-1 position-center"}>
-                        <div onClick={onClickCategoryDelete}>
+                        <div onClick={onClickSideCategoryDelete}>
                             <p>삭제하기</p>
                         </div>
                     </div>
                     <div className={"main-btn-true m-f-1 position-center"}>
-                        <div onClick={onClickCategoryUpdate}>
+                        <div onClick={onClickSideCategoryUpdate}>
                             <p>수정하기</p>
                         </div>
                     </div>
