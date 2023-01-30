@@ -7,7 +7,7 @@ import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
 import {ReactComponent as Photograph} from "../../../../assets/icon/photograph.svg";
 import {ReactComponent as XBtn} from "../../../../assets/icon/x.svg";
 import {ReactComponent as PlusBtn} from "../../../../assets/icon/plus.svg";
-import {resAddMenu, resDeleteMenu} from "../../../../service/management/menu/menu";
+import {resAddMenu, resDeleteMenu, resUpdateMenu} from "../../../../service/management/menu/menu";
 import SideSelectVar from "./SideSelectVar";
 import React from 'react';
 
@@ -100,8 +100,9 @@ let MenuDetail = ({menu}) => {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
-        }).then(res => {
-            console.log(res);
+        }).then(async res => {
+            let c_id = await resUpdateMenu(res, store, query, setStore); //메뉴 추가하는 함수
+            navigate(`/manage/store?kind=${query.get("kind")}&f=${query.get("f")}&c=${c_id}`);
         }).catch(err => {
             console.error(err);
             alert("메뉴를 수정할 수 없습니다.");

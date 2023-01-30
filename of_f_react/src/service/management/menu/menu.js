@@ -53,3 +53,32 @@ export let resDeleteMenu = (res, store, query, setStore) => {
     });
 
 }
+
+export let resUpdateMenu = (res, store, query, setStore) => {
+
+    let categories = store.storeCategories.filter((data, index) => {
+        return index !== Number(query.get("f"));
+    })
+
+    let category = store.storeCategories[Number(query.get("f"))];
+
+    let updateMenu = category.storeMenus.filter((data, index) => {
+        return index !== Number(query.get("c"));
+    });
+
+    updateMenu.splice(Number(query.get("c")), 0, res.data.data);
+
+    category = {
+        ...category,
+        storeMenus: updateMenu
+    }
+
+    categories.splice(Number(query.get("f")), 0, category);
+
+    setStore({
+        ...store,
+        storeCategories: categories
+    });
+
+    return Number(query.get("c"));
+}
