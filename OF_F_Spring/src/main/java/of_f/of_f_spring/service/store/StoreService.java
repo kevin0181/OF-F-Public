@@ -665,7 +665,7 @@ public class StoreService {
         StoreCategory storeCategory = null;
 
         for (int i = 0; i < store.getStoreCategories().size(); i++) {
-            if (storeMenuDTO.getStoreCategorySeq() == store.getStoreCategories().get(i).getSeq())
+            if (storeMenuDTO.getStoreCategorySeq().equals(store.getStoreCategories().get(i).getSeq()))
                 storeCategory = store.getStoreCategories().get(i);
         }
 
