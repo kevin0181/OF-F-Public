@@ -9,6 +9,7 @@ import Category from "./main/Category";
 import Menu from "./main/Menu";
 import SideCategoryModal from "./components/modal/SideCategoryModal";
 import SideCategory from "./main/SideCategory";
+import SideMenu from "./main/SideMenu";
 
 
 let ManageDashBoard = () => {
@@ -39,7 +40,7 @@ let ManageDashBoard = () => {
             case "sideCategory":
                 return <SideCategory/>
             case "sideMenu":
-                return <></>
+                return <SideMenu/>
             case "Info":
                 return <></>
             case "Setting":
