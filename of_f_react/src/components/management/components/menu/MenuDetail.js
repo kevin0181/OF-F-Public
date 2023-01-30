@@ -32,6 +32,8 @@ let MenuDetail = ({menu}) => {
         storeMenuImgs: [],
     });
 
+    const [demoImgUrl, setDemoImgUrl] = useState([]);
+
     const [sideVarStatus, setSideVarStatus] = useState(false);
 
     useEffect(() => {
@@ -58,6 +60,13 @@ let MenuDetail = ({menu}) => {
         })
     }
 
+    let onChangeMenuSoldOutToggle = () => {
+        setMenuDetail({
+            ...menuDetail,
+            soldOutStatus: !menuDetail.soldOutStatus
+        })
+    }
+
     let onClickMenuUpdate = () => { //메뉴 수정
 
         if (menuDetail.name === "") {
@@ -79,10 +88,18 @@ let MenuDetail = ({menu}) => {
             return;
         }
 
-        tokenStoreAdminAxios({
-            method: "POST",
-            url: "/api/v1/store/admin/menu?status=update",
-            data: menuDetail
+        let formData = new FormData();
+
+        formData.append("menu", new Blob([JSON.stringify(menuDetail)], {type: "application/json"}));
+
+        for (let i = 0; i < imgRef.current.files.length; i++) {
+            formData.append("img", imgRef.current.files[i]);
+        }
+
+        tokenStoreAdminAxios.post('/api/v1/store/admin/menu?status=update', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
         }).then(res => {
             console.log(res);
         }).catch(err => {
@@ -123,6 +140,18 @@ let MenuDetail = ({menu}) => {
 
     let onClickImg = () => {
         imgRef.current.click();
+    }
+
+    let onChangeUploadImg = (e) => {
+
+        let newFileArr = [];
+
+        for (let i = 0; i < e.target.files.length; i++) {
+            newFileArr.push(URL.createObjectURL(e.target.files[i]));
+        }
+
+        setDemoImgUrl(newFileArr);
+
     }
 
     let deleteSideCategory = (index, name) => { //사이드 카테고리 삭제
@@ -254,7 +283,7 @@ let MenuDetail = ({menu}) => {
                                             menuDetail.storeMenuImgs.map((data, index) => (
                                                 <React.Fragment key={index}>
                                                     {
-                                                        data.status === null || data.status === true ? (
+                                                        data.status === null || data.status === undefined || data.status === true ? (
                                                             <img alt={"view img"} onClick={() => {
                                                                 deleteMenuImg(data.seq)
                                                             }}
@@ -275,19 +304,66 @@ let MenuDetail = ({menu}) => {
                         </div>
                         <input type={"file"} ref={imgRef} multiple={true} className={"add-img-input"}
                                accept='image/*'
-                            // onChange={onChangeUploadImg}
+                               onChange={onChangeUploadImg}
                                name='storeMenuImgs'/>
                     </div>
                     <div
                         className={"add-img-p"}><p onClick={onClickImg}>이미지 추가하기</p>
                     </div>
+                    {
+                        demoImgUrl.length !== 0 ? (
+                            <div className={"add-img-part"}>
+                        <span style={{
+                            margin: "0px 0px 3px 0px"
+                        }}>추가될 이미지</span>
+                                <div className={"add-img-container m-scroll2"}>
+                                    {
+                                        menuDetail.storeMenuImgs !== undefined && menuDetail.storeMenuImgs.length !== 0 ? (<>
+                                            <div>
+                                                {
+                                                    demoImgUrl.map((data, index) => (
+                                                        <img alt={"view img"} key={index} src={data}/>
+                                                    ))
+                                                }
+                                            </div>
+                                        </>) : (
+                                            <>
+                                            </>
+                                        )
+                                    }
+                                </div>
+                            </div>
+                        ) : (<></>)
+                    }
                     <div className={"add-input-part position-left"} style={{
                         padding: "0px 10px"
                     }}>
-                        <div>
+                        <div style={{
+                            display: "flex",
+                            justifyContent: "space-around",
+                            alignItems: "center"
+                        }}>
+                            <p>메뉴 상태</p>
                             <label className="switch">
                                 <input type="checkbox" name={"status"} checked={menuDetail.status || false}
                                        onChange={onChangeMenuStatusToggle}/>
+                                <span className="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div className={"add-input-part position-left"} style={{
+                        padding: "10px 10px"
+                    }}>
+                        <div style={{
+                            display: "flex",
+                            justifyContent: "space-around",
+                            alignItems: "center"
+                        }}>
+                            <p>품절 상태</p>
+                            <label className="switch">
+                                <input type="checkbox" name={"soldOutStatus"}
+                                       checked={menuDetail.soldOutStatus || false}
+                                       onChange={onChangeMenuSoldOutToggle}/>
                                 <span className="slider round"></span>
                             </label>
                         </div>

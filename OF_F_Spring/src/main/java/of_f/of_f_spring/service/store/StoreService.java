@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -268,9 +267,10 @@ public class StoreService {
     }
 
     @Transactional
-    public ApiResponseDTO updateMenu(StoreMenuDTO storeMenuDTO, Principal principal) {
+    public ApiResponseDTO updateMenu(StoreMenuDTO storeMenuDTO, List<MultipartFile> imgFile, Principal principal) {
 
         StoreMenu storeMenu = storeMenuRepository.findById(storeMenuDTO.getSeq()).get();
+
 
         try {
             checkMenu(storeMenuDTO, principal, storeMenu.getStoreCategory().getStore()); // request 상태 체크
@@ -282,9 +282,38 @@ public class StoreService {
             throw new StoreException(StoreExceptionEnum.DOES_NOT_EXIST_MENU);
 
         List<StoreMS> storeMSs = new ArrayList<>();
+        List<StoreMenuImg> storeMenuImgList = new ArrayList<>(); // 메뉴가 원래 가지고 있는 이미지
 
         if (storeMenuDTO.getStoreMSs() != null)
             storeMSs = StoreMapper.instance.storeMSDTOToStoreMS(storeMenuDTO.getStoreMSs());
+
+        List<StoreMenuImg> deleteMenuImgs; //삭제할 이미지 담아주는곳
+        List<StoreMenuImgDTO> deleteMenuImgDTOs = new ArrayList<>(); //삭제할 이미지 담아주는 DTO
+
+        for (int i = 0; i < storeMenuDTO.getStoreMenuImgs().size(); i++) {
+            if (storeMenuDTO.getStoreMenuImgs().get(i).getStatus() != null
+                    && storeMenuDTO.getStoreMenuImgs().get(i).getStatus().equals("false")) {
+                deleteMenuImgDTOs.add(storeMenuDTO.getStoreMenuImgs().get(i));
+                storeMenuDTO.getStoreMenuImgs().remove(i);
+            }
+        }
+
+        if (deleteMenuImgDTOs.size() != 0) {
+            deleteMenuImgs = StoreMapper.instance.storeMenuImgDTOToStoreMenuImg(deleteMenuImgDTOs);
+            imgService.deleteMenuImg(deleteMenuImgs);
+        }
+
+        if (storeMenuDTO.getStoreMenuImgs().size() != 0) // 삭제할꺼 삭제하고 난 후, 기존 이미지 넣기
+            storeMenuImgList = StoreMapper.instance.storeMenuImgDTOToStoreMenuImg(storeMenuDTO.getStoreMenuImgs());
+
+        List<StoreMenuImg> storeMenuImgs; //새로 저장하는 이미지
+
+        List<StoreMenuImg> totalMenuImg = new ArrayList<>();
+        totalMenuImg.addAll(storeMenuImgList); //기존 이미지는 그냥 넣고
+        if (imgFile != null) { // 이미지가 존재하는 경우
+            storeMenuImgs = imgService.saveMenuImg(imgFile, storeMenu.getStoreCategory().getStore());
+            totalMenuImg.addAll(storeMenuImgs); // 새로운 이미지 있으면 그뒤에 추가
+        }
 
         try {
 
@@ -296,7 +325,7 @@ public class StoreService {
                     .storeMSs(storeMSs)
                     .storeCategorySeq(storeMenuDTO.getStoreCategorySeq())
                     .soldOutStatus(storeMenuDTO.isSoldOutStatus())
-                    .storeMenuImgs(storeMenu.getStoreMenuImgs())
+                    .storeMenuImgs(totalMenuImg)
                     .build());
 
         } catch (Exception e) {
