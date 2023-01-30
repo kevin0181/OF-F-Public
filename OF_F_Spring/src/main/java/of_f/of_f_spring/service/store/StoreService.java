@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -268,9 +267,10 @@ public class StoreService {
     }
 
     @Transactional
-    public ApiResponseDTO updateMenu(StoreMenuDTO storeMenuDTO, Principal principal) {
+    public ApiResponseDTO updateMenu(StoreMenuDTO storeMenuDTO, List<MultipartFile> imgFile, Principal principal) {
 
         StoreMenu storeMenu = storeMenuRepository.findById(storeMenuDTO.getSeq()).get();
+
 
         try {
             checkMenu(storeMenuDTO, principal, storeMenu.getStoreCategory().getStore()); // request 상태 체크
@@ -286,6 +286,23 @@ public class StoreService {
         if (storeMenuDTO.getStoreMSs() != null)
             storeMSs = StoreMapper.instance.storeMSDTOToStoreMS(storeMenuDTO.getStoreMSs());
 
+
+        List<StoreMenuImg> deleteMenuImgs; //삭제할 이미지 담아주는곳
+        List<StoreMenuImgDTO> deleteMenuImgDTOs = new ArrayList<>();
+
+        for (int i = 0; i < storeMenuDTO.getStoreMenuImgs().size(); i++) {
+            if (storeMenuDTO.getStoreMenuImgs().get(i).getStatus() != null
+                    && storeMenuDTO.getStoreMenuImgs().get(i).getStatus().equals("false")) {
+                deleteMenuImgDTOs.add(storeMenuDTO.getStoreMenuImgs().get(i));
+                storeMenuDTO.getStoreMenuImgs().remove(i);
+            }
+        }
+
+        if (deleteMenuImgDTOs.size() != 0) {
+            deleteMenuImgs = StoreMapper.instance.storeMenuImgDTOToStoreMenuImg(deleteMenuImgDTOs);
+            imgService.deleteMenuImg(deleteMenuImgs);
+        }
+
         try {
 
             storeMenu = storeMenuRepository.save(StoreMenu.builder()
@@ -296,7 +313,7 @@ public class StoreService {
                     .storeMSs(storeMSs)
                     .storeCategorySeq(storeMenuDTO.getStoreCategorySeq())
                     .soldOutStatus(storeMenuDTO.isSoldOutStatus())
-                    .storeMenuImgs(storeMenu.getStoreMenuImgs())
+                    .storeMenuImgs(StoreMapper.instance.storeMenuImgDTOToStoreMenuImg(storeMenuDTO.getStoreMenuImgs()))
                     .build());
 
         } catch (Exception e) {

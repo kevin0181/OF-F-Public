@@ -36,11 +36,11 @@ public class StoreMenu {
     @JoinColumn(name = "Store_Category_seq", insertable = false, updatable = false)
     private StoreCategory storeCategory;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "Store_Menu_seq")
     private List<StoreMenuImg> storeMenuImgs;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "Store_Menu_seq")
     private List<StoreMS> storeMSs;
 
