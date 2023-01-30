@@ -283,7 +283,7 @@ let MenuDetail = ({menu}) => {
                                             menuDetail.storeMenuImgs.map((data, index) => (
                                                 <React.Fragment key={index}>
                                                     {
-                                                        data.status === null || data.status === true ? (
+                                                        data.status === null || data.status === undefined || data.status === true ? (
                                                             <img alt={"view img"} onClick={() => {
                                                                 deleteMenuImg(data.seq)
                                                             }}
