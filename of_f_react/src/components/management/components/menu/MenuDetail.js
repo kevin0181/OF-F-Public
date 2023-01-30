@@ -318,7 +318,7 @@ let MenuDetail = ({menu}) => {
                         }}>추가될 이미지</span>
                                 <div className={"add-img-container m-scroll2"}>
                                     {
-                                        menuDetail.storeMenuImgs !== undefined && menuDetail.storeMenuImgs.length !== 0 ? (<>
+                                        demoImgUrl.length !== 0 ? (<>
                                             <div>
                                                 {
                                                     demoImgUrl.map((data, index) => (
