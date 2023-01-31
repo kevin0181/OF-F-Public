@@ -73,8 +73,6 @@ let SideCategoryDetail = ({sideCategory}) => {
                 data: sideCategoryDetail
             }).then(res => {
 
-                console.log(res.data.data);
-
                 let deleteAfterSideCategories = store.storeSideCategories.filter(data => {
                     return data.seq !== res.data.data.seq;
                 });
