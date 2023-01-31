@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
 import {tokenStoreAdminAxios} from "../../../../../Config/customStoreAdminAjax";
 import {ReactComponent as Photograph} from "../../../../../assets/icon/photograph.svg";
-import {resDeleteSideMenu, resUpdateMenu} from "../../../../../service/management/menu/menu";
+import {resDeleteSideMenu, resUpdateMenu, resUpdateSideMenu} from "../../../../../service/management/menu/menu";
 import React from 'react';
 
 
@@ -95,9 +95,8 @@ let SideMenuDetail = ({sideMenu}) => {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(async res => {
-            console.log(res);
-            // let c_id = await resUpdateMenu(res, store, query, setStore); //메뉴 추가하는 함수
-            // navigate(`/manage/store?kind=${query.get("kind")}&f=${query.get("f")}&c=${c_id}`);
+            let c_id = await resUpdateSideMenu(res, store, query, setStore); //메뉴 추가하는 함수
+            navigate(`/manage/store?kind=${query.get("kind")}&f=${query.get("f")}&c=${c_id}`);
         }).catch(err => {
             console.error(err);
             alert("사이드 메뉴를 수정할 수 없습니다.");
