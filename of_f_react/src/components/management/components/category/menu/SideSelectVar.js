@@ -1,7 +1,7 @@
-import {ReactComponent as XBtn} from "../../../../assets/icon/x.svg";
-import {ReactComponent as PlusBtn} from "../../../../assets/icon/plus.svg";
+import {ReactComponent as XBtn} from "../../../../../assets/icon/x.svg";
+import {ReactComponent as PlusBtn} from "../../../../../assets/icon/plus.svg";
 import {useRecoilState} from "recoil";
-import {selectStoreInfoRecoil} from "../../../../store/management/storeInfo";
+import {selectStoreInfoRecoil} from "../../../../../store/management/storeInfo";
 import {useEffect, useState} from "react";
 
 let SideSelectVar = ({setSideVarStatus, menuDetail, setMenuDetail}) => {

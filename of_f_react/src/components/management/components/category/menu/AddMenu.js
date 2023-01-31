@@ -1,15 +1,15 @@
-import {ReactComponent as ExclamationCircle} from "../../../../assets/icon/exclamation-circle.svg";
+import {ReactComponent as ExclamationCircle} from "../../../../../assets/icon/exclamation-circle.svg";
 import {useEffect, useRef, useState} from "react";
 import {useRecoilState} from "recoil";
-import {selectStoreInfoRecoil} from "../../../../store/management/storeInfo";
-import {ReactComponent as Photograph} from "./../../../../assets/icon/photograph.svg";
-import {ReactComponent as Plus} from "./../../../../assets/icon/plus.svg";
-import {ReactComponent as Check} from "./../../../../assets/icon/check.svg";
-import "./../../../../styles/css/management/menu.css"
+import {selectStoreInfoRecoil} from "../../../../../store/management/storeInfo";
+import {ReactComponent as Photograph} from "../../../../../assets/icon/photograph.svg";
+import {ReactComponent as Plus} from "../../../../../assets/icon/plus.svg";
+import {ReactComponent as Check} from "../../../../../assets/icon/check.svg";
+import "../../../../../styles/css/management/menu.css"
 import {useNavigate} from "react-router-dom";
-import {useQuery} from "../../../../Config/getQuery";
-import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
-import {resAddMenu} from "../../../../service/management/menu/menu";
+import {useQuery} from "../../../../../Config/getQuery";
+import {tokenStoreAdminAxios} from "../../../../../Config/customStoreAdminAjax";
+import {resAddMenu} from "../../../../../service/management/menu/menu";
 
 
 let AddMenu = () => {

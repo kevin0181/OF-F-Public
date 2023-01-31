@@ -1,13 +1,13 @@
 import {useRecoilState} from "recoil";
-import {selectStoreInfoRecoil} from "../../../../store/management/storeInfo";
-import {useQuery} from "../../../../Config/getQuery";
+import {selectStoreInfoRecoil} from "../../../../../store/management/storeInfo";
+import {useQuery} from "../../../../../Config/getQuery";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
-import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
-import {ReactComponent as Photograph} from "../../../../assets/icon/photograph.svg";
-import {ReactComponent as XBtn} from "../../../../assets/icon/x.svg";
-import {ReactComponent as PlusBtn} from "../../../../assets/icon/plus.svg";
-import {resAddMenu, resDeleteMenu, resUpdateMenu} from "../../../../service/management/menu/menu";
+import {tokenStoreAdminAxios} from "../../../../../Config/customStoreAdminAjax";
+import {ReactComponent as Photograph} from "../../../../../assets/icon/photograph.svg";
+import {ReactComponent as XBtn} from "../../../../../assets/icon/x.svg";
+import {ReactComponent as PlusBtn} from "../../../../../assets/icon/plus.svg";
+import {resAddMenu, resDeleteMenu, resUpdateMenu} from "../../../../../service/management/menu/menu";
 import SideSelectVar from "./SideSelectVar";
 import React from 'react';
 

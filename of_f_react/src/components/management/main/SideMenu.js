@@ -5,11 +5,12 @@ import {useEffect, useState} from "react";
 import {useQuery} from "../../../Config/getQuery";
 import {useNavigate} from "react-router-dom";
 import {ReactComponent as PlusCircle} from "../../../assets/icon/plus-circle.svg";
-import AddMenu from "../components/menu/AddMenu";
-import MenuDetail from "../components/menu/MenuDetail";
+import AddMenu from "../components/category/menu/AddMenu";
+import MenuDetail from "../components/category/menu/MenuDetail";
 import {ReactComponent as CheckCircle} from "../../../assets/icon/check-circle.svg";
 import {ReactComponent as XCircle} from "../../../assets/icon/x-circle.svg";
-import AddSideMenu from "../components/sideCategory/AddSideMenu";
+import AddSideMenu from "../components/sideCategory/sideMenu/AddSideMenu";
+import SideMenuDetail from "../components/sideCategory/sideMenu/SideMenuDetail";
 
 let SideMenu = () => {
 
@@ -160,7 +161,7 @@ let SideMenu = () => {
                                         </div>
                                     )
                                 }
-                                <MenuDetail menu={sideMenu}/>
+                                <SideMenuDetail sideMenu={sideMenu}/>
                             </div>
                         </div>
                     </div>
