@@ -202,17 +202,17 @@ let SideMenuDetail = ({sideMenu}) => {
                         }}>이미지</span>
                         <div className={"add-img-container m-scroll2"}>
                             {
-                                sideMenuDetail.storeMenuImgs !== undefined && sideMenuDetail.storeMenuImgs.length !== 0 ? (<>
+                                sideMenuDetail.storeSideImgs !== undefined && sideMenuDetail.storeSideImgs.length !== 0 ? (<>
                                     <div>
                                         {
-                                            sideMenuDetail.storeMenuImgs.map((data, index) => (
+                                            sideMenuDetail.storeSideImgs.map((data, index) => (
                                                 <React.Fragment key={index}>
                                                     {
                                                         data.status === null || data.status === undefined || data.status === true ? (
                                                             <img alt={"view img"} onClick={() => {
                                                                 deleteMenuImg(data.seq)
                                                             }}
-                                                                 src={`${process.env.REACT_APP_SERVER_URL_PORT}/api/v1/img/get?name=${data.name}&kind=menu&store=${store.name}`}/>
+                                                                 src={`${process.env.REACT_APP_SERVER_URL_PORT}/api/v1/img/get?name=${data.name}&kind=side&store=${store.name}`}/>
 
                                                         ) : (<></>)
                                                     }

@@ -9,7 +9,7 @@ import "../../../../../styles/css/management/menu.css"
 import {useNavigate} from "react-router-dom";
 import {useQuery} from "../../../../../Config/getQuery";
 import {tokenStoreAdminAxios} from "../../../../../Config/customStoreAdminAjax";
-import {resAddMenu} from "../../../../../service/management/menu/menu";
+import {resAddMenu, resAddSideMenu} from "../../../../../service/management/menu/menu";
 
 
 let AddSideMenu = () => {
@@ -101,9 +101,8 @@ let AddSideMenu = () => {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(async res => {
-            console.log(res);
-            // let c_id = await resAddMenu(res, store, query, setStore); //메뉴 추가하는 함수
-            // navigate(`/manage/store?kind=${query.get("kind")}&f=${query.get("f")}&c=${c_id}`);
+            let c_id = await resAddSideMenu(res, store, query, setStore); //메뉴 추가하는 함수
+            navigate(`/manage/store?kind=${query.get("kind")}&f=${query.get("f")}&c=${c_id}`);
         }).catch(err => {
             alert(err.response.data.detail);
             return;
