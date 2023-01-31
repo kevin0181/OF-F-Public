@@ -10,7 +10,7 @@ let OrderStoreSearch = () => {
 
         notTokenAxios({
             method: "get",
-            url: `/api/v1/store/order/qr/search?storeName=${searchText}`,
+            url: `/api/v1/store/order/search?storeName=${searchText}`,
         }).then(res => {
             console.log(res);
         }).catch(err => {
@@ -18,13 +18,20 @@ let OrderStoreSearch = () => {
         })
     }
 
+    let onKeyPressEnterSearchStoreBtn = (e) => {
+        if (e.key === "Enter") {
+            onClickSearchStoreBtn();
+        }
+    }
+
     return (
         <div className={"search-container"}>
             <div className={"search-var-container"}>
                 <div>
-                    <input className={"search-input m-input"} onChange={(e) => {
-                        setSearchText(e.target.value);
-                    }}/>
+                    <input className={"search-input m-input"} onKeyPress={onKeyPressEnterSearchStoreBtn}
+                           onChange={(e) => {
+                               setSearchText(e.target.value);
+                           }}/>
                     <div className={"search-btn"}>
                         <div onClick={onClickSearchStoreBtn}>
                             검색

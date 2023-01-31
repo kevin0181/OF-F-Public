@@ -27,4 +27,9 @@ public class OrderController {
         return orderService.orderQRService(qrId, storeOrderDTO);
     }
 
+    @GetMapping("/search")
+    public ApiResponseDTO searchStore(@RequestParam String storeName) {
+        return orderService.searchStore(storeName);
+    }
+
 }
