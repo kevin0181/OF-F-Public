@@ -120,19 +120,22 @@ export let resDeleteSideMenu = (res, store, query, setStore) => {
 
     let sideCategories = store.storeSideCategories.filter((data, index) => {
         return index !== Number(query.get("f"));
-    })
+    });
 
     let sideCategory = store.storeSideCategories[Number(query.get("f"))];
 
     let updateSideMenu = sideCategory.storeSideMenus.filter((data, index) => {
         return index !== Number(query.get("c"));
     });
-    console.log(updateSideMenu)
+
+    console.log(updateSideMenu);
 
     sideCategory = {
         ...sideCategory,
         storeSideMenus: updateSideMenu
     }
+
+    console.log(sideCategory);
 
     sideCategories.splice(Number(query.get("f")), 0, sideCategory);
 

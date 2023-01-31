@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
 import {tokenStoreAdminAxios} from "../../../../../Config/customStoreAdminAjax";
 import {ReactComponent as Photograph} from "../../../../../assets/icon/photograph.svg";
-import {resDeleteMenu, resDeleteSideMenu, resUpdateMenu} from "../../../../../service/management/menu/menu";
+import {resDeleteSideMenu, resUpdateMenu} from "../../../../../service/management/menu/menu";
 import React from 'react';
 
 
@@ -24,14 +24,11 @@ let SideMenuDetail = ({sideMenu}) => {
         price: "",
         soldOutStatus: false,
         status: false,
-        storeCategorySeq: "",
-        storeMSs: [],
-        storeMenuImgs: [],
+        storeSideCategorySeq: "",
+        storeSideImgs: [],
     });
 
     const [demoImgUrl, setDemoImgUrl] = useState([]);
-
-    const [sideVarStatus, setSideVarStatus] = useState(false);
 
     useEffect(() => {
         if (sideMenu !== undefined && Object.keys(sideMenu).length !== 0) {
@@ -202,7 +199,7 @@ let SideMenuDetail = ({sideMenu}) => {
                         }}>이미지</span>
                         <div className={"add-img-container m-scroll2"}>
                             {
-                                sideMenuDetail.storeSideImgs !== undefined && sideMenuDetail.storeSideImgs.length !== 0 ? (<>
+                                sideMenuDetail.storeSideImgs !== null && sideMenuDetail.storeSideImgs !== undefined && sideMenuDetail.storeSideImgs.length !== 0 ? (<>
                                     <div>
                                         {
                                             sideMenuDetail.storeSideImgs.map((data, index) => (
