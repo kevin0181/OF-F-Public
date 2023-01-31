@@ -98,7 +98,7 @@ public class StoreController {
             case "insert":
                 return storeService.saveSideMenu(storeSideMenuDTO, imgFile, principal);
             case "update":
-                return storeService.updateSideMenu(storeSideMenuDTO, principal);
+                return storeService.updateSideMenu(storeSideMenuDTO, imgFile, principal);
             case "delete":
                 return storeService.deleteSideMenu(storeSideMenuDTO, principal);
         }

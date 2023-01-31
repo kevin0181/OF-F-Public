@@ -14,5 +14,5 @@ public class StoreSideImgDTO {
     private String url;
     private String extension;
     private String date;
-    private boolean status;
+    private String status; //일부러 string 타입한거임
 }

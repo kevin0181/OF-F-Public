@@ -36,7 +36,7 @@ public class StoreSideMenu {
     @JoinColumn(name = "Store_Side_Category_seq", insertable = false, updatable = false)
     private StoreSideCategory storeSideCategory;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "Store_Side_Menu_seq")
     private List<StoreSideImg> storeSideImgs;
 
