@@ -55,7 +55,13 @@ let AddSideCategory = () => {
                     ...store,
                     storeSideCategories: [
                         ...store.storeSideCategories,
-                        data
+                        {
+                            name: data.name,
+                            seq: data.seq,
+                            status: data.status,
+                            storeSeq: data.storeSeq,
+                            storeSideMenus: []
+                        }
                     ]
                 });
 
