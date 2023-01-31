@@ -8,6 +8,7 @@ import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.menu.*;
 import of_f.of_f_spring.dto.store.qr.QRStoreInfoDTO;
 import of_f.of_f_spring.dto.store.qr.StoreQRIdDTO;
+import of_f.of_f_spring.dto.total.StoreName;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -67,4 +68,6 @@ public interface StoreMapper {
     StoreSideImg storeSideImgDTOToStoreSideImg(StoreSideImgDTO storeSideImgDTOS);
 
     List<StoreSideImg> storeSideImgsDTOToStoreSideImgs(List<StoreSideImgDTO> storeSideImgDTOS);
+
+    List<StoreName> storeToStoreName(List<Store> stores);
 }

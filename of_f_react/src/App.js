@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Outlet, Route, Routes} from "react-router-dom";
 import Login from "./User/Login";
 import {CookiesProvider, useCookies} from "react-cookie";
 import "./styles/css/default.css"
@@ -13,6 +13,8 @@ import PrivateRouter from "./components/PrivateRouter";
 import ManageDashBoard from "./components/management/ManageDashBoard";
 import ErrorPage from "./components/exception/ErrorPage";
 import ManageNav from "./components/management/components/ManageNav";
+import OrderStoreCheck from "./components/order/OrderStoreCheck";
+import OrderStoreSearch from "./components/order/OrderStoreSearch";
 
 function App() {
 
@@ -33,6 +35,12 @@ function App() {
                             <Route path={"/find/id"} element={<FindId/>}/>
                             <Route path={"/find/pwd"} element={<FindPwd/>}/>
                             <Route path={"/error/:code"} element={<ErrorPage/>}/>
+
+                            {/*-------------- order ------------*/}
+                            <Route path={"/store"} element={<Outlet/>}>
+                                <Route path={"search"} element={<OrderStoreSearch/>}/> {/*검색*/}
+                                <Route path={":storeId"} element={<OrderStoreCheck/>}/> {/*가게 주문*/}
+                            </Route>
 
                             {/* ---------- management ---------- */}
                             <Route path={"/manage/login"} element={<ManagementLogin/>}/>

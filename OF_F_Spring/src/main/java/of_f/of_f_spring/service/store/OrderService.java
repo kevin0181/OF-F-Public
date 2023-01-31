@@ -12,6 +12,7 @@ import of_f.of_f_spring.domain.mapper.store.StoreMapper;
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.order.StoreOrderDTO;
+import of_f.of_f_spring.dto.total.StoreName;
 import of_f.of_f_spring.repository.store.StoreOrderRepository;
 import of_f.of_f_spring.repository.store.StoreQRIdRepository;
 import of_f.of_f_spring.repository.store.StoreRepository;
@@ -66,6 +67,18 @@ public class OrderService {
                 .message("주문 성공")
                 .detail("주문이 완료되었습니다.")
                 .data(resStoreOrderDTO)
+                .build();
+    }
+
+    public ApiResponseDTO searchStore(String storeName) {
+        List<Store> storeList = storeRepository.findAllByNameContaining(storeName);
+
+        List<StoreName> storeNames = StoreMapper.instance.storeToStoreName(storeList);
+
+        return ApiResponseDTO.builder()
+                .message("가게 정보")
+                .detail("")
+                .data(storeNames)
                 .build();
     }
 
