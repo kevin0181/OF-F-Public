@@ -60,5 +60,11 @@ public interface StoreMapper {
 
     List<StoreMenuImg> storeMenuImgDTOToStoreMenuImg(List<StoreMenuImgDTO> storeMenuImgDTO);
 
+    StoreMenuImg storeMenuImgDTOToStoreMenuImg2(StoreMenuImgDTO storeMenuImgDTO);
+
     List<StoreMenuImgDTO> storeMenuImgToStoreMenuImgDTO(List<StoreMenuImg> storeMenuImg);
+
+    StoreSideImg storeSideImgDTOToStoreSideImg(StoreSideImgDTO storeSideImgDTOS);
+
+    List<StoreSideImg> storeSideImgsDTOToStoreSideImgs(List<StoreSideImgDTO> storeSideImgDTOS);
 }

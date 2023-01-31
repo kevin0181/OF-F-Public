@@ -14,5 +14,5 @@ public class StoreMenuImgDTO {
     private String url;
     private String extension;
     private String date;
-    private String status;
+    private String status; //일부러 string 타입한거임
 }

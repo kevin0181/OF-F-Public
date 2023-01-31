@@ -282,32 +282,26 @@ public class StoreService {
             throw new StoreException(StoreExceptionEnum.DOES_NOT_EXIST_MENU);
 
         List<StoreMS> storeMSs = new ArrayList<>();
-        List<StoreMenuImg> storeMenuImgList = new ArrayList<>(); // 메뉴가 원래 가지고 있는 이미지
 
         if (storeMenuDTO.getStoreMSs() != null)
             storeMSs = StoreMapper.instance.storeMSDTOToStoreMS(storeMenuDTO.getStoreMSs());
 
-        List<StoreMenuImg> deleteMenuImgs; //삭제할 이미지 담아주는곳
-        List<StoreMenuImgDTO> deleteMenuImgDTOs = new ArrayList<>(); //삭제할 이미지 담아주는 DTO
+        List<StoreMenuImg> deleteMenuImgs = new ArrayList<>(); //삭제할 이미지 담아주는곳
+        List<StoreMenuImg> storeMenuImgList = new ArrayList<>(); // 메뉴가 원래 가지고 있는 이미지
 
         for (int i = 0; i < storeMenuDTO.getStoreMenuImgs().size(); i++) {
             if (storeMenuDTO.getStoreMenuImgs().get(i).getStatus() != null
                     && storeMenuDTO.getStoreMenuImgs().get(i).getStatus().equals("false")) {
-                deleteMenuImgDTOs.add(storeMenuDTO.getStoreMenuImgs().get(i));
-                storeMenuDTO.getStoreMenuImgs().remove(i);
+                deleteMenuImgs.add(StoreMapper.instance.storeMenuImgDTOToStoreMenuImg2(storeMenuDTO.getStoreMenuImgs().get(i)));
+            } else {
+                storeMenuImgList.add(StoreMapper.instance.storeMenuImgDTOToStoreMenuImg2(storeMenuDTO.getStoreMenuImgs().get(i)));
             }
         }
 
-        if (deleteMenuImgDTOs.size() != 0) {
-            deleteMenuImgs = StoreMapper.instance.storeMenuImgDTOToStoreMenuImg(deleteMenuImgDTOs);
+        if (deleteMenuImgs.size() != 0) //메뉴 이미지 삭제
             imgService.deleteMenuImg(deleteMenuImgs);
-        }
-
-        if (storeMenuDTO.getStoreMenuImgs().size() != 0) // 삭제할꺼 삭제하고 난 후, 기존 이미지 넣기
-            storeMenuImgList = StoreMapper.instance.storeMenuImgDTOToStoreMenuImg(storeMenuDTO.getStoreMenuImgs());
 
         List<StoreMenuImg> storeMenuImgs; //새로 저장하는 이미지
-
         List<StoreMenuImg> totalMenuImg = new ArrayList<>();
         totalMenuImg.addAll(storeMenuImgList); //기존 이미지는 그냥 넣고
         if (imgFile != null) { // 이미지가 존재하는 경우
@@ -558,7 +552,7 @@ public class StoreService {
                 .build();
     }
 
-    public ApiResponseDTO updateSideMenu(StoreSideMenuDTO storeSideMenuDTO, Principal principal) {
+    public ApiResponseDTO updateSideMenu(StoreSideMenuDTO storeSideMenuDTO, List<MultipartFile> imgFile, Principal principal) {
 
         StoreSideMenu storeSideMenu = storeSideMenuRepository.findById(storeSideMenuDTO.getSeq()).get();
 
@@ -571,8 +565,30 @@ public class StoreService {
         if (storeSideMenu == null)
             throw new StoreException(StoreExceptionEnum.DOES_NOT_EXIST_SIDE_MENU);
 
-
         try {
+
+            List<StoreSideImg> deleteStoreSideImg = new ArrayList<>();
+            List<StoreSideImg> storeSideImgList = new ArrayList<>(); // 메뉴가 원래 가지고 있는 이미지
+
+            for (int i = 0; i < storeSideMenuDTO.getStoreSideImgs().size(); i++) {
+                if (storeSideMenuDTO.getStoreSideImgs().get(i).getStatus() != null
+                        && storeSideMenuDTO.getStoreSideImgs().get(i).getStatus().equals("false")) { //사이드 이미지가 삭제해야한다면?
+                    deleteStoreSideImg.add(StoreMapper.instance.storeSideImgDTOToStoreSideImg(storeSideMenuDTO.getStoreSideImgs().get(i))); //삭제할 이미지들 담음
+                } else {
+                    storeSideImgList.add(StoreMapper.instance.storeSideImgDTOToStoreSideImg(storeSideMenuDTO.getStoreSideImgs().get(i))); // 기존에 유지하는 이미지 담음
+                }
+            }
+
+            if (deleteStoreSideImg.size() != 0)
+                imgService.deleteSideMenuImg(deleteStoreSideImg); //사이드 이미지 삭제함
+
+            List<StoreSideImg> storeSideImgs; //새로 저장하는 이미지
+            List<StoreSideImg> totalMenuImg = new ArrayList<>(); //전체 이미지
+            totalMenuImg.addAll(storeSideImgList); //기존 이미지는 그냥 넣고
+            if (imgFile != null) { // 이미지가 존재하는 경우
+                storeSideImgs = imgService.saveSideMenuImg(imgFile, storeSideMenu.getStoreSideCategory().getStore());
+                totalMenuImg.addAll(storeSideImgs); // 새로운 이미지 있으면 그뒤에 추가
+            }
 
             storeSideMenu = storeSideMenuRepository.save(storeSideMenu.builder()
                     .seq(storeSideMenuDTO.getSeq())
@@ -581,21 +597,21 @@ public class StoreService {
                     .status(storeSideMenuDTO.isStatus())
                     .storeSideCategorySeq(storeSideMenuDTO.getStoreSideCategorySeq())
                     .soldOutStatus(storeSideMenuDTO.isSoldOutStatus())
-                    .storeSideImgs(storeSideMenu.getStoreSideImgs())
+                    .storeSideImgs(totalMenuImg)
                     .build());
+
+            StoreSideMenuDTO resStoreSideMenuUpdate = StoreMapper.instance.storeSideMenuToStoreSideMenuDTO(storeSideMenu);
+
+            return ApiResponseDTO.builder()
+                    .message("사이드 메뉴 수정")
+                    .detail("사이드 메뉴를 수정했습니다.")
+                    .data(resStoreSideMenuUpdate)
+                    .build();
 
         } catch (Exception e) {
             throw new StoreException(StoreExceptionEnum.CAN_NOT_UPDATE_MENU);
         }
 
-        StoreSideMenuDTO resStoreSideMenuUpdate = StoreMapper.instance.storeSideMenuToStoreSideMenuDTO(storeSideMenu);
-
-
-        return ApiResponseDTO.builder()
-                .message("사이드 메뉴 수정")
-                .detail("사이드 메뉴를 수정했습니다.")
-                .data(resStoreSideMenuUpdate)
-                .build();
     }
 
     public ApiResponseDTO deleteSideMenu(StoreSideMenuDTO storeSideMenuDTO, Principal principal) {
@@ -685,7 +701,7 @@ public class StoreService {
 
         StoreSideCategory storeSideCategory = null;
 
-        for (int i = 0; i < store.getStoreCategories().size(); i++) {
+        for (int i = 0; i < store.getStoreSideCategories().size(); i++) {
             if (storeSideMenuDTO.getStoreSideCategorySeq() == store.getStoreSideCategories().get(i).getSeq())
                 storeSideCategory = store.getStoreSideCategories().get(i);
         }

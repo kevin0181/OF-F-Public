@@ -14,7 +14,6 @@ public class StoreSideMenuDTO {
     private String price;
     private boolean status;
     private boolean soldOutStatus;
-
     private List<StoreSideImgDTO> storeSideImgs;
 //    private StoreOrderSideDTO storeOrderSide;
 }
