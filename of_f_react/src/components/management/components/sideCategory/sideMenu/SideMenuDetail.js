@@ -84,19 +84,20 @@ let SideMenuDetail = ({sideMenu}) => {
 
         let formData = new FormData();
 
-        formData.append("menu", new Blob([JSON.stringify(sideMenuDetail)], {type: "application/json"}));
+        formData.append("side-menu", new Blob([JSON.stringify(sideMenuDetail)], {type: "application/json"}));
 
         for (let i = 0; i < imgRef.current.files.length; i++) {
-            formData.append("img", imgRef.current.files[i]);
+            formData.append("side-img", imgRef.current.files[i]);
         }
 
-        tokenStoreAdminAxios.post('/api/v1/store/admin/menu?status=update', formData, {
+        tokenStoreAdminAxios.post('/api/v1/store/admin/side/menu?status=update', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(async res => {
-            let c_id = await resUpdateMenu(res, store, query, setStore); //메뉴 추가하는 함수
-            navigate(`/manage/store?kind=${query.get("kind")}&f=${query.get("f")}&c=${c_id}`);
+            console.log(res);
+            // let c_id = await resUpdateMenu(res, store, query, setStore); //메뉴 추가하는 함수
+            // navigate(`/manage/store?kind=${query.get("kind")}&f=${query.get("f")}&c=${c_id}`);
         }).catch(err => {
             console.error(err);
             alert("사이드 메뉴를 수정할 수 없습니다.");
@@ -153,11 +154,11 @@ let SideMenuDetail = ({sideMenu}) => {
     let deleteMenuImg = (seq) => { //메뉴 사이드 이미지 삭제
         // eslint-disable-next-line no-restricted-globals
         if (confirm("해당 이미지를 삭제하시겠습니까?")) {
-            let deleteMenuImg = sideMenuDetail.storeMenuImgs.filter(data => {
+            let deleteMenuImg = sideMenuDetail.storeSideImgs.filter(data => {
                 return seq === data.seq
             });
 
-            let afterMenuImg = sideMenuDetail.storeMenuImgs.filter(data => {
+            let afterMenuImg = sideMenuDetail.storeSideImgs.filter(data => {
                 return seq !== data.seq
             });
 
@@ -168,7 +169,7 @@ let SideMenuDetail = ({sideMenu}) => {
 
             setSideMenuDetail({
                 ...sideMenuDetail,
-                storeMenuImgs: [
+                storeSideImgs: [
                     ...afterMenuImg,
                     deleteMenuImg[0]
                 ]

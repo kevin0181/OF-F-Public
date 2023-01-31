@@ -571,8 +571,20 @@ public class StoreService {
         if (storeSideMenu == null)
             throw new StoreException(StoreExceptionEnum.DOES_NOT_EXIST_SIDE_MENU);
 
-
         try {
+
+            List<StoreSideImg> deleteStoreSideImg = new ArrayList<>();
+
+            for (int i = 0; i < storeSideMenuDTO.getStoreSideImgs().size(); i++) {
+                if (!storeSideMenuDTO.getStoreSideImgs().get(i).isStatus()) { //사이드 이미지가 삭제해야한다면?
+                    deleteStoreSideImg.add(StoreMapper.instance.storeSideImgDTOToStoreSideImg(storeSideMenuDTO.getStoreSideImgs().get(i))); //삭제할 이미지들 담음
+                    storeSideMenuDTO.getStoreSideImgs().remove(i); // 정상적으로 기존에 남은 이미지들 두고 삭제한거 지우기
+                }
+            }
+
+            if (deleteStoreSideImg.size() != 0)
+                imgService.deleteSideMenuImg(deleteStoreSideImg); //사이드 이미지 삭제함
+
 
             storeSideMenu = storeSideMenuRepository.save(storeSideMenu.builder()
                     .seq(storeSideMenuDTO.getSeq())
