@@ -15,6 +15,7 @@ import ErrorPage from "./components/exception/ErrorPage";
 import ManageNav from "./components/management/components/ManageNav";
 import OrderStoreCheck from "./components/order/OrderStoreCheck";
 import OrderStoreSearch from "./components/order/OrderStoreSearch";
+import StoreOrder from "./components/order/StoreOrder";
 
 function App() {
 
@@ -39,7 +40,11 @@ function App() {
                             {/*-------------- order ------------*/}
                             <Route path={"/store"} element={<Outlet/>}>
                                 <Route path={"search"} element={<OrderStoreSearch/>}/> {/*검색*/}
-                                <Route path={":storeId"} element={<OrderStoreCheck/>}/> {/*가게 주문*/}
+                                <Route path={":storeId"}>  {/*정상적인 가게 접근인지 확인*/}
+                                    <Route path={":qrId"} element={<OrderStoreCheck/>}>
+                                        <Route path={"main"} element={<StoreOrder/>}/>
+                                    </Route>
+                                </Route>
                             </Route>
 
                             {/* ---------- management ---------- */}
