@@ -104,7 +104,7 @@ let SideMenuDetail = ({sideMenu}) => {
         });
     }
 
-    let onClickSideMenuDelete = () => { // 메뉴 삭제
+    let onClickSideMenuDelete = () => { // 사이드 메뉴 삭제
         // eslint-disable-next-line no-restricted-globals
         if (confirm(sideMenuDetail.name + "를 삭제하시겠습니까?")) {
 
