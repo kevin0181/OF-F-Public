@@ -119,6 +119,7 @@ public class UserService {
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
 
+        // 4. redis에 token을 저장함
         jwtTokenProvider.saveToken(tokenInfo, authentication);
 
 
