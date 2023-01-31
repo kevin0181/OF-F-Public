@@ -91,6 +91,16 @@ public class ImgService {
     public List<StoreSideImg> saveSideMenuImg(List<MultipartFile> imgFile, Store store) {
 
         try {
+            os = System.getProperty("os.name").toLowerCase();
+
+            if (os.contains("win")) {
+                fileDir = windowUrl;
+            } else if (os.contains("mac")) {
+                fileDir = macUrl;
+            } else {
+                fileDir = macUrl;
+            }
+
             //폴더 없을 경우, 폴더 생성.
             File file = new File(fileDir + store.getName() + "/side");
             if (!file.exists()) {

@@ -512,7 +512,7 @@ public class StoreService {
                     return ApiResponseDTO.builder()
                             .message("사이드 카테고리 삭제")
                             .detail("사이드 카테고리를 삭제하였습니다.")
-                            .data(true)
+                            .data(storeSideCategoryDTO)
                             .build();
                 }
             }
@@ -665,7 +665,7 @@ public class StoreService {
         StoreCategory storeCategory = null;
 
         for (int i = 0; i < store.getStoreCategories().size(); i++) {
-            if (storeMenuDTO.getStoreCategorySeq() == store.getStoreCategories().get(i).getSeq())
+            if (storeMenuDTO.getStoreCategorySeq().equals(store.getStoreCategories().get(i).getSeq()))
                 storeCategory = store.getStoreCategories().get(i);
         }
 
