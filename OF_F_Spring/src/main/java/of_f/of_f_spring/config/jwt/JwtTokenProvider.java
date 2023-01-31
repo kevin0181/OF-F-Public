@@ -132,8 +132,8 @@ public class JwtTokenProvider {
 
         refreshTokenInfoRedisRepository.save(
                 RefreshTokenInfo.builder()
-                        .refreshToken(tokenInfo.getRefreshToken())
-                        .email(userDetails.getUsername())
+                        .refreshToken(tokenInfo.getRefreshToken()) //리프레시 토큰저장
+                        .email(userDetails.getUsername()) //이메일이랑
                         .build()
         );
 
