@@ -24,7 +24,7 @@ public class StoreSideCategory {
     @Column
     private boolean status;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "Store_Side_Category_seq")
     private List<StoreMS> storeMSs;
 
