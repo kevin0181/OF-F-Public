@@ -53,4 +53,27 @@
 .store-search-list-container > div {
     width: 90%;
     height: 90%;
+    padding: 20px 0px;
+    overflow: scroll;
+}
+
+.search-list {
+    height: 15%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-part {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.search-storeAddress {
+    padding: 0px 20px;
+}
+
+.search-storeActive{
+    padding: 0px 20px;
 }
