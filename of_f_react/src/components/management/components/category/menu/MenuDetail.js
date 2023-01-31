@@ -155,7 +155,9 @@ let MenuDetail = ({menu}) => {
 
     }
 
-    let deleteSideCategory = (index, name) => { //사이드 카테고리 삭제
+    let deleteSideCategory = (index, data) => { //사이드 카테고리 삭제
+
+        let name = data === null ? "지워진" : data.name;
         // eslint-disable-next-line no-restricted-globals
         if (confirm(name + " 사이드를 삭제하시겠습니까?")) {
 
@@ -227,12 +229,19 @@ let MenuDetail = ({menu}) => {
                                                     <div
                                                         className={"side-mini-select"}>
                                                         <div className={"side-mini-top"}>
-                                                            <div>{data.storeSideCategory.name}</div>
+                                                            {
+                                                                data.storeSideCategory === null || data.storeSideCategory === undefined ?
+                                                                    (<div style={{
+                                                                        color: "red"
+                                                                    }}>
+                                                                        지워진 사이드
+                                                                    </div>) : (<div>{data.storeSideCategory.name}</div>)
+                                                            }
                                                         </div>
                                                         <div className={"side-mini-body"}>
                                                             <div className={"side-mini-select-btn"}
                                                                  onClick={() => {
-                                                                     deleteSideCategory(index, data.storeSideCategory.name)
+                                                                     deleteSideCategory(index, data.storeSideCategory)
                                                                  }}>
                                                                 <XBtn/>
                                                             </div>

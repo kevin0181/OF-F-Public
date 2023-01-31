@@ -1,6 +1,6 @@
 export let resAddMenu = (res, store, query, setStore) => {
     let resData = res.data.data;
-    alert(res.data.detail);
+    // alert(res.data.detail);
 
     let newCategories = store.storeCategories.filter((data, index) => {
         return index !== Number(query.get("f"));
