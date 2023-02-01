@@ -8,6 +8,60 @@
 .order-container-header {
     width: 100%;
     height: 15%;
+    display: flex;
+    flex-direction: column;
+}
+
+.order-header-logo {
+    width: 100%;
+    height: 40%;
+    padding: 1% 3%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.order-main-logo {
+    width: 15%;
+}
+
+.order-main-store-name {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.order-main-store-name > div {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.order-main-logo svg {
+    width: 100%;
+    height: 100%;
+}
+
+.order-header-category {
+    width: 100%;
+    height: 60%;
+}
+
+.order-header-category > div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+}
+
+.order-header-category > div::-webkit-scrollbar {
+    display: none;
+}
+
+.order-category-part {
+    width: auto;
+    flex: 0 0 auto;
 }
 
 .order-container-body {
