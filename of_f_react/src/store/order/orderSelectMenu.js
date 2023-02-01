@@ -10,7 +10,9 @@ export const selectOrderMenu = atom({
         status: false,
         storeCategorySeq: "",
         storeMSs: [],
-        storeMenuImgs: []
+        storeMenuImgs: [{
+            name: ""
+        }]
     }
 });
 

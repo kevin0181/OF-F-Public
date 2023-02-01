@@ -56,7 +56,7 @@ let StoreOrder = () => {
                                                                     setClickMenuStatus(true);
                                                                 }}>
                                                                     <img className={"order-menu-img"}
-                                                                         src={`${process.env.REACT_APP_SERVER_URL_PORT}/api/v1/img/get?name=${menuData.storeMenuImgs[0].name}&kind=menu&store=test 가게`}
+                                                                         src={`${process.env.REACT_APP_SERVER_URL_PORT}/api/v1/img/get?name=${menuData.storeMenuImgs[0].name}&kind=menu&store=${orderStore.name}`}
                                                                          alt={menuData.name}/>
                                                                 </div>
                                                             ) : (
