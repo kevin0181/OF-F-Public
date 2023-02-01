@@ -59,7 +59,8 @@ let OrderStoreSearch = () => {
                             {
                                 storeList.map((data, index) => (
                                     <div className={"search-list m-input"} key={index} onClick={() => {
-                                        navigate(`/store/${data.seq}`);
+                                        let qrId = prompt("QR 스티커에 존재하는 코드를 입력해주세요.");
+                                        navigate(`/store/${data.seq}/${qrId}/main`);
                                     }}>
                                         <h3 className={"search-part search-storeName"}>{data.name}</h3>
                                         <p className={"search-part search-storeAddress"}>{data.address} {data.detailAddress}</p>
