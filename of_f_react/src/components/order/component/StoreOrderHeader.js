@@ -19,13 +19,8 @@ let StoreOrderHeader = () => {
 
     let {storeId, qrId} = useParams();
 
-    useEffect(() => {
-        console.log(Number(query.get("category")));
-    }, [query])
-
     const [orderStore, setOrderStore] = useRecoilState(orderStoreRecoil); // 가게 정보
     const [orderStoreCategory, setOrderStoreCategory] = useRecoilState(orderStoreCategoryRecoil); // 가게 정보 카테고리
-    const [orderStoreSideCategory, setOrderStoreSideCategory] = useRecoilState(orderStoreSideCategoryRecoil); // 가게 정보 사이드 카테고리
 
     return (
         <div className={"order-container"}>

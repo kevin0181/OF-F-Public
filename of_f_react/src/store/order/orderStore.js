@@ -8,7 +8,13 @@ export const orderStore = atom({
 
 export const orderStoreCategory = atom({
     key: "orderStoreCategory",
-    default: []
+    default: [{
+        name: "",
+        storeMenus: [],
+        seq: "",
+        status: false,
+        storeSeq: ""
+    }]
 });
 
 export const orderStoreSideCategory = atom({
