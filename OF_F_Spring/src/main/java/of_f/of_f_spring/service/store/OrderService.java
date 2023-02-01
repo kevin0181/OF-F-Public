@@ -5,8 +5,6 @@ import of_f.of_f_spring.domain.entity.store.order.StoreOrder;
 import of_f.of_f_spring.domain.entity.store.qr.StoreQRId;
 import of_f.of_f_spring.domain.exception.OrderException;
 import of_f.of_f_spring.domain.exception.OrderExceptionEnum;
-import of_f.of_f_spring.domain.exception.StoreException;
-import of_f.of_f_spring.domain.exception.StoreExceptionEnum;
 import of_f.of_f_spring.domain.mapper.store.OrderMapper;
 import of_f.of_f_spring.domain.mapper.store.StoreMapper;
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
@@ -37,14 +35,21 @@ public class OrderService {
     private StoreQRIdRepository storeQRIdRepository;
 
     @Transactional
-    public ApiResponseDTO getStoreMenuList(Long storeSeq) {
+    public ApiResponseDTO getStoreMenuList(Long storeSeq, String qrId) {
         Store store = storeRepository.findById(storeSeq).orElse(null);
-        StoreDTO storeDTO = StoreMapper.instance.storeToStoreDTOByOrderUser(store);
-        return ApiResponseDTO.builder()
-                .message("가맹점 메뉴 정보")
-                .detail("가맹점 메뉴 정보 입니다.")
-                .data(storeDTO)
-                .build();
+
+        for (int i = 0; i < store.getStoreQRIds().size(); i++) {
+            if (store.getStoreQRIds().get(i).getQrId().equals(qrId)) {
+                StoreDTO storeDTO = StoreMapper.instance.storeToStoreDTOByOrderUser(store);
+                return ApiResponseDTO.builder()
+                        .message("가맹점 메뉴 정보")
+                        .detail("가맹점 메뉴 정보 입니다.")
+                        .data(storeDTO)
+                        .build();
+            }
+        }
+
+        throw new OrderException(OrderExceptionEnum.DOES_NOT_EXIST_QR_ID);
     }
 
     public ApiResponseDTO orderQRService(String qrId, StoreOrderDTO storeOrderDTO) {

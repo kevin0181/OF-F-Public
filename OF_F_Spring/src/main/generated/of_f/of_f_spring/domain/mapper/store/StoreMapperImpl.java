@@ -37,10 +37,11 @@ import of_f.of_f_spring.dto.store.order.StoreOrderSideDTO;
 import of_f.of_f_spring.dto.store.order.StoreOrderVanInfoDTO;
 import of_f.of_f_spring.dto.store.qr.QRStoreInfoDTO;
 import of_f.of_f_spring.dto.store.qr.StoreQRIdDTO;
+import of_f.of_f_spring.dto.total.StoreName;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-01-30T15:23:45+0900",
+    date = "2023-02-01T12:19:43+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class StoreMapperImpl implements StoreMapper {
@@ -283,7 +284,7 @@ public class StoreMapperImpl implements StoreMapper {
         storeSideMenu.price( storeSideMenuDTO.getPrice() );
         storeSideMenu.status( storeSideMenuDTO.isStatus() );
         storeSideMenu.soldOutStatus( storeSideMenuDTO.isSoldOutStatus() );
-        storeSideMenu.storeSideImgs( storeSideImgDTOListToStoreSideImgList( storeSideMenuDTO.getStoreSideImgs() ) );
+        storeSideMenu.storeSideImgs( storeSideImgsDTOToStoreSideImgs( storeSideMenuDTO.getStoreSideImgs() ) );
 
         return storeSideMenu.build();
     }
@@ -315,10 +316,28 @@ public class StoreMapperImpl implements StoreMapper {
 
         List<StoreMenuImg> list = new ArrayList<StoreMenuImg>( storeMenuImgDTO.size() );
         for ( StoreMenuImgDTO storeMenuImgDTO1 : storeMenuImgDTO ) {
-            list.add( storeMenuImgDTOToStoreMenuImg1( storeMenuImgDTO1 ) );
+            list.add( storeMenuImgDTOToStoreMenuImg2( storeMenuImgDTO1 ) );
         }
 
         return list;
+    }
+
+    @Override
+    public StoreMenuImg storeMenuImgDTOToStoreMenuImg2(StoreMenuImgDTO storeMenuImgDTO) {
+        if ( storeMenuImgDTO == null ) {
+            return null;
+        }
+
+        StoreMenuImg.StoreMenuImgBuilder storeMenuImg = StoreMenuImg.builder();
+
+        storeMenuImg.seq( storeMenuImgDTO.getSeq() );
+        storeMenuImg.storeMenuSeq( storeMenuImgDTO.getStoreMenuSeq() );
+        storeMenuImg.name( storeMenuImgDTO.getName() );
+        storeMenuImg.url( storeMenuImgDTO.getUrl() );
+        storeMenuImg.extension( storeMenuImgDTO.getExtension() );
+        storeMenuImg.date( storeMenuImgDTO.getDate() );
+
+        return storeMenuImg.build();
     }
 
     @Override
@@ -330,6 +349,52 @@ public class StoreMapperImpl implements StoreMapper {
         List<StoreMenuImgDTO> list = new ArrayList<StoreMenuImgDTO>( storeMenuImg.size() );
         for ( StoreMenuImg storeMenuImg1 : storeMenuImg ) {
             list.add( storeMenuImgToStoreMenuImgDTO1( storeMenuImg1 ) );
+        }
+
+        return list;
+    }
+
+    @Override
+    public StoreSideImg storeSideImgDTOToStoreSideImg(StoreSideImgDTO storeSideImgDTOS) {
+        if ( storeSideImgDTOS == null ) {
+            return null;
+        }
+
+        StoreSideImg.StoreSideImgBuilder storeSideImg = StoreSideImg.builder();
+
+        storeSideImg.seq( storeSideImgDTOS.getSeq() );
+        storeSideImg.storeSideMenuSeq( storeSideImgDTOS.getStoreSideMenuSeq() );
+        storeSideImg.name( storeSideImgDTOS.getName() );
+        storeSideImg.url( storeSideImgDTOS.getUrl() );
+        storeSideImg.extension( storeSideImgDTOS.getExtension() );
+        storeSideImg.date( storeSideImgDTOS.getDate() );
+
+        return storeSideImg.build();
+    }
+
+    @Override
+    public List<StoreSideImg> storeSideImgsDTOToStoreSideImgs(List<StoreSideImgDTO> storeSideImgDTOS) {
+        if ( storeSideImgDTOS == null ) {
+            return null;
+        }
+
+        List<StoreSideImg> list = new ArrayList<StoreSideImg>( storeSideImgDTOS.size() );
+        for ( StoreSideImgDTO storeSideImgDTO : storeSideImgDTOS ) {
+            list.add( storeSideImgDTOToStoreSideImg( storeSideImgDTO ) );
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<StoreName> storeToStoreName(List<Store> stores) {
+        if ( stores == null ) {
+            return null;
+        }
+
+        List<StoreName> list = new ArrayList<StoreName>( stores.size() );
+        for ( Store store : stores ) {
+            list.add( storeToStoreName1( store ) );
         }
 
         return list;
@@ -944,36 +1009,6 @@ public class StoreMapperImpl implements StoreMapper {
         return list1;
     }
 
-    protected StoreSideImg storeSideImgDTOToStoreSideImg(StoreSideImgDTO storeSideImgDTO) {
-        if ( storeSideImgDTO == null ) {
-            return null;
-        }
-
-        StoreSideImg.StoreSideImgBuilder storeSideImg = StoreSideImg.builder();
-
-        storeSideImg.seq( storeSideImgDTO.getSeq() );
-        storeSideImg.storeSideMenuSeq( storeSideImgDTO.getStoreSideMenuSeq() );
-        storeSideImg.name( storeSideImgDTO.getName() );
-        storeSideImg.url( storeSideImgDTO.getUrl() );
-        storeSideImg.extension( storeSideImgDTO.getExtension() );
-        storeSideImg.date( storeSideImgDTO.getDate() );
-
-        return storeSideImg.build();
-    }
-
-    protected List<StoreSideImg> storeSideImgDTOListToStoreSideImgList(List<StoreSideImgDTO> list) {
-        if ( list == null ) {
-            return null;
-        }
-
-        List<StoreSideImg> list1 = new ArrayList<StoreSideImg>( list.size() );
-        for ( StoreSideImgDTO storeSideImgDTO : list ) {
-            list1.add( storeSideImgDTOToStoreSideImg( storeSideImgDTO ) );
-        }
-
-        return list1;
-    }
-
     protected StoreSideImgDTO storeSideImgToStoreSideImgDTO(StoreSideImg storeSideImg) {
         if ( storeSideImg == null ) {
             return null;
@@ -1004,23 +1039,6 @@ public class StoreMapperImpl implements StoreMapper {
         return list1;
     }
 
-    protected StoreMenuImg storeMenuImgDTOToStoreMenuImg1(StoreMenuImgDTO storeMenuImgDTO) {
-        if ( storeMenuImgDTO == null ) {
-            return null;
-        }
-
-        StoreMenuImg.StoreMenuImgBuilder storeMenuImg = StoreMenuImg.builder();
-
-        storeMenuImg.seq( storeMenuImgDTO.getSeq() );
-        storeMenuImg.storeMenuSeq( storeMenuImgDTO.getStoreMenuSeq() );
-        storeMenuImg.name( storeMenuImgDTO.getName() );
-        storeMenuImg.url( storeMenuImgDTO.getUrl() );
-        storeMenuImg.extension( storeMenuImgDTO.getExtension() );
-        storeMenuImg.date( storeMenuImgDTO.getDate() );
-
-        return storeMenuImg.build();
-    }
-
     protected StoreMenuImgDTO storeMenuImgToStoreMenuImgDTO1(StoreMenuImg storeMenuImg) {
         if ( storeMenuImg == null ) {
             return null;
@@ -1036,5 +1054,21 @@ public class StoreMapperImpl implements StoreMapper {
         storeMenuImgDTO.setDate( storeMenuImg.getDate() );
 
         return storeMenuImgDTO;
+    }
+
+    protected StoreName storeToStoreName1(Store store) {
+        if ( store == null ) {
+            return null;
+        }
+
+        StoreName storeName = new StoreName();
+
+        storeName.setSeq( store.getSeq() );
+        storeName.setName( store.getName() );
+        storeName.setAddress( store.getAddress() );
+        storeName.setDetailAddress( store.getDetailAddress() );
+        storeName.setStatus( store.getStatus() );
+
+        return storeName;
     }
 }

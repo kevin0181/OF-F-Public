@@ -1,9 +1,6 @@
 package of_f.of_f_spring.domain.exception;
 
-import of_f.of_f_spring.domain.exception.dto.AdminExceptionDTO;
-import of_f.of_f_spring.domain.exception.dto.ApiExceptionDTO;
-import of_f.of_f_spring.domain.exception.dto.AuthExceptionDTO;
-import of_f.of_f_spring.domain.exception.dto.StoreExceptionDTO;
+import of_f.of_f_spring.domain.exception.dto.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -86,6 +83,22 @@ public class ApiExceptionAdvice {
                         .build());
     }
 
+    @ExceptionHandler({OrderException.class})
+    public ResponseEntity<OrderExceptionDTO> adminExceptionHandler(HttpServletRequest request, final OrderException e) {
+        e.printStackTrace();
+        return ResponseEntity
+                .status(e.getError().getCode())
+                .body(OrderExceptionDTO.builder()
+                        .code(e.getError().getCode())
+                        .status(e.getError().getStatus())
+                        .errorCode(e.getError().getErrorCode())
+                        .error(e.getError().getError())
+                        .errorMessage(e.getError().getMessage())
+                        .detail(e.getError().getDetail())
+                        .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
+                        .build());
+    }
+
     //validation exception handler
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<ApiExceptionDTO> validExceptionHandler(HttpServletRequest request, MethodArgumentNotValidException e) {
@@ -155,6 +168,7 @@ public class ApiExceptionAdvice {
                         .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
                         .build());
     }
+
     @ExceptionHandler(NoHandlerFoundException.class) // 404 not found
     public ResponseEntity<ApiExceptionDTO> notFound(HttpServletRequest request, NoHandlerFoundException e) {
         e.printStackTrace();

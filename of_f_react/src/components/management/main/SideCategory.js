@@ -6,8 +6,6 @@ import {useEffect, useState} from "react";
 import {ReactComponent as PlusCircle} from "../../../assets/icon/plus-circle.svg";
 import {ReactComponent as CheckCircle} from "../../../assets/icon/check-circle.svg";
 import {ReactComponent as XCircle} from "../../../assets/icon/x-circle.svg";
-import CategoryDetail from "../components/category/CategoryDetail";
-import AddCategory from "../components/category/AddCategory";
 import AddSideCategory from "../components/sideCategory/AddSideCategory";
 import SideCategoryDetail from "../components/sideCategory/SideCategoryDetail";
 

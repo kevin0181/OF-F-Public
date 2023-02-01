@@ -17,8 +17,8 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping("/qr")
-    public ApiResponseDTO storeMenuList(@RequestParam Long storeSeq) { // 가맹점 메뉴 가져오는 부분 (고객용)
-        return orderService.getStoreMenuList(storeSeq);
+    public ApiResponseDTO storeMenuList(@RequestParam Long storeSeq, @RequestParam String qrId) { // 가맹점 메뉴 가져오는 부분 (고객용)
+        return orderService.getStoreMenuList(storeSeq,qrId);
     }
 
     @PostMapping("/qr")

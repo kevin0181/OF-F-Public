@@ -1,6 +1,7 @@
 import {useRecoilState} from "recoil";
-import {orderStore as orderStoreRecoil} from "../../store/order/orderStore";
+import {orderStore as orderStoreRecoil} from "../../../store/order/orderStore";
 import {useEffect} from "react";
+import OrderFooter from "./OrderFooter";
 
 let StoreOrder = () => {
 
@@ -11,7 +12,11 @@ let StoreOrder = () => {
     }, [orderStore])
 
     return (
-        <>ㅁㄴㅇ</>
+        <>
+            <div className={"order-container-body"}>
+            </div>
+            <OrderFooter/>
+        </>
     )
 }
 
