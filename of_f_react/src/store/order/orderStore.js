@@ -19,17 +19,7 @@ export const orderStoreCategory = atom({
                 status: false,
                 storeCategorySeq: "",
                 storeMSs: [],
-                storeMenuImgs: [
-                //     {
-                    //     date: "",
-                    //     extension: "",
-                    //     name: "",
-                    //     seq: "",
-                    //     status: false,
-                    //     storeMenuSeq: "",
-                    //     url: ""
-                    // }
-                ]
+                storeMenuImgs: []
             }
         ],
         seq: "",
