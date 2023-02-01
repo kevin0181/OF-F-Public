@@ -8,6 +8,7 @@ import OrderFooter from "./OrderFooter";
 import {useQuery} from "../../../Config/getQuery";
 import {useNavigate, useParams} from "react-router-dom";
 import {orderMenu as orderMenuRecoil} from "../../../store/order/orderSelectMenu";
+import React from "react";
 
 let StoreOrder = () => {
 
@@ -34,19 +35,73 @@ let StoreOrder = () => {
             <div className={"order-container-body"}>
                 <div>
                     {
-                        orderStoreCategory[Number(query.get("category"))].storeMenus.map((data, index) => (
-                            <div className={"order-body-menu"} key={index}>
-                                <div className={"order-menu-top"}>
-                                    <img className={"order-menu-img"} src={""} alt={data.name}/>
-                                </div>
-                                <div className={"order-menu-body"}>
-                                    <h4>메뉴이름</h4>
-                                </div>
-                                <div className={"order-menu-footer"}>
-                                    <small>10000원</small>
-                                </div>
-                            </div>
-                        ))
+                        query.get("category") === null ? (
+                            <>
+                                {
+                                    orderStoreCategory.map((categoryData, index) => (
+                                        <React.Fragment key={index}>
+                                            {
+                                                categoryData.storeMenus.map((menuData, index) => (
+                                                    <div className={"order-body-menu"} key={index}>
+                                                        {
+                                                            menuData.storeMenuImgs[0] !== undefined ? (
+                                                                <div className={"order-menu-top"}>
+                                                                    <img className={"order-menu-img"}
+                                                                         src={`${process.env.REACT_APP_SERVER_URL_PORT}/api/v1/img/get?name=${menuData.storeMenuImgs[0].name}&kind=menu&store=test 가게`}
+                                                                         alt={menuData.name}/>
+                                                                </div>
+                                                            ) : (
+                                                                <div className={"order-menu-none-img"}>
+                                                                </div>
+                                                            )
+                                                        }
+                                                        <div className={"order-menu-body"}>
+                                                            <h4>{menuData.name}</h4>
+                                                        </div>
+                                                        <div className={"order-menu-footer"}>
+                                                            <small>{menuData.price}원</small>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            }
+                                        </React.Fragment>
+                                    ))
+                                }
+                            </>
+                        ) : (
+                            <>
+                                {
+                                    orderStoreCategory[Number(query.get("category"))] !== undefined ? (
+                                        <>
+                                            {
+                                                orderStoreCategory[Number(query.get("category"))].storeMenus.map((menuData, index) => (
+                                                    <div className={"order-body-menu"} key={index}>
+                                                        {
+                                                            menuData.storeMenuImgs[0] !== undefined ? (
+                                                                <div className={"order-menu-top"}>
+                                                                    <img className={"order-menu-img"}
+                                                                         src={`${process.env.REACT_APP_SERVER_URL_PORT}/api/v1/img/get?name=${menuData.storeMenuImgs[0].name}&kind=menu&store=test 가게`}
+                                                                         alt={menuData.name}/>
+                                                                </div>
+                                                            ) : (
+                                                                <div className={"order-menu-none-img"}>
+                                                                </div>
+                                                            )
+                                                        }
+                                                        <div className={"order-menu-body"}>
+                                                            <h4>{menuData.name}</h4>
+                                                        </div>
+                                                        <div className={"order-menu-footer"}>
+                                                            <small>{menuData.price}원</small>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            }
+                                        </>
+                                    ) : (<></>)
+                                }
+                            </>
+                        )
                     }
                 </div>
             </div>

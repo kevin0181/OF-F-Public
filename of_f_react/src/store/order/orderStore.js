@@ -10,7 +10,28 @@ export const orderStoreCategory = atom({
     key: "orderStoreCategory",
     default: [{
         name: "",
-        storeMenus: [],
+        storeMenus: [
+            {
+                name: "",
+                price: 0,
+                seq: "",
+                soldOutStatus: false,
+                status: false,
+                storeCategorySeq: "",
+                storeMSs: [],
+                storeMenuImgs: [
+                //     {
+                    //     date: "",
+                    //     extension: "",
+                    //     name: "",
+                    //     seq: "",
+                    //     status: false,
+                    //     storeMenuSeq: "",
+                    //     url: ""
+                    // }
+                ]
+            }
+        ],
         seq: "",
         status: false,
         storeSeq: ""
