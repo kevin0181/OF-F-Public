@@ -1,16 +1,15 @@
 import {Outlet, useNavigate, useParams} from "react-router-dom";
 import "../../../styles/css/order/orderMain.css";
 import {ReactComponent as Logo} from "./../../../assets/logo1.svg";
-import {ReactComponent as XBtn} from "./../../../assets/icon/x.svg";
 import {useRecoilState} from "recoil";
 import {
     orderStore as orderStoreRecoil,
     orderStoreCategory as orderStoreCategoryRecoil,
-    orderStoreSideCategory as orderStoreSideCategoryRecoil
 } from "../../../store/order/orderStore";
 import {useQuery} from "../../../Config/getQuery";
 import {clickMenuStatus as clickMenuStatusRecoil} from "../../../store/order/orderSelectMenu";
-
+import 'animate.css';
+import MenuSelectComponent from "./MenuSelectComponent";
 
 let StoreOrderHeader = () => {
 
@@ -29,28 +28,7 @@ let StoreOrderHeader = () => {
         <>
             {
                 clickMenuStatus ? (
-                    <div className={"order-container"}>
-                        <div className={"menu-select-container"}>
-                            <div className={"menu-select-container-header"}>
-                                <div className={"menu-select-x-btn"}>
-                                    <div onClick={() => {
-                                        setClickMenuStatus(false)
-                                    }}>
-                                        <XBtn/>
-                                    </div>
-                                </div>
-                                <div className={"menu-select-img"}>
-
-                                </div>
-                            </div>
-                            <div className={"menu-select-container-body"}>
-
-                            </div>
-                            <div className={"menu-select-container-footer"}>
-
-                            </div>
-                        </div>
-                    </div>
+                    <MenuSelectComponent/>
                 ) : (
                     <div className={"order-container"}>
                         <div className={"order-container-header"}>
