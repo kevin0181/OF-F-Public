@@ -110,7 +110,9 @@
 
 .order-menu-top {
     width: 90%;
-    height: auto;
+    height: 70%;
+    display: flex;
+    justify-content: center;
     padding: 5px;
 }
 
@@ -122,8 +124,8 @@
 
 .order-menu-img {
     width: 100%;
-    height: auto;
     border-radius: 10px;
+    object-fit: fill;
 }
 
 .order-menu-body {
