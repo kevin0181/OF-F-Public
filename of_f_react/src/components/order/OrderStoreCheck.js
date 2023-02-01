@@ -1,7 +1,11 @@
 import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {useEffect} from "react";
 import {useRecoilState} from "recoil";
-import {orderStore as orderStoreRecoil} from "../../store/order/orderStore";
+import {
+    orderStore as orderStoreRecoil,
+    orderStoreCategory as orderStoreCategoryRecoil,
+    orderStoreSideCategory as orderStoreSideCategoryRecoil
+} from "../../store/order/orderStore";
 import {notTokenAxios} from "../../Config/customAxios";
 
 let OrderStoreCheck = () => {
@@ -10,6 +14,9 @@ let OrderStoreCheck = () => {
     let {storeId, qrId} = useParams();
 
     const [orderStore, setOrderStore] = useRecoilState(orderStoreRecoil); // 가게 정보
+    const [orderStoreCategory, setOrderStoreCategory] = useRecoilState(orderStoreCategoryRecoil); // 가게 정보 카테고리
+    const [orderStoreSideCategory, setOrderStoreSideCategory] = useRecoilState(orderStoreSideCategoryRecoil); // 가게 정보 사이드 카테고리
+
 
     useEffect(() => {
 
@@ -38,6 +45,8 @@ let OrderStoreCheck = () => {
                 navigate("/store/search");
             } else {
                 setOrderStore(res.data.data);
+                setOrderStoreCategory(res.data.data.storeCategories);
+                setOrderStoreSideCategory(res.data.data.storeSideCategories);
                 navigate(`/store/${storeId}/${qrId}/main`);
             }
 
