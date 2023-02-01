@@ -5,6 +5,7 @@ import {
 } from "../../../store/order/orderSelectMenu";
 import {ReactComponent as XBtn} from "./../../../assets/icon/x.svg";
 import {orderStore as orderStoreRecoil} from "../../../store/order/orderStore";
+import SlideImg from "./SlideImg";
 
 let MenuSelectComponent = () => {
 
@@ -28,12 +29,7 @@ let MenuSelectComponent = () => {
                     </div>
                     <div className={"menu-select-img"}>
                         <div>
-                            {
-                                selectOrderMenu.storeMenuImgs.map((data, index) => (
-                                    <img key={index}
-                                         src={`${process.env.REACT_APP_SERVER_URL_PORT}/api/v1/img/get?name=${data.name}&kind=menu&store=${orderStore.name}`}/>
-                                ))
-                            }
+                            <SlideImg/>
                         </div>
                     </div>
                 </div>

@@ -60,8 +60,7 @@ let StoreOrder = () => {
                                                                          alt={menuData.name}/>
                                                                 </div>
                                                             ) : (
-                                                                <div className={"order-menu-none-img"}>
-                                                                </div>
+                                                                <></>
                                                             )
                                                         }
                                                         <div className={"order-menu-body"} onClick={() => {
@@ -99,8 +98,7 @@ let StoreOrder = () => {
                                                                          alt={menuData.name}/>
                                                                 </div>
                                                             ) : (
-                                                                <div className={"order-menu-none-img"}>
-                                                                </div>
+                                                                <></>
                                                             )
                                                         }
                                                         <div className={"order-menu-body"} onClick={() => {
