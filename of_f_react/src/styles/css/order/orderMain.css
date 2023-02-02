@@ -212,9 +212,54 @@
 .menu-select-container-body {
     width: 100%;
     height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-select-container-body > div {
+    width: 90%;
+    height: 100%;
+    padding: 10px 5px;
+}
+
+.menu-select-body-top {
+    border-bottom: 1px solid #b9b9b9;
+    padding-bottom: 20px;
 }
 
 .menu-select-container-footer {
     width: 100%;
     height: 10%;
+}
+
+.menu-select-name {
+    padding: 0px 10px;
+}
+
+.menu-select-name > h3 {
+    padding: 5px 10px;
+}
+
+.menu-select-menu-small {
+    width: 100%;
+    height: auto;
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.menu-select-price {
+    width: 100%;
+    height: auto;
+    padding: 5px 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.menu-select-price > div {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
 }

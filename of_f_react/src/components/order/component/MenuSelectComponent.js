@@ -60,7 +60,6 @@ let MenuSelectComponent = () => {
                                 {
                                     selectOrderMenu.storeMenuImgs.map((data, index) => (
                                         <img key={index}
-                                            // className={"" + (index === imgCurrent ? 'img-active' : '')}
                                              src={`${process.env.REACT_APP_SERVER_URL_PORT}/api/v1/img/get?name=${data.name}&kind=menu&store=${orderStore.name}`}
                                         />
                                     ))
@@ -70,7 +69,23 @@ let MenuSelectComponent = () => {
                     </div>
                 </div>
                 <div className={"menu-select-container-body"}>
-
+                    <div>
+                        <div className={"menu-select-body-top"}>
+                            <div className={"menu-select-name"}>
+                                <h3>{selectOrderMenu.name}</h3>
+                                <div className={"menu-select-menu-small"}>
+                                    {/*<p>이 음식은 가나다라마바사가나다라마바사*/}
+                                    {/*    가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사</p>*/}
+                                </div>
+                            </div>
+                            <div className={"menu-select-price"}>
+                                <div>
+                                    <h3>가격 : </h3>
+                                    <h3>{selectOrderMenu.price}원</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div className={"menu-select-container-footer"}>
 
