@@ -4,7 +4,10 @@ let OrderFooter = () => {
     return (
         <div className={"order-container-footer"}>
             <div className={"order-footer-basket"}>
-                <div>
+                <div className={"order-footer-basket-number"}>
+                    <p>4</p>
+                </div>
+                <div className={"order-footer-basket-icon"}>
                     <Basket/>
                 </div>
             </div>

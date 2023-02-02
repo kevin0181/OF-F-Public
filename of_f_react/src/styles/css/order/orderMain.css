@@ -171,7 +171,7 @@
     justify-content: right !important;
 }
 
-.order-footer-basket > div {
+.order-footer-basket > .order-footer-basket-icon {
     width: 50%;
     height: 40%;
     background-color: #b7b7b7;
@@ -181,10 +181,18 @@
     align-items: center;
 }
 
-.order-footer-basket > div > svg > path {
+.order-footer-basket > .order-footer-basket-icon > svg > path {
     stroke: white;
 }
 
+.order-footer-basket-number {
+    position: relative;
+    font-weight: bold;
+    font-size: 14px;
+    color: white;
+    top: -8%;
+    left: 44%;
+}
 
 .order-footer-total-order-btn {
     width: 75%;
