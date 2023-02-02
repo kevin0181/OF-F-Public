@@ -6,6 +6,7 @@ import {
 import {ReactComponent as XBtn} from "./../../../assets/icon/x.svg";
 import {orderStore as orderStoreRecoil} from "../../../store/order/orderStore";
 import {useEffect, useState} from "react";
+import React from "react";
 
 let MenuSelectComponent = () => {
 
@@ -28,7 +29,6 @@ let MenuSelectComponent = () => {
             } else {
                 setImgCurrent(imgCurrent + 1);
             }
-            console.log(imgCurrent)
         }, 4000);
         return (
             setImgMoveStyle(
@@ -38,6 +38,10 @@ let MenuSelectComponent = () => {
             )
         )
     }, [imgCurrent]);
+
+    useEffect(() => {
+        console.log(selectOrderMenu);
+    }, [selectOrderMenu])
 
     return (
         <div className={"order-container animate__animated animate__slideInRight"}>
@@ -86,23 +90,50 @@ let MenuSelectComponent = () => {
                             </div>
                         </div>
                         <div className={"menu-select-body-center"}>
-                            <div className={"menu-select-side-name"}>사이드 이름</div>
-                            <div className={"menu-select-side-part"}>
-                                <div className={"menu-select-side"}>
-                                    <div>매운맛</div>
-                                    <div className={"menu-select-side-number"}>
-                                        <div className={"number-btn"}>
-                                            +
-                                        </div>
-                                        <div>
-                                            0
-                                        </div>
-                                        <div className={"number-btn"}>
-                                            -
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {
+                                selectOrderMenu.storeMSs.map((data, index) => (
+                                    <React.Fragment key={index}>
+                                        <div className={"menu-select-side-name"}>{data.storeSideCategory.name}</div>
+                                        {
+                                            data.storeSideCategory.storeSideMenus.map((data, index) => (
+                                                <div className={"menu-select-side-part"} key={index}>
+                                                    <div className={"menu-select-side"}>
+                                                        <div>{data.name}</div>
+                                                        <div className={"menu-select-side-number"}>
+                                                            <div className={"number-btn"}>
+                                                                +
+                                                            </div>
+                                                            <div>
+                                                                0
+                                                            </div>
+                                                            <div className={"number-btn"}>
+                                                                -
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        }
+                                    </React.Fragment>
+                                ))
+                            }
+                            {/*<div className={"menu-select-side-name"}>사이드 이름</div>*/}
+                            {/*<div className={"menu-select-side-part"}>*/}
+                            {/*    <div className={"menu-select-side"}>*/}
+                            {/*        <div>매운맛</div>*/}
+                            {/*        <div className={"menu-select-side-number"}>*/}
+                            {/*            <div className={"number-btn"}>*/}
+                            {/*                +*/}
+                            {/*            </div>*/}
+                            {/*            <div>*/}
+                            {/*                0*/}
+                            {/*            </div>*/}
+                            {/*            <div className={"number-btn"}>*/}
+                            {/*                -*/}
+                            {/*            </div>*/}
+                            {/*        </div>*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
                         </div>
                     </div>
                 </div>
