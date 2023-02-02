@@ -4,6 +4,8 @@ import {
     selectOrderMenu as selectOrderMenuRecoil
 } from "../../../store/order/orderSelectMenu";
 import {ReactComponent as XBtn} from "./../../../assets/icon/x.svg";
+import {ReactComponent as PlusBtn} from "./../../../assets/icon/plus.svg";
+import {ReactComponent as CheckBtn} from "./../../../assets/icon/check.svg";
 import {orderStore as orderStoreRecoil} from "../../../store/order/orderStore";
 import {useEffect, useState} from "react";
 import React from "react";
@@ -118,8 +120,11 @@ let MenuSelectComponent = () => {
                                                         {/*</div>*/}
                                                         <div className={"menu-select-side-number"}>
                                                             <div className={"number-btn"}>
-                                                                +
+                                                                <PlusBtn/>
                                                             </div>
+                                                            {/*<div className={"number-btn number-btn-active"}>*/}
+                                                            {/*    <CheckBtn/>*/}
+                                                            {/*</div>*/}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -128,23 +133,6 @@ let MenuSelectComponent = () => {
                                     </React.Fragment>
                                 ))
                             }
-                            {/*<div className={"menu-select-side-name"}>사이드 이름</div>*/}
-                            {/*<div className={"menu-select-side-part"}>*/}
-                            {/*    <div className={"menu-select-side"}>*/}
-                            {/*        <div>매운맛</div>*/}
-                            {/*        <div className={"menu-select-side-number"}>*/}
-                            {/*            <div className={"number-btn"}>*/}
-                            {/*                +*/}
-                            {/*            </div>*/}
-                            {/*            <div>*/}
-                            {/*                0*/}
-                            {/*            </div>*/}
-                            {/*            <div className={"number-btn"}>*/}
-                            {/*                -*/}
-                            {/*            </div>*/}
-                            {/*        </div>*/}
-                            {/*    </div>*/}
-                            {/*</div>*/}
                         </div>
                     </div>
                 </div>

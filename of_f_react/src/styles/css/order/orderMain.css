@@ -339,10 +339,21 @@
 }
 
 .menu-select-side-number > div {
-    padding: 5px 10px;
+    padding: 3px;
 }
 
 .number-btn {
     border-radius: 5px;
     background-color: #dddddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.number-btn-active {
+    background-color: #89c7ff;
+}
+
+.number-btn-active > svg > path {
+    stroke: white;
 }
