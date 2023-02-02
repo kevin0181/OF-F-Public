@@ -67,7 +67,7 @@ let StoreOrder = () => {
                                                             setSelectOrderMenu(menuData);
                                                             setClickMenuStatus(true);
                                                         }}>
-                                                            <h4>{menuData.name}</h4>
+                                                            <h3>{menuData.name}</h3>
                                                         </div>
                                                         <div className={"order-menu-footer"}>
                                                             <small>{menuData.price}원</small>
@@ -105,7 +105,7 @@ let StoreOrder = () => {
                                                             setSelectOrderMenu(menuData);
                                                             setClickMenuStatus(true);
                                                         }}>
-                                                            <h4>{menuData.name}</h4>
+                                                            <h3>{menuData.name}</h3>
                                                         </div>
                                                         <div className={"order-menu-footer"}>
                                                             <small>{menuData.price}원</small>
