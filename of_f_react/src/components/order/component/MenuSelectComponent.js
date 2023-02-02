@@ -98,16 +98,27 @@ let MenuSelectComponent = () => {
                                             data.storeSideCategory.storeSideMenus.map((data, index) => (
                                                 <div className={"menu-select-side-part"} key={index}>
                                                     <div className={"menu-select-side"}>
-                                                        <div>{data.name}</div>
+                                                        <div>
+                                                            <div>{data.name}</div>
+                                                            <div style={{
+                                                                fontSize: "13px"
+                                                            }}>1000원
+                                                            </div>
+                                                        </div>
+                                                        {/*<div className={"menu-select-side-number"}>*/}
+                                                        {/*    <div className={"number-btn"}>*/}
+                                                        {/*        +*/}
+                                                        {/*    </div>*/}
+                                                        {/*    <div>*/}
+                                                        {/*        0*/}
+                                                        {/*    </div>*/}
+                                                        {/*    <div className={"number-btn"}>*/}
+                                                        {/*        -*/}
+                                                        {/*    </div>*/}
+                                                        {/*</div>*/}
                                                         <div className={"menu-select-side-number"}>
                                                             <div className={"number-btn"}>
                                                                 +
-                                                            </div>
-                                                            <div>
-                                                                0
-                                                            </div>
-                                                            <div className={"number-btn"}>
-                                                                -
                                                             </div>
                                                         </div>
                                                     </div>
