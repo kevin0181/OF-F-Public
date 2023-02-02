@@ -57,21 +57,27 @@ let MenuSelectComponent = () => {
                         </div>
                     </div>
                     <div className={"menu-select-img"}>
-                        <div style={{
-                            width: "78%",
-                            height: "90%",
-                            overflow: "hidden"
-                        }}>
-                            <div style={imgMoveStyle}>
-                                {
-                                    selectOrderMenu.storeMenuImgs.map((data, index) => (
-                                        <img key={index}
-                                             src={`${process.env.REACT_APP_SERVER_URL_PORT}/api/v1/img/get?name=${data.name}&kind=menu&store=${orderStore.name}`}
-                                        />
-                                    ))
-                                }
-                            </div>
-                        </div>
+                        {
+                            selectOrderMenu.storeMenuImgs.length !== 0 ? (
+                                <div style={{
+                                    width: "78%",
+                                    height: "90%",
+                                    overflow: "hidden"
+                                }}>
+                                    <div style={imgMoveStyle}>
+                                        {
+                                            selectOrderMenu.storeMenuImgs.map((data, index) => (
+                                                <img key={index}
+                                                     src={`${process.env.REACT_APP_SERVER_URL_PORT}/api/v1/img/get?name=${data.name}&kind=menu&store=${orderStore.name}`}
+                                                />
+                                            ))
+                                        }
+                                    </div>
+                                </div>
+                            ) : (<div>
+                                이 메뉴는 이미지가 존재하지 않습니다.
+                            </div>)
+                        }
                     </div>
                 </div>
                 <div className={"menu-select-container-body"}>
