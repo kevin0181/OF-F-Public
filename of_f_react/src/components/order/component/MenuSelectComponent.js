@@ -85,10 +85,33 @@ let MenuSelectComponent = () => {
                                 </div>
                             </div>
                         </div>
+                        <div className={"menu-select-body-center"}>
+                            <div className={"menu-select-side-name"}>사이드 이름</div>
+                            <div className={"menu-select-side-part"}>
+                                <div className={"menu-select-side"}>
+                                    <div>매운맛</div>
+                                    <div className={"menu-select-side-number"}>
+                                        <div className={"number-btn"}>
+                                            +
+                                        </div>
+                                        <div>
+                                            0
+                                        </div>
+                                        <div className={"number-btn"}>
+                                            -
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className={"menu-select-container-footer"}>
-
+                    <div>
+                        <div className={"menu-select-side-btn"}>
+                            <p>1000원 담기</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

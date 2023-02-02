@@ -232,6 +232,35 @@
 .menu-select-container-footer {
     width: 100%;
     height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-select-container-footer > div {
+    width: 90%;
+    height: 100%;
+    padding: 14px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-select-side-btn {
+    width: 80%;
+    height: 100%;
+    background-color: #1A72C3;
+    color: white;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bolder;
+    font-size: 18px;
+}
+
+.menu-select-side-btn > p {
+
 }
 
 .menu-select-name {
@@ -262,4 +291,57 @@
     height: auto;
     display: flex;
     justify-content: space-between;
+}
+
+.menu-select-body-center {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.menu-select-body-center > div {
+    width: 100%;
+    height: auto;
+    padding: 5px 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-select-side-part {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.menu-select-side-name {
+    font-weight: bolder;
+}
+
+.menu-select-side-part > div {
+    padding: 5px;
+}
+
+.menu-select-side {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-select-side-number {
+    display: flex;
+    justify-content: center;
+}
+
+.menu-select-side-number > div {
+    padding: 5px 10px;
+}
+
+.number-btn {
+    border-radius: 5px;
+    background-color: #dddddd;
 }
