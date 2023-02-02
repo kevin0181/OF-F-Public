@@ -154,6 +154,54 @@
 .order-container-footer {
     width: 100%;
     height: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.order-container-footer > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.order-footer-basket {
+    width: 25%;
+    height: 100%;
+    justify-content: right !important;
+}
+
+.order-footer-basket > div {
+    width: 50%;
+    height: 40%;
+    background-color: #b7b7b7;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.order-footer-basket > div > svg > path {
+    stroke: white;
+}
+
+
+.order-footer-total-order-btn {
+    width: 75%;
+    height: 100%;
+}
+
+.order-footer-btn {
+    width: 80%;
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 17px;
+    font-weight: bolder;
+    color: white;
+    background-color: #1A72C3;
+    border-radius: 20px;
 }
 
 .menu-select-container {
