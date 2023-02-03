@@ -79,7 +79,7 @@ let MenuSelectComponent = () => {
 
     }, []);
 
-    let onClickSideMenu = (sideData) => {
+    let onClickAddSideMenu = (sideData) => {
 
         setOrderMenu({
             ...orderMenu,
@@ -92,6 +92,19 @@ let MenuSelectComponent = () => {
                     storeSideMenu: sideData
                 }
             ]
+        });
+
+    }
+
+    let onClickRemoveSideMenu = (sideData) => {
+
+        let newSideData = orderMenu.storeOrderSides.filter(data => {
+            return data.storeSideMenuSeq !== sideData.seq;
+        })
+
+        setOrderMenu({
+            ...orderMenu,
+            storeOrderSides: newSideData
         });
 
     }
@@ -166,13 +179,16 @@ let MenuSelectComponent = () => {
                                                         </div>
                                                         <div className={"menu-select-side-number"}>
                                                             <div className={"number-btn"} onClick={() => {
-                                                                onClickSideMenu(data)
+                                                                onClickAddSideMenu(data)
                                                             }}>
                                                                 <PlusBtn/>
                                                             </div>
-                                                            {/*<div className={"number-btn number-btn-active"}>*/}
-                                                            {/*    <CheckBtn/>*/}
-                                                            {/*</div>*/}
+                                                            <div className={"number-btn number-btn-active"}
+                                                                 onClick={() => {
+                                                                     onClickRemoveSideMenu(data)
+                                                                 }}>
+                                                                <CheckBtn/>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
