@@ -63,7 +63,7 @@ public class OrderService {
         StoreOrder storeOrder = OrderMapper.instance.storeOrderDTOToStoreOrder(storeOrderDTO);
 
         storeOrder.setId(randomOrderId());
-        storeOrder.setStoreQRIdSeq(storeQRId.getSeq());
+        storeOrder.setStoreQRId(storeQRId.getQrId());
 
         StoreOrderDTO resStoreOrderDTO =
                 OrderMapper.instance.storeOrderToStoreOrderDTO(storeOrderRepository.save(storeOrder));

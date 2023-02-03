@@ -20,7 +20,7 @@ public class StoreOrderSide {
     @Column(name = "Store_Order_Menu_seq")
     private Long storeOrderMenuSeq;
 
-ww    @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "Store_Order_Menu_seq", insertable = false, updatable = false)
     private StoreOrderMenu storeOrderMenu;
 

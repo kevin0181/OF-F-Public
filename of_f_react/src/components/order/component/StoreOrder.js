@@ -37,7 +37,17 @@ let StoreOrder = () => {
         // console.log(orderStoreSideCategory)
         console.log(selectOrderMenu);
         console.log(order);
-    }, [orderStore, selectOrderMenu, order])
+    }, [orderStore, selectOrderMenu, order]);
+
+    useEffect(() => {
+        setOrder({
+            ...order,
+            storeSeq: storeId,
+            kind: 1,
+            place: 1,
+            storeQRId: qrId
+        })
+    }, [])
 
     return (
         <>

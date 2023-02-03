@@ -5,7 +5,7 @@ export const order = atom({
     default: {
         seq: "",
         storeSeq: "",
-        storeQRIdSeq: "",
+        storeQRId: "",
         id: "",
         kind: "",
         orderNumber: "",

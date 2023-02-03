@@ -30,8 +30,8 @@ public class StoreQRId {
     @JoinColumn(name = "Store_seq", insertable = false, updatable = false)
     private Store store;
 
-    @OneToMany
-    @JoinColumn(name = "Store_QR_ID_seq")
-    private List<StoreOrder> storeOrderList;
+//    @OneToMany
+//    @JoinColumn(name = "Store_QR_ID_seq")
+//    private List<StoreOrder> storeOrderList;
 
 }

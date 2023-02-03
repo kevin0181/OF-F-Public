@@ -22,8 +22,8 @@ public class StoreOrder {
     @Column(name = "Store_seq")
     private Long storeSeq;
 
-    @Column(name = "Store_QR_ID_seq")
-    private Long storeQRIdSeq;
+    @Column(name = "Store_QR_ID")
+    private String storeQRId;
 
     @Column
     private String id;
@@ -79,8 +79,8 @@ public class StoreOrder {
     @JoinColumn(name = "Store_seq", insertable = false, updatable = false)
     private Store store;
 
-    @ManyToOne
-    @JoinColumn(name = "Store_QR_ID_seq", insertable = false, updatable = false)
-    private StoreQRId storeQRId;
+//    @ManyToOne
+//    @JoinColumn(name = "Store_QR_ID", insertable = false, updatable = false)
+//    private StoreQRId storeQRId;
 
 }
