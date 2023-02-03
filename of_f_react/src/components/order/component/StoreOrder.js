@@ -12,7 +12,7 @@ import {
     selectOrderMenu as selectOrderMenuRecoil
 } from "../../../store/order/orderSelectMenu";
 import React from "react";
-import {order as orderRecoil} from "../../../store/order/order";
+import {order as orderRecoil, orderMenu as orderMenuRecoil} from "../../../store/order/order";
 
 let StoreOrder = () => {
 
@@ -30,6 +30,7 @@ let StoreOrder = () => {
     const [clickMenuStatus, setClickMenuStatus] = useRecoilState(clickMenuStatusRecoil); // 메뉴 선택시, 모달창 나옴
 
     const [order, setOrder] = useRecoilState(orderRecoil); //  주문 목록(장바구니)
+    const [orderMenu, setOrderMenu] = useRecoilState(orderMenuRecoil); //  주문 목록(장바구니)
 
     useEffect(() => {
         // console.log(orderStore);

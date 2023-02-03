@@ -27,3 +27,21 @@ export const order = atom({
     }
 });
 
+
+export const orderMenu = atom({
+    key: "orderMenu",
+    default: {
+        seq: "",
+        storeMenuSeq: "",
+        storeOrderSeq: "",
+        size: "",
+        storeMenu: {},
+        storeOrderSides: [{
+            seq: "",
+            storeSideMenuSeq: "",
+            storeOrderMenuSeq: "",
+            storeSideMenu: []
+        }]
+    }
+});
+

@@ -10,15 +10,17 @@ import {ReactComponent as MinusBtn} from "./../../../assets/icon/minus.svg";
 import {orderStore as orderStoreRecoil} from "../../../store/order/orderStore";
 import {useEffect, useState} from "react";
 import React from "react";
+import {order as orderRecoil, orderMenu as orderMenuRecoil} from "../../../store/order/order";
 
 let MenuSelectComponent = () => {
 
 
     const [orderStore, setOrderStore] = useRecoilState(orderStoreRecoil); // 가게 정보
-
     const [clickMenuStatus, setClickMenuStatus] = useRecoilState(clickMenuStatusRecoil); // 메뉴 선택시, 모달창 나옴
-
     const [selectOrderMenu, setSelectOrderMenu] = useRecoilState(selectOrderMenuRecoil); //  현재 선택된 카테고리의 메뉴 가져옴
+
+    const [order, setOrder] = useRecoilState(orderRecoil); //  주문 목록(장바구니)
+    const [orderMenu, setOrderMenu] = useRecoilState(orderMenuRecoil); //  주문 목록(장바구니)
 
     const [imgCurrent, setImgCurrent] = useState(0); //이미지 번호
     const [imgMoveStyle, setImgMoveStyle] = useState({
