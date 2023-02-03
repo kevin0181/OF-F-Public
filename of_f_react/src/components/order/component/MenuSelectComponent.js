@@ -19,13 +19,13 @@ let MenuSelectComponent = () => {
     const [clickMenuStatus, setClickMenuStatus] = useRecoilState(clickMenuStatusRecoil); // 메뉴 선택시, 모달창 나옴
     const [selectOrderMenu, setSelectOrderMenu] = useRecoilState(selectOrderMenuRecoil); //  현재 선택된 카테고리의 메뉴 가져옴
 
-    const [order, setOrder] = useRecoilState(orderRecoil); //  주문 목록(장바구니)
-    const [orderMenu, setOrderMenu] = useRecoilState(orderMenuRecoil); //  주문 목록(장바구니)
-
     const [imgCurrent, setImgCurrent] = useState(0); //이미지 번호
     const [imgMoveStyle, setImgMoveStyle] = useState({
         transform: `translate(-${imgCurrent}00%)`
     })
+
+    const [order, setOrder] = useRecoilState(orderRecoil); //  주문 목록(장바구니)
+    const [orderMenu, setOrderMenu] = useRecoilState(orderMenuRecoil); //  주문 목록(장바구니)
 
     useEffect(() => {
         setTimeout(() => {
@@ -47,6 +47,54 @@ let MenuSelectComponent = () => {
     useEffect(() => {
         console.log(selectOrderMenu);
     }, [selectOrderMenu])
+
+    useEffect(() => {
+        console.log(orderMenu);
+    }, [orderMenu])
+
+
+    useEffect(() => {
+        console.log(order);
+    }, [order])
+
+
+    useEffect(() => {
+        setOrder({
+            ...order,
+            totalPrice: orderMenu.size * Number(orderMenu.storeMenu.price)
+        })
+    }, [orderMenu.size]) // 주문 메뉴 사이즈가 변경됐을경우
+
+    useEffect(() => {
+        setOrderMenu({
+            ...orderMenu,
+            storeMenuSeq: selectOrderMenu.seq,
+            storeMenu: selectOrderMenu
+        });
+
+        setOrder({
+            ...order,
+            totalPrice: selectOrderMenu.price
+        });
+
+    }, []);
+
+    let onClickSideMenu = (sideData) => {
+
+        setOrderMenu({
+            ...orderMenu,
+            storeOrderSides: [
+                ...orderMenu.storeOrderSides,
+                {
+                    seq: "",
+                    storeSideMenuSeq: sideData.seq,
+                    storeOrderMenuSeq: "",
+                    storeSideMenu: sideData
+                }
+            ]
+        });
+
+    }
 
     return (
         <div className={"order-container animate__animated animate__slideInRight"}>
@@ -113,11 +161,13 @@ let MenuSelectComponent = () => {
                                                             <div>{data.name}</div>
                                                             <div style={{
                                                                 fontSize: "13px"
-                                                            }}>1000원
+                                                            }}>{data.price}원
                                                             </div>
                                                         </div>
                                                         <div className={"menu-select-side-number"}>
-                                                            <div className={"number-btn"}>
+                                                            <div className={"number-btn"} onClick={() => {
+                                                                onClickSideMenu(data)
+                                                            }}>
                                                                 <PlusBtn/>
                                                             </div>
                                                             {/*<div className={"number-btn number-btn-active"}>*/}
@@ -138,15 +188,31 @@ let MenuSelectComponent = () => {
                                     <h3>메뉴 수량 : </h3>
                                 </div>
                                 <div className={"menu-select-side-number"}>
-                                    <div className={"number-btn"}>
+                                    <div className={"number-btn"} onClick={() => {
+                                        setOrderMenu({
+                                            ...orderMenu,
+                                            size: orderMenu.size + 1
+                                        })
+                                    }}>
                                         <PlusBtn/>
                                     </div>
                                     <div style={{
                                         padding: "10px"
                                     }}>
-                                        0
+                                        {orderMenu.size}
                                     </div>
-                                    <div className={"number-btn"}>
+                                    <div className={"number-btn"} onClick={() => {
+
+                                        if (orderMenu.size === 1) {
+                                            alert("주문 수량은 1개 이상이어야합니다.");
+                                            return;
+                                        }
+                                        setOrderMenu({
+                                            ...orderMenu,
+                                            size: orderMenu.size - 1
+                                        });
+
+                                    }}>
                                         <MinusBtn/>
                                     </div>
                                 </div>
@@ -157,7 +223,7 @@ let MenuSelectComponent = () => {
                 <div className={"menu-select-container-footer"}>
                     <div>
                         <div className={"menu-select-side-btn"}>
-                            <p>1000원 담기</p>
+                            <p>{order.totalPrice}원 담기</p>
                         </div>
                     </div>
                 </div>

@@ -9,7 +9,7 @@ export const order = atom({
         id: "",
         kind: "",
         orderNumber: "",
-        totalPrice: "",
+        totalPrice: "0",
         cancelAfterPrice: "",
         date: "",
         place: "",
@@ -32,16 +32,18 @@ export const orderMenu = atom({
     key: "orderMenu",
     default: {
         seq: "",
-        storeMenuSeq: "",
         storeOrderSeq: "",
-        size: "",
+        storeMenuSeq: "",
+        size: 1,
         storeMenu: {},
-        storeOrderSides: [{
-            seq: "",
-            storeSideMenuSeq: "",
-            storeOrderMenuSeq: "",
-            storeSideMenu: []
-        }]
+        storeOrderSides: [
+            // {
+            //     seq: "",
+            //     storeSideMenuSeq: "",
+            //     storeOrderMenuSeq: "",
+            //     storeSideMenu: []
+            // }
+        ]
     }
 });
 
