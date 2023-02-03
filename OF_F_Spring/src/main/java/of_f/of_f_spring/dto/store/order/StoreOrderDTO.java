@@ -17,7 +17,7 @@ import java.util.List;
 public class StoreOrderDTO {
     private Long seq;
     private Long storeSeq;
-    private Long storeQRIdSeq;
+    private String storeQRId;
     private String id;
 
     private Long kind;

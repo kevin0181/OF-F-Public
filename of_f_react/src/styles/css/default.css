@@ -13,6 +13,7 @@ html, body {
 .container {
     width: 100vw;
     height: 100vh;
+    overflow-x: hidden;
 }
 
 /*스크롤바 숨김*/

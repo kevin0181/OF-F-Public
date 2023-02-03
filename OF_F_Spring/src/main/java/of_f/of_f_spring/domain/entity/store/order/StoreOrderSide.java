@@ -20,9 +20,6 @@ public class StoreOrderSide {
     @Column(name = "Store_Order_Menu_seq")
     private Long storeOrderMenuSeq;
 
-    @Column
-    private int size;
-
     @ManyToOne
     @JoinColumn(name = "Store_Order_Menu_seq", insertable = false, updatable = false)
     private StoreOrderMenu storeOrderMenu;
