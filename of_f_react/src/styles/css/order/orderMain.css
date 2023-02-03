@@ -356,6 +356,7 @@
     display: flex;
     flex-direction: column;
     padding: 10px;
+    border-bottom: 1px solid #747474;
 }
 
 .menu-select-body-center > div {
@@ -364,6 +365,22 @@
     padding: 5px 0px;
     display: flex;
     flex-direction: column;
+}
+
+.menu-select-body-bottom {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-select-body-bottom > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    padding: 20px 0px;
 }
 
 .menu-select-side-part {

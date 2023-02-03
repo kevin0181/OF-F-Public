@@ -6,6 +6,7 @@ import {
 import {ReactComponent as XBtn} from "./../../../assets/icon/x.svg";
 import {ReactComponent as PlusBtn} from "./../../../assets/icon/plus.svg";
 import {ReactComponent as CheckBtn} from "./../../../assets/icon/check.svg";
+import {ReactComponent as MinusBtn} from "./../../../assets/icon/minus.svg";
 import {orderStore as orderStoreRecoil} from "../../../store/order/orderStore";
 import {useEffect, useState} from "react";
 import React from "react";
@@ -113,17 +114,6 @@ let MenuSelectComponent = () => {
                                                             }}>1000원
                                                             </div>
                                                         </div>
-                                                        {/*<div className={"menu-select-side-number"}>*/}
-                                                        {/*    <div className={"number-btn"}>*/}
-                                                        {/*        +*/}
-                                                        {/*    </div>*/}
-                                                        {/*    <div>*/}
-                                                        {/*        0*/}
-                                                        {/*    </div>*/}
-                                                        {/*    <div className={"number-btn"}>*/}
-                                                        {/*        -*/}
-                                                        {/*    </div>*/}
-                                                        {/*</div>*/}
                                                         <div className={"menu-select-side-number"}>
                                                             <div className={"number-btn"}>
                                                                 <PlusBtn/>
@@ -139,6 +129,26 @@ let MenuSelectComponent = () => {
                                     </React.Fragment>
                                 ))
                             }
+                        </div>
+                        <div className={"menu-select-body-bottom"}>
+                            <div>
+                                <div className={"menu-select-count-p"}>
+                                    <h3>메뉴 수량 : </h3>
+                                </div>
+                                <div className={"menu-select-side-number"}>
+                                    <div className={"number-btn"}>
+                                        <PlusBtn/>
+                                    </div>
+                                    <div style={{
+                                        padding: "10px"
+                                    }}>
+                                        0
+                                    </div>
+                                    <div className={"number-btn"}>
+                                        <MinusBtn/>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
