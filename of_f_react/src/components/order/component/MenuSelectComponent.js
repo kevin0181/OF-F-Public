@@ -109,6 +109,7 @@ let MenuSelectComponent = () => {
 
     }
 
+
     return (
         <div className={"order-container animate__animated animate__slideInRight"}>
             <div className={"menu-select-container"}>
@@ -178,12 +179,22 @@ let MenuSelectComponent = () => {
                                                             </div>
                                                         </div>
                                                         <div className={"menu-select-side-number"}>
-                                                            <div className={"number-btn"} onClick={() => {
-                                                                onClickAddSideMenu(data)
-                                                            }}>
+                                                            <div
+                                                                className={"number-btn " + (
+                                                                    orderMenu.storeOrderSides.filter(sideData => {
+                                                                        return sideData.storeSideMenuSeq === data.seq
+                                                                    }).length === 0 ? "" : "number-btn-hidden"
+                                                                )}
+                                                                onClick={() => {
+                                                                    onClickAddSideMenu(data)
+                                                                }}>
                                                                 <PlusBtn/>
                                                             </div>
-                                                            <div className={"number-btn number-btn-active"}
+                                                            <div className={"number-btn number-btn-active " + (
+                                                                orderMenu.storeOrderSides.filter(sideData => {
+                                                                    return sideData.storeSideMenuSeq === data.seq
+                                                                }).length === 0 ? "number-btn-hidden" : ""
+                                                            )}
                                                                  onClick={() => {
                                                                      onClickRemoveSideMenu(data)
                                                                  }}>

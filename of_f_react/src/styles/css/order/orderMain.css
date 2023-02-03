@@ -430,3 +430,7 @@
 .number-btn-active > svg > path {
     stroke: white;
 }
+
+.number-btn-hidden {
+    display: none;
+}
