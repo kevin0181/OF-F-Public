@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {ReactComponent as XBtn} from "../../../assets/icon/x.svg";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import "./../../../styles/css/order/basket.css";
 import {useRecoilState} from "recoil";
 import {order as orderRecoil} from "../../../store/order/order";
@@ -9,10 +9,45 @@ import {orderStore as orderStoreRecoil} from "../../../store/order/orderStore";
 let MenuBasketList = () => {
 
     const navigate = useNavigate();
+    let {storeId, qrId} = useParams();
 
     const [orderStore, setOrderStore] = useRecoilState(orderStoreRecoil); // 가게 정보
 
     const [order, setOrder] = useRecoilState(orderRecoil); //  주문 목록(장바구니)
+
+    useEffect(() => {
+        if (order.storeOrderMenus.length === 0) {
+            alert("주문 목록이 비어있습니다. 메뉴를 선택해주세요.");
+            navigate(`/store/${storeId}/${qrId}/main`);
+        }
+    }, [order.storeOrderMenus]);
+
+    let cancelOrderMenu = (cancelMenuData) => { //메뉴 주문 취소
+
+        let newMenuData = order.storeOrderMenus.filter((data) => {
+            return data.storeMenuSeq !== cancelMenuData.storeMenuSeq
+        });
+
+        setOrder({
+            ...order,
+            storeOrderMenus: newMenuData
+        });
+    }
+
+    useEffect(() => {
+
+        let price = 0;
+        order.storeOrderMenus.map((data) => {
+            price += data.price;
+        });
+
+        setOrder({
+            ...order,
+            totalPrice: price
+        })
+
+
+    }, [order.storeOrderMenus]); // 주문 목록에서 메뉴가 변경된다면?
 
     return (
         <div className={"order-container animate__animated animate__slideInUp"}>
@@ -42,7 +77,9 @@ let MenuBasketList = () => {
                                         <div className={"basket-part-menu-h3"}>
                                             <h3>{menuData.storeMenu.name}</h3>
                                         </div>
-                                        <div className={"basket-part-menu-XBtn"}>
+                                        <div className={"basket-part-menu-XBtn"} onClick={() => {
+                                            cancelOrderMenu(menuData)
+                                        }}>
                                             <XBtn/>
                                         </div>
                                     </div>
