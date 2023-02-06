@@ -57,15 +57,15 @@ let MenuSelectComponent = () => {
             price: (orderMenu.size * Number(orderMenu.storeMenu.price)) + price
         })
 
-    }, [orderMenu.storeOrderSides]); // => 메뉴 사이드 선택시 가격 변경
+    }, [orderMenu.storeOrderSides,orderMenu.size]); // => 메뉴 사이드 선택시 가격 변경 or 주문 메뉴 사이즈가 변경됐을경우
 
 
-    useEffect(() => {
-        setOrderMenu({
-            ...orderMenu,
-            price: orderMenu.size * Number(orderMenu.storeMenu.price)
-        })
-    }, [orderMenu.size]) // 주문 메뉴 사이즈가 변경됐을경우
+    // useEffect(() => {
+    //     setOrderMenu({
+    //         ...orderMenu,
+    //         price: orderMenu.size * Number(orderMenu.storeMenu.price)
+    //     })
+    // }, [orderMenu.size]) // 주문 메뉴 사이즈가 변경됐을경우
 
     useEffect(() => {
 
