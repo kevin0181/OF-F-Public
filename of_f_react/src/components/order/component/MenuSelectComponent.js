@@ -65,6 +65,10 @@ let MenuSelectComponent = () => {
         })
     }, [orderMenu.size]) // 주문 메뉴 사이즈가 변경됐을경우
 
+    useEffect(()=>{
+
+    },[orderMenu.storeOrderSides]); // 주문 메뉴 사이드가 변경됐을경우.
+
     useEffect(() => {
         setOrderMenu({
             ...orderMenu,
