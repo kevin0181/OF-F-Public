@@ -18,7 +18,12 @@ let OrderFooter = () => {
                     <p>{order.storeOrderMenus.length}</p>
                 </div>
                 <div className={"order-footer-basket-icon"} onClick={() => {
-                    navigate(`/store/${storeId}/${qrId}/basket`);
+                    if (order.storeOrderMenus.length === 0) {
+                        alert("주문 목록이 비어있습니다.");
+                        return;
+                    } else {
+                        navigate(`/store/${storeId}/${qrId}/basket`);
+                    }
                 }}>
                     <Basket/>
                 </div>
