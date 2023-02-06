@@ -84,12 +84,22 @@ let MenuSelectComponent = () => {
     }, [orderMenu.storeOrderSides]); // 주문 메뉴 사이드가 변경됐을경우.
 
     useEffect(() => {
-        setOrderMenu({
-            ...orderMenu,
-            storeMenuSeq: selectOrderMenu.seq,
-            storeMenu: selectOrderMenu,
-            price: Number(selectOrderMenu.price)
-        });
+
+        let checkBasketMenu = order.storeOrderMenus.filter(data => {
+            return selectOrderMenu.seq === data.storeMenuSeq
+        })
+
+        if (checkBasketMenu.length !== 0) {
+            setOrderMenu(checkBasketMenu[0]);
+        } else {
+            setOrderMenu({
+                ...orderMenu,
+                storeMenuSeq: selectOrderMenu.seq,
+                storeMenu: selectOrderMenu,
+                price: Number(selectOrderMenu.price)
+            });
+        }
+
     }, []);
 
     let onClickAddSideMenu = (sideData) => {
@@ -145,6 +155,7 @@ let MenuSelectComponent = () => {
                 <div className={"menu-select-container-header"}>
                     <div className={"menu-select-x-btn"}>
                         <div onClick={() => {
+                            resetOrderMenu();
                             setClickMenuStatus(false)
                         }}>
                             <XBtn/>
