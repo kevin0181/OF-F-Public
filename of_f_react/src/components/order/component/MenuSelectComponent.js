@@ -17,14 +17,14 @@ let MenuSelectComponent = () => {
 
     const [orderStore, setOrderStore] = useRecoilState(orderStoreRecoil); // 가게 정보
     const [clickMenuStatus, setClickMenuStatus] = useRecoilState(clickMenuStatusRecoil); // 메뉴 선택시, 모달창 나옴
-    const [selectOrderMenu, setSelectOrderMenu] = useRecoilState(selectOrderMenuRecoil); //  현재 선택된 카테고리의 메뉴 가져옴
+    const [selectOrderMenu, setSelectOrderMenu] = useRecoilState(selectOrderMenuRecoil); //  현재 선택된 메뉴 가져옴
 
     const [imgCurrent, setImgCurrent] = useState(0); //이미지 번호
     const [imgMoveStyle, setImgMoveStyle] = useState({
         transform: `translate(-${imgCurrent}00%)`
     })
 
-    const [order, setOrder] = useRecoilState(orderRecoil); //  주문 목록(장바구니)
+    const [order, setOrder] = useRecoilState(orderRecoil); //  전체 주문
     const [orderMenu, setOrderMenu] = useRecoilState(orderMenuRecoil); //  주문 목록(장바구니)
 
     useEffect(() => {
@@ -52,16 +52,29 @@ let MenuSelectComponent = () => {
         console.log(orderMenu);
     }, [orderMenu])
 
-
     useEffect(() => {
         console.log(order);
     }, [order])
 
+    useEffect(() => {
+        let price = 0;
+
+        orderMenu.storeOrderSides.map((data, index) => {
+            price += Number(data.storeSideMenu.price);
+        });
+
+        setOrderMenu({
+            ...orderMenu,
+            price: (orderMenu.size * Number(orderMenu.storeMenu.price)) + price
+        })
+
+    }, [orderMenu.storeOrderSides]); // => 메뉴 사이드 선택시 가격 변경
+
 
     useEffect(() => {
-        setOrder({
-            ...order,
-            totalPrice: orderMenu.size * Number(orderMenu.storeMenu.price)
+        setOrderMenu({
+            ...orderMenu,
+            price: orderMenu.size * Number(orderMenu.storeMenu.price)
         })
     }, [orderMenu.size]) // 주문 메뉴 사이즈가 변경됐을경우
 
@@ -73,14 +86,9 @@ let MenuSelectComponent = () => {
         setOrderMenu({
             ...orderMenu,
             storeMenuSeq: selectOrderMenu.seq,
-            storeMenu: selectOrderMenu
+            storeMenu: selectOrderMenu,
+            price: Number(selectOrderMenu.price)
         });
-
-        setOrder({
-            ...order,
-            totalPrice: selectOrderMenu.price
-        });
-
     }, []);
 
     let onClickAddSideMenu = (sideData) => {
@@ -259,7 +267,7 @@ let MenuSelectComponent = () => {
                 <div className={"menu-select-container-footer"}>
                     <div>
                         <div className={"menu-select-side-btn"}>
-                            <p>{order.totalPrice}원 담기</p>
+                            <p>{orderMenu.price}원 담기</p>
                         </div>
                     </div>
                 </div>
