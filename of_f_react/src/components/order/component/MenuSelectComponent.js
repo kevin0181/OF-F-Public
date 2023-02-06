@@ -121,6 +121,21 @@ let MenuSelectComponent = () => {
 
     }
 
+    let onClickInputBasketMenu = () => {
+
+        setOrder({
+            ...order,
+            storeOrderMenus: [
+                ...order.storeOrderMenus,
+                orderMenu
+            ],
+            totalPrice: Number(order.totalPrice) + orderMenu.price
+        });
+
+        setClickMenuStatus(false);
+
+
+    }
 
     return (
         <div className={"order-container animate__animated animate__slideInRight"}>
@@ -266,7 +281,7 @@ let MenuSelectComponent = () => {
                 </div>
                 <div className={"menu-select-container-footer"}>
                     <div>
-                        <div className={"menu-select-side-btn"}>
+                        <div className={"menu-select-side-btn"} onClick={onClickInputBasketMenu}>
                             <p>{orderMenu.price}원 담기</p>
                         </div>
                     </div>
