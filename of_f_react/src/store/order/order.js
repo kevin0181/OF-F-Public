@@ -35,6 +35,7 @@ export const orderMenu = atom({
         storeOrderSeq: "",
         storeMenuSeq: "",
         size: 1,
+        price: 0,
         storeMenu: {},
         storeOrderSides: [
             // {

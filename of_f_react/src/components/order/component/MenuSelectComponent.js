@@ -1,4 +1,4 @@
-import {useRecoilState} from "recoil";
+import {useRecoilState, useResetRecoilState} from "recoil";
 import {
     clickMenuStatus as clickMenuStatusRecoil,
     selectOrderMenu as selectOrderMenuRecoil
@@ -17,15 +17,16 @@ let MenuSelectComponent = () => {
 
     const [orderStore, setOrderStore] = useRecoilState(orderStoreRecoil); // 가게 정보
     const [clickMenuStatus, setClickMenuStatus] = useRecoilState(clickMenuStatusRecoil); // 메뉴 선택시, 모달창 나옴
-    const [selectOrderMenu, setSelectOrderMenu] = useRecoilState(selectOrderMenuRecoil); //  현재 선택된 카테고리의 메뉴 가져옴
+    const [selectOrderMenu, setSelectOrderMenu] = useRecoilState(selectOrderMenuRecoil); //  현재 선택된 메뉴 가져옴
 
     const [imgCurrent, setImgCurrent] = useState(0); //이미지 번호
     const [imgMoveStyle, setImgMoveStyle] = useState({
         transform: `translate(-${imgCurrent}00%)`
     })
 
-    const [order, setOrder] = useRecoilState(orderRecoil); //  주문 목록(장바구니)
+    const [order, setOrder] = useRecoilState(orderRecoil); //  전체 주문
     const [orderMenu, setOrderMenu] = useRecoilState(orderMenuRecoil); //  주문 목록(장바구니)
+    const resetOrderMenu = useResetRecoilState(orderMenuRecoil);
 
     useEffect(() => {
         setTimeout(() => {
@@ -45,41 +46,36 @@ let MenuSelectComponent = () => {
     }, [imgCurrent]);
 
     useEffect(() => {
-        console.log(selectOrderMenu);
-    }, [selectOrderMenu])
+        let price = 0;
 
-    useEffect(() => {
-        console.log(orderMenu);
-    }, [orderMenu])
+        orderMenu.storeOrderSides.map((data, index) => {
+            price += Number(data.storeSideMenu.price);
+        });
 
-
-    useEffect(() => {
-        console.log(order);
-    }, [order])
-
-
-    useEffect(() => {
-        setOrder({
-            ...order,
-            totalPrice: orderMenu.size * Number(orderMenu.storeMenu.price)
-        })
-    }, [orderMenu.size]) // 주문 메뉴 사이즈가 변경됐을경우
-
-    useEffect(()=>{
-
-    },[orderMenu.storeOrderSides]); // 주문 메뉴 사이드가 변경됐을경우.
-
-    useEffect(() => {
         setOrderMenu({
             ...orderMenu,
-            storeMenuSeq: selectOrderMenu.seq,
-            storeMenu: selectOrderMenu
-        });
+            price: (orderMenu.size * Number(orderMenu.storeMenu.price)) + price
+        })
 
-        setOrder({
-            ...order,
-            totalPrice: selectOrderMenu.price
-        });
+    }, [orderMenu.storeOrderSides,orderMenu.size]); // => 메뉴 사이드 선택시 가격 변경 or 주문 메뉴 사이즈가 변경됐을경우
+
+
+    useEffect(() => {
+
+        let checkBasketMenu = order.storeOrderMenus.filter(data => {
+            return selectOrderMenu.seq === data.storeMenuSeq
+        })
+
+        if (checkBasketMenu.length !== 0) {
+            setOrderMenu(checkBasketMenu[0]);
+        } else {
+            setOrderMenu({
+                ...orderMenu,
+                storeMenuSeq: selectOrderMenu.seq,
+                storeMenu: selectOrderMenu,
+                price: Number(selectOrderMenu.price)
+            });
+        }
 
     }, []);
 
@@ -113,6 +109,51 @@ let MenuSelectComponent = () => {
 
     }
 
+    let onClickInputBasketMenu = () => {
+
+
+        let checkBasketMenu = order.storeOrderMenus.filter(data => {
+            return selectOrderMenu.seq === data.storeMenuSeq
+        })
+
+        if (checkBasketMenu.length !== 0) { //이미 장바구니에 존재하면?
+
+            let newBasketMenuData = order.storeOrderMenus.filter(data => {
+                return selectOrderMenu.seq !== data.storeMenuSeq;
+            });
+
+            let price = 0;
+            newBasketMenuData.map(data => {
+                price += data.price;
+            })
+
+            setOrder({
+                ...order,
+                storeOrderMenus: [
+                    ...newBasketMenuData,
+                    orderMenu
+                ],
+                totalPrice: price + orderMenu.price
+            });
+
+        } else { // 새로 추가
+
+            setOrder({
+                ...order,
+                storeOrderMenus: [
+                    ...order.storeOrderMenus,
+                    orderMenu
+                ],
+                totalPrice: Number(order.totalPrice) + orderMenu.price
+            });
+
+        }
+
+
+        resetOrderMenu();
+        setClickMenuStatus(false);
+
+    }
 
     return (
         <div className={"order-container animate__animated animate__slideInRight"}>
@@ -120,6 +161,7 @@ let MenuSelectComponent = () => {
                 <div className={"menu-select-container-header"}>
                     <div className={"menu-select-x-btn"}>
                         <div onClick={() => {
+                            resetOrderMenu();
                             setClickMenuStatus(false)
                         }}>
                             <XBtn/>
@@ -129,7 +171,7 @@ let MenuSelectComponent = () => {
                         {
                             selectOrderMenu.storeMenuImgs.length !== 0 ? (
                                 <div style={{
-                                    width: "78%",
+                                    width: "60%",
                                     height: "90%",
                                     overflow: "hidden"
                                 }}>
@@ -166,53 +208,58 @@ let MenuSelectComponent = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className={"menu-select-body-center"}>
-                            {
-                                selectOrderMenu.storeMSs.map((data, index) => (
-                                    <React.Fragment key={index}>
-                                        <div className={"menu-select-side-name"}>{data.storeSideCategory.name}</div>
-                                        {
-                                            data.storeSideCategory.storeSideMenus.map((data, index) => (
-                                                <div className={"menu-select-side-part"} key={index}>
-                                                    <div className={"menu-select-side"}>
-                                                        <div>
-                                                            <div>{data.name}</div>
-                                                            <div style={{
-                                                                fontSize: "13px"
-                                                            }}>{data.price}원
+                        {
+                            selectOrderMenu.storeMSs.length !== 0 ? (
+                                <div className={"menu-select-body-center"}>
+                                    {
+                                        selectOrderMenu.storeMSs.map((data, index) => (
+                                            <React.Fragment key={index}>
+                                                <div
+                                                    className={"menu-select-side-name"}>{data.storeSideCategory.name}</div>
+                                                {
+                                                    data.storeSideCategory.storeSideMenus.map((data, index) => (
+                                                        <div className={"menu-select-side-part"} key={index}>
+                                                            <div className={"menu-select-side"}>
+                                                                <div>
+                                                                    <div>{data.name}</div>
+                                                                    <div style={{
+                                                                        fontSize: "13px"
+                                                                    }}>{data.price}원
+                                                                    </div>
+                                                                </div>
+                                                                <div className={"menu-select-side-number"}>
+                                                                    <div
+                                                                        className={"number-btn " + (
+                                                                            orderMenu.storeOrderSides.filter(sideData => {
+                                                                                return sideData.storeSideMenuSeq === data.seq
+                                                                            }).length === 0 ? "" : "number-btn-hidden"
+                                                                        )}
+                                                                        onClick={() => {
+                                                                            onClickAddSideMenu(data)
+                                                                        }}>
+                                                                        <PlusBtn/>
+                                                                    </div>
+                                                                    <div className={"number-btn number-btn-active " + (
+                                                                        orderMenu.storeOrderSides.filter(sideData => {
+                                                                            return sideData.storeSideMenuSeq === data.seq
+                                                                        }).length === 0 ? "number-btn-hidden" : ""
+                                                                    )}
+                                                                         onClick={() => {
+                                                                             onClickRemoveSideMenu(data)
+                                                                         }}>
+                                                                        <CheckBtn/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div className={"menu-select-side-number"}>
-                                                            <div
-                                                                className={"number-btn " + (
-                                                                    orderMenu.storeOrderSides.filter(sideData => {
-                                                                        return sideData.storeSideMenuSeq === data.seq
-                                                                    }).length === 0 ? "" : "number-btn-hidden"
-                                                                )}
-                                                                onClick={() => {
-                                                                    onClickAddSideMenu(data)
-                                                                }}>
-                                                                <PlusBtn/>
-                                                            </div>
-                                                            <div className={"number-btn number-btn-active " + (
-                                                                orderMenu.storeOrderSides.filter(sideData => {
-                                                                    return sideData.storeSideMenuSeq === data.seq
-                                                                }).length === 0 ? "number-btn-hidden" : ""
-                                                            )}
-                                                                 onClick={() => {
-                                                                     onClickRemoveSideMenu(data)
-                                                                 }}>
-                                                                <CheckBtn/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        }
-                                    </React.Fragment>
-                                ))
-                            }
-                        </div>
+                                                    ))
+                                                }
+                                            </React.Fragment>
+                                        ))
+                                    }
+                                </div>
+                            ) : (<></>)
+                        }
                         <div className={"menu-select-body-bottom"}>
                             <div>
                                 <div className={"menu-select-count-p"}>
@@ -253,8 +300,8 @@ let MenuSelectComponent = () => {
                 </div>
                 <div className={"menu-select-container-footer"}>
                     <div>
-                        <div className={"menu-select-side-btn"}>
-                            <p>{order.totalPrice}원 담기</p>
+                        <div className={"menu-select-side-btn"} onClick={onClickInputBasketMenu}>
+                            <p>{orderMenu.price}원 담기</p>
                         </div>
                     </div>
                 </div>

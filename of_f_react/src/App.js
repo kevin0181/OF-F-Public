@@ -17,6 +17,7 @@ import OrderStoreCheck from "./components/order/OrderStoreCheck";
 import OrderStoreSearch from "./components/order/OrderStoreSearch";
 import StoreOrder from "./components/order/component/StoreOrder";
 import StoreOrderHeader from "./components/order/component/StoreOrderHeader";
+import MenuBasketList from "./components/order/component/MenuBasketList";
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
                                 <Route path={"search"} element={<OrderStoreSearch/>}/> {/*검색*/}
                                 <Route path={":storeId"}>  {/*정상적인 가게 접근인지 확인*/}
                                     <Route path={":qrId"} element={<OrderStoreCheck/>}>
+                                        <Route path={"basket"} element={<MenuBasketList/>}/>
                                         <Route element={<StoreOrderHeader/>}>
                                             <Route path={"main"} element={<StoreOrder/>}/>
                                         </Route>

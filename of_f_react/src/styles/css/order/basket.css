@@ -1,0 +1,166 @@
+.basket-list-container-header {
+    width: 100%;
+    height: 13%;
+    display: flex;
+    flex-direction: column;
+}
+
+.basket-list-container-body {
+    width: 100%;
+    height: 74%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.basket-list-container-body > div {
+    width: 90%;
+    height: 95%;
+    display: flex;
+    flex-direction: column;
+}
+
+.basket-part {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.basket-part-menu-title {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.basket-part-menu-h3 {
+    width: 90%;
+}
+
+.basket-part-menu-XBtn {
+    width: 10%;
+}
+
+.basket-part-menu-XBtn > svg {
+    width: 100%;
+}
+
+.basket-part-menu-title > div {
+    display: flex;
+    height: 100%;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.basket-part-img {
+    width: 30%;
+    height: 100%;
+    display: inline-block;
+    padding: 5px;
+}
+
+.basket-part-img > div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.basket-part-img > div > img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.basket-part-menu-info {
+    width: 70%;
+    height: 100%;
+    display: inline-block;
+    padding: 5px;
+    color: #7a7a7a;
+}
+
+.basket-part-btn {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: right;
+    padding: 13px;
+}
+
+.basket-part-btn > div {
+    width: 50%;
+    height: 35px;
+    border-radius: 7px;
+    background-color: #c7c7c7;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    font-weight: bolder;
+}
+
+.basket-part-menu-info-price {
+
+}
+
+.basket-part-menu-info-side {
+
+}
+
+.basket-part-menu-body {
+    width: 100%;
+    height: auto;
+    display: flex;
+}
+
+.basket-list-container-footer {
+    width: 100%;
+    height: 13%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.basket-list-container-footer > div {
+    width: 80%;
+    height: 60%;
+    border-radius: 10px;
+    background-color: #1A72C3;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.basket-list-container-footer > div > p {
+    font-weight: bolder;
+    font-size: 20px;
+}
+
+.basket-title {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.basket-title > div {
+    width: 90%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    border-bottom: 1px solid #c3c3c3;
+}
+
+.basket-title > div > h3 {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}

@@ -18,8 +18,6 @@ let StoreOrder = () => {
 
     let query = useQuery();
 
-    const navigate = useNavigate();
-
     let {storeId, qrId} = useParams();
 
     const [orderStore, setOrderStore] = useRecoilState(orderStoreRecoil); // 가게 정보

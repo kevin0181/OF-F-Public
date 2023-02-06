@@ -282,7 +282,6 @@
 }
 
 .menu-select-body-top {
-    border-bottom: 1px solid #b9b9b9;
     padding-bottom: 20px;
 }
 
@@ -356,7 +355,7 @@
     display: flex;
     flex-direction: column;
     padding: 10px;
-    border-bottom: 1px solid #747474;
+    border-top: 1px solid #b9b9b9;
 }
 
 .menu-select-body-center > div {
@@ -373,6 +372,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    border-top: 1px solid #747474;
 }
 
 .menu-select-body-bottom > div {

@@ -46,7 +46,7 @@ import of_f.of_f_spring.dto.user.UserSignInDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-02-01T12:19:43+0900",
+    date = "2023-02-06T13:17:58+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class UserMapperImpl implements UserMapper {
@@ -485,7 +485,6 @@ public class UserMapperImpl implements UserMapper {
         storeOrderSideDTO.setSeq( storeOrderSide.getSeq() );
         storeOrderSideDTO.setStoreSideMenuSeq( storeOrderSide.getStoreSideMenuSeq() );
         storeOrderSideDTO.setStoreOrderMenuSeq( storeOrderSide.getStoreOrderMenuSeq() );
-        storeOrderSideDTO.setSize( storeOrderSide.getSize() );
         storeOrderSideDTO.setStoreSideMenu( storeSideMenuToStoreSideMenuDTO( storeOrderSide.getStoreSideMenu() ) );
 
         return storeOrderSideDTO;
@@ -543,7 +542,7 @@ public class UserMapperImpl implements UserMapper {
 
         storeOrderDTO.seq( storeOrder.getSeq() );
         storeOrderDTO.storeSeq( storeOrder.getStoreSeq() );
-        storeOrderDTO.storeQRIdSeq( storeOrder.getStoreQRIdSeq() );
+        storeOrderDTO.storeQRId( storeOrder.getStoreQRId() );
         storeOrderDTO.id( storeOrder.getId() );
         storeOrderDTO.kind( storeOrder.getKind() );
         storeOrderDTO.orderNumber( storeOrder.getOrderNumber() );
