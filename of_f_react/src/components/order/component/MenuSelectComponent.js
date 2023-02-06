@@ -81,10 +81,6 @@ let MenuSelectComponent = () => {
 
     useEffect(() => {
 
-    }, [orderMenu.storeOrderSides]); // 주문 메뉴 사이드가 변경됐을경우.
-
-    useEffect(() => {
-
         let checkBasketMenu = order.storeOrderMenus.filter(data => {
             return selectOrderMenu.seq === data.storeMenuSeq
         })
@@ -145,16 +141,21 @@ let MenuSelectComponent = () => {
                 return selectOrderMenu.seq !== data.storeMenuSeq;
             });
 
+            let price = 0;
+            newBasketMenuData.map(data => {
+                price += data.price;
+            })
+
             setOrder({
                 ...order,
                 storeOrderMenus: [
                     ...newBasketMenuData,
                     orderMenu
                 ],
-                totalPrice: Number(order.totalPrice) + orderMenu.price
+                totalPrice: price + orderMenu.price
             });
 
-        } else {
+        } else { // 새로 추가
 
             setOrder({
                 ...order,
