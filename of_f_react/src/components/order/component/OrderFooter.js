@@ -1,8 +1,14 @@
 import {ReactComponent as Basket} from "./../../../assets/icon/shopping-cart.svg";
 import {useRecoilState} from "recoil";
 import {order as orderRecoil} from "../../../store/order/order";
+import {useNavigate, useParams} from "react-router-dom";
 
 let OrderFooter = () => {
+
+    const navigate = useNavigate();
+
+    let {storeId, qrId} = useParams();
+
     const [order, setOrder] = useRecoilState(orderRecoil); //  주문 목록(장바구니)
 
     return (
@@ -11,7 +17,9 @@ let OrderFooter = () => {
                 <div className={"order-footer-basket-number"}>
                     <p>{order.storeOrderMenus.length}</p>
                 </div>
-                <div className={"order-footer-basket-icon"}>
+                <div className={"order-footer-basket-icon"} onClick={() => {
+                    navigate(`/store/${storeId}/${qrId}/basket`);
+                }}>
                     <Basket/>
                 </div>
             </div>

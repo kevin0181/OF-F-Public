@@ -46,18 +46,6 @@ let MenuSelectComponent = () => {
     }, [imgCurrent]);
 
     useEffect(() => {
-        console.log(selectOrderMenu);
-    }, [selectOrderMenu])
-
-    useEffect(() => {
-        console.log(orderMenu);
-    }, [orderMenu])
-
-    useEffect(() => {
-        console.log(order);
-    }, [order])
-
-    useEffect(() => {
         let price = 0;
 
         orderMenu.storeOrderSides.map((data, index) => {
