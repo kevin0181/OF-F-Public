@@ -1,0 +1,47 @@
+.basket-list-container-header {
+    width: 100%;
+    height: 13%;
+    display: flex;
+    flex-direction: column;
+}
+
+.basket-list-container-body {
+    width: 100%;
+    height: 74%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+}
+
+.basket-list-container-footer {
+    width: 100%;
+    height: 13%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.basket-title {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.basket-title > div {
+    width: 90%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    border-bottom: 1px solid #c3c3c3;
+}
+
+.basket-title > div > h3 {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
