@@ -1,4 +1,4 @@
-import {useRecoilState} from "recoil";
+import {useRecoilState, useResetRecoilState} from "recoil";
 import {
     clickMenuStatus as clickMenuStatusRecoil,
     selectOrderMenu as selectOrderMenuRecoil
@@ -26,6 +26,7 @@ let MenuSelectComponent = () => {
 
     const [order, setOrder] = useRecoilState(orderRecoil); //  전체 주문
     const [orderMenu, setOrderMenu] = useRecoilState(orderMenuRecoil); //  주문 목록(장바구니)
+    const resetOrderMenu = useResetRecoilState(orderMenuRecoil);
 
     useEffect(() => {
         setTimeout(() => {
@@ -132,8 +133,9 @@ let MenuSelectComponent = () => {
             totalPrice: Number(order.totalPrice) + orderMenu.price
         });
 
-        setClickMenuStatus(false);
+        resetOrderMenu();
 
+        setClickMenuStatus(false);
 
     }
 
