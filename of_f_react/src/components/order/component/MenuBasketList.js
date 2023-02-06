@@ -55,12 +55,14 @@ let MenuBasketList = () => {
                                         </div>
                                         <div className={"basket-part-menu-info"}>
                                             <div className={"basket-part-menu-info-price"}>
-                                                &bull;<small>메뉴 가격 : {menuData.price}원</small>
+                                                &bull;<small>메뉴 가격
+                                                : {menuData.size * Number(menuData.storeMenu.price)}원</small>
                                             </div>
                                             {
                                                 menuData.storeOrderSides.map((sideData, sideIndex) => (
                                                     <div className={"basket-part-menu-info-side"} key={sideIndex}>
-                                                        &bull;<small>사이드 : 감자탕 - 1000원</small>
+                                                        &bull;<small>사이드
+                                                        : {sideData.storeSideMenu.name} - {sideData.storeSideMenu.price}원</small>
                                                     </div>
                                                 ))
                                             }
