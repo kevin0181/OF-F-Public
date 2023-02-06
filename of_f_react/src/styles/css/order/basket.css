@@ -13,7 +13,7 @@
     justify-content: center;
     align-items: center;
     overflow: scroll;
-    overflow-x:hidden;
+    overflow-x: hidden;
 }
 
 .basket-list-container-body > div {
@@ -123,6 +123,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.basket-list-container-footer > div {
+    width: 80%;
+    height: 60%;
+    border-radius: 10px;
+    background-color: #1A72C3;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.basket-list-container-footer > div > p {
+    font-weight: bolder;
+    font-size: 20px;
 }
 
 .basket-title {

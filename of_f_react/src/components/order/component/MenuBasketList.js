@@ -82,6 +82,11 @@ let MenuBasketList = () => {
                     </div>
                 </div>
                 <div className={"basket-list-container-footer"}>
+                    <div>
+                        <p>
+                            {order.totalPrice}원 결제 및 주문하기
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
