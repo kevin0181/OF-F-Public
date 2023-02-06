@@ -65,9 +65,9 @@ let MenuSelectComponent = () => {
         })
     }, [orderMenu.size]) // 주문 메뉴 사이즈가 변경됐을경우
 
-    useEffect(()=>{
+    useEffect(() => {
 
-    },[orderMenu.storeOrderSides]); // 주문 메뉴 사이드가 변경됐을경우.
+    }, [orderMenu.storeOrderSides]); // 주문 메뉴 사이드가 변경됐을경우.
 
     useEffect(() => {
         setOrderMenu({
@@ -129,7 +129,7 @@ let MenuSelectComponent = () => {
                         {
                             selectOrderMenu.storeMenuImgs.length !== 0 ? (
                                 <div style={{
-                                    width: "78%",
+                                    width: "60%",
                                     height: "90%",
                                     overflow: "hidden"
                                 }}>
@@ -166,53 +166,58 @@ let MenuSelectComponent = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className={"menu-select-body-center"}>
-                            {
-                                selectOrderMenu.storeMSs.map((data, index) => (
-                                    <React.Fragment key={index}>
-                                        <div className={"menu-select-side-name"}>{data.storeSideCategory.name}</div>
-                                        {
-                                            data.storeSideCategory.storeSideMenus.map((data, index) => (
-                                                <div className={"menu-select-side-part"} key={index}>
-                                                    <div className={"menu-select-side"}>
-                                                        <div>
-                                                            <div>{data.name}</div>
-                                                            <div style={{
-                                                                fontSize: "13px"
-                                                            }}>{data.price}원
+                        {
+                            selectOrderMenu.storeMSs.length !== 0 ? (
+                                <div className={"menu-select-body-center"}>
+                                    {
+                                        selectOrderMenu.storeMSs.map((data, index) => (
+                                            <React.Fragment key={index}>
+                                                <div
+                                                    className={"menu-select-side-name"}>{data.storeSideCategory.name}</div>
+                                                {
+                                                    data.storeSideCategory.storeSideMenus.map((data, index) => (
+                                                        <div className={"menu-select-side-part"} key={index}>
+                                                            <div className={"menu-select-side"}>
+                                                                <div>
+                                                                    <div>{data.name}</div>
+                                                                    <div style={{
+                                                                        fontSize: "13px"
+                                                                    }}>{data.price}원
+                                                                    </div>
+                                                                </div>
+                                                                <div className={"menu-select-side-number"}>
+                                                                    <div
+                                                                        className={"number-btn " + (
+                                                                            orderMenu.storeOrderSides.filter(sideData => {
+                                                                                return sideData.storeSideMenuSeq === data.seq
+                                                                            }).length === 0 ? "" : "number-btn-hidden"
+                                                                        )}
+                                                                        onClick={() => {
+                                                                            onClickAddSideMenu(data)
+                                                                        }}>
+                                                                        <PlusBtn/>
+                                                                    </div>
+                                                                    <div className={"number-btn number-btn-active " + (
+                                                                        orderMenu.storeOrderSides.filter(sideData => {
+                                                                            return sideData.storeSideMenuSeq === data.seq
+                                                                        }).length === 0 ? "number-btn-hidden" : ""
+                                                                    )}
+                                                                         onClick={() => {
+                                                                             onClickRemoveSideMenu(data)
+                                                                         }}>
+                                                                        <CheckBtn/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div className={"menu-select-side-number"}>
-                                                            <div
-                                                                className={"number-btn " + (
-                                                                    orderMenu.storeOrderSides.filter(sideData => {
-                                                                        return sideData.storeSideMenuSeq === data.seq
-                                                                    }).length === 0 ? "" : "number-btn-hidden"
-                                                                )}
-                                                                onClick={() => {
-                                                                    onClickAddSideMenu(data)
-                                                                }}>
-                                                                <PlusBtn/>
-                                                            </div>
-                                                            <div className={"number-btn number-btn-active " + (
-                                                                orderMenu.storeOrderSides.filter(sideData => {
-                                                                    return sideData.storeSideMenuSeq === data.seq
-                                                                }).length === 0 ? "number-btn-hidden" : ""
-                                                            )}
-                                                                 onClick={() => {
-                                                                     onClickRemoveSideMenu(data)
-                                                                 }}>
-                                                                <CheckBtn/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        }
-                                    </React.Fragment>
-                                ))
-                            }
-                        </div>
+                                                    ))
+                                                }
+                                            </React.Fragment>
+                                        ))
+                                    }
+                                </div>
+                            ) : (<></>)
+                        }
                         <div className={"menu-select-body-bottom"}>
                             <div>
                                 <div className={"menu-select-count-p"}>
