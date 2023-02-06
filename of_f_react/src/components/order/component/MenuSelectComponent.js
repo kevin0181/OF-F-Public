@@ -134,17 +134,41 @@ let MenuSelectComponent = () => {
 
     let onClickInputBasketMenu = () => {
 
-        setOrder({
-            ...order,
-            storeOrderMenus: [
-                ...order.storeOrderMenus,
-                orderMenu
-            ],
-            totalPrice: Number(order.totalPrice) + orderMenu.price
-        });
+
+        let checkBasketMenu = order.storeOrderMenus.filter(data => {
+            return selectOrderMenu.seq === data.storeMenuSeq
+        })
+
+        if (checkBasketMenu.length !== 0) { //이미 장바구니에 존재하면?
+
+            let newBasketMenuData = order.storeOrderMenus.filter(data => {
+                return selectOrderMenu.seq !== data.storeMenuSeq;
+            });
+
+            setOrder({
+                ...order,
+                storeOrderMenus: [
+                    ...newBasketMenuData,
+                    orderMenu
+                ],
+                totalPrice: Number(order.totalPrice) + orderMenu.price
+            });
+
+        } else {
+
+            setOrder({
+                ...order,
+                storeOrderMenus: [
+                    ...order.storeOrderMenus,
+                    orderMenu
+                ],
+                totalPrice: Number(order.totalPrice) + orderMenu.price
+            });
+
+        }
+
 
         resetOrderMenu();
-
         setClickMenuStatus(false);
 
     }
