@@ -29,10 +29,10 @@ let MenuBasketList = () => {
         }
     }, [order.storeOrderMenus]);
 
-    let cancelOrderMenu = (cancelMenuData) => { //메뉴 주문 취소
+    let cancelOrderMenu = (cancelMenuDataIndex) => { //메뉴 주문 취소
 
-        let newMenuData = order.storeOrderMenus.filter((data) => {
-            return data.storeMenuSeq !== cancelMenuData.storeMenuSeq
+        let newMenuData = order.storeOrderMenus.filter((data, index) => {
+            return index !== cancelMenuDataIndex
         });
 
         setOrder({
@@ -89,7 +89,7 @@ let MenuBasketList = () => {
                                                     <h3>{menuData.storeMenu.name}</h3>
                                                 </div>
                                                 <div className={"basket-part-menu-XBtn"} onClick={() => {
-                                                    cancelOrderMenu(menuData)
+                                                    cancelOrderMenu(menuIndex);
                                                 }}>
                                                     <XBtn/>
                                                 </div>
@@ -119,7 +119,10 @@ let MenuBasketList = () => {
                                                             </div>
                                                         ))
                                                     }
-                                                    <div className={"basket-part-menu-info-price"}>
+                                                    <div className={"basket-part-menu-info-price"} style={{
+                                                        color: "black",
+                                                        fontWeight: "bolder"
+                                                    }}>
                                                         &bull;<small>총 가격 : {menuData.price}원</small>
                                                     </div>
                                                     <div className={"basket-part-btn"}>

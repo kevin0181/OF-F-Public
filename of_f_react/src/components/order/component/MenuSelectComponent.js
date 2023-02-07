@@ -57,25 +57,17 @@ let MenuSelectComponent = () => {
             price: (orderMenu.size * Number(orderMenu.storeMenu.price)) + price
         })
 
-    }, [orderMenu.storeOrderSides,orderMenu.size]); // => 메뉴 사이드 선택시 가격 변경 or 주문 메뉴 사이즈가 변경됐을경우
+    }, [orderMenu.storeOrderSides, orderMenu.size]); // => 메뉴 사이드 선택시 가격 변경 or 주문 메뉴 사이즈가 변경됐을경우
 
 
     useEffect(() => {
 
-        let checkBasketMenu = order.storeOrderMenus.filter(data => {
-            return selectOrderMenu.seq === data.storeMenuSeq
-        })
-
-        if (checkBasketMenu.length !== 0) {
-            setOrderMenu(checkBasketMenu[0]);
-        } else {
-            setOrderMenu({
-                ...orderMenu,
-                storeMenuSeq: selectOrderMenu.seq,
-                storeMenu: selectOrderMenu,
-                price: Number(selectOrderMenu.price)
-            });
-        }
+        setOrderMenu({
+            ...orderMenu,
+            storeMenuSeq: selectOrderMenu.seq,
+            storeMenu: selectOrderMenu,
+            price: Number(selectOrderMenu.price)
+        });
 
     }, []);
 
@@ -112,43 +104,14 @@ let MenuSelectComponent = () => {
     let onClickInputBasketMenu = () => {
 
 
-        let checkBasketMenu = order.storeOrderMenus.filter(data => {
-            return selectOrderMenu.seq === data.storeMenuSeq
-        })
-
-        if (checkBasketMenu.length !== 0) { //이미 장바구니에 존재하면?
-
-            let newBasketMenuData = order.storeOrderMenus.filter(data => {
-                return selectOrderMenu.seq !== data.storeMenuSeq;
-            });
-
-            let price = 0;
-            newBasketMenuData.map(data => {
-                price += data.price;
-            })
-
-            setOrder({
-                ...order,
-                storeOrderMenus: [
-                    ...newBasketMenuData,
-                    orderMenu
-                ],
-                totalPrice: price + orderMenu.price
-            });
-
-        } else { // 새로 추가
-
-            setOrder({
-                ...order,
-                storeOrderMenus: [
-                    ...order.storeOrderMenus,
-                    orderMenu
-                ],
-                totalPrice: Number(order.totalPrice) + orderMenu.price
-            });
-
-        }
-
+        setOrder({
+            ...order,
+            storeOrderMenus: [
+                ...order.storeOrderMenus,
+                orderMenu
+            ],
+            totalPrice: Number(order.totalPrice) + orderMenu.price
+        });
 
         resetOrderMenu();
         setClickMenuStatus(false);
