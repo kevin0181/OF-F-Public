@@ -1,0 +1,84 @@
+.payInfo-body-top {
+    width: 100%;
+    height: auto;
+    padding: 0px 0px 15px 0px;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.payInfo-body-top > h4 {
+    padding: 5px 0px;
+}
+
+.payInfo-body-top > p {
+    padding: 5px 10px 0px 10px;
+}
+
+.payInfo-body-top > small {
+    padding: 0px 15px
+}
+
+.payInfo-body-body1 {
+    width: 100%;
+    height: auto;
+    padding-bottom: 30px;
+}
+
+.payInfo-body-body2 > h4 {
+    padding: 5px 0px;
+}
+
+.payInfo-phoneNumber {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.payInfo-phoneNumber > p {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.payInfo-phoneNumber > input {
+    width: 80%;
+}
+
+.payInfo-phoneNumberReceive {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+}
+
+.payInfo-phoneNumberReceive > small {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 10px;
+}
+
+.payInfo-body-last {
+    border-bottom: 1px solid #d9d9d9;
+    padding-bottom: 20px;
+}
+
+.payInfo-body-last > div {
+    width: 100%;
+    padding: 0px 40px;
+}
+
+.payInfo-order-request {
+    padding: 20px 0px 0px 0px;
+}
+
+.payInfo-order-request > h4 {
+    padding: 0px 0px 10px 0px;
+}
+
+.request-textarea {
+    width: 100%;
+    height: 100px;
+    resize: none;
+}
