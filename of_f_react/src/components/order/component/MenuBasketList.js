@@ -9,7 +9,7 @@ import {
     clickMenuStatus as clickMenuStatusRecoil,
     selectOrderMenu as selectOrderMenuRecoil
 } from "../../../store/order/orderSelectMenu";
-import MenuSelectComponent from "./MenuSelectComponent";
+import MenuBasketChangeMenu from "./MenuBasketChangeMenu";
 
 let MenuBasketList = () => {
 
@@ -60,7 +60,7 @@ let MenuBasketList = () => {
         <>
             {
                 clickMenuStatus ? (
-                    <MenuSelectComponent/>
+                    <MenuBasketChangeMenu/>
                 ) : (<div className={"order-container animate__animated animate__slideInUp"}>
                     <div className={"menu-select-container"}>
                         <div className={"basket-list-container-header"}>
