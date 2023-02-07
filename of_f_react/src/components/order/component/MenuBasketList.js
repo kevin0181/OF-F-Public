@@ -108,7 +108,7 @@ let MenuBasketList = () => {
                                                 <div className={"basket-part-menu-info"}>
                                                     <div className={"basket-part-menu-info-price"}>
                                                         &bull;<small>메뉴 가격
-                                                        : {menuData.size * Number(menuData.storeMenu.price)}원</small>
+                                                        : {Number(menuData.storeMenu.price)}원</small>
                                                     </div>
                                                     {
                                                         menuData.storeOrderSides.map((sideData, sideIndex) => (
@@ -119,6 +119,10 @@ let MenuBasketList = () => {
                                                             </div>
                                                         ))
                                                     }
+                                                    <div className={"basket-part-menu-info-side"}>
+                                                        &bull;<small>수량
+                                                        : {menuData.size}개</small>
+                                                    </div>
                                                     <div className={"basket-part-menu-info-price"} style={{
                                                         color: "black",
                                                         fontWeight: "bolder"

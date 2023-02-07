@@ -49,7 +49,7 @@ let MenuSelectComponent = () => {
         let price = 0;
 
         orderMenu.storeOrderSides.map((data, index) => {
-            price += Number(data.storeSideMenu.price);
+            price += Number(data.storeSideMenu.price) * orderMenu.size;
         });
 
         setOrderMenu({
