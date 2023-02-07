@@ -97,8 +97,12 @@ let MenuBasketList = () => {
                                             <div className={"basket-part-menu-body"}>
                                                 <div className={"basket-part-img"}>
                                                     <div>
-                                                        <img
-                                                            src={`${process.env.REACT_APP_SERVER_URL_PORT}/api/v1/img/get?name=${menuData.storeMenu.storeMenuImgs[0].name}&kind=menu&store=${orderStore.name}`}/>
+                                                        {
+                                                            menuData.storeMenu.storeMenuImgs.length !== 0 ? (
+                                                                <img
+                                                                    src={`${process.env.REACT_APP_SERVER_URL_PORT}/api/v1/img/get?name=${menuData.storeMenu.storeMenuImgs[0].name}&kind=menu&store=${orderStore.name}`}/>
+                                                            ) : (<></>)
+                                                        }
                                                     </div>
                                                 </div>
                                                 <div className={"basket-part-menu-info"}>
