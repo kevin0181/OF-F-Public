@@ -12,7 +12,7 @@ import {useEffect, useState} from "react";
 import React from "react";
 import {order as orderRecoil, orderMenu as orderMenuRecoil} from "../../../store/order/order";
 
-let MenuSelectComponent = () => {
+let MenuBasketChangeMenu = () => {
 
 
     const [orderStore, setOrderStore] = useRecoilState(orderStoreRecoil); // 가게 정보
@@ -62,12 +62,20 @@ let MenuSelectComponent = () => {
 
     useEffect(() => {
 
-        setOrderMenu({
-            ...orderMenu,
-            storeMenuSeq: selectOrderMenu.seq,
-            storeMenu: selectOrderMenu,
-            price: Number(selectOrderMenu.price)
-        });
+        let checkBasketMenu = order.storeOrderMenus.filter(data => {
+            return selectOrderMenu.seq === data.storeMenuSeq
+        })
+
+        if (checkBasketMenu.length !== 0) {
+            setOrderMenu(checkBasketMenu[0]);
+        } else {
+            setOrderMenu({
+                ...orderMenu,
+                storeMenuSeq: selectOrderMenu.seq,
+                storeMenu: selectOrderMenu,
+                price: Number(selectOrderMenu.price)
+            });
+        }
 
     }, []);
 
@@ -104,14 +112,43 @@ let MenuSelectComponent = () => {
     let onClickInputBasketMenu = () => {
 
 
-        setOrder({
-            ...order,
-            storeOrderMenus: [
-                ...order.storeOrderMenus,
-                orderMenu
-            ],
-            totalPrice: Number(order.totalPrice) + orderMenu.price
-        });
+        let checkBasketMenu = order.storeOrderMenus.filter(data => {
+            return selectOrderMenu.seq === data.storeMenuSeq
+        })
+
+        if (checkBasketMenu.length !== 0) { //이미 장바구니에 존재하면?
+
+            let newBasketMenuData = order.storeOrderMenus.filter(data => {
+                return selectOrderMenu.seq !== data.storeMenuSeq;
+            });
+
+            let price = 0;
+            newBasketMenuData.map(data => {
+                price += data.price;
+            })
+
+            setOrder({
+                ...order,
+                storeOrderMenus: [
+                    ...newBasketMenuData,
+                    orderMenu
+                ],
+                totalPrice: price + orderMenu.price
+            });
+
+        } else { // 새로 추가
+
+            setOrder({
+                ...order,
+                storeOrderMenus: [
+                    ...order.storeOrderMenus,
+                    orderMenu
+                ],
+                totalPrice: Number(order.totalPrice) + orderMenu.price
+            });
+
+        }
+
 
         resetOrderMenu();
         setClickMenuStatus(false);
@@ -264,7 +301,7 @@ let MenuSelectComponent = () => {
                 <div className={"menu-select-container-footer"}>
                     <div>
                         <div className={"menu-select-side-btn"} onClick={onClickInputBasketMenu}>
-                            <p>{orderMenu.price}원 담기</p>
+                            <p>{orderMenu.price}원 변경하기</p>
                         </div>
                     </div>
                 </div>
@@ -273,4 +310,4 @@ let MenuSelectComponent = () => {
     )
 }
 
-export default MenuSelectComponent;
+export default MenuBasketChangeMenu;
