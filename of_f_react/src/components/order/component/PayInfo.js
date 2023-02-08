@@ -3,6 +3,9 @@ import {useNavigate, useParams} from "react-router-dom";
 import {ReactComponent as XBtn} from "../../../assets/icon/x.svg";
 import {ReactComponent as Check} from "../../../assets/icon/check.svg";
 import {ReactComponent as ChevronDown} from "../../../assets/icon/chevron-down.svg";
+import {ReactComponent as TossPayLogo} from "../../../assets/logo/logo-toss-pay.svg";
+import NpayImg from "../../../assets/logo/npay_20.png";
+import kakaoImg from "./../../../assets/logo/payment_icon_yellow_small.png";
 import "./../../../styles/css/order/payInfo.css";
 import {useRecoilState} from "recoil";
 import {orderStore as orderStoreRecoil} from "../../../store/order/orderStore";
@@ -15,7 +18,11 @@ let PayInfo = () => {
     let {storeId, qrId} = useParams();
     const [order, setOrder] = useRecoilState(orderRecoil); //  주문 목록(장바구니)
 
-    const [agreementBtnStatus, setAgreementBtnStatus] = useState({
+    const [defaultPayWayStatus, setDefaultPayWayStatus] = useState(""); //기본 결제
+    const [easyPayWayStatus, setEasyPayWayStatus] = useState(""); //간편 결제
+
+
+    const [agreementBtnStatus, setAgreementBtnStatus] = useState({ //수신동의
         phoneNumberReceive: false,
         emailReceive: false
     })
@@ -27,7 +34,54 @@ let PayInfo = () => {
 
     useEffect(() => {
         console.log(orderStore)
-    }, [orderStore])
+    }, [orderStore]);
+
+    useEffect(() => {
+        const jquery = document.createElement("script");
+        jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
+        const iamport = document.createElement("script");
+        iamport.src = "https://cdn.iamport.kr/js/iamport.payment-1.2.0.js";
+        document.head.appendChild(jquery);
+        document.head.appendChild(iamport);
+        return () => {
+            document.head.removeChild(jquery);
+            document.head.removeChild(iamport);
+        }
+    }, []);
+
+    const onClickPayDefaultWayBtn = (e) => { //결제 방식 선택
+        setDefaultPayWayStatus(e.target.getAttribute("pay-way-name"));
+        setEasyPayWayStatus("");
+    }
+
+    const onClickPayEasyWayBtn = (e) => { //결제 방식 선택
+        setEasyPayWayStatus(e.target.getAttribute("pay-way-name"));
+        setDefaultPayWayStatus("");
+    }
+
+    const onClickPayBtn = () => { //결제 버튼 클릭
+        const {IMP} = window;
+        IMP.init("imp76725859");
+        IMP.request_pay({ // param
+            pg: "uplus.tlgdacomxpay",
+            pay_method: "card",
+            merchant_uid: "ORD20180131-0000011",
+            name: "노르웨이 회전 의자",
+            amount: 500,
+            buyer_email: "gildong@gmail.com",
+            buyer_name: "유영빈",
+            buyer_tel: "010-4242-4242",
+            buyer_addr: "서울특별시 강남구 신사동",
+            buyer_postcode: "01181",
+            m_redirect_url: "http://localhost:3000/store/1/1QR/payInfo"
+        }, rsp => { // callback
+            console.log(rsp);
+            if (rsp.success) {
+            } else {
+            }
+        });
+    }
+
     return (
         <div className={"order-container"}>
             <div className={"menu-select-container"}>
@@ -113,6 +167,61 @@ let PayInfo = () => {
                                 <h4>요청 사항</h4>
                                 <textarea className={"request-textarea m-input"} placeholder={"요청사항을 입력하세요."}/>
                             </div>
+                            <div className={"payInfo-order-select-pay-way"}>
+                                <h4>결제 방식 선택</h4>
+                                <h5 style={{
+                                    padding: "5px"
+                                }}>기본 결제</h5>
+                                <div className={"pay-list-div"}>
+                                    <div className={"" + (defaultPayWayStatus === "card" ? 'pay-way-active' : '')}
+                                         pay-way-name={"card"}
+                                         onClick={onClickPayDefaultWayBtn}>
+                                        <p>신용카드</p>
+                                    </div>
+                                    <div className={"" + (defaultPayWayStatus === "phone" ? 'pay-way-active' : '')}
+                                         pay-way-name={"phone"} onClick={onClickPayDefaultWayBtn}>
+                                        <p>휴대폰 소액결제</p>
+                                    </div>
+                                    <div className={"" + (defaultPayWayStatus === "vbank" ? 'pay-way-active' : '')}
+                                         pay-way-name={"vbank"} onClick={onClickPayDefaultWayBtn}>
+                                        <p>가상계좌</p>
+                                    </div>
+                                    <div className={"" + (defaultPayWayStatus === "trans" ? 'pay-way-active' : '')}
+                                         pay-way-name={"trans"} onClick={onClickPayDefaultWayBtn}>
+                                        <p>실시간 계좌이체</p>
+                                    </div>
+                                </div>
+                                <h5 style={{
+                                    padding: "5px"
+                                }}>간편 결제</h5>
+                                <div className={"pay-list-div"}>
+                                    <div className={"" + (easyPayWayStatus === "kakaopay" ? 'pay-way-active' : '')}
+                                         pay-way-name={"kakaopay"} onClick={onClickPayEasyWayBtn}>
+                                        <div style={{
+                                            width: "13%"
+                                        }}>
+                                            <img src={kakaoImg}/>
+                                        </div>
+                                        <p>카카오페이</p>
+                                    </div>
+                                    <div className={"" + (easyPayWayStatus === "tosspay" ? 'pay-way-active' : '')}
+                                         pay-way-name={"tosspay"} onClick={onClickPayEasyWayBtn}>
+                                        <div>
+                                            <TossPayLogo/>
+                                        </div>
+                                        <p>토스</p>
+                                    </div>
+                                    <div className={"" + (easyPayWayStatus === "naverpay" ? 'pay-way-active' : '')}
+                                         pay-way-name={"naverpay"} onClick={onClickPayEasyWayBtn}>
+                                        <div style={{
+                                            width: "13%"
+                                        }}>
+                                            <img src={NpayImg}/>
+                                        </div>
+                                        <p>네이버페이</p>
+                                    </div>
+                                </div>
+                            </div>
                             <div className={"payInfo-order-agreement"}>
                                 <div className={"payInfo-agreement-div"}>
                                     <div>개인정보 제3자 제공</div>
@@ -166,9 +275,7 @@ let PayInfo = () => {
                     </div>
                 </div>
                 <div className={"basket-list-container-footer"}>
-                    <div onClick={() => {
-                        navigate(`/store/${storeId}/${qrId}/payInfo`);
-                    }}>
+                    <div onClick={onClickPayBtn}>
                         <p>
                             {order.totalPrice}원 결제하기
                         </p>
