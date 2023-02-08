@@ -50,11 +50,17 @@ let PayInfo = () => {
     }, []);
 
     const onClickPayDefaultWayBtn = (e) => { //결제 방식 선택
+        if (e.target.getAttribute("pay-way-name") === null) {
+            return;
+        }
         setDefaultPayWayStatus(e.target.getAttribute("pay-way-name"));
         setEasyPayWayStatus("");
     }
 
     const onClickPayEasyWayBtn = (e) => { //결제 방식 선택
+        if (e.target.getAttribute("pay-way-name") === null) {
+            return;
+        }
         setEasyPayWayStatus(e.target.getAttribute("pay-way-name"));
         setDefaultPayWayStatus("");
     }

@@ -112,6 +112,7 @@
     justify-content: center;
     align-content: center;
     flex-wrap: wrap;
+    z-index: -1;
 }
 
 .pay-list-div > div > div > img {
@@ -126,6 +127,7 @@
     align-content: center;
     flex-wrap: wrap;
     margin: 0px 10px;
+    z-index: -1;
 }
 
 .request-textarea {
@@ -203,4 +205,5 @@
     background-color: #b3dbff;
     color: white !important;
     border: none !important;
+    z-index: 1;
 }
