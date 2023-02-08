@@ -1,6 +1,7 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {ReactComponent as XBtn} from "../../../assets/icon/x.svg";
+import {ReactComponent as ChevronDown} from "../../../assets/icon/chevron-down.svg";
 import "./../../../styles/css/order/payInfo.css";
 import {useRecoilState} from "recoil";
 import {orderStore as orderStoreRecoil} from "../../../store/order/orderStore";
@@ -13,6 +14,11 @@ let PayInfo = () => {
     const [orderStore, setOrderStore] = useRecoilState(orderStoreRecoil); // 가게 정보
     let {storeId, qrId} = useParams();
     const [order, setOrder] = useRecoilState(orderRecoil); //  주문 목록(장바구니)
+
+    const [agreementStatus, setAgreementStatus] = useState({
+        f: false,
+        s: false
+    })
 
     useEffect(() => {
         console.log(orderStore)
@@ -87,6 +93,40 @@ let PayInfo = () => {
                             <div className={"payInfo-order-request"}>
                                 <h4>요청 사항</h4>
                                 <textarea className={"request-textarea m-input"} placeholder={"요청사항을 입력하세요."}/>
+                            </div>
+                            <div className={"payInfo-order-agreement"}>
+                                <div className={"payInfo-agreement-div"}>
+                                    <div>개인정보 제3자 제공</div>
+                                    <div onClick={() => {
+                                        setAgreementStatus({
+                                            ...agreementStatus,
+                                            f: !agreementStatus.f
+                                        })
+                                    }}>
+                                        <ChevronDown/>
+                                    </div>
+                                </div>
+                                {
+                                    agreementStatus.f ? (<div className={"payInfo-agreement-div-scroll"}>
+                                        개인정보 제공 내용
+                                    </div>) : (<></>)
+                                }
+                                <div className={"payInfo-agreement-div"}>
+                                    <div>OFF 이용 주의사항</div>
+                                    <div onClick={() => {
+                                        setAgreementStatus({
+                                            ...agreementStatus,
+                                            s: !agreementStatus.s
+                                        })
+                                    }}>
+                                        <ChevronDown/>
+                                    </div>
+                                </div>
+                                {
+                                    agreementStatus.s ? (<div className={"payInfo-agreement-div-scroll"}>
+                                        주의사항
+                                    </div>) : (<></>)
+                                }
                             </div>
                         </div>
                     </div>
