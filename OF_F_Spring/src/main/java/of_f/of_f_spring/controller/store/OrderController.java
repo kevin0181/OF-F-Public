@@ -18,7 +18,7 @@ public class OrderController {
 
     @GetMapping("/qr")
     public ApiResponseDTO storeMenuList(@RequestParam Long storeSeq, @RequestParam String qrId) { // 가맹점 메뉴 가져오는 부분 (고객용)
-        return orderService.getStoreMenuList(storeSeq,qrId);
+        return orderService.getStoreMenuList(storeSeq, qrId);
     }
 
     @PostMapping("/qr")
@@ -30,6 +30,13 @@ public class OrderController {
     @GetMapping("/search")
     public ApiResponseDTO searchStore(@RequestParam String storeName) {
         return orderService.searchStore(storeName);
+    }
+
+    @PostMapping("/pay/before")
+    public ApiResponseDTO payBefore(@RequestParam Long storeId,
+                                    @RequestParam String qrId,
+                                    @RequestBody StoreOrderDTO storeOrderDTO) {
+        return null;
     }
 
 }

@@ -10,6 +10,7 @@ import "./../../../styles/css/order/payInfo.css";
 import {useRecoilState} from "recoil";
 import {orderStore as orderStoreRecoil} from "../../../store/order/orderStore";
 import {order as orderRecoil} from "../../../store/order/order";
+import {notTokenAxios} from "../../../Config/customAxios";
 
 let PayInfo = () => {
 
@@ -66,26 +67,21 @@ let PayInfo = () => {
     }
 
     const onClickPayBtn = () => { //결제 버튼 클릭
-        const {IMP} = window;
-        IMP.init("imp76725859");
-        IMP.request_pay({ // param
-            pg: "uplus.tlgdacomxpay",
-            pay_method: "card",
-            merchant_uid: "ORD20180131-0000011",
-            name: "노르웨이 회전 의자",
-            amount: 500,
-            buyer_email: "gildong@gmail.com",
-            buyer_name: "유영빈",
-            buyer_tel: "010-4242-4242",
-            buyer_addr: "서울특별시 강남구 신사동",
-            buyer_postcode: "01181",
-            m_redirect_url: "http://localhost:3000/store/1/1QR/payInfo"
-        }, rsp => { // callback
-            console.log(rsp);
-            if (rsp.success) {
-            } else {
-            }
-        });
+
+        if (defaultPayWayStatus === "" & easyPayWayStatus === "") {
+            alert("결제 방식을 선택해주세요.");
+            return;
+        }
+
+        notTokenAxios({
+            method: "POST",
+            url: `/api/v1/store/order/pay/before?storeId=${storeId}&qrId=${qrId}`,
+            data: order
+        }).then(res => {
+            console.log(res);
+        }).catch(err => {
+            console.log(err);
+        })
     }
 
     return (

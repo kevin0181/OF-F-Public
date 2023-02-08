@@ -19,7 +19,6 @@ public class StoreOrderDTO {
     private Long storeSeq;
     private String storeQRId;
     private String id;
-
     private Long kind;
     private String orderNumber;
 
