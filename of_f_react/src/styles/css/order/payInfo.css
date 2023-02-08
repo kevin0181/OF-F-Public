@@ -113,4 +113,37 @@
     height: 100px;
     overflow-x: hidden;
     overflow: scroll;
+    font-size: 12px;
+    color: #7a7a7a;
+}
+
+.agreement-btn {
+    border: 1px solid #D1D5DB;
+    border-radius: 5px;
+    background-color: white;
+    width: 20px;
+    height: 20px;
+}
+
+.agreement-btn > svg {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+.agreement-active {
+    background-color: #90caff;
+    border: none !important;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.agreement-active > svg {
+    display: block !important;
+}
+
+.agreement-active > svg > path {
+    stroke: white;
 }

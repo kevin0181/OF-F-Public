@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {ReactComponent as XBtn} from "../../../assets/icon/x.svg";
+import {ReactComponent as Check} from "../../../assets/icon/check.svg";
 import {ReactComponent as ChevronDown} from "../../../assets/icon/chevron-down.svg";
 import "./../../../styles/css/order/payInfo.css";
 import {useRecoilState} from "recoil";
 import {orderStore as orderStoreRecoil} from "../../../store/order/orderStore";
-import {ReactComponent as PlusBtn} from "./../../../assets/icon/plus.svg";
 import {order as orderRecoil} from "../../../store/order/order";
 
 let PayInfo = () => {
@@ -15,7 +15,12 @@ let PayInfo = () => {
     let {storeId, qrId} = useParams();
     const [order, setOrder] = useRecoilState(orderRecoil); //  주문 목록(장바구니)
 
-    const [agreementStatus, setAgreementStatus] = useState({
+    const [agreementBtnStatus, setAgreementBtnStatus] = useState({
+        phoneNumberReceive: false,
+        emailReceive: false
+    })
+
+    const [agreementStatus, setAgreementStatus] = useState({ // 개인정보 및 주의사항 클릭시 보여지는 버튼
         f: false,
         s: false
     })
@@ -66,8 +71,15 @@ let PayInfo = () => {
                                 </div>
                                 <div className={"payInfo-phoneNumberReceive"}>
                                     <small>수신 동의 : </small>
-                                    <div className={"number-btn"}>
-                                        <PlusBtn/>
+                                    <div
+                                        className={"agreement-btn " + (agreementBtnStatus.phoneNumberReceive ? "agreement-active" : "")}
+                                        onClick={() => {
+                                            setAgreementBtnStatus({
+                                                ...agreementBtnStatus,
+                                                phoneNumberReceive: !agreementBtnStatus.phoneNumberReceive
+                                            });
+                                        }}>
+                                        <Check/>
                                     </div>
                                 </div>
                             </div>
@@ -78,8 +90,15 @@ let PayInfo = () => {
                                 </div>
                                 <div className={"payInfo-phoneNumberReceive"}>
                                     <small>이메일 수신 동의 : </small>
-                                    <div className={"number-btn"}>
-                                        <PlusBtn/>
+                                    <div
+                                        className={"agreement-btn " + (agreementBtnStatus.emailReceive ? "agreement-active" : "")}
+                                        onClick={() => {
+                                            setAgreementBtnStatus({
+                                                ...agreementBtnStatus,
+                                                emailReceive: !agreementBtnStatus.emailReceive
+                                            });
+                                        }}>
+                                        <Check/>
                                     </div>
                                 </div>
                             </div>
@@ -108,7 +127,22 @@ let PayInfo = () => {
                                 </div>
                                 {
                                     agreementStatus.f ? (<div className={"payInfo-agreement-div-scroll"}>
-                                        개인정보 제공 내용
+                                        1. 개인정보 수집 항목
+                                        <br/>
+                                        &nbsp;&nbsp;&nbsp;off는 사용자의 전화번호 및 이메일을 수집합니다.
+                                        <br/>
+                                        2. 개인정보 수집 및 이용 목적
+                                        <br/>
+                                        &nbsp;&nbsp;&nbsp;수집된 개인정보는 주문 정보 및 데이터화를 위해 사용됩니다.
+                                        <br/>
+                                        3. 개인정보 보유 및 이용기간
+                                        <br/>
+                                        &nbsp;&nbsp;&nbsp;수집된 개인정보는 해당 가게의 데이터 삭제와 같이 파기됩니다.
+                                        <br/>
+                                        4. 동의를 거부할 권리 및 동의 거부에 따른 불이익
+                                        <br/>
+                                        &nbsp;&nbsp;&nbsp; 전화번호 및 이메일을 작성하지 않을 경우, 개인정보 수집 동의를 거부로 판단하여 off에서 제공하는 서비스가
+                                        제한될 수 있습니다. (ex: 실시간 알림서비스 등)
                                     </div>) : (<></>)
                                 }
                                 <div className={"payInfo-agreement-div"}>
@@ -124,7 +158,7 @@ let PayInfo = () => {
                                 </div>
                                 {
                                     agreementStatus.s ? (<div className={"payInfo-agreement-div-scroll"}>
-                                        주의사항
+                                        1. 사용자의 주문에 따라 음식점의 조리가 시작되므로 단순 변심으로 인한 환불이 불가능합니다.
                                     </div>) : (<></>)
                                 }
                             </div>
