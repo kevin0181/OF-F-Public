@@ -21,22 +21,14 @@ public class OrderController {
         return orderService.getStoreMenuList(storeSeq, qrId);
     }
 
-    @PostMapping("/qr")
-    public ApiResponseDTO orderQR(@RequestParam String qrId,
-                                  @RequestBody @Valid StoreOrderDTO storeOrderDTO) {
-        return orderService.orderQRService(qrId, storeOrderDTO);
-    }
-
     @GetMapping("/search")
     public ApiResponseDTO searchStore(@RequestParam String storeName) {
         return orderService.searchStore(storeName);
     }
 
     @PostMapping("/pay/before")
-    public ApiResponseDTO payBefore(@RequestParam Long storeId,
-                                    @RequestParam String qrId,
-                                    @RequestBody StoreOrderDTO storeOrderDTO) {
-        return null;
+    public ApiResponseDTO payBefore(@RequestBody StoreOrderDTO storeOrderDTO) { //주문 전 저장
+        return orderService.beforeSaveData(storeOrderDTO);
     }
 
 }

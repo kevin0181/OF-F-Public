@@ -2,10 +2,12 @@ package of_f.of_f_spring.domain.mapper.store;
 
 import of_f.of_f_spring.domain.entity.store.Store;
 import of_f.of_f_spring.domain.entity.store.menu.*;
+import of_f.of_f_spring.domain.entity.store.order.StoreOrder;
 import of_f.of_f_spring.domain.entity.store.qr.QRStoreInfo;
 import of_f.of_f_spring.domain.entity.store.qr.StoreQRId;
 import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.menu.*;
+import of_f.of_f_spring.dto.store.order.StoreOrderDTO;
 import of_f.of_f_spring.dto.store.qr.QRStoreInfoDTO;
 import of_f.of_f_spring.dto.store.qr.StoreQRIdDTO;
 import of_f.of_f_spring.dto.total.StoreName;
@@ -70,4 +72,5 @@ public interface StoreMapper {
     List<StoreSideImg> storeSideImgsDTOToStoreSideImgs(List<StoreSideImgDTO> storeSideImgDTOS);
 
     List<StoreName> storeToStoreName(List<Store> stores);
+    StoreOrder storeOrderDTOToStoreOrder(StoreOrderDTO storeOrderDTO);
 }

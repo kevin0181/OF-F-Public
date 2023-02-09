@@ -27,7 +27,7 @@ public class StoreOrderMenu {
     @Column
     private int size;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "Store_Order_Menu_seq")
     private List<StoreOrderSide> storeOrderSides;
 

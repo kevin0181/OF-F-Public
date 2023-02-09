@@ -75,7 +75,7 @@ let PayInfo = () => {
 
         notTokenAxios({
             method: "POST",
-            url: `/api/v1/store/order/pay/before?storeId=${storeId}&qrId=${qrId}`,
+            url: `/api/v1/store/order/pay/before`,
             data: order
         }).then(res => {
             console.log(res);
