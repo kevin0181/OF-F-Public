@@ -36,7 +36,7 @@ public class StoreOrderMenu {
     @JoinColumn(name = "Store_Menu_seq", insertable = false, updatable = false)
     private StoreOrder storeOrder;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "Store_Menu_seq", insertable = false, updatable = false)
     private StoreMenu storeMenu;
 
