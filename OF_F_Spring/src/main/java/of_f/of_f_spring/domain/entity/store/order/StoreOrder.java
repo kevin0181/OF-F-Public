@@ -65,14 +65,14 @@ public class StoreOrder {
     private Boolean phoneNumberReceiveStatus;
 
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "Store_Order_seq")
     private List<StoreOrderMenu> storeOrderMenus;
 
-    @OneToOne(mappedBy = "storeOrder")
+    @OneToOne(mappedBy = "storeOrder", cascade = CascadeType.ALL)
     private StoreOrderPgInfo storeOrderPgInfo;
 
-    @OneToOne(mappedBy = "storeOrder")
+    @OneToOne(mappedBy = "storeOrder", cascade = CascadeType.ALL)
     private StoreOrderVanInfo storeOrderVanInfo;
 
     @ManyToOne

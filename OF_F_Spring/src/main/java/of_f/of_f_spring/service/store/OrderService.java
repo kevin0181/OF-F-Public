@@ -11,6 +11,7 @@ import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.order.StoreOrderDTO;
 import of_f.of_f_spring.dto.total.StoreName;
+import of_f.of_f_spring.repository.store.StoreMenuRepository;
 import of_f.of_f_spring.repository.store.StoreOrderRepository;
 import of_f.of_f_spring.repository.store.StoreQRIdRepository;
 import of_f.of_f_spring.repository.store.StoreRepository;
@@ -34,6 +35,9 @@ public class OrderService {
     @Autowired
     private StoreQRIdRepository storeQRIdRepository;
 
+    @Autowired
+    private StoreMenuRepository storeMenuRepository;
+
     @Transactional
     public ApiResponseDTO getStoreMenuList(Long storeSeq, String qrId) {
         Store store = storeRepository.findById(storeSeq).orElse(null);
@@ -52,29 +56,6 @@ public class OrderService {
         throw new OrderException(OrderExceptionEnum.DOES_NOT_EXIST_QR_ID);
     }
 
-    public ApiResponseDTO orderQRService(String qrId, StoreOrderDTO storeOrderDTO) {
-
-        StoreQRId storeQRId = storeQRIdRepository.findByQrId(qrId);
-
-        if (storeQRId == null)  // qr id 없음.
-            throw new OrderException(OrderExceptionEnum.DOES_NOT_EXIST_QR_ID);
-
-
-        StoreOrder storeOrder = OrderMapper.instance.storeOrderDTOToStoreOrder(storeOrderDTO);
-
-        storeOrder.setId(randomOrderId());
-        storeOrder.setStoreQRId(storeQRId.getQrId());
-
-        StoreOrderDTO resStoreOrderDTO =
-                OrderMapper.instance.storeOrderToStoreOrderDTO(storeOrderRepository.save(storeOrder));
-
-        return ApiResponseDTO.builder()
-                .message("주문 성공")
-                .detail("주문이 완료되었습니다.")
-                .data(resStoreOrderDTO)
-                .build();
-    }
-
     public ApiResponseDTO searchStore(String storeName) {
         List<Store> storeList = storeRepository.findAllByNameContaining(storeName);
 
@@ -84,6 +65,42 @@ public class OrderService {
                 .message("가게 정보")
                 .detail("")
                 .data(storeNames)
+                .build();
+    }
+
+//    public void checkAmount(StoreOrderDTO storeOrderDTO) {
+//
+//        int price = 0; //가격
+//        List<Long> storeMenuId = new ArrayList<>();
+//
+//        for (int i = 0; i < storeOrderDTO.getStoreOrderMenus().size(); i++) {
+//            storeMenuId.add(storeOrderDTO.getStoreOrderMenus().get(i).getStoreMenuSeq());
+//        }
+//        List<StoreMenu> storeMenus = storeMenuRepository.findAllById(storeMenuId);
+//        List<StoreSideCategory> storeSideCategories = new ArrayList<>();
+//
+//        for (int i = 0; i < storeMenus.size(); i++) {
+//            for (int j = 0; j < storeOrderDTO.getStoreOrderMenus().size(); j++) {
+//                if (storeMenus.get(i).getSeq().equals(storeOrderDTO.getStoreOrderMenus().get(j).getStoreMenuSeq())) {
+//                    price += Integer.parseInt(storeMenus.get(i).getPrice()) * storeOrderDTO.getStoreOrderMenus().get(j).getSize(); //메뉴 * 메뉴 사이즈
+//                }
+//            }
+//        }
+//
+//    }
+
+    public ApiResponseDTO beforeSaveData(StoreOrderDTO storeOrderDTO) {
+
+        String merchant_uid = randomOrderId();
+        storeOrderDTO.setId(merchant_uid); //주문번호 선 저장
+        storeOrderDTO.setStatus(0);
+        storeOrderDTO.setPayStatus(0);
+        storeOrderDTO.setDate(null);
+
+        return ApiResponseDTO.builder()
+                .message("주문 결제 전 데이터")
+                .detail("")
+                .data(storeOrderRepository.save(StoreMapper.instance.storeOrderDTOToStoreOrder(storeOrderDTO)))
                 .build();
     }
 
@@ -110,10 +127,10 @@ public class OrderService {
         }
 
         Date today = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("yyMMdd.HHmm");
+        SimpleDateFormat df = new SimpleDateFormat("yyMMddHHmm");
         String result = df.format(today);
 
-        return result + "." + temp;
+        return result + "_" + temp;
     }
 
 }

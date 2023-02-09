@@ -31,7 +31,7 @@ let StoreOrder = () => {
     const [orderMenu, setOrderMenu] = useRecoilState(orderMenuRecoil); //  주문 목록(장바구니)
 
     useEffect(() => {
-        // console.log(orderStore);
+        console.log(orderStore);
         // console.log(orderStoreCategory)
         // console.log(orderStoreSideCategory)
         console.log(selectOrderMenu);
