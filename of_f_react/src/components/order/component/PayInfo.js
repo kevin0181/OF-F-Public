@@ -105,8 +105,6 @@ let PayInfo = () => {
 
     const payEasyImport = (order) => {
 
-        console.log(order);
-
         const IMP = window.IMP; // 생략 가능
         IMP.init("imp76725859");
 
@@ -133,8 +131,6 @@ let PayInfo = () => {
     }
 
     const payDefaultImport = (order) => {
-
-        console.log(order)
 
         const IMP = window.IMP; // 생략 가능
         IMP.init("imp76725859");

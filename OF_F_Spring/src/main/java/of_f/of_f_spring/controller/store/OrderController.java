@@ -31,4 +31,10 @@ public class OrderController {
         return orderService.beforeSaveData(storeOrderDTO);
     }
 
+    @PostMapping("/webhook/pay")
+    public ApiResponseDTO payWebHook (@RequestBody String messageBody){
+        System.out.println(messageBody);
+        return null;
+    }
+
 }

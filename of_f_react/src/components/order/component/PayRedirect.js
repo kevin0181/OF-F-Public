@@ -1,12 +1,14 @@
 import {useQuery} from "../../../Config/getQuery";
 import {useEffect} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useRecoilState} from "recoil";
 import {order as orderRecoil} from "../../../store/order/order";
 
 let PayRedirect = () => {
 
     const query = useQuery();
+
+    let {storeId, qrId} = useParams();
 
     const navigate = useNavigate();
 
@@ -21,11 +23,14 @@ let PayRedirect = () => {
     useEffect(() => {
 
         if (imp_success) {
+            // -> 검증 처리해야함
 
         } else {
+            // -> 결제 실패했으니깐 db데이터 삭제하기.
             alert("결제를 실패하였습니다.");
             navigate("/")
         }
+
     }, [])
 
     return (
