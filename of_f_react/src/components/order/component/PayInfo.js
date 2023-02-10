@@ -4,7 +4,6 @@ import {ReactComponent as XBtn} from "../../../assets/icon/x.svg";
 import {ReactComponent as Check} from "../../../assets/icon/check.svg";
 import {ReactComponent as ChevronDown} from "../../../assets/icon/chevron-down.svg";
 import {ReactComponent as TossPayLogo} from "../../../assets/logo/logo-toss-pay.svg";
-import NpayImg from "../../../assets/logo/npay_20.png";
 import kakaoImg from "./../../../assets/logo/payment_icon_yellow_small.png";
 import "./../../../styles/css/order/payInfo.css";
 import {useRecoilState} from "recoil";
@@ -82,6 +81,8 @@ let PayInfo = () => {
             data: order
         }).then(res => {
 
+            console.log(res.data.data)
+
             if (defaultPayWayStatus !== "" & easyPayWayStatus === "") { //기본결제
                 payDefaultImport(res.data.data);
                 return;
@@ -112,14 +113,14 @@ let PayInfo = () => {
         IMP.request_pay({ // param
             pg: easyPayWayStatus,
             pay_method: "card",
-            merchant_uid: order.merchant_uid,
+            merchant_uid: order.id,
             name: orderStore.name,
             amount: Number(order.totalPrice),
             buyer_email: order.email,
             buyer_name: `${orderStore.name}의 고객`,
             buyer_tel: order.phoneNumber,
             buyer_addr: orderStore.address + " " + orderStore.detailAddress,
-            m_redirect_url: "http://localhost:3000/store/1/1QR/payInfo"
+            m_redirect_url: `${process.env.REACT_APP_PORT}/store/${storeId}/pay/redirect`
         }, rsp => { // callback
             console.log(rsp);
             if (rsp.success) {
@@ -141,14 +142,14 @@ let PayInfo = () => {
         IMP.request_pay({ // param
             pg: "uplus.tlgdacomxpay",
             pay_method: defaultPayWayStatus,
-            merchant_uid: order.merchant_uid,
+            merchant_uid: order.id,
             name: orderStore.name,
             amount: Number(order.totalPrice),
             buyer_email: order.email,
             buyer_name: `${orderStore.name}의 고객`,
             buyer_tel: order.phoneNumber,
             buyer_addr: orderStore.address + " " + orderStore.detailAddress,
-            m_redirect_url: "http://localhost:3000/store/1/1QR/payInfo"
+            m_redirect_url: `${process.env.REACT_APP_PORT}/store/${storeId}/pay/redirect`
         }, rsp => { // callback
             console.log(rsp)
             if (rsp.success) {

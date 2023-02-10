@@ -19,6 +19,7 @@ import StoreOrder from "./components/order/component/StoreOrder";
 import StoreOrderHeader from "./components/order/component/StoreOrderHeader";
 import MenuBasketList from "./components/order/component/MenuBasketList";
 import PayInfo from "./components/order/component/PayInfo";
+import PayRedirect from "./components/order/component/PayRedirect";
 
 function App() {
 
@@ -51,12 +52,14 @@ function App() {
                                             <Route path={"main"} element={<StoreOrder/>}/>
                                         </Route>
                                     </Route>
+                                    <Route path={"pay"} element={<PayRedirect/>}>
+                                        <Route path={"redirect"} element={<PayRedirect/>}/>
+                                    </Route>
                                 </Route>
                             </Route>
 
                             {/* ---------- management ---------- */}
                             <Route path={"/manage/login"} element={<ManagementLogin/>}/>
-
                             <Route element={<PrivateRouter loginStatus={loginStatus} cookies={cookies}/>}>
                                 <Route element={<ManageNav/>}>
                                     <Route path={"/manage/store"} element={<ManageDashBoard/>}/>
