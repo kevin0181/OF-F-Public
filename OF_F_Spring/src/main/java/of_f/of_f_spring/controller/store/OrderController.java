@@ -43,42 +43,16 @@ public class OrderController {
     }
 
     @PostMapping("/pay/after")
-    public ApiResponseDTO payAfter(@RequestBody Map<String, String> bodyData) throws ParseException {
+    public ApiResponseDTO payAfter(@RequestBody Map<String, String> bodyData) {
 
         if (bodyData.get("imp_uid") == null || bodyData.get("merchant_uid") == null)
             throw new OrderException(OrderExceptionEnum.CAN_NOT_FIND_ORDER_DATA);
 
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>(); //보낼 데이터 담는 부분
-        params.add("imp_key", "1152819197412694");
-        params.add("imp_secret", "AwdiMKMaTaGXfk8SIiU9lqnYauAkFteuissOL8lsLWrIZOS5BTkxrnIzIdf5ZV5ErVcmNyGJnHnKamAT");
+        String token = orderService.getAccessToken(); // token 가져오기
 
-        HttpHeaders headers = new HttpHeaders(); // 보낼 헤더 담는 부분
+        JSONObject paymentData = orderService.paymentData(token, bodyData.get("imp_uid")); //결제 내역 가져오기
 
-        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers); //두개 합침
-
-        RestTemplate rt = new RestTemplate();
-
-        try {
-            ResponseEntity<String> response = rt.exchange(
-                    "https://api.iamport.kr/users/getToken", //{요청할 서버 주소}
-                    HttpMethod.POST, //{요청할 방식}
-                    entity, // {요청할 때 보낼 데이터}
-                    String.class
-            );
-
-            System.out.println(response);
-
-        } catch (HttpClientErrorException e) {
-            System.out.println("HttpClientErrorException : " + String.valueOf(e.getResponseBodyAsString()));
-
-            JSONParser jsonParse = new JSONParser();
-            JSONObject obj = (JSONObject) jsonParse.parse(e.getResponseBodyAsString());
-            System.out.println(obj);
-
-        } catch (HttpServerErrorException e) {
-            System.out.println("HttpServerErrorException : " + String.valueOf(e.getResponseBodyAsString()));
-        }
-
+        orderService.checkPayment(paymentData, bodyData.get("merchant_uid"));
 
         return null;
     }

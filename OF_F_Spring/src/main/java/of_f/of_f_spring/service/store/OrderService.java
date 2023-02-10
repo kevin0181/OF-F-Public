@@ -1,11 +1,12 @@
 package of_f.of_f_spring.service.store;
 
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 import of_f.of_f_spring.domain.entity.store.Store;
 import of_f.of_f_spring.domain.entity.store.order.StoreOrder;
-import of_f.of_f_spring.domain.entity.store.qr.StoreQRId;
 import of_f.of_f_spring.domain.exception.OrderException;
 import of_f.of_f_spring.domain.exception.OrderExceptionEnum;
-import of_f.of_f_spring.domain.mapper.store.OrderMapper;
 import of_f.of_f_spring.domain.mapper.store.StoreMapper;
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.store.StoreDTO;
@@ -16,12 +17,22 @@ import of_f.of_f_spring.repository.store.StoreOrderRepository;
 import of_f.of_f_spring.repository.store.StoreQRIdRepository;
 import of_f.of_f_spring.repository.store.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 @Service
@@ -68,27 +79,6 @@ public class OrderService {
                 .build();
     }
 
-//    public void checkAmount(StoreOrderDTO storeOrderDTO) {
-//
-//        int price = 0; //가격
-//        List<Long> storeMenuId = new ArrayList<>();
-//
-//        for (int i = 0; i < storeOrderDTO.getStoreOrderMenus().size(); i++) {
-//            storeMenuId.add(storeOrderDTO.getStoreOrderMenus().get(i).getStoreMenuSeq());
-//        }
-//        List<StoreMenu> storeMenus = storeMenuRepository.findAllById(storeMenuId);
-//        List<StoreSideCategory> storeSideCategories = new ArrayList<>();
-//
-//        for (int i = 0; i < storeMenus.size(); i++) {
-//            for (int j = 0; j < storeOrderDTO.getStoreOrderMenus().size(); j++) {
-//                if (storeMenus.get(i).getSeq().equals(storeOrderDTO.getStoreOrderMenus().get(j).getStoreMenuSeq())) {
-//                    price += Integer.parseInt(storeMenus.get(i).getPrice()) * storeOrderDTO.getStoreOrderMenus().get(j).getSize(); //메뉴 * 메뉴 사이즈
-//                }
-//            }
-//        }
-//
-//    }
-
     public ApiResponseDTO beforeSaveData(StoreOrderDTO storeOrderDTO) {
 
         String merchant_uid = randomOrderId();
@@ -102,6 +92,98 @@ public class OrderService {
                 .detail("")
                 .data(storeOrderRepository.save(StoreMapper.instance.storeOrderDTOToStoreOrder(storeOrderDTO)))
                 .build();
+    }
+
+    public String getAccessToken() {
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>(); //보낼 데이터 담는 부분
+        params.add("imp_key", "1152819197412694");
+        params.add("imp_secret", "AwdiMKMaTaGXfk8SIiU9lqnYauAkFteuissOL8lsLWrIZOS5BTkxrnIzIdf5ZV5ErVcmNyGJnHnKamAT");
+
+        HttpHeaders headers = new HttpHeaders(); // 보낼 헤더 담는 부분
+
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers); //두개 합침
+
+        RestTemplate rt = new RestTemplate();
+
+        JSONParser jsonParse = new JSONParser();
+        try {
+
+            try {
+                ResponseEntity<String> response = rt.exchange(
+                        "https://api.iamport.kr/users/getToken", //{요청할 서버 주소}
+                        HttpMethod.POST, //{요청할 방식}
+                        entity, // {요청할 때 보낼 데이터}
+                        String.class
+                );
+
+                JSONObject resObj = (JSONObject) jsonParse.parse(response.getBody());
+                JSONObject getTokenObj = (JSONObject) jsonParse.parse(String.valueOf(resObj.get("response")));
+
+                return (String) getTokenObj.get("access_token");
+
+            } catch (HttpClientErrorException e) {
+                JSONObject obj = (JSONObject) jsonParse.parse(e.getResponseBodyAsString());
+                System.err.println(obj);
+                throw new OrderException(OrderExceptionEnum.CAN_NOT_FIND_ORDER_DATA);
+            } catch (HttpServerErrorException e) {
+                JSONObject obj = (JSONObject) jsonParse.parse(e.getResponseBodyAsString());
+                System.err.println(obj);
+                throw new OrderException(OrderExceptionEnum.CAN_NOT_FIND_ORDER_DATA);
+            }
+        } catch (ParseException e) {
+            System.err.println(e);
+            throw new OrderException(OrderExceptionEnum.CAN_NOT_FIND_ORDER_DATA);
+        }
+
+    }
+
+    public JSONObject paymentData(String accessToken, String impUid) {
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>(); //보낼 데이터 담는 부분
+
+        HttpHeaders headers = new HttpHeaders(); // 보낼 헤더 담는 부분
+        headers.add("Authorization", accessToken);
+
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers); //두개 합침
+
+        RestTemplate rt = new RestTemplate();
+
+        JSONParser jsonParse = new JSONParser();
+        try {
+            try {
+                ResponseEntity<String> response = rt.exchange(
+                        "https://api.iamport.kr/payments/" + impUid, //{요청할 서버 주소}
+                        HttpMethod.GET, //{요청할 방식}
+                        entity, // {요청할 때 보낼 데이터}
+                        String.class
+                );
+
+                JSONObject resObj = (JSONObject) jsonParse.parse(response.getBody());
+                JSONObject paymentData = (JSONObject) jsonParse.parse(String.valueOf(resObj.get("response")));
+
+                return paymentData;
+
+            } catch (HttpClientErrorException e) {
+                JSONObject obj = (JSONObject) jsonParse.parse(e.getResponseBodyAsString());
+                System.err.println(obj);
+                throw new OrderException(OrderExceptionEnum.CAN_NOT_FIND_ORDER_DATA);
+            } catch (HttpServerErrorException e) {
+                JSONObject obj = (JSONObject) jsonParse.parse(e.getResponseBodyAsString());
+                System.err.println(obj);
+                throw new OrderException(OrderExceptionEnum.CAN_NOT_FIND_ORDER_DATA);
+            }
+        } catch (ParseException e) {
+            System.err.println(e);
+            throw new OrderException(OrderExceptionEnum.CAN_NOT_FIND_ORDER_DATA);
+        }
+    }
+
+    public void checkPayment(JSONObject paymentData, String merchantUid) {
+        StoreOrder order = storeOrderRepository.findById(merchantUid);
+
+        if (paymentData.get("merchant_uid").equals(merchantUid) && Integer.parseInt(order.getTotalPrice()) == Integer.parseInt(String.valueOf(paymentData.get("amount")))) {
+            // => 결제 성공했으니깐 결제 정보 저장 및 리턴해주기.
+        }
+
     }
 
     public String randomOrderId() {
@@ -132,5 +214,6 @@ public class OrderService {
 
         return result + "_" + temp;
     }
+
 
 }
