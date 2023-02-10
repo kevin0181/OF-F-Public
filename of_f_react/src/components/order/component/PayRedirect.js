@@ -3,6 +3,7 @@ import {useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {useRecoilState} from "recoil";
 import {order as orderRecoil} from "../../../store/order/order";
+import {notTokenAxios} from "../../../Config/customAxios";
 
 let PayRedirect = () => {
 
@@ -24,6 +25,14 @@ let PayRedirect = () => {
 
         if (imp_success) {
             // -> 검증 처리해야함
+
+            notTokenAxios({
+                url: "/api/v1/store/order/pay/after",
+                method: "POST",
+                data: {
+                    storeId, qrId, imp_uid, merchant_uid
+                }
+            })
 
         } else {
             // -> 결제 실패했으니깐 db데이터 삭제하기.
