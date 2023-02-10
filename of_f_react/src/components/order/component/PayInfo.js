@@ -120,7 +120,7 @@ let PayInfo = () => {
             buyer_name: `${orderStore.name}의 고객`,
             buyer_tel: order.phoneNumber,
             buyer_addr: orderStore.address + " " + orderStore.detailAddress,
-            m_redirect_url: `${process.env.REACT_APP_PORT}/store/${storeId}/pay/redirect`
+            m_redirect_url: `${process.env.REACT_APP_PORT}/store/${storeId}/pay/${qrId}/redirect`
         }, rsp => { // callback
             console.log(rsp);
             if (rsp.success) {
@@ -149,7 +149,7 @@ let PayInfo = () => {
             buyer_name: `${orderStore.name}의 고객`,
             buyer_tel: order.phoneNumber,
             buyer_addr: orderStore.address + " " + orderStore.detailAddress,
-            m_redirect_url: `${process.env.REACT_APP_PORT}/store/${storeId}/pay/redirect`
+            m_redirect_url: `${process.env.REACT_APP_PORT}/store/${storeId}/pay/${qrId}/redirect`
         }, rsp => { // callback
             console.log(rsp)
             if (rsp.success) {
