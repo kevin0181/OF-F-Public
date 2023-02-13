@@ -11,7 +11,8 @@ import java.time.format.DateTimeFormatter;
 @ToString
 public enum OrderExceptionEnum {
 
-    DOES_NOT_EXIST_QR_ID(HttpServletResponse.SC_NOT_FOUND, "BAD", "QR0001", "not found QR ID", "존재하지 않는 QR ID", "존재하지 않는 QR 입니다.");
+    DOES_NOT_EXIST_QR_ID(HttpServletResponse.SC_NOT_FOUND, "BAD", "QR0001", "not found QR ID", "존재하지 않는 QR ID", "존재하지 않는 QR 입니다."),
+    CAN_NOT_FIND_ORDER_DATA(HttpServletResponse.SC_NOT_FOUND, "BAD", "OR0001", "not found order data", "존재하지 않는 주문 데이터", "존재하지 않는 주문 데이터 입니다.");
 
 
     private final int code;

@@ -40,7 +40,8 @@ public class StoreSideMenu {
     @JoinColumn(name = "Store_Side_Menu_seq")
     private List<StoreSideImg> storeSideImgs;
 
-    @OneToOne(mappedBy = "storeSideMenu")
-    private StoreOrderSide storeOrderSide;
+    @OneToMany
+    @JoinColumn(name = "Store_Side_Menu_seq")
+    private List<StoreOrderSide> storeOrderSides;
 
 }

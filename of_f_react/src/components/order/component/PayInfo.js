@@ -4,7 +4,6 @@ import {ReactComponent as XBtn} from "../../../assets/icon/x.svg";
 import {ReactComponent as Check} from "../../../assets/icon/check.svg";
 import {ReactComponent as ChevronDown} from "../../../assets/icon/chevron-down.svg";
 import {ReactComponent as TossPayLogo} from "../../../assets/logo/logo-toss-pay.svg";
-import NpayImg from "../../../assets/logo/npay_20.png";
 import kakaoImg from "./../../../assets/logo/payment_icon_yellow_small.png";
 import "./../../../styles/css/order/payInfo.css";
 import {useRecoilState} from "recoil";
@@ -73,19 +72,24 @@ let PayInfo = () => {
             return;
         }
 
+        console.log(easyPayWayStatus)
+        console.log(defaultPayWayStatus)
+
         await notTokenAxios({
             method: "POST",
             url: `/api/v1/store/order/pay/before`,
             data: order
         }).then(res => {
 
+            console.log(res.data.data)
+
             if (defaultPayWayStatus !== "" & easyPayWayStatus === "") { //기본결제
-                payDefaultImport(res);
+                payDefaultImport(res.data.data);
                 return;
             }
 
             if (defaultPayWayStatus === "" & easyPayWayStatus !== "") { //간편 결제
-                payEasyImport(res);
+                payEasyImport(res.data.data);
                 return;
             }
 
@@ -100,25 +104,27 @@ let PayInfo = () => {
     }
 
     const payEasyImport = (order) => {
+
         const IMP = window.IMP; // 생략 가능
         IMP.init("imp76725859");
 
         IMP.request_pay({ // param
             pg: easyPayWayStatus,
             pay_method: "card",
-            merchant_uid: "ORD20180131-0000011",
-            name: "노르웨이 회전 의자",
-            amount: 64900,
-            buyer_email: "gildong@gmail.com",
-            buyer_name: "홍길동",
-            buyer_tel: "010-4242-4242",
-            buyer_addr: "서울특별시 강남구 신사동",
-            buyer_postcode: "01181",
-            m_redirect_url: "http://localhost:3000/store/1/1QR/payInfo"
+            merchant_uid: order.id,
+            name: orderStore.name,
+            amount: Number(order.totalPrice),
+            buyer_email: order.email,
+            buyer_name: `${orderStore.name}의 고객`,
+            buyer_tel: order.phoneNumber,
+            buyer_addr: orderStore.address + " " + orderStore.detailAddress,
+            m_redirect_url: `${process.env.REACT_APP_PORT}/store/${storeId}/pay/${qrId}/redirect`
         }, rsp => { // callback
             console.log(rsp);
             if (rsp.success) {
+                console.log("간편 결제 성공")
             } else {
+                console.log("간편 결제 실패")
             }
         });
 
@@ -132,19 +138,20 @@ let PayInfo = () => {
         IMP.request_pay({ // param
             pg: "uplus.tlgdacomxpay",
             pay_method: defaultPayWayStatus,
-            merchant_uid: "ORD20180131-0000011",
-            name: "노르웨이 회전 의자",
-            amount: 64900,
-            buyer_email: "gildong@gmail.com",
-            buyer_name: "홍길동",
-            buyer_tel: "010-4242-4242",
-            buyer_addr: "서울특별시 강남구 신사동",
-            buyer_postcode: "01181",
-            m_redirect_url: "http://localhost:3000/store/1/1QR/payInfo"
+            merchant_uid: order.id,
+            name: orderStore.name,
+            amount: Number(order.totalPrice),
+            buyer_email: order.email,
+            buyer_name: `${orderStore.name}의 고객`,
+            buyer_tel: order.phoneNumber,
+            buyer_addr: orderStore.address + " " + orderStore.detailAddress,
+            m_redirect_url: `${process.env.REACT_APP_PORT}/store/${storeId}/pay/${qrId}/redirect`
         }, rsp => { // callback
-            console.log(rsp);
+            console.log(rsp)
             if (rsp.success) {
+                alert("기본 결제 성공")
             } else {
+                alert("기본 결제 실패")
             }
         });
     }
@@ -278,15 +285,15 @@ let PayInfo = () => {
                                         </div>
                                         <p>토스</p>
                                     </div>
-                                    <div className={"" + (easyPayWayStatus === "naverpay" ? 'pay-way-active' : '')}
-                                         pay-way-name={"naverpay"} onClick={onClickPayEasyWayBtn}>
-                                        <div style={{
-                                            width: "13%"
-                                        }}>
-                                            <img src={NpayImg}/>
-                                        </div>
-                                        <p>네이버페이</p>
-                                    </div>
+                                    {/*<div className={"" + (easyPayWayStatus === "naverpay" ? 'pay-way-active' : '')}*/}
+                                    {/*     pay-way-name={"naverpay"} onClick={onClickPayEasyWayBtn}>*/}
+                                    {/*    <div style={{*/}
+                                    {/*        width: "13%"*/}
+                                    {/*    }}>*/}
+                                    {/*        <img src={NpayImg}/>*/}
+                                    {/*    </div>*/}
+                                    {/*    <p>네이버페이</p>*/}
+                                    {/*</div>*/}
                                 </div>
                             </div>
                             <div className={"payInfo-order-agreement"}>

@@ -1,4 +1,4 @@
-import {BrowserRouter, Outlet, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Navigate, Outlet, Route, Routes} from "react-router-dom";
 import Login from "./User/Login";
 import {CookiesProvider, useCookies} from "react-cookie";
 import "./styles/css/default.css"
@@ -19,6 +19,7 @@ import StoreOrder from "./components/order/component/StoreOrder";
 import StoreOrderHeader from "./components/order/component/StoreOrderHeader";
 import MenuBasketList from "./components/order/component/MenuBasketList";
 import PayInfo from "./components/order/component/PayInfo";
+import PayRedirect from "./components/order/component/PayRedirect";
 
 function App() {
 
@@ -32,7 +33,7 @@ function App() {
                     <div className={"container"}>
                         <Routes>
                             <Route element={<Header/>}>
-                                <Route path={"/*"} element={<Main/>}/>
+                                <Route path={"/"} element={<Main/>}/>
                             </Route>
                             <Route path={"/login"} element={<Login/>}/>
                             <Route path={"/signUp"} element={<SignUp/>}/>
@@ -42,8 +43,10 @@ function App() {
 
                             {/*-------------- order ------------*/}
                             <Route path={"/store"} element={<Outlet/>}>
+                                <Route path={"*"} index element={<Navigate to={"/store/search"}/>}/>
                                 <Route path={"search"} element={<OrderStoreSearch/>}/> {/*검색*/}
                                 <Route path={":storeId"}>  {/*정상적인 가게 접근인지 확인*/}
+                                    <Route path={"*"} index element={<Navigate to={"/store/search"}/>}/>
                                     <Route path={":qrId"} element={<OrderStoreCheck/>}>
                                         <Route path={"basket"} element={<MenuBasketList/>}/>
                                         <Route path={"payInfo"} element={<PayInfo/>}/>
@@ -51,17 +54,24 @@ function App() {
                                             <Route path={"main"} element={<StoreOrder/>}/>
                                         </Route>
                                     </Route>
+                                    <Route path={"pay"} element={<Outlet/>}>  {/*결제 후*/}
+                                        <Route path={"*"} index element={<Navigate to={"/"}/>}/>
+                                        <Route path={":qrId"} element={<Outlet/>}>
+                                            <Route path={"*"} index element={<Navigate to={"/"}/>}/>
+                                            <Route path={"redirect"} element={<PayRedirect/>}/>
+                                        </Route>
+                                    </Route>
                                 </Route>
                             </Route>
 
                             {/* ---------- management ---------- */}
                             <Route path={"/manage/login"} element={<ManagementLogin/>}/>
-
                             <Route element={<PrivateRouter loginStatus={loginStatus} cookies={cookies}/>}>
                                 <Route element={<ManageNav/>}>
                                     <Route path={"/manage/store"} element={<ManageDashBoard/>}/>
                                 </Route>
                             </Route>
+                            <Route path={"/*"} element={<Navigate to={"/"}/>}/>
                         </Routes>
                     </div>
                 </BrowserRouter>

@@ -44,7 +44,8 @@ public class StoreMenu {
     @JoinColumn(name = "Store_Menu_seq")
     private List<StoreMS> storeMSs;
 
-    @OneToOne(mappedBy = "storeMenu")
-    private StoreOrderMenu storeOrderMenu;
+    @OneToMany
+    @JoinColumn(name = "Store_Menu_seq")
+    private List<StoreOrderMenu> storeOrderMenus;
 
 }
