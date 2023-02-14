@@ -122,9 +122,10 @@ let PayInfo = () => {
         }, rsp => { // callback
             console.log(rsp);
             if (rsp.success) {
-                console.log("간편 결제 성공")
+                navigate(`/store/${storeId}/pay/${qrId}/redirect?imp_uid=${rsp.imp_uid}&merchant_uid=${rsp.merchant_uid}&imp_success=${rsp.success}`);
             } else {
-                console.log("간편 결제 실패")
+                alert("간편 결제 실패");
+                navigate(`/store/${storeId}/${qrId}/main`);
             }
         });
 
@@ -149,13 +150,10 @@ let PayInfo = () => {
         }, rsp => { // callback
             console.log(rsp)
             if (rsp.success) {
-
-                notTokenAxios({
-
-                })
-
+                navigate(`/store/${storeId}/pay/${qrId}/redirect?imp_uid=${rsp.imp_uid}&merchant_uid=${rsp.merchant_uid}&imp_success=${rsp.success}`);
             } else {
-                alert("기본 결제 실패")
+                alert("기본 결제 실패");
+                navigate(`/store/${storeId}/${qrId}/main`);
             }
         });
     }
