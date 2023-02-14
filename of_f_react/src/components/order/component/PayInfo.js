@@ -49,6 +49,15 @@ let PayInfo = () => {
         }
     }, []);
 
+    useEffect(() => {
+        setOrder({
+            ...order,
+            emailReceiveStatus: agreementBtnStatus.emailReceive,
+            phoneNumberReceiveStatus: agreementBtnStatus.phoneNumberReceive
+        })
+
+    }, [agreementBtnStatus]);
+
     const onClickPayDefaultWayBtn = (e) => { //결제 방식 선택
         if (e.target.getAttribute("pay-way-name") === null) {
             return;
@@ -72,16 +81,11 @@ let PayInfo = () => {
             return;
         }
 
-        console.log(easyPayWayStatus)
-        console.log(defaultPayWayStatus)
-
         await notTokenAxios({
             method: "POST",
             url: `/api/v1/store/order/pay/before`,
             data: order
         }).then(res => {
-
-            console.log(res.data.data)
 
             if (defaultPayWayStatus !== "" & easyPayWayStatus === "") { //기본결제
                 payDefaultImport(res.data.data);
@@ -197,7 +201,12 @@ let PayInfo = () => {
                             <div>
                                 <div className={"payInfo-phoneNumber"}>
                                     <p>번호 : </p>
-                                    <input type={"test"} className={"m-input"} placeholder={"01012341234"}/>
+                                    <input type={"test"} value={order.phoneNumber} onChange={(e) => {
+                                        setOrder({
+                                            ...order,
+                                            phoneNumber: e.target.value
+                                        })
+                                    }} className={"m-input"} placeholder={"01012341234"}/>
                                 </div>
                                 <div className={"payInfo-phoneNumberReceive"}>
                                     <small>수신 동의 : </small>
@@ -216,7 +225,12 @@ let PayInfo = () => {
                             <div>
                                 <div className={"payInfo-phoneNumber"}>
                                     <p>이메일 : </p>
-                                    <input type={"test"} className={"m-input"} placeholder={"example@xxx.com"}/>
+                                    <input type={"test"} value={order.email} onChange={(e) => {
+                                        setOrder({
+                                            ...order,
+                                            email: e.target.value
+                                        })
+                                    }} className={"m-input"} placeholder={"example@xxx.com"}/>
                                 </div>
                                 <div className={"payInfo-phoneNumberReceive"}>
                                     <small>이메일 수신 동의 : </small>

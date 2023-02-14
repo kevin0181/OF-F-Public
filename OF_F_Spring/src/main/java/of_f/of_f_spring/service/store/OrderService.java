@@ -195,7 +195,8 @@ public class OrderService {
                     .cardNumber(String.valueOf(paymentData.get("card_number")))
                     .build();
 
-
+            order.setStatus(1);
+            order.setPayStatus(1);
             order.setStoreOrderPgInfo(storeOrderPgInfo);
 
             order = storeOrderRepository.save(order); // 검증된 결제 데이터 저장
