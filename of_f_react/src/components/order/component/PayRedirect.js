@@ -17,8 +17,6 @@ let PayRedirect = () => {
     const merchant_uid = query.get("merchant_uid");
     const imp_success = query.get("imp_success");
 
-    console.log(imp_uid, merchant_uid, imp_success)
-
     const [order, setOrder] = useRecoilState(orderRecoil); //  주문 목록(장바구니)
 
     useEffect(() => {

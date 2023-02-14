@@ -128,8 +128,16 @@ let PayInfo = () => {
             if (rsp.success) {
                 navigate(`/store/${storeId}/pay/${qrId}/redirect?imp_uid=${rsp.imp_uid}&merchant_uid=${rsp.merchant_uid}&imp_success=${rsp.success}`);
             } else {
-                alert("간편 결제 실패");
-                navigate(`/store/${storeId}/${qrId}/main`);
+                notTokenAxios({
+                    url: "/api/v1/store/order/pay/fail/delete?merchantUid=" + rsp.merchant_uid,
+                    method: "POST",
+                }).then(res => {
+                    alert("간편 결제를 실패하였습니다.");
+                    navigate(`/store/${storeId}/${qrId}/main`)
+                }).catch(err => {
+                    alert("간편 결제를 실패하였습니다.");
+                    navigate(`/store/${storeId}/${qrId}/main`)
+                });
             }
         });
 
@@ -156,8 +164,16 @@ let PayInfo = () => {
             if (rsp.success) {
                 navigate(`/store/${storeId}/pay/${qrId}/redirect?imp_uid=${rsp.imp_uid}&merchant_uid=${rsp.merchant_uid}&imp_success=${rsp.success}`);
             } else {
-                alert("기본 결제 실패");
-                navigate(`/store/${storeId}/${qrId}/main`);
+                notTokenAxios({
+                    url: "/api/v1/store/order/pay/fail/delete?merchantUid=" + rsp.merchant_uid,
+                    method: "POST",
+                }).then(res => {
+                    alert("기본 결제를 실패하였습니다.");
+                    navigate(`/store/${storeId}/${qrId}/main`)
+                }).catch(err => {
+                    alert("기본 결제를 실패하였습니다.");
+                    navigate(`/store/${storeId}/${qrId}/main`)
+                });
             }
         });
     }
