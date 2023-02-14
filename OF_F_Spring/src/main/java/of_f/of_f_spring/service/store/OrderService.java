@@ -33,6 +33,7 @@ import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Service
@@ -179,28 +180,10 @@ public class OrderService {
     }
 
     public ApiResponseDTO checkPayment(JSONObject paymentData, String merchantUid) {
+
         StoreOrder order = storeOrderRepository.findById(merchantUid);
 
-        if (paymentData.get("merchant_uid").equals(merchantUid) && Integer.parseInt(order.getTotalPrice()) == Integer.parseInt(String.valueOf(paymentData.get("amount")))) {
-            // => 결제 성공했으니깐 결제 정보 저장 및 리턴해주기.
-
-            StoreOrderPgInfo storeOrderPgInfo = StoreOrderPgInfo.builder()
-                    .storeOrderSeq(order.getSeq())
-                    .impUid(String.valueOf(paymentData.get("merchant_uid")))
-                    .merchantUid(merchantUid)
-                    .pgProvider(String.valueOf(paymentData.get("pg_provider")))
-                    .payMethod(String.valueOf(paymentData.get("pay_method")))
-                    .status(String.valueOf(paymentData.get("status")))
-                    .cardName(String.valueOf(paymentData.get("card_name")))
-                    .cardNumber(String.valueOf(paymentData.get("card_number")))
-                    .build();
-
-            order.setStatus(1);
-            order.setPayStatus(1);
-            order.setStoreOrderPgInfo(storeOrderPgInfo);
-
-            order = storeOrderRepository.save(order); // 검증된 결제 데이터 저장
-
+        if (order.getStatus() == 1 && order.getPayStatus() == 1) {
             switch (String.valueOf(paymentData.get("status"))) {
                 case "ready":
                     return ApiResponseDTO.builder()
@@ -221,6 +204,50 @@ public class OrderService {
                             .data(StoreMapper.instance.storeOrderToStoreOrderDTO(order))
                             .build();
 
+            }
+
+        } else {
+
+            if (paymentData.get("merchant_uid").equals(merchantUid) && Integer.parseInt(order.getTotalPrice()) == Integer.parseInt(String.valueOf(paymentData.get("amount")))) {
+                // => 결제 성공했으니깐 결제 정보 저장 및 리턴해주기.
+
+                StoreOrderPgInfo storeOrderPgInfo = StoreOrderPgInfo.builder()
+                        .storeOrderSeq(order.getSeq())
+                        .impUid(String.valueOf(paymentData.get("merchant_uid")))
+                        .merchantUid(merchantUid)
+                        .pgProvider(String.valueOf(paymentData.get("pg_provider")))
+                        .payMethod(String.valueOf(paymentData.get("pay_method")))
+                        .status(String.valueOf(paymentData.get("status")))
+                        .cardName(String.valueOf(paymentData.get("card_name")))
+                        .cardNumber(String.valueOf(paymentData.get("card_number")))
+                        .build();
+
+                order.setStoreOrderPgInfo(storeOrderPgInfo);
+
+                switch (String.valueOf(paymentData.get("status"))) {
+                    case "ready":
+                        return ApiResponseDTO.builder()
+                                .message("가상계좌 발급 완료")
+                                .detail("가상계좌가 발급되었습니다.")
+                                .data(StoreMapper.instance.storeOrderToStoreOrderDTO(order))
+                                .build();
+                    case "paid":
+                        order.setStatus(1);
+                        order.setPayStatus(1);
+                        order = storeOrderRepository.save(order); // 검증된 결제 데이터 저장
+                        return ApiResponseDTO.builder()
+                                .message("결제완료")
+                                .detail("결제가 완료되었습니다.")
+                                .data(StoreMapper.instance.storeOrderToStoreOrderDTO(order))
+                                .build();
+                    case "failed":
+                        return ApiResponseDTO.builder()
+                                .message("결제실패")
+                                .detail("결제를 실패하였습니다.")
+                                .data(StoreMapper.instance.storeOrderToStoreOrderDTO(order))
+                                .build();
+
+                }
             }
         }
         throw new OrderException(OrderExceptionEnum.FAIL_PAY);
@@ -256,4 +283,14 @@ public class OrderService {
     }
 
 
+    public ApiResponseDTO deleteOrder(String merchantUid) {
+        StoreOrder order = storeOrderRepository.findById(merchantUid);
+
+        storeOrderRepository.delete(order);
+
+        return ApiResponseDTO.builder()
+                .message("주문 실패 데이터 삭제")
+                .detail("주문 실패로 인해 데이터 삭제")
+                .build();
+    }
 }

@@ -23,9 +23,8 @@ let PayRedirect = () => {
 
     useEffect(() => {
 
-        if (imp_success) {
+        if (imp_success === true) {
             // -> 검증 처리해야함
-
             notTokenAxios({
                 url: "/api/v1/store/order/pay/after",
                 method: "POST",
@@ -38,24 +37,43 @@ let PayRedirect = () => {
                     case "paid":
                         alert("결제가 완료되었습니다.");
                         //서버에서 받은 결제완료 정보를토대로 알림창 발송 및 관리자 websocket으로 전송하기.
+                        navigate(`/store/${storeId}/${qrId}/main`)
                         return;
                     case "ready":
                         alert("가상계좌 발급이 완료되었습니다.")
+                        navigate(`/store/${storeId}/${qrId}/main`)
                         return;
                     default:
-                        alert("결제를 실패하였습니다.")
+                        notTokenAxios({
+                            url: "/api/v1/store/order/pay/fail/delete?merchantUid=" + merchant_uid,
+                            method: "POST",
+                        }).then(res => {
+                            alert("결제를 실패하였습니다.");
+                            navigate(`/store/${storeId}/${qrId}/main`)
+                        }).catch(err => {
+                            alert("결제를 실패하였습니다.");
+                            navigate(`/store/${storeId}/${qrId}/main`)
+                        });
                         return;
                 }
             }).catch(err => {
                 console.log(err);
+                navigate(0);
             })
 
         } else {
             // -> 결제 실패했으니깐 db데이터 삭제하기.
-            alert("결제를 실패하였습니다.");
-            navigate("/")
+            notTokenAxios({
+                url: "/api/v1/store/order/pay/fail/delete?merchantUid=" + merchant_uid,
+                method: "POST",
+            }).then(res => {
+                alert("결제를 실패하였습니다.");
+                navigate(`/store/${storeId}/${qrId}/main`)
+            }).catch(err => {
+                alert("결제를 실패하였습니다.");
+                navigate(`/store/${storeId}/${qrId}/main`)
+            });
         }
-
     }, [])
 
     return (
