@@ -9,11 +9,19 @@ const io = new Server(SOCKET_PORT, {
     }
 });
 
-io.on('connection', (socket) => {
+const storeSpace = io.of("/store");
+
+storeSpace.on('connection', (socket) => {
     console.log('A user has connected');
 
+    socket.on('insert room', (data) => {
+        socket.join('my-room')
+        console.log("방 가입");
+    })
+
     socket.on('message', (data) => {
-        console.log(data.text);
+        console.log(data);
+        socket.to('my-room').emit('message2', "리엑트로!");
     });
 
 });
