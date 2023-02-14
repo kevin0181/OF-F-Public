@@ -52,9 +52,7 @@ public class OrderController {
 
         JSONObject paymentData = orderService.paymentData(token, bodyData.get("imp_uid")); //결제 내역 가져오기
 
-        orderService.checkPayment(paymentData, bodyData.get("merchant_uid"));
-
-        return null;
+        return orderService.checkPayment(paymentData, bodyData.get("merchant_uid"));
     }
 
     @PostMapping("/webhook/pay")

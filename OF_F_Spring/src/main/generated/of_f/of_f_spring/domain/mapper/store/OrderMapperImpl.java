@@ -28,7 +28,7 @@ import of_f.of_f_spring.dto.store.order.StoreOrderVanInfoDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-02-09T15:09:03+0900",
+    date = "2023-02-14T13:28:28+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class OrderMapperImpl implements OrderMapper {
@@ -318,14 +318,14 @@ public class OrderMapperImpl implements OrderMapper {
             return null;
         }
 
-        StoreOrderPgInfo storeOrderPgInfo = new StoreOrderPgInfo();
+        StoreOrderPgInfo.StoreOrderPgInfoBuilder storeOrderPgInfo = StoreOrderPgInfo.builder();
 
-        storeOrderPgInfo.setSeq( storeOrderPgInfoDTO.getSeq() );
-        storeOrderPgInfo.setStoreOrderSeq( storeOrderPgInfoDTO.getStoreOrderSeq() );
-        storeOrderPgInfo.setImpUid( storeOrderPgInfoDTO.getImpUid() );
-        storeOrderPgInfo.setMerchantUid( storeOrderPgInfoDTO.getMerchantUid() );
+        storeOrderPgInfo.seq( storeOrderPgInfoDTO.getSeq() );
+        storeOrderPgInfo.storeOrderSeq( storeOrderPgInfoDTO.getStoreOrderSeq() );
+        storeOrderPgInfo.impUid( storeOrderPgInfoDTO.getImpUid() );
+        storeOrderPgInfo.merchantUid( storeOrderPgInfoDTO.getMerchantUid() );
 
-        return storeOrderPgInfo;
+        return storeOrderPgInfo.build();
     }
 
     protected StoreOrderVanInfo storeOrderVanInfoDTOToStoreOrderVanInfo(StoreOrderVanInfoDTO storeOrderVanInfoDTO) {

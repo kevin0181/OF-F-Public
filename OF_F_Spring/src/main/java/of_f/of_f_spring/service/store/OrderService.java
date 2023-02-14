@@ -5,6 +5,7 @@ import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import of_f.of_f_spring.domain.entity.store.Store;
 import of_f.of_f_spring.domain.entity.store.order.StoreOrder;
+import of_f.of_f_spring.domain.entity.store.order.StoreOrderPgInfo;
 import of_f.of_f_spring.domain.exception.OrderException;
 import of_f.of_f_spring.domain.exception.OrderExceptionEnum;
 import of_f.of_f_spring.domain.mapper.store.StoreMapper;
@@ -32,7 +33,6 @@ import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 @Service
@@ -177,13 +177,51 @@ public class OrderService {
         }
     }
 
-    public void checkPayment(JSONObject paymentData, String merchantUid) {
+    public ApiResponseDTO checkPayment(JSONObject paymentData, String merchantUid) {
         StoreOrder order = storeOrderRepository.findById(merchantUid);
 
         if (paymentData.get("merchant_uid").equals(merchantUid) && Integer.parseInt(order.getTotalPrice()) == Integer.parseInt(String.valueOf(paymentData.get("amount")))) {
             // => 결제 성공했으니깐 결제 정보 저장 및 리턴해주기.
-        }
 
+            StoreOrderPgInfo storeOrderPgInfo = StoreOrderPgInfo.builder()
+                    .storeOrderSeq(order.getSeq())
+                    .impUid(String.valueOf(paymentData.get("merchant_uid")))
+                    .merchantUid(merchantUid)
+                    .pgProvider(String.valueOf(paymentData.get("pg_provider")))
+                    .payMethod(String.valueOf(paymentData.get("pay_method")))
+                    .status(String.valueOf(paymentData.get("status")))
+                    .cardName(String.valueOf(paymentData.get("card_name")))
+                    .cardNumber(String.valueOf(paymentData.get("card_number")))
+                    .build();
+
+
+            order.setStoreOrderPgInfo(storeOrderPgInfo);
+
+            order = storeOrderRepository.save(order); // 검증된 결제 데이터 저장
+
+            switch (String.valueOf(paymentData.get("status"))) {
+                case "ready":
+                    return ApiResponseDTO.builder()
+                            .message("가상계좌 발급 완료")
+                            .detail("가상계좌가 발급되었습니다.")
+                            .data(StoreMapper.instance.storeOrderToStoreOrderDTO(order))
+                            .build();
+                case "paid":
+                    return ApiResponseDTO.builder()
+                            .message("결제완료")
+                            .detail("결제가 완료되었습니다.")
+                            .data(StoreMapper.instance.storeOrderToStoreOrderDTO(order))
+                            .build();
+                case "failed":
+                    return ApiResponseDTO.builder()
+                            .message("결제실패")
+                            .detail("결제를 실패하였습니다.")
+                            .data(StoreMapper.instance.storeOrderToStoreOrderDTO(order))
+                            .build();
+
+            }
+        }
+        throw new OrderException(OrderExceptionEnum.FAIL_PAY);
     }
 
     public String randomOrderId() {

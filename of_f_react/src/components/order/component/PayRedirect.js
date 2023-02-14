@@ -32,6 +32,10 @@ let PayRedirect = () => {
                 data: {
                     storeId, qrId, imp_uid, merchant_uid
                 }
+            }).then(res => {
+                console.log(res);
+            }).catch(err => {
+                console.log(err);
             })
 
         } else {

@@ -149,7 +149,11 @@ let PayInfo = () => {
         }, rsp => { // callback
             console.log(rsp)
             if (rsp.success) {
-                alert("기본 결제 성공")
+
+                notTokenAxios({
+
+                })
+
             } else {
                 alert("기본 결제 실패")
             }
