@@ -33,6 +33,7 @@ public class StoreOrderDTO {
     private String email;
     private Boolean emailReceiveStatus;
     private Boolean phoneNumberReceiveStatus;
+    private String comment;
 
     private OrderUserDTO user;
     private StoreOrderPgInfoDTO storeOrderPgInfo;

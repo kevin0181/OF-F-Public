@@ -67,6 +67,8 @@ public class StoreOrder {
     @Column(name = "phone_number_receive_status")
     private Boolean phoneNumberReceiveStatus;
 
+    @Column(name = "comment")
+    private String comment;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "Store_Order_seq")

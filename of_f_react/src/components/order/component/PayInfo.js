@@ -255,7 +255,13 @@ let PayInfo = () => {
                             </div>
                             <div className={"payInfo-order-request"}>
                                 <h4>요청 사항</h4>
-                                <textarea className={"request-textarea m-input"} placeholder={"요청사항을 입력하세요."}/>
+                                <textarea className={"request-textarea m-input"} value={order.comment}
+                                          onChange={(e) => {
+                                              setOrder({
+                                                  ...order,
+                                                  comment: e.target.value
+                                              })
+                                          }} placeholder={"요청사항을 입력하세요."}/>
                             </div>
                             <div className={"payInfo-order-select-pay-way"}>
                                 <h4>결제 방식 선택</h4>

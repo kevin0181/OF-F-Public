@@ -28,7 +28,7 @@ import of_f.of_f_spring.dto.store.order.StoreOrderVanInfoDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-02-14T14:29:50+0900",
+    date = "2023-02-14T15:09:22+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class OrderMapperImpl implements OrderMapper {
@@ -63,6 +63,7 @@ public class OrderMapperImpl implements OrderMapper {
         storeOrder.setEmail( storeOrderDTO.getEmail() );
         storeOrder.setEmailReceiveStatus( storeOrderDTO.getEmailReceiveStatus() );
         storeOrder.setPhoneNumberReceiveStatus( storeOrderDTO.getPhoneNumberReceiveStatus() );
+        storeOrder.setComment( storeOrderDTO.getComment() );
         storeOrder.setStoreOrderMenus( storeOrderMenuDTOListToStoreOrderMenuList( storeOrderDTO.getStoreOrderMenus() ) );
         storeOrder.setStoreOrderPgInfo( storeOrderPgInfoDTOToStoreOrderPgInfo( storeOrderDTO.getStoreOrderPgInfo() ) );
         storeOrder.setStoreOrderVanInfo( storeOrderVanInfoDTOToStoreOrderVanInfo( storeOrderDTO.getStoreOrderVanInfo() ) );
@@ -94,6 +95,7 @@ public class OrderMapperImpl implements OrderMapper {
         storeOrderDTO.email( storeOrder.getEmail() );
         storeOrderDTO.emailReceiveStatus( storeOrder.getEmailReceiveStatus() );
         storeOrderDTO.phoneNumberReceiveStatus( storeOrder.getPhoneNumberReceiveStatus() );
+        storeOrderDTO.comment( storeOrder.getComment() );
         storeOrderDTO.storeOrderPgInfo( storeOrderPgInfoToStoreOrderPgInfoDTO( storeOrder.getStoreOrderPgInfo() ) );
         storeOrderDTO.storeOrderVanInfo( storeOrderVanInfoToStoreOrderVanInfoDTO( storeOrder.getStoreOrderVanInfo() ) );
         storeOrderDTO.storeOrderMenus( storeOrderMenuListToStoreOrderMenuDTOList( storeOrder.getStoreOrderMenus() ) );

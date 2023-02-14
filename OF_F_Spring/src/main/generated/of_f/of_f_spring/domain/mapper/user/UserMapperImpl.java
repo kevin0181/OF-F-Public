@@ -46,7 +46,7 @@ import of_f.of_f_spring.dto.user.UserSignInDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-02-14T14:29:49+0900",
+    date = "2023-02-14T15:09:22+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class UserMapperImpl implements UserMapper {
@@ -561,6 +561,7 @@ public class UserMapperImpl implements UserMapper {
         storeOrderDTO.email( storeOrder.getEmail() );
         storeOrderDTO.emailReceiveStatus( storeOrder.getEmailReceiveStatus() );
         storeOrderDTO.phoneNumberReceiveStatus( storeOrder.getPhoneNumberReceiveStatus() );
+        storeOrderDTO.comment( storeOrder.getComment() );
         storeOrderDTO.storeOrderPgInfo( storeOrderPgInfoToStoreOrderPgInfoDTO( storeOrder.getStoreOrderPgInfo() ) );
         storeOrderDTO.storeOrderVanInfo( storeOrderVanInfoToStoreOrderVanInfoDTO( storeOrder.getStoreOrderVanInfo() ) );
         storeOrderDTO.storeOrderMenus( storeOrderMenuListToStoreOrderMenuDTOList( storeOrder.getStoreOrderMenus() ) );
