@@ -85,7 +85,6 @@ public class OrderService {
         storeOrderDTO.setId(merchant_uid); //주문번호 선 저장
         storeOrderDTO.setStatus(0);
         storeOrderDTO.setPayStatus(0);
-        storeOrderDTO.setDate(null);
         storeOrderDTO.setStoreOrderPgInfo(null);
         storeOrderDTO.setStoreOrderVanInfo(null);
 

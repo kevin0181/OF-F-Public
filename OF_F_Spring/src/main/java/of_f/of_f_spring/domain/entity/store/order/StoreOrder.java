@@ -9,6 +9,9 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -40,8 +43,8 @@ public class StoreOrder {
     @Column(name = "cancel_after_price")
     private String cancelAfterPrice;
 
-    @Column
-    private String date;
+    @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp date;
 
     @Column
     private int place;

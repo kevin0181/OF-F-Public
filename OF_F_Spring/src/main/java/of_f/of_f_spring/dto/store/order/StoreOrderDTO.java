@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Getter
@@ -24,7 +25,7 @@ public class StoreOrderDTO {
 
     private String totalPrice;
     private String cancelAfterPrice;
-    private String date;
+    private Timestamp date;
     private Integer place;
     private Integer status;
     private Integer payStatus;
