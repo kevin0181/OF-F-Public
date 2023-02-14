@@ -49,6 +49,15 @@ let PayInfo = () => {
         }
     }, []);
 
+    useEffect(() => {
+        setOrder({
+            ...order,
+            emailReceiveStatus: agreementBtnStatus.emailReceive,
+            phoneNumberReceiveStatus: agreementBtnStatus.phoneNumberReceive
+        })
+
+    }, [agreementBtnStatus]);
+
     const onClickPayDefaultWayBtn = (e) => { //결제 방식 선택
         if (e.target.getAttribute("pay-way-name") === null) {
             return;
@@ -72,16 +81,11 @@ let PayInfo = () => {
             return;
         }
 
-        console.log(easyPayWayStatus)
-        console.log(defaultPayWayStatus)
-
         await notTokenAxios({
             method: "POST",
             url: `/api/v1/store/order/pay/before`,
             data: order
         }).then(res => {
-
-            console.log(res.data.data)
 
             if (defaultPayWayStatus !== "" & easyPayWayStatus === "") { //기본결제
                 payDefaultImport(res.data.data);
@@ -122,9 +126,18 @@ let PayInfo = () => {
         }, rsp => { // callback
             console.log(rsp);
             if (rsp.success) {
-                console.log("간편 결제 성공")
+                navigate(`/store/${storeId}/pay/${qrId}/redirect?imp_uid=${rsp.imp_uid}&merchant_uid=${rsp.merchant_uid}&imp_success=${rsp.success}`);
             } else {
-                console.log("간편 결제 실패")
+                notTokenAxios({
+                    url: "/api/v1/store/order/pay/fail/delete?merchantUid=" + rsp.merchant_uid,
+                    method: "POST",
+                }).then(res => {
+                    alert("간편 결제를 실패하였습니다.");
+                    navigate(`/store/${storeId}/${qrId}/main`)
+                }).catch(err => {
+                    alert("간편 결제를 실패하였습니다.");
+                    navigate(`/store/${storeId}/${qrId}/main`)
+                });
             }
         });
 
@@ -149,9 +162,18 @@ let PayInfo = () => {
         }, rsp => { // callback
             console.log(rsp)
             if (rsp.success) {
-                alert("기본 결제 성공")
+                navigate(`/store/${storeId}/pay/${qrId}/redirect?imp_uid=${rsp.imp_uid}&merchant_uid=${rsp.merchant_uid}&imp_success=${rsp.success}`);
             } else {
-                alert("기본 결제 실패")
+                notTokenAxios({
+                    url: "/api/v1/store/order/pay/fail/delete?merchantUid=" + rsp.merchant_uid,
+                    method: "POST",
+                }).then(res => {
+                    alert("기본 결제를 실패하였습니다.");
+                    navigate(`/store/${storeId}/${qrId}/main`)
+                }).catch(err => {
+                    alert("기본 결제를 실패하였습니다.");
+                    navigate(`/store/${storeId}/${qrId}/main`)
+                });
             }
         });
     }
@@ -195,7 +217,23 @@ let PayInfo = () => {
                             <div>
                                 <div className={"payInfo-phoneNumber"}>
                                     <p>번호 : </p>
-                                    <input type={"test"} className={"m-input"} placeholder={"01012341234"}/>
+                                    <input type={"test"} value={order.phoneNumber} onChange={(e) => {
+                                        if (e.target.value.length > 0) {
+                                            setAgreementBtnStatus({
+                                                ...agreementBtnStatus,
+                                                phoneNumberReceive: true
+                                            });
+                                        } else {
+                                            setAgreementBtnStatus({
+                                                ...agreementBtnStatus,
+                                                phoneNumberReceive: false
+                                            });
+                                        }
+                                        setOrder({
+                                            ...order,
+                                            phoneNumber: e.target.value
+                                        })
+                                    }} className={"m-input"} placeholder={"01012341234"}/>
                                 </div>
                                 <div className={"payInfo-phoneNumberReceive"}>
                                     <small>수신 동의 : </small>
@@ -214,7 +252,23 @@ let PayInfo = () => {
                             <div>
                                 <div className={"payInfo-phoneNumber"}>
                                     <p>이메일 : </p>
-                                    <input type={"test"} className={"m-input"} placeholder={"example@xxx.com"}/>
+                                    <input type={"test"} value={order.email} onChange={(e) => {
+                                        if (e.target.value.length > 0) {
+                                            setAgreementBtnStatus({
+                                                ...agreementBtnStatus,
+                                                emailReceive: true
+                                            });
+                                        } else {
+                                            setAgreementBtnStatus({
+                                                ...agreementBtnStatus,
+                                                emailReceive: false
+                                            });
+                                        }
+                                        setOrder({
+                                            ...order,
+                                            email: e.target.value
+                                        })
+                                    }} className={"m-input"} placeholder={"example@xxx.com"}/>
                                 </div>
                                 <div className={"payInfo-phoneNumberReceive"}>
                                     <small>이메일 수신 동의 : </small>
@@ -239,7 +293,13 @@ let PayInfo = () => {
                             </div>
                             <div className={"payInfo-order-request"}>
                                 <h4>요청 사항</h4>
-                                <textarea className={"request-textarea m-input"} placeholder={"요청사항을 입력하세요."}/>
+                                <textarea className={"request-textarea m-input"} value={order.comment}
+                                          onChange={(e) => {
+                                              setOrder({
+                                                  ...order,
+                                                  comment: e.target.value
+                                              })
+                                          }} placeholder={"요청사항을 입력하세요."}/>
                             </div>
                             <div className={"payInfo-order-select-pay-way"}>
                                 <h4>결제 방식 선택</h4>

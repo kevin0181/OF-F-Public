@@ -28,7 +28,7 @@ import of_f.of_f_spring.dto.store.order.StoreOrderVanInfoDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-02-09T15:09:03+0900",
+    date = "2023-02-14T15:09:22+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class OrderMapperImpl implements OrderMapper {
@@ -63,6 +63,7 @@ public class OrderMapperImpl implements OrderMapper {
         storeOrder.setEmail( storeOrderDTO.getEmail() );
         storeOrder.setEmailReceiveStatus( storeOrderDTO.getEmailReceiveStatus() );
         storeOrder.setPhoneNumberReceiveStatus( storeOrderDTO.getPhoneNumberReceiveStatus() );
+        storeOrder.setComment( storeOrderDTO.getComment() );
         storeOrder.setStoreOrderMenus( storeOrderMenuDTOListToStoreOrderMenuList( storeOrderDTO.getStoreOrderMenus() ) );
         storeOrder.setStoreOrderPgInfo( storeOrderPgInfoDTOToStoreOrderPgInfo( storeOrderDTO.getStoreOrderPgInfo() ) );
         storeOrder.setStoreOrderVanInfo( storeOrderVanInfoDTOToStoreOrderVanInfo( storeOrderDTO.getStoreOrderVanInfo() ) );
@@ -94,6 +95,7 @@ public class OrderMapperImpl implements OrderMapper {
         storeOrderDTO.email( storeOrder.getEmail() );
         storeOrderDTO.emailReceiveStatus( storeOrder.getEmailReceiveStatus() );
         storeOrderDTO.phoneNumberReceiveStatus( storeOrder.getPhoneNumberReceiveStatus() );
+        storeOrderDTO.comment( storeOrder.getComment() );
         storeOrderDTO.storeOrderPgInfo( storeOrderPgInfoToStoreOrderPgInfoDTO( storeOrder.getStoreOrderPgInfo() ) );
         storeOrderDTO.storeOrderVanInfo( storeOrderVanInfoToStoreOrderVanInfoDTO( storeOrder.getStoreOrderVanInfo() ) );
         storeOrderDTO.storeOrderMenus( storeOrderMenuListToStoreOrderMenuDTOList( storeOrder.getStoreOrderMenus() ) );
@@ -318,14 +320,19 @@ public class OrderMapperImpl implements OrderMapper {
             return null;
         }
 
-        StoreOrderPgInfo storeOrderPgInfo = new StoreOrderPgInfo();
+        StoreOrderPgInfo.StoreOrderPgInfoBuilder storeOrderPgInfo = StoreOrderPgInfo.builder();
 
-        storeOrderPgInfo.setSeq( storeOrderPgInfoDTO.getSeq() );
-        storeOrderPgInfo.setStoreOrderSeq( storeOrderPgInfoDTO.getStoreOrderSeq() );
-        storeOrderPgInfo.setImpUid( storeOrderPgInfoDTO.getImpUid() );
-        storeOrderPgInfo.setMerchantUid( storeOrderPgInfoDTO.getMerchantUid() );
+        storeOrderPgInfo.seq( storeOrderPgInfoDTO.getSeq() );
+        storeOrderPgInfo.storeOrderSeq( storeOrderPgInfoDTO.getStoreOrderSeq() );
+        storeOrderPgInfo.impUid( storeOrderPgInfoDTO.getImpUid() );
+        storeOrderPgInfo.merchantUid( storeOrderPgInfoDTO.getMerchantUid() );
+        storeOrderPgInfo.pgProvider( storeOrderPgInfoDTO.getPgProvider() );
+        storeOrderPgInfo.payMethod( storeOrderPgInfoDTO.getPayMethod() );
+        storeOrderPgInfo.status( storeOrderPgInfoDTO.getStatus() );
+        storeOrderPgInfo.cardName( storeOrderPgInfoDTO.getCardName() );
+        storeOrderPgInfo.cardNumber( storeOrderPgInfoDTO.getCardNumber() );
 
-        return storeOrderPgInfo;
+        return storeOrderPgInfo.build();
     }
 
     protected StoreOrderVanInfo storeOrderVanInfoDTOToStoreOrderVanInfo(StoreOrderVanInfoDTO storeOrderVanInfoDTO) {
@@ -359,6 +366,11 @@ public class OrderMapperImpl implements OrderMapper {
         storeOrderPgInfoDTO.setStoreOrderSeq( storeOrderPgInfo.getStoreOrderSeq() );
         storeOrderPgInfoDTO.setImpUid( storeOrderPgInfo.getImpUid() );
         storeOrderPgInfoDTO.setMerchantUid( storeOrderPgInfo.getMerchantUid() );
+        storeOrderPgInfoDTO.setPgProvider( storeOrderPgInfo.getPgProvider() );
+        storeOrderPgInfoDTO.setPayMethod( storeOrderPgInfo.getPayMethod() );
+        storeOrderPgInfoDTO.setStatus( storeOrderPgInfo.getStatus() );
+        storeOrderPgInfoDTO.setCardName( storeOrderPgInfo.getCardName() );
+        storeOrderPgInfoDTO.setCardNumber( storeOrderPgInfo.getCardNumber() );
 
         return storeOrderPgInfoDTO;
     }

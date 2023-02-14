@@ -19,6 +19,7 @@ export const order = atom({
         email: "",
         emailReceiveStatus: "",
         phoneNumberReceiveStatus: "",
+        comment: "",
         storeOrderMenus: [],
         storeOrderPgInfo: {},
         storeOrderVanInfo: {},

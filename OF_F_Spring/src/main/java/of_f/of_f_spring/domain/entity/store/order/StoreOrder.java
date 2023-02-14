@@ -9,6 +9,9 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -40,8 +43,8 @@ public class StoreOrder {
     @Column(name = "cancel_after_price")
     private String cancelAfterPrice;
 
-    @Column
-    private String date;
+    @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp date;
 
     @Column
     private int place;
@@ -64,6 +67,8 @@ public class StoreOrder {
     @Column(name = "phone_number_receive_status")
     private Boolean phoneNumberReceiveStatus;
 
+    @Column(name = "comment")
+    private String comment;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "Store_Order_seq")

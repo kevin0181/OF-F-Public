@@ -73,4 +73,6 @@ public interface StoreMapper {
 
     List<StoreName> storeToStoreName(List<Store> stores);
     StoreOrder storeOrderDTOToStoreOrder(StoreOrderDTO storeOrderDTO);
+
+    StoreOrderDTO storeOrderToStoreOrderDTO(StoreOrder storeOrder);
 }

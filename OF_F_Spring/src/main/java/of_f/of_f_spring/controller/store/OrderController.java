@@ -10,6 +10,7 @@ import of_f.of_f_spring.dto.store.order.StoreOrderDTO;
 import of_f.of_f_spring.service.store.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +44,7 @@ public class OrderController {
     }
 
     @PostMapping("/pay/after")
+    @Transactional
     public ApiResponseDTO payAfter(@RequestBody Map<String, String> bodyData) {
 
         if (bodyData.get("imp_uid") == null || bodyData.get("merchant_uid") == null)
@@ -52,14 +54,28 @@ public class OrderController {
 
         JSONObject paymentData = orderService.paymentData(token, bodyData.get("imp_uid")); //결제 내역 가져오기
 
-        orderService.checkPayment(paymentData, bodyData.get("merchant_uid"));
-
-        return null;
+        return orderService.checkPayment(paymentData, bodyData.get("merchant_uid"));
     }
 
-    @PostMapping("/webhook/pay")
-    public ApiResponseDTO payWebHook(@RequestBody Map<String, String> bodyData) {
-        return null;
-    }
+//    @PostMapping("/webhook/pay")  // -> port one 훅인데 이걸 사용해야할지 말아야할지 고민해야할듯.
+//    @Transactional
+//    public ApiResponseDTO payWebHook(@RequestBody Map<String, String> bodyData) {
+//
+//        if (bodyData.get("imp_uid") == null || bodyData.get("merchant_uid") == null)
+//            throw new OrderException(OrderExceptionEnum.CAN_NOT_FIND_ORDER_DATA);
+//
+//        String token = orderService.getAccessToken(); // token 가져오기
+//
+//        JSONObject paymentData = orderService.paymentData(token, bodyData.get("imp_uid")); //결제 내역 가져오기
+//
+//        orderService.checkPayment(paymentData, bodyData.get("merchant_uid"));
+//
+//        return null;
+//    }
 
+
+    @PostMapping("/pay/fail/delete")
+    public ApiResponseDTO payFailedDelete(@RequestParam String merchantUid) {
+        return orderService.deleteOrder(merchantUid);
+    }
 }
