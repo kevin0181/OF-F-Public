@@ -202,6 +202,17 @@ let PayInfo = () => {
                                 <div className={"payInfo-phoneNumber"}>
                                     <p>번호 : </p>
                                     <input type={"test"} value={order.phoneNumber} onChange={(e) => {
+                                        if (e.target.value.length > 0) {
+                                            setAgreementBtnStatus({
+                                                ...agreementBtnStatus,
+                                                phoneNumberReceive: true
+                                            });
+                                        } else {
+                                            setAgreementBtnStatus({
+                                                ...agreementBtnStatus,
+                                                phoneNumberReceive: false
+                                            });
+                                        }
                                         setOrder({
                                             ...order,
                                             phoneNumber: e.target.value
@@ -226,6 +237,17 @@ let PayInfo = () => {
                                 <div className={"payInfo-phoneNumber"}>
                                     <p>이메일 : </p>
                                     <input type={"test"} value={order.email} onChange={(e) => {
+                                        if (e.target.value.length > 0) {
+                                            setAgreementBtnStatus({
+                                                ...agreementBtnStatus,
+                                                emailReceive: true
+                                            });
+                                        } else {
+                                            setAgreementBtnStatus({
+                                                ...agreementBtnStatus,
+                                                emailReceive: false
+                                            });
+                                        }
                                         setOrder({
                                             ...order,
                                             email: e.target.value
