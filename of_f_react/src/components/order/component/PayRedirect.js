@@ -34,6 +34,18 @@ let PayRedirect = () => {
                 }
             }).then(res => {
                 console.log(res);
+                switch (res.data.data.storeOrderPgInfo.status) {
+                    case "paid":
+                        alert("결제가 완료되었습니다.");
+                        //서버에서 받은 결제완료 정보를토대로 알림창 발송 및 관리자 websocket으로 전송하기.
+                        return;
+                    case "ready":
+                        alert("가상계좌 발급이 완료되었습니다.")
+                        return;
+                    default:
+                        alert("결제를 실패하였습니다.")
+                        return;
+                }
             }).catch(err => {
                 console.log(err);
             })

@@ -86,6 +86,8 @@ public class OrderService {
         storeOrderDTO.setStatus(0);
         storeOrderDTO.setPayStatus(0);
         storeOrderDTO.setDate(null);
+        storeOrderDTO.setStoreOrderPgInfo(null);
+        storeOrderDTO.setStoreOrderVanInfo(null);
 
         return ApiResponseDTO.builder()
                 .message("주문 결제 전 데이터")

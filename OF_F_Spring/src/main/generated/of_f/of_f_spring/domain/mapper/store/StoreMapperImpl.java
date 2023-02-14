@@ -41,7 +41,7 @@ import of_f.of_f_spring.dto.total.StoreName;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-02-14T13:36:16+0900",
+    date = "2023-02-14T13:59:56+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class StoreMapperImpl implements StoreMapper {
@@ -955,6 +955,11 @@ public class StoreMapperImpl implements StoreMapper {
         storeOrderPgInfo.storeOrderSeq( storeOrderPgInfoDTO.getStoreOrderSeq() );
         storeOrderPgInfo.impUid( storeOrderPgInfoDTO.getImpUid() );
         storeOrderPgInfo.merchantUid( storeOrderPgInfoDTO.getMerchantUid() );
+        storeOrderPgInfo.pgProvider( storeOrderPgInfoDTO.getPgProvider() );
+        storeOrderPgInfo.payMethod( storeOrderPgInfoDTO.getPayMethod() );
+        storeOrderPgInfo.status( storeOrderPgInfoDTO.getStatus() );
+        storeOrderPgInfo.cardName( storeOrderPgInfoDTO.getCardName() );
+        storeOrderPgInfo.cardNumber( storeOrderPgInfoDTO.getCardNumber() );
 
         return storeOrderPgInfo.build();
     }
@@ -990,6 +995,11 @@ public class StoreMapperImpl implements StoreMapper {
         storeOrderPgInfoDTO.setStoreOrderSeq( storeOrderPgInfo.getStoreOrderSeq() );
         storeOrderPgInfoDTO.setImpUid( storeOrderPgInfo.getImpUid() );
         storeOrderPgInfoDTO.setMerchantUid( storeOrderPgInfo.getMerchantUid() );
+        storeOrderPgInfoDTO.setPgProvider( storeOrderPgInfo.getPgProvider() );
+        storeOrderPgInfoDTO.setPayMethod( storeOrderPgInfo.getPayMethod() );
+        storeOrderPgInfoDTO.setStatus( storeOrderPgInfo.getStatus() );
+        storeOrderPgInfoDTO.setCardName( storeOrderPgInfo.getCardName() );
+        storeOrderPgInfoDTO.setCardNumber( storeOrderPgInfo.getCardNumber() );
 
         return storeOrderPgInfoDTO;
     }
