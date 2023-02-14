@@ -1,9 +1,9 @@
 import {useQuery} from "../../../Config/getQuery";
 import {useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import {useRecoilState} from "recoil";
-import {order as orderRecoil} from "../../../store/order/order";
 import {notTokenAxios} from "../../../Config/customAxios";
+import io from 'socket.io-client';
+
 
 let PayRedirect = () => {
 
@@ -17,9 +17,12 @@ let PayRedirect = () => {
     const merchant_uid = query.get("merchant_uid");
     const imp_success = query.get("imp_success");
 
-    const [order, setOrder] = useRecoilState(orderRecoil); //  주문 목록(장바구니)
+
+    const socket = io('http://localhost:8000');
 
     useEffect(() => {
+
+        socket.emit('message', { text: 'Hello, server!' });
 
         if (imp_success === true) {
             // -> 검증 처리해야함
