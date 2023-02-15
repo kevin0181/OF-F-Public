@@ -12,16 +12,21 @@ const io = new Server(SOCKET_PORT, {
 const storeSpace = io.of("/store");
 
 storeSpace.on('connection', (socket) => {
-    console.log('A user has connected');
+    console.log('connection 성공');
 
-    socket.on('insert room', (data) => {
-        socket.join('my-room')
-        console.log("방 가입");
-    })
+    socket.on('send', (data) => {
+        console.log(data)
+        socket.emit("get", "서버->리엑트");
+    });
 
-    socket.on('message', (data) => {
-        console.log(data);
-        socket.to('my-room').emit('message2', "리엑트로!");
+    socket.on("insert room", (data) => {
+        console.log(data + " 방 참가 완료")
+        socket.join(data);
+    });
+
+    socket.on("room send", (data, roomNumber) => {
+        console.log(data, roomNumber);
+        socket.to(roomNumber).emit("room get", roomNumber + " 방 서버 -> 리엑트");
     });
 
 });
