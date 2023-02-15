@@ -3,11 +3,16 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import "./../../../styles/css/management/main.css";
 import "./../../../styles/css/management/category.css";
+import "./../../../styles/css/management/order.css";
+import "animate.css";
 
 let OrderStart = () => {
     const query = useQuery();
 
     const navigate = useNavigate();
+
+    // node -> 서버에서 실시간으로 현재 가게 정보 가져오기
+    // spring -> 서버에서 이미 들어온 주문 가져오기
 
     useEffect(() => {
 
@@ -18,20 +23,13 @@ let OrderStart = () => {
             <div className={"f-line m-scroll "}>
                 <div>
                     <div className={"name-card "}>
-                        <div>
-                            <button>시작</button>
-                            <button>종료</button>
-                        </div>
-                        <div style={{
-                            width: "3%"
-                        }}>
-                            {
-                                query.get("status") === 'add' ? (
-                                    <div className={"name-card-active"}>
-                                    </div>) : (
-                                    <></>
-                                )
-                            }
+                        <div className={"name-card-btn"}>
+                            {/*<div className={"order-start-btn"}>*/}
+                            {/*    <h5>시작</h5>*/}
+                            {/*</div>*/}
+                            <div className={"order-close-btn"}>
+                                <h5>종료</h5>
+                            </div>
                         </div>
                     </div>
                 </div>
