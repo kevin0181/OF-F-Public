@@ -17,7 +17,7 @@ let PayRedirect = () => {
 
     useEffect(() => {
 
-        if (imp_success === true) {
+        if (imp_success === "true") {
             // -> 검증 처리해야함
             notTokenAxios({
                 url: "/api/v1/store/order/pay/after",
@@ -26,7 +26,6 @@ let PayRedirect = () => {
                     storeId, qrId, imp_uid, merchant_uid
                 }
             }).then(res => {
-                console.log(res);
                 switch (res.data.data.storeOrderPgInfo.status) {
                     case "paid":
                         alert("결제가 완료되었습니다.");
