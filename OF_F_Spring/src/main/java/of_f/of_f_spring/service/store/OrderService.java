@@ -232,7 +232,6 @@ public class OrderService {
                                 .data(StoreMapper.instance.storeOrderToStoreOrderDTO(order))
                                 .build();
                     case "paid":
-                        order.setStatus(1);
                         order.setPayStatus(1);
                         order = storeOrderRepository.save(order); // 검증된 결제 데이터 저장
                         return ApiResponseDTO.builder()

@@ -32,6 +32,11 @@ public class StoreController {
         return storeService.getStoreInfoAdmin(principal);
     }
 
+    @GetMapping("/admin/get/order")
+    public ApiResponseDTO getOrderData(Principal principal, @RequestParam Long storeSeq) {
+        return storeService.getStoreOrderData(storeSeq);
+    }
+
     @PostMapping("/admin/category")
     public ApiResponseDTO category(@RequestParam String status,
                                    @RequestBody @Valid StoreCategoryDTO storeCategoryDTO,

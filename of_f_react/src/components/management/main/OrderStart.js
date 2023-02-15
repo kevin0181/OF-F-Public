@@ -5,18 +5,35 @@ import "./../../../styles/css/management/main.css";
 import "./../../../styles/css/management/category.css";
 import "./../../../styles/css/management/order.css";
 import "animate.css";
+import {tokenStoreAdminAxios} from "../../../Config/customStoreAdminAjax";
+import {useRecoilState} from "recoil";
+import {selectStoreInfoRecoil} from "../../../store/management/storeInfo";
 
 let OrderStart = () => {
     const query = useQuery();
 
     const navigate = useNavigate();
 
+    const [store, setStore] = useRecoilState(selectStoreInfoRecoil); //선택된 가게 정보
+
     // node -> 서버에서 실시간으로 현재 가게 정보 가져오기
     // spring -> 서버에서 이미 들어온 주문 가져오기
-
     useEffect(() => {
-
+        if (store.seq !== null) {
+            getOrderData();
+        }
     }, []);
+
+    let getOrderData = () => {
+        tokenStoreAdminAxios({
+            url: "/api/v1/store/admin/get/order?storeSeq=" + store.seq,
+            method: "GET"
+        }).then(res => {
+            console.log(res)
+        }).catch(err => {
+            console.log(err);
+        })
+    }
 
     return (
         <div className={"manage-main-container"}>
