@@ -1,9 +1,11 @@
+const express = require('express');
+const app = express();
+const http = require('http');
+const server = http.createServer(app);
 const {Server} = require("socket.io");
-const SOCKET_PORT = 8000;
+const PORT = 8000;
 
-require('dotenv').config();
-
-const io = new Server(SOCKET_PORT, {
+const io = new Server(server, {
     cors: {
         origin: `${process.env.REACT_APP_PORT}`
     }
@@ -28,5 +30,15 @@ storeSpace.on('connection', (socket) => {
         console.log(data, roomNumber);
         socket.to(roomNumber).emit("room get", roomNumber + " 방 서버 -> 리엑트");
     });
+});
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
+
+app.get("/", (req, res) => {
+    res.send("Hello World");
+});
+
+server.listen(PORT, () => {
+    console.log('listening on *:8000');
 });
