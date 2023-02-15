@@ -19,10 +19,10 @@ let OrderStart = () => {
     // node -> 서버에서 실시간으로 현재 가게 정보 가져오기
     // spring -> 서버에서 이미 들어온 주문 가져오기
     useEffect(() => {
-        if (store.seq !== null) {
+        if (store.seq !== undefined && store.storeOrders === null) {
             getOrderData();
         }
-    }, []);
+    }, [store]);
 
     let getOrderData = () => {
         tokenStoreAdminAxios({
@@ -30,6 +30,10 @@ let OrderStart = () => {
             method: "GET"
         }).then(res => {
             console.log(res)
+            setStore({
+                ...store,
+                storeOrders: res.data.data
+            })
         }).catch(err => {
             console.log(err);
         })
