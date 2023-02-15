@@ -21,3 +21,10 @@
     color: white;
     margin: 0px 5px;
 }
+
+.order-line {
+    width: 60%;
+    height: 1px;
+    margin-top: 4px;
+    border: 1px solid #1A72C3;
+}

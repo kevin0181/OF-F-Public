@@ -140,7 +140,6 @@ public class StoreService {
             if (userDTO.getStores().get(i).getStatus() != 0) {
                 userDTO.getStores().remove(i);
             }
-
             userDTO.getStores().get(i).setStoreOrders(null);
         }
 

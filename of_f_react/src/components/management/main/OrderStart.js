@@ -15,6 +15,31 @@ let OrderStart = () => {
     const navigate = useNavigate();
 
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil); //선택된 가게 정보
+    const [order, setOrder] = useState([
+        // {
+        //     seq: "",
+        //     cancelAfterPrice: "",
+        //     comment: "",
+        //     date: "",
+        //     email: "",
+        //     emailReceiveStatus: false,
+        //     id: "",
+        //     kind: "",
+        //     orderNumber: "",
+        //     payStatus: "",
+        //     phoneNumber: "",
+        //     phoneNumberReceiveStatus: false,
+        //     place: "",
+        //     status: "",
+        //     storeOrderMenus: [],
+        //     storeOrderPgInfo: {},
+        //     storeOrderVanInfo: {},
+        //     storeQRId: "",
+        //     storeSeq: "",
+        //     totalPrice: "",
+        //     user: {}
+        // }
+    ])
 
     // node -> 서버에서 실시간으로 현재 가게 정보 가져오기
     // spring -> 서버에서 이미 들어온 주문 가져오기
@@ -23,6 +48,12 @@ let OrderStart = () => {
             getOrderData();
         }
     }, [store]);
+
+    useEffect(() => {
+        if (store.storeOrders !== undefined) {
+            setOrder(store.storeOrders);
+        }
+    }, [])
 
     let getOrderData = () => {
         tokenStoreAdminAxios({
@@ -33,7 +64,10 @@ let OrderStart = () => {
             setStore({
                 ...store,
                 storeOrders: res.data.data
-            })
+            });
+            setOrder(
+                res.data.data
+            )
         }).catch(err => {
             console.log(err);
         })
@@ -53,6 +87,42 @@ let OrderStart = () => {
                             </div>
                         </div>
                     </div>
+                    {
+                        order.map((data, index) => (
+                            <div
+                                className={"name-card "} id={index + "-category"}
+                                key={index}>
+                                <div className={"name-card-btn"}>
+                                    <div
+                                        className={"name-card-part " + (query.get("f") === String(index) ? 'active' : '')}
+                                        style={{
+                                            flexDirection: "column"
+                                        }}
+                                        onClick={() => {
+                                            navigate("/manage/store?kind=Category&f=" + index)
+                                        }}
+                                    >
+                                        <p>{data.storeQRId}</p>
+                                        <p style={{
+                                            fontSize: "10px"
+                                        }}>{data.id}</p>
+                                        <div className={"order-line"}></div>
+                                    </div>
+                                </div>
+                                <div style={{
+                                    width: "3%"
+                                }}>
+                                    {
+                                        query.get("f") === String(index) ? (
+                                            <div className={"name-card-active"}>
+                                            </div>) : (
+                                            <></>
+                                        )
+                                    }
+                                </div>
+                            </div>
+                        ))
+                    }
                 </div>
             </div>
             <div
