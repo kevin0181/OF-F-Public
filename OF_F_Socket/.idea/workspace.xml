@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1aefb79f-b57f-4003-8f82-7e6985ac6836" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/../OF_F-ERD.mwb" beforeDir="false" afterPath="$PROJECT_DIR$/../OF_F-ERD.mwb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OF_F-ERD.mwb.bak" beforeDir="false" afterPath="$PROJECT_DIR$/../OF_F-ERD.mwb.bak" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../of_f_react/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../of_f_react/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../of_f_react/src/components/order/component/PayRedirect.js" beforeDir="false" afterPath="$PROJECT_DIR$/../of_f_react/src/components/order/component/PayRedirect.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +56,7 @@
       <workItem from="1672624257470" duration="17000" />
       <workItem from="1675149521765" duration="18000" />
       <workItem from="1676361294693" duration="2926000" />
-      <workItem from="1676431416817" duration="4257000" />
+      <workItem from="1676431416817" duration="4557000" />
     </task>
     <servers />
   </component>

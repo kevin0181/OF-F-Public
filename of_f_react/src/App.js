@@ -67,7 +67,6 @@ function App() {
                                     </Route>
                                 </Route>
                             </Route>
-
                             {/* ---------- management ---------- */}
                             <Route path={"/manage/login"} element={<ManagementLogin/>}/>
                             <Route element={<PrivateRouter loginStatus={loginStatus} cookies={cookies}/>}>
@@ -76,7 +75,6 @@ function App() {
                                 </Route>
                             </Route>
                             <Route path={"/*"} element={<Navigate to={"/"}/>}/>
-
                         </Routes>
                     </div>
                 </BrowserRouter>
