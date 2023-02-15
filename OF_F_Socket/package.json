@@ -1,11 +1,13 @@
 {
   "dependencies": {
     "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20",
     "socket.io": "^4.5.4"
   },
   "name": "of_f_socket",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index2.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

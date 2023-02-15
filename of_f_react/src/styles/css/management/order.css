@@ -1,0 +1,30 @@
+.order-start-btn {
+    width: 60%;
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    background-color: #1A72C3;
+    margin: 0px 5px;
+    color: white;
+}
+
+.order-close-btn {
+    width: 60%;
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    background-color: #df776b;
+    color: white;
+    margin: 0px 5px;
+}
+
+.order-line {
+    width: 60%;
+    height: 1px;
+    margin-top: 4px;
+    border: 1px solid #1A72C3;
+}

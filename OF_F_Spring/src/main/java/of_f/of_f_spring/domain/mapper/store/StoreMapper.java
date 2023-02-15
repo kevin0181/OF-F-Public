@@ -72,7 +72,10 @@ public interface StoreMapper {
     List<StoreSideImg> storeSideImgsDTOToStoreSideImgs(List<StoreSideImgDTO> storeSideImgDTOS);
 
     List<StoreName> storeToStoreName(List<Store> stores);
+
     StoreOrder storeOrderDTOToStoreOrder(StoreOrderDTO storeOrderDTO);
 
     StoreOrderDTO storeOrderToStoreOrderDTO(StoreOrder storeOrder);
+
+    List<StoreOrderDTO> storeOrderListToStoreOrderDTOList(List<StoreOrder> storeOrderList);
 }

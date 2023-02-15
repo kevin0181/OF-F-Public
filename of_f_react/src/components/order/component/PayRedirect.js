@@ -2,8 +2,6 @@ import {useQuery} from "../../../Config/getQuery";
 import {useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {notTokenAxios} from "../../../Config/customAxios";
-import io from 'socket.io-client';
-
 
 let PayRedirect = () => {
 
@@ -17,21 +15,9 @@ let PayRedirect = () => {
     const merchant_uid = query.get("merchant_uid");
     const imp_success = query.get("imp_success");
 
-
-    const socket = io('http://localhost:8000/store');
-
     useEffect(() => {
 
-        socket.emit("insert room", "1");
-
-        socket.emit('message', 'Hello, room!');
-
-        socket.on("message2", (data) => {
-            console.log(data);
-            console.log(1);
-        })
-
-        if (imp_success === true) {
+        if (imp_success === "true") {
             // -> 검증 처리해야함
             notTokenAxios({
                 url: "/api/v1/store/order/pay/after",
@@ -40,7 +26,6 @@ let PayRedirect = () => {
                     storeId, qrId, imp_uid, merchant_uid
                 }
             }).then(res => {
-                console.log(res);
                 switch (res.data.data.storeOrderPgInfo.status) {
                     case "paid":
                         alert("결제가 완료되었습니다.");
@@ -70,17 +55,17 @@ let PayRedirect = () => {
             })
 
         } else {
-            // // -> 결제 실패했으니깐 db데이터 삭제하기.
-            // notTokenAxios({
-            //     url: "/api/v1/store/order/pay/fail/delete?merchantUid=" + merchant_uid,
-            //     method: "POST",
-            // }).then(res => {
-            //     alert("결제를 실패하였습니다.");
-            //     navigate(`/store/${storeId}/${qrId}/main`)
-            // }).catch(err => {
-            //     alert("결제를 실패하였습니다.");
-            //     navigate(`/store/${storeId}/${qrId}/main`)
-            // });
+            // -> 결제 실패했으니깐 db데이터 삭제하기.
+            notTokenAxios({
+                url: "/api/v1/store/order/pay/fail/delete?merchantUid=" + merchant_uid,
+                method: "POST",
+            }).then(res => {
+                alert("결제를 실패하였습니다.");
+                navigate(`/store/${storeId}/${qrId}/main`)
+            }).catch(err => {
+                alert("결제를 실패하였습니다.");
+                navigate(`/store/${storeId}/${qrId}/main`)
+            });
         }
     }, [])
 

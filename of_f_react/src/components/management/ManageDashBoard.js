@@ -9,6 +9,7 @@ import Category from "./main/Category";
 import Menu from "./main/Menu";
 import SideCategory from "./main/SideCategory";
 import SideMenu from "./main/SideMenu";
+import OrderStart from "./main/OrderStart";
 
 
 let ManageDashBoard = () => {
@@ -29,7 +30,7 @@ let ManageDashBoard = () => {
             case "Home":
                 return <Home/>
             case "orderStart":
-                return <></>
+                return <OrderStart/>
             case "orderHistory":
                 return <></>
             case "Category":

@@ -20,6 +20,7 @@ import StoreOrderHeader from "./components/order/component/StoreOrderHeader";
 import MenuBasketList from "./components/order/component/MenuBasketList";
 import PayInfo from "./components/order/component/PayInfo";
 import PayRedirect from "./components/order/component/PayRedirect";
+import Socket from "./components/Socket";
 
 function App() {
 
@@ -40,6 +41,9 @@ function App() {
                             <Route path={"/find/id"} element={<FindId/>}/>
                             <Route path={"/find/pwd"} element={<FindPwd/>}/>
                             <Route path={"/error/:code"} element={<ErrorPage/>}/>
+
+                            {/*socket */}
+                            <Route path={"/socket"} element={<Socket/>}/>
 
                             {/*-------------- order ------------*/}
                             <Route path={"/store"} element={<Outlet/>}>
@@ -63,7 +67,6 @@ function App() {
                                     </Route>
                                 </Route>
                             </Route>
-
                             {/* ---------- management ---------- */}
                             <Route path={"/manage/login"} element={<ManagementLogin/>}/>
                             <Route element={<PrivateRouter loginStatus={loginStatus} cookies={cookies}/>}>

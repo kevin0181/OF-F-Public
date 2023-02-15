@@ -3,6 +3,7 @@ package of_f.of_f_spring.service.store;
 import lombok.extern.slf4j.Slf4j;
 import of_f.of_f_spring.domain.entity.store.Store;
 import of_f.of_f_spring.domain.entity.store.menu.*;
+import of_f.of_f_spring.domain.entity.store.order.StoreOrder;
 import of_f.of_f_spring.domain.entity.store.qr.QRStoreInfo;
 import of_f.of_f_spring.domain.entity.store.qr.StoreQRId;
 import of_f.of_f_spring.domain.entity.user.User;
@@ -12,6 +13,7 @@ import of_f.of_f_spring.domain.mapper.user.UserMapper;
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
 import of_f.of_f_spring.dto.store.StoreDTO;
 import of_f.of_f_spring.dto.store.menu.*;
+import of_f.of_f_spring.dto.store.order.StoreOrderDTO;
 import of_f.of_f_spring.dto.store.qr.QRStoreInfoDTO;
 import of_f.of_f_spring.dto.user.UserDTO;
 import of_f.of_f_spring.repository.store.*;
@@ -62,6 +64,9 @@ public class StoreService {
 
     @Autowired
     private StoreMSRepository storeMSRepository;
+
+    @Autowired
+    private StoreOrderRepository storeOrderRepository;
 
     public ApiResponseDTO applicationNewStore(StoreDTO storeDTO, Principal principal) {  // 가맹점 신청
 
@@ -135,6 +140,7 @@ public class StoreService {
             if (userDTO.getStores().get(i).getStatus() != 0) {
                 userDTO.getStores().remove(i);
             }
+            userDTO.getStores().get(i).setStoreOrders(null);
         }
 
         if (userDTO.getStores().size() == 0) //모든 가맹점이 비활성화 여서 하나도 없을 시.
@@ -144,6 +150,18 @@ public class StoreService {
                 .message("가맹점 정보")
                 .detail("가맹점의 정보 입니다.")
                 .data(userDTO)
+                .build();
+    }
+
+    public ApiResponseDTO getStoreOrderData(Long storeSeq) {
+
+        List<StoreOrder> storeOrderList = storeOrderRepository.findAllByStoreSeqAndStatusAndPayStatus(storeSeq, 0, 1);
+        List<StoreOrderDTO> storeOrderDTOList = StoreMapper.instance.storeOrderListToStoreOrderDTOList(storeOrderList);
+
+        return ApiResponseDTO.builder()
+                .message("가맹점 주문 정보")
+                .detail("가맹점의 주문 정보 입니다.")
+                .data(storeOrderDTOList)
                 .build();
     }
 
@@ -726,4 +744,5 @@ public class StoreService {
                 .data(true)
                 .build();
     }
+
 }
