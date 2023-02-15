@@ -53,14 +53,13 @@ let OrderStart = () => {
         if (store.storeOrders !== undefined) {
             setOrder(store.storeOrders);
         }
-    }, [])
+    }, []);
 
     let getOrderData = () => {
         tokenStoreAdminAxios({
             url: "/api/v1/store/admin/get/order?storeSeq=" + store.seq,
             method: "GET"
         }).then(res => {
-            console.log(res)
             setStore({
                 ...store,
                 storeOrders: res.data.data
@@ -99,7 +98,7 @@ let OrderStart = () => {
                                             flexDirection: "column"
                                         }}
                                         onClick={() => {
-                                            navigate("/manage/store?kind=Category&f=" + index)
+                                            navigate("/manage/store?kind=orderStart&f=" + index)
                                         }}
                                     >
                                         <p>{data.storeQRId}</p>
