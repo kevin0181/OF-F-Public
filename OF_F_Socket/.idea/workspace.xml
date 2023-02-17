@@ -6,11 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="1aefb79f-b57f-4003-8f82-7e6985ac6836" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/schemas/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/schemas/store.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/store/store.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../of_f_react/src/Config/customAxios.js" beforeDir="false" afterPath="$PROJECT_DIR$/../of_f_react/src/Config/customAxios.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../of_f_react/src/components/management/main/OrderStart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../of_f_react/src/components/management/main/OrderStart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../of_f_react/src/components/order/OrderStoreCheck.js" beforeDir="false" afterPath="$PROJECT_DIR$/../of_f_react/src/components/order/OrderStoreCheck.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
