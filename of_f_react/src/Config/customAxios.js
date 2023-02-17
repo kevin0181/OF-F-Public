@@ -87,6 +87,7 @@ refreshTokenAxios.interceptors.response.use(
         return config;
     },
     async err => {
+        localStorage.removeItem("l-st");
         return Promise.reject(err); // 리프레시 발급 오류
     },
 )

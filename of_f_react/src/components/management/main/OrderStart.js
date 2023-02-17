@@ -50,7 +50,7 @@ let OrderStart = () => {
     }, [store]);
 
     useEffect(() => {
-        if (store.storeOrders !== undefined) {
+        if (store.storeOrders !== undefined && store.storeOrders !== null) {
             setOrder(store.storeOrders);
         }
     }, []);

@@ -59,7 +59,7 @@ let OrderStoreCheck = () => {
 
         nodeServerAxios({
             method: "POST",
-            url: '/store/status'
+            url: `/store/status?storeSeq=${storeId}`
         }).then(res => {
             console.log(res)
         }).catch(err => {

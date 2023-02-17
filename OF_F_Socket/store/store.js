@@ -3,7 +3,12 @@ const router = Router();
 const {StoreMongo} = require("./../models");
 
 router.post("/status", async (req, res, next) => {
-    let data = await StoreMongo.find();
+    let {storeSeq} = req.query;
+
+    let data = await StoreMongo.findOne({
+        storeSeq: storeSeq
+    });
+
     return res.json(data);
 });
 

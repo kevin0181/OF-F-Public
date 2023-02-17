@@ -3,7 +3,7 @@ const shortId = require("./types/short-id");
 
 module.exports = new Schema({
     shortId,
-    store: String,
+    storeSeq: String,
     status: Boolean,
 }, {
     timestamps: true
