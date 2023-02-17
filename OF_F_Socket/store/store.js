@@ -1,6 +1,7 @@
 const {Router} = require("express");
 const router = Router();
 const {StoreMongo} = require("./../models");
+const {decode} = require("./../jwt/decode");
 
 router.post("/status", async (req, res, next) => { //현재 가게 상태 가져오기
     let {storeSeq} = req.query;
@@ -13,10 +14,12 @@ router.post("/status", async (req, res, next) => { //현재 가게 상태 가져
 });
 
 router.post("/set/status", async (req, res, next) => { //가게 상태 설정
-    let data = req.header("accessToken");
+    let accessToken = req.header("accessToken");
     let storeData = req.body;
-    console.log(data);
+    console.log(accessToken);
     console.log(storeData);
+    let tokenStatus = await decode(accessToken);
+    console.log(tokenStatus);
 })
 
 module.exports = router;

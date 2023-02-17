@@ -5,10 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1aefb79f-b57f-4003-8f82-7e6985ac6836" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/jwt/decode.js" beforeDir="false" afterPath="$PROJECT_DIR$/jwt/decode.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/store/store.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../of_f_react/src/Config/customAxios.js" beforeDir="false" afterPath="$PROJECT_DIR$/../of_f_react/src/Config/customAxios.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../of_f_react/src/components/management/main/OrderStart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../of_f_react/src/components/management/main/OrderStart.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
