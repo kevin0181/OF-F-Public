@@ -7,6 +7,7 @@ import {
     orderStoreSideCategory as orderStoreSideCategoryRecoil
 } from "../../store/order/orderStore";
 import {nodeServerAxios, notTokenAxios} from "../../Config/customAxios";
+import axios from "axios";
 
 let OrderStoreCheck = () => {
 

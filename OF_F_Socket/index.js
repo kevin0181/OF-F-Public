@@ -7,6 +7,7 @@ const cors = require("cors");
 const PORT = 8000;
 const mongoose = require("mongoose");
 const {socket} = require("./socket/socket");
+require('dotenv').config();
 
 const storeRouter = require("./store/store");
 
@@ -25,20 +26,19 @@ mongoose.connection.once('open', function () {
     console.log('db 연결 성공!');
 });
 
-// const io = new Server(server, {
-//     cors: {
-//         origin: `${process.env.REACT_APP_PORT}`
-//     }
-// });
-//
-// const storeSpace = io.of("/store");
-//
-// socket(storeSpace);
+const io = new Server(server, {
+    cors: {
+        origin: `${process.env.REACT_APP_PORT}`
+    }
+});
 
-// app.use(cors({
-//     origin: `${process.env.REACT_APP_PORT}`,
-// }));
-app.use(cors())
+const storeSpace = io.of("/store");
+
+socket(storeSpace);
+
+app.use(cors({
+    origin: `${process.env.REACT_APP_PORT}`,
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

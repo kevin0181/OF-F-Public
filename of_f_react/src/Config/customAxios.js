@@ -94,6 +94,9 @@ refreshTokenAxios.interceptors.response.use(
 
 export const nodeServerAxios: AxiosInstance = axios.create({ // node
     baseURL: process.env.REACT_APP_NODE_SERVER_URL_PORT, // 기본 서버 주소 입력
+    headers: {
+        'Access-Control-Allow-Origin': process.env.REACT_APP_NODE_SERVER_URL_PORT,	// 서버 domain
+    },
 });
 
 nodeServerAxios.interceptors.response.use(
