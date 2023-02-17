@@ -90,3 +90,18 @@ refreshTokenAxios.interceptors.response.use(
         return Promise.reject(err); // 리프레시 발급 오류
     },
 )
+
+
+export const nodeServerAxios: AxiosInstance = axios.create({ // node
+    baseURL: process.env.REACT_APP_NODE_SERVER_URL_PORT, // 기본 서버 주소 입력
+});
+
+nodeServerAxios.interceptors.response.use(
+    config => {
+        return config;
+    },
+    err => {
+        return Promise.reject(err);
+    },
+);
+

@@ -6,7 +6,7 @@ import {
     orderStoreCategory as orderStoreCategoryRecoil,
     orderStoreSideCategory as orderStoreSideCategoryRecoil
 } from "../../store/order/orderStore";
-import {notTokenAxios} from "../../Config/customAxios";
+import {nodeServerAxios, notTokenAxios} from "../../Config/customAxios";
 
 let OrderStoreCheck = () => {
 
@@ -54,6 +54,15 @@ let OrderStoreCheck = () => {
             console.log(err);
             alert("존재하지 않는 QR 및 가게입니다.");
             navigate("/store/search");
+        });
+
+        nodeServerAxios({
+            method: "POST",
+            url: '/store/status'
+        }).then(res => {
+            console.log(res)
+        }).catch(err => {
+            console.log(err);
         })
 
     }, []);
