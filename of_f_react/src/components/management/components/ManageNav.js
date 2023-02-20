@@ -10,7 +10,7 @@ import {ReactComponent as BookMarkAlt} from "./../../../assets/icon/bookmark-alt
 import {ReactComponent as CogIcon} from "./../../../assets/icon/cog.svg";
 import {ReactComponent as LockIcon} from "./../../../assets/icon/lock-open.svg";
 import chevronRight from "./../../../assets/icon/chevron-right.svg";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import 'animate.css';
 import {useQuery} from "../../../Config/getQuery";
 import {useRecoilState} from "recoil";
@@ -25,7 +25,7 @@ import {tokenStoreAdminAxios} from "../../../Config/customStoreAdminAjax";
 import Loading from "./Loading";
 import adminStoreLoading from "../../../store/management/adminStoreLoading";
 import {nodeServerAxios} from "../../../Config/customAxios";
-import socketIoClient from "socket.io-client";
+import {SocketContext} from "../Socket";
 
 let ManageNav = () => {
 
@@ -41,6 +41,15 @@ let ManageNav = () => {
     const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil); // 로그인시 가져오는 전체 정보
 
     const [storeStatus, setStoreStatus] = useRecoilState(storeStatusRecoil); // 가게 상태 정보 몽고디비에서 가져옴
+
+    const socketStore = useContext(SocketContext);
+
+    useEffect(() => {
+        socketStore.emit("insert room", "1"); // websocket 방참가
+        socketStore.on("room get", (data) => {
+            console.log(data);
+        });
+    }, [])
 
     let getStoreStatusData = () => { //가게 상태 가져옴
         nodeServerAxios({

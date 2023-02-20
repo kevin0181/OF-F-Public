@@ -2,15 +2,17 @@ import {useEffect, useState} from "react";
 import socketIoClient from "socket.io-client";
 
 let Socket2 = () => {
-    const socketStore = socketIoClient(`${process.env.REACT_APP_SOCKET_PORT}/store`);
+
+    let socketStore;
 
     useEffect(() => {
-        // socketStore.on("room get", (data) => {
-        //     console.log(data);
-        // });
+        socketStore = socketIoClient(`${process.env.REACT_APP_NODE_SERVER_URL_PORT}/store`);
+        socketStore.on("room get", (data) => {
+            console.log(data);
+        });
     }, [])
 
-    const [roomName, setRoomName] = useState("");
+    const [roomName, setRoomName] = useState("1");
 
     return (
         <div>
@@ -23,14 +25,7 @@ let Socket2 = () => {
                 방참가
             </button>
             <button onClick={() => {
-                socketStore.on("room get", (data) => {
-                    console.log(data);
-                });
-            }}>
-                열기
-            </button>
-            <button onClick={() => {
-                socketStore.emit("room send", "방 리엑트 -> 서버", roomName);
+                socketStore.emit("room send", "123", roomName);
             }}>보내기
             </button>
         </div>

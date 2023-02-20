@@ -1,7 +1,8 @@
 exports.socket = (storeSpace) => {
-
+    let i = 0;
     storeSpace.on('connection', (socket) => {
-        console.log('connection 성공');
+        i++;
+        console.log('connection 성공 ' + i);
 
         socket.on('send', (data) => {
             console.log(data)

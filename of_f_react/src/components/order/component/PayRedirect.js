@@ -1,8 +1,9 @@
 import {useQuery} from "../../../Config/getQuery";
-import {useEffect} from "react";
+import {useContext, useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {notTokenAxios} from "../../../Config/customAxios";
 import socketIoClient from "socket.io-client";
+import {SocketContext} from "../../management/Socket";
 
 let PayRedirect = () => {
 
@@ -16,8 +17,7 @@ let PayRedirect = () => {
     const merchant_uid = query.get("merchant_uid");
     const imp_success = query.get("imp_success");
 
-    const socketStore = socketIoClient(`${process.env.REACT_APP_NODE_SERVER_URL_PORT}/store`);
-
+    const socketStore = useContext(SocketContext);
 
     useEffect(() => {
 

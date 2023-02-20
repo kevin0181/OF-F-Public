@@ -20,7 +20,8 @@ import StoreOrderHeader from "./components/order/component/StoreOrderHeader";
 import MenuBasketList from "./components/order/component/MenuBasketList";
 import PayInfo from "./components/order/component/PayInfo";
 import PayRedirect from "./components/order/component/PayRedirect";
-import Socket from "./components/management/Socket";
+import {socket, SocketContext} from "./components/management/Socket";
+import Socket2 from "./components/Socket2";
 
 function App() {
 
@@ -28,61 +29,61 @@ function App() {
     const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
 
     return (
-        <RecoilRoot>
-            <CookiesProvider>
-                <BrowserRouter>
-                    <div className={"container"}>
-                        <Routes>
-                            <Route element={<Header/>}>
-                                <Route path={"/"} element={<Main/>}/>
-                            </Route>
-                            <Route path={"/login"} element={<Login/>}/>
-                            <Route path={"/signUp"} element={<SignUp/>}/>
-                            <Route path={"/find/id"} element={<FindId/>}/>
-                            <Route path={"/find/pwd"} element={<FindPwd/>}/>
-                            <Route path={"/error/:code"} element={<ErrorPage/>}/>
+        <SocketContext.Provider value={socket}>
+            <RecoilRoot>
+                <CookiesProvider>
+                    <BrowserRouter>
+                        <div className={"container"}>
+                            <Routes>
+                                <Route element={<Header/>}>
+                                    <Route path={"/"} element={<Main/>}/>
+                                </Route>
+                                <Route path={"/login"} element={<Login/>}/>
+                                <Route path={"/signUp"} element={<SignUp/>}/>
+                                <Route path={"/find/id"} element={<FindId/>}/>
+                                <Route path={"/find/pwd"} element={<FindPwd/>}/>
+                                <Route path={"/error/:code"} element={<ErrorPage/>}/>
 
-                            {/*socket */}
-                            <Route path={"/socket"} element={<Socket/>}/>
+                                {/*socket */}
+                                <Route path={"/socket"} element={<Socket2/>}/>
 
-                            {/*-------------- order ------------*/}
-                            <Route path={"/store"} element={<Outlet/>}>
-                                <Route path={"*"} index element={<Navigate to={"/store/search"}/>}/>
-                                <Route path={"search"} element={<OrderStoreSearch/>}/> {/*검색*/}
-                                <Route path={":storeId"}>  {/*정상적인 가게 접근인지 확인*/}
+                                {/*-------------- order ------------*/}
+                                <Route path={"/store"} element={<Outlet/>}>
                                     <Route path={"*"} index element={<Navigate to={"/store/search"}/>}/>
-                                    <Route path={":qrId"} element={<OrderStoreCheck/>}>
-                                        <Route path={"basket"} element={<MenuBasketList/>}/>
-                                        <Route path={"payInfo"} element={<PayInfo/>}/>
-                                        <Route element={<StoreOrderHeader/>}>
-                                            <Route path={"main"} element={<StoreOrder/>}/>
+                                    <Route path={"search"} element={<OrderStoreSearch/>}/> {/*검색*/}
+                                    <Route path={":storeId"}>  {/*정상적인 가게 접근인지 확인*/}
+                                        <Route path={"*"} index element={<Navigate to={"/store/search"}/>}/>
+                                        <Route path={":qrId"} element={<OrderStoreCheck/>}>
+                                            <Route path={"basket"} element={<MenuBasketList/>}/>
+                                            <Route path={"payInfo"} element={<PayInfo/>}/>
+                                            <Route element={<StoreOrderHeader/>}>
+                                                <Route path={"main"} element={<StoreOrder/>}/>
+                                            </Route>
                                         </Route>
-                                    </Route>
-                                    <Route path={"pay"} element={<Outlet/>}>  {/*결제 후*/}
-                                        <Route path={"*"} index element={<Navigate to={"/"}/>}/>
-                                        <Route path={":qrId"} element={<Outlet/>}>
+                                        <Route path={"pay"} element={<Outlet/>}>  {/*결제 후*/}
                                             <Route path={"*"} index element={<Navigate to={"/"}/>}/>
-                                            <Route path={"redirect"} element={<PayRedirect/>}/>
+                                            <Route path={":qrId"} element={<Outlet/>}>
+                                                <Route path={"*"} index element={<Navigate to={"/"}/>}/>
+                                                <Route path={"redirect"} element={<PayRedirect/>}/>
+                                            </Route>
                                         </Route>
                                     </Route>
                                 </Route>
-                            </Route>
 
-                            {/* ---------- management ---------- */}
-                            <Route path={"/manage/login"} element={<ManagementLogin/>}/>
-                            <Route element={<PrivateRouter loginStatus={loginStatus} cookies={cookies}/>}>
-                                <Route element={<Socket/>}>
+                                {/* ---------- management ---------- */}
+                                <Route path={"/manage/login"} element={<ManagementLogin/>}/>
+                                <Route element={<PrivateRouter loginStatus={loginStatus} cookies={cookies}/>}>
                                     <Route element={<ManageNav/>}>
                                         <Route path={"/manage/store"} element={<ManageDashBoard/>}/>
                                     </Route>
                                 </Route>
-                            </Route>
-                            <Route path={"/*"} element={<Navigate to={"/"}/>}/>
-                        </Routes>
-                    </div>
-                </BrowserRouter>
-            </CookiesProvider>
-        </RecoilRoot>
+                                <Route path={"/*"} element={<Navigate to={"/"}/>}/>
+                            </Routes>
+                        </div>
+                    </BrowserRouter>
+                </CookiesProvider>
+            </RecoilRoot>
+        </SocketContext.Provider>
     );
 }
 
