@@ -16,6 +16,7 @@ router.post("/status", async (req, res, next) => { //현재 가게 상태 가져
 router.post("/set/status", async (req, res, next) => { //가게 상태 설정
 
     let accessToken = req.header("accessToken");
+
     if (accessToken === null) {
         return res.json({
             error: "토큰이 존재하지 않습니다.",
@@ -27,15 +28,20 @@ router.post("/set/status", async (req, res, next) => { //가게 상태 설정
 
     let storeData = req.body;
 
-    console.log(storeData);
+    if (storeData.storeSeq === null) {
+        return res.json({
+            error: "저장 실패",
+            errorCode: "401",
+            message: "서버 상태 저장 실패",
+            detail: "주문을 시작하지 못했습니다. 관리자에게 문의 주세요."
+        });
+    }
 
     try {
 
         let data = await StoreMongo.findOne({
             storeSeq: storeData.storeSeq
         });
-
-        console.log(data)
 
         if (data) {
             await StoreMongo.updateOne({

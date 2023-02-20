@@ -116,8 +116,6 @@ let OrderStart = () => {
             q = "가게 주문을 시작하시겠습니까?";
         }
 
-        console.log(storeStatus)
-
         // eslint-disable-next-line no-restricted-globals
         if (confirm(q)) {
             nodeServerAxios({
@@ -128,12 +126,11 @@ let OrderStart = () => {
                     "accessToken": `Bearer ${getCookie("accessToken")}`
                 }
             }).then(res => {
-                console.log(res.data.data)
                 setStoreStatus(
                     res.data.data
                 )
             }).catch(err => {
-                console.log(err)
+                alert("가게 주문 상태 변경을 실패했습니다.");
             });
         } else {
             return;
