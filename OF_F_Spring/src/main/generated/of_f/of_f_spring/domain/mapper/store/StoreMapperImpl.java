@@ -41,7 +41,7 @@ import of_f.of_f_spring.dto.total.StoreName;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-02-14T15:09:23+0900",
+    date = "2023-02-17T14:12:11+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class StoreMapperImpl implements StoreMapper {
@@ -470,6 +470,20 @@ public class StoreMapperImpl implements StoreMapper {
         return storeOrderDTO.build();
     }
 
+    @Override
+    public List<StoreOrderDTO> storeOrderListToStoreOrderDTOList(List<StoreOrder> storeOrderList) {
+        if ( storeOrderList == null ) {
+            return null;
+        }
+
+        List<StoreOrderDTO> list = new ArrayList<StoreOrderDTO>( storeOrderList.size() );
+        for ( StoreOrder storeOrder : storeOrderList ) {
+            list.add( storeOrderToStoreOrderDTO( storeOrder ) );
+        }
+
+        return list;
+    }
+
     protected QRStoreInfo qRStoreInfoDTOToQRStoreInfo(QRStoreInfoDTO qRStoreInfoDTO) {
         if ( qRStoreInfoDTO == null ) {
             return null;
@@ -673,19 +687,6 @@ public class StoreMapperImpl implements StoreMapper {
         List<StoreCategoryDTO> list1 = new ArrayList<StoreCategoryDTO>( list.size() );
         for ( StoreCategory storeCategory : list ) {
             list1.add( storeCategoryToStoreCategoryDTO( storeCategory ) );
-        }
-
-        return list1;
-    }
-
-    protected List<StoreOrderDTO> storeOrderListToStoreOrderDTOList(List<StoreOrder> list) {
-        if ( list == null ) {
-            return null;
-        }
-
-        List<StoreOrderDTO> list1 = new ArrayList<StoreOrderDTO>( list.size() );
-        for ( StoreOrder storeOrder : list ) {
-            list1.add( storeOrderToStoreOrderDTO( storeOrder ) );
         }
 
         return list1;
