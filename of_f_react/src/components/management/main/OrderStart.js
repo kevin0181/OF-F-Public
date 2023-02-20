@@ -110,12 +110,13 @@ let OrderStart = () => {
 
     let storeStatusBtn = () => { //가게 상태 보냄
         let q = "";
-
         if (storeStatus.status) {
             q = "가게 주문을 종료 하시겠습니까?";
         } else {
             q = "가게 주문을 시작하시겠습니까?";
         }
+
+        console.log(storeStatus)
 
         // eslint-disable-next-line no-restricted-globals
         if (confirm(q)) {
@@ -127,6 +128,7 @@ let OrderStart = () => {
                     "accessToken": `Bearer ${getCookie("accessToken")}`
                 }
             }).then(res => {
+                console.log(res.data.data)
                 setStoreStatus(
                     res.data.data
                 )

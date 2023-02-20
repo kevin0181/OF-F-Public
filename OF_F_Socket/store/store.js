@@ -14,6 +14,7 @@ router.post("/status", async (req, res, next) => { //현재 가게 상태 가져
 });
 
 router.post("/set/status", async (req, res, next) => { //가게 상태 설정
+
     let accessToken = req.header("accessToken");
     if (accessToken === null) {
         return res.json({
@@ -23,12 +24,39 @@ router.post("/set/status", async (req, res, next) => { //가게 상태 설정
             detail: "로그인을 해주세요."
         });
     }
+
     let storeData = req.body;
+
+    console.log(storeData);
+
     try {
-        let data = await StoreMongo.create({
-            storeSeq: storeData.storeSeq,
-            status: !storeData.status
+
+        let data = await StoreMongo.findOne({
+            storeSeq: storeData.storeSeq
         });
+
+        console.log(data)
+
+        if (data) {
+            await StoreMongo.updateOne({
+                storeSeq: data.storeSeq
+            }, {
+                storeSeq: data.storeSeq,
+                status: !data.status
+            });
+
+            data = await StoreMongo.findOne({
+                storeSeq: storeData.storeSeq
+            });
+
+        } else {
+            data = await StoreMongo.create({
+                storeSeq: storeData.storeSeq,
+                status: !storeData.status
+            });
+        }
+
+
         return res.json({
             data: data,
             message: "저장 성공",
