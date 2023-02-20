@@ -72,19 +72,10 @@ let ManageNav = () => {
 
     }, []);
 
-    let socketStore;
 
     useEffect(() => {
         if (store.seq !== undefined && store.storeOrders === null) {
             getStoreStatusData();
-        }
-
-        if (store.seq !== undefined && store.seq !== null) {
-            socketStore = socketIoClient(`${process.env.REACT_APP_NODE_SERVER_URL_PORT}/store`); //websocket
-            socketStore.emit("insert room", store.seq); // websocket 방참가
-            socketStore.on("room get", (data) => {
-                console.log(data);
-            });
         }
     }, [store]);
 

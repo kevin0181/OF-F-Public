@@ -20,7 +20,7 @@ import StoreOrderHeader from "./components/order/component/StoreOrderHeader";
 import MenuBasketList from "./components/order/component/MenuBasketList";
 import PayInfo from "./components/order/component/PayInfo";
 import PayRedirect from "./components/order/component/PayRedirect";
-import Socket from "./components/Socket";
+import Socket from "./components/management/Socket";
 
 function App() {
 
@@ -71,8 +71,10 @@ function App() {
                             {/* ---------- management ---------- */}
                             <Route path={"/manage/login"} element={<ManagementLogin/>}/>
                             <Route element={<PrivateRouter loginStatus={loginStatus} cookies={cookies}/>}>
-                                <Route element={<ManageNav/>}>
-                                    <Route path={"/manage/store"} element={<ManageDashBoard/>}/>
+                                <Route element={<Socket/>}>
+                                    <Route element={<ManageNav/>}>
+                                        <Route path={"/manage/store"} element={<ManageDashBoard/>}/>
+                                    </Route>
                                 </Route>
                             </Route>
                             <Route path={"/*"} element={<Navigate to={"/"}/>}/>

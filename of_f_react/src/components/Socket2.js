@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import socketIoClient from "socket.io-client";
 
-let Socket = () => {
+let Socket2 = () => {
     const socketStore = socketIoClient(`${process.env.REACT_APP_SOCKET_PORT}/store`);
 
     useEffect(() => {
@@ -37,4 +37,4 @@ let Socket = () => {
     )
 }
 
-export default Socket;
+export default Socket2;

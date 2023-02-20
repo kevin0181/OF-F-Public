@@ -18,5 +18,4 @@ exports.socket = (storeSpace) => {
             socket.to(roomNumber).emit("room get", data);
         });
     });
-
 }
