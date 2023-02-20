@@ -45,11 +45,13 @@ let ManageNav = () => {
     const socketStore = useContext(SocketContext);
 
     useEffect(() => {
-        socketStore.emit("insert room", "1"); // websocket 방참가
-        socketStore.on("room get", (data) => {
-            console.log(data);
-        });
-    }, [])
+        if (store.seq !== undefined && store.seq !== null) {
+            socketStore.emit("insert room", String(store.seq)); // websocket 방참가
+            socketStore.on("room get", (data) => {
+                console.log(data);
+            });
+        }
+    }, [store])
 
     let getStoreStatusData = () => { //가게 상태 가져옴
         nodeServerAxios({

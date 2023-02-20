@@ -37,7 +37,7 @@ let PayRedirect = () => {
                         alert("결제가 완료되었습니다.");
                         //서버에서 받은 결제완료 정보를토대로 알림창 발송 및 관리자 websocket으로 전송하기.
 
-                        socketStore.emit("room send", "123", storeId);
+                        socketStore.emit("room send", res.data.data, storeId);
 
                         navigate(`/store/${storeId}/${qrId}/main`)
                         return;
