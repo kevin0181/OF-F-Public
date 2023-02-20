@@ -15,11 +15,16 @@ import 'animate.css';
 import {useQuery} from "../../../Config/getQuery";
 import {useRecoilState} from "recoil";
 import navStatusState from "../../../store/management/navStatus";
-import {selectStoreInfoRecoil, storeInfoRecoil} from "../../../store/management/storeInfo";
+import {
+    selectStoreInfoRecoil,
+    storeInfoRecoil,
+    storeStatus as storeStatusRecoil
+} from "../../../store/management/storeInfo";
 import storeIdState from "../../../store/management/storeId";
 import {tokenStoreAdminAxios} from "../../../Config/customStoreAdminAjax";
 import Loading from "./Loading";
 import adminStoreLoading from "../../../store/management/adminStoreLoading";
+import {nodeServerAxios} from "../../../Config/customAxios";
 
 let ManageNav = () => {
 
@@ -34,6 +39,27 @@ let ManageNav = () => {
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil);
     const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil); // 로그인시 가져오는 전체 정보
 
+    const [storeStatus, setStoreStatus] = useRecoilState(storeStatusRecoil); // 가게 상태 정보 몽고디비에서 가져옴
+
+    let getStoreStatusData = () => { //가게 상태 가져옴
+        console.log(store.seq)
+        nodeServerAxios({
+            method: "POST",
+            url: "/store/status?storeSeq=" + store.seq
+        }).then(res => {
+            console.log(res);
+            if (res.data !== null) {
+                setStoreStatus({
+                    storeSeq: res.data.storeSeq,
+                    status: res.data.status
+                });
+            }
+        }).catch(err => {
+            alert("관리자 설정 오류입니다. 문의주세요.");
+            return;
+        });
+    }
+
     const [loading, setLoading] = useRecoilState(adminStoreLoading); // 로딩
 
     useEffect(() => { //처음 가게 전체 데이터 가져옴
@@ -44,7 +70,14 @@ let ManageNav = () => {
             setStoreInfo(res.data.data);
             setStore(res.data.data.stores[storeId]);
         });
+
     }, []);
+
+    useEffect(() => {
+        if (store.seq !== undefined && store.storeOrders === null) {
+            getStoreStatusData();
+        }
+    }, [store]);
 
     useEffect(() => { // nav 종류
 

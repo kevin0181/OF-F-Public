@@ -11,3 +11,10 @@ export const selectStoreInfoRecoil = atom({
 });
 
 
+export const storeStatus = atom({
+    key: "storeStatus",
+    default: {
+        storeSeq: "",
+        status: false
+    }
+});

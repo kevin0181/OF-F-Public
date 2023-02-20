@@ -7,7 +7,7 @@ import "./../../../styles/css/management/order.css";
 import "animate.css";
 import {tokenStoreAdminAxios} from "../../../Config/customStoreAdminAjax";
 import {useRecoilState} from "recoil";
-import {selectStoreInfoRecoil} from "../../../store/management/storeInfo";
+import {selectStoreInfoRecoil, storeStatus as storeStatusRecoil} from "../../../store/management/storeInfo";
 import {nodeServerAxios} from "../../../Config/customAxios";
 import {getCookie} from "../../../Config/cookie";
 import storeId from "../../../store/management/storeId";
@@ -44,28 +44,14 @@ let OrderStart = () => {
         // }
     ]);
 
-    const [storeStatus, setStoreStatus] = useState({
-        storeSeq: "",
-        status: false
-    })
+    const [storeStatus, setStoreStatus] = useRecoilState(storeStatusRecoil); // 가게 상태 정보 몽고디비에서 가져옴
 
-    useEffect(() => {
-        console.log(storeStatus)
-    }, [storeStatus]);
-    // node -> 서버에서 실시간으로 현재 가게 정보 가져오기
 
     // spring -> 서버에서 이미 들어온 주문 가져오기
     useEffect(() => {
         console.log(store)
         if (store.seq !== undefined && store.storeOrders === null) {
-
-            setStoreStatus({
-                ...storeStatus,
-                storeSeq: store.seq
-            })
-
             getOrderData();
-            getStoreStatusData();
         }
     }, [store]);
 
@@ -75,7 +61,7 @@ let OrderStart = () => {
         }
     }, []);
 
-    let getOrderData = () => {
+    let getOrderData = () => { //주문 데이터 가져옴
         tokenStoreAdminAxios({
             url: "/api/v1/store/admin/get/order?storeSeq=" + store.seq,
             method: "GET"
@@ -89,24 +75,6 @@ let OrderStart = () => {
         })
     }
 
-    let getStoreStatusData = () => { //가게 상태 가져옴
-        nodeServerAxios({
-            method: "POST",
-            url: "/store/status?storeSeq=" + store.seq
-        }).then(res => {
-            console.log(res);
-            if (res.data !== null) {
-                setStoreStatus({
-                    storeSeq: res.data.storeSeq,
-                    status: res.data.status
-                });
-            }
-        }).catch(err => {
-            alert("관리자 설정 오류입니다. 문의주세요.");
-            return;
-        });
-
-    }
 
     let storeStatusBtn = () => { //가게 상태 보냄
         let q = "";

@@ -67,6 +67,7 @@ function App() {
                                     </Route>
                                 </Route>
                             </Route>
+
                             {/* ---------- management ---------- */}
                             <Route path={"/manage/login"} element={<ManagementLogin/>}/>
                             <Route element={<PrivateRouter loginStatus={loginStatus} cookies={cookies}/>}>
