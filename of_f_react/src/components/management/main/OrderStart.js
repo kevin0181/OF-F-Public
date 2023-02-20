@@ -52,11 +52,11 @@ let OrderStart = () => {
     useEffect(() => {
         console.log(storeStatus)
     }, [storeStatus]);
-
     // node -> 서버에서 실시간으로 현재 가게 정보 가져오기
 
     // spring -> 서버에서 이미 들어온 주문 가져오기
     useEffect(() => {
+        console.log(store)
         if (store.seq !== undefined && store.storeOrders === null) {
 
             setStoreStatus({
@@ -84,9 +84,6 @@ let OrderStart = () => {
                 ...store,
                 storeOrders: res.data.data
             });
-            setOrder(
-                res.data.data
-            )
         }).catch(err => {
             console.log(err);
         })
@@ -147,40 +144,44 @@ let OrderStart = () => {
                         </div>
                     </div>
                     {
-                        order.map((data, index) => (
-                            <div
-                                className={"name-card "} id={index + "-category"}
-                                key={index}>
-                                <div className={"name-card-btn"}>
+                        store.storeOrders !== null && store.storeOrders !== undefined ? (<>
+                            {
+                                store.storeOrders.map((data, index) => (
                                     <div
-                                        className={"name-card-part " + (query.get("f") === String(index) ? 'active' : '')}
-                                        style={{
-                                            flexDirection: "column"
-                                        }}
-                                        onClick={() => {
-                                            navigate("/manage/store?kind=orderStart&f=" + index)
-                                        }}
-                                    >
-                                        <p>{data.storeQRId}</p>
-                                        <p style={{
-                                            fontSize: "10px"
-                                        }}>{data.id}</p>
-                                        <div className={"order-line"}></div>
+                                        className={"name-card "} id={index + "-category"}
+                                        key={index}>
+                                        <div className={"name-card-btn"}>
+                                            <div
+                                                className={"name-card-part " + (query.get("f") === String(index) ? 'active' : '')}
+                                                style={{
+                                                    flexDirection: "column"
+                                                }}
+                                                onClick={() => {
+                                                    navigate("/manage/store?kind=orderStart&f=" + index)
+                                                }}
+                                            >
+                                                <p>{data.storeQRId}</p>
+                                                <p style={{
+                                                    fontSize: "10px"
+                                                }}>{data.id}</p>
+                                                <div className={"order-line"}></div>
+                                            </div>
+                                        </div>
+                                        <div style={{
+                                            width: "3%"
+                                        }}>
+                                            {
+                                                query.get("f") === String(index) ? (
+                                                    <div className={"name-card-active"}>
+                                                    </div>) : (
+                                                    <></>
+                                                )
+                                            }
+                                        </div>
                                     </div>
-                                </div>
-                                <div style={{
-                                    width: "3%"
-                                }}>
-                                    {
-                                        query.get("f") === String(index) ? (
-                                            <div className={"name-card-active"}>
-                                            </div>) : (
-                                            <></>
-                                        )
-                                    }
-                                </div>
-                            </div>
-                        ))
+                                ))
+                            }
+                        </>) : (<></>)
                     }
                 </div>
             </div>
