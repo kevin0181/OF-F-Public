@@ -1,7 +1,8 @@
 import {Outlet, useNavigate, useParams} from "react-router-dom";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useRecoilState} from "recoil";
 import {
+    orderStatus as orderStatusRecoil,
     orderStore as orderStoreRecoil,
     orderStoreCategory as orderStoreCategoryRecoil,
     orderStoreSideCategory as orderStoreSideCategoryRecoil
@@ -17,7 +18,7 @@ let OrderStoreCheck = () => {
     const [orderStore, setOrderStore] = useRecoilState(orderStoreRecoil); // 가게 정보
     const [orderStoreCategory, setOrderStoreCategory] = useRecoilState(orderStoreCategoryRecoil); // 가게 정보 카테고리
     const [orderStoreSideCategory, setOrderStoreSideCategory] = useRecoilState(orderStoreSideCategoryRecoil); // 가게 정보 사이드 카테고리
-
+    const [orderStatus, setOrderStatus] = useRecoilState(orderStatusRecoil); // 가게 정보 사이드 카테고리
 
     useEffect(() => {
 
@@ -59,12 +60,16 @@ let OrderStoreCheck = () => {
 
         nodeServerAxios({
             method: "POST",
-            url: `/store/status?storeSeq=${storeId}`
+            url: "/store/status?storeSeq=" + storeId
         }).then(res => {
-            console.log(res)
+            if (!res.data.status) {
+                alert("가게 주문이 종료된 상태입니다. 가게에게 문의해주세요.");
+            }
+            setOrderStatus(res.data);
         }).catch(err => {
-            console.log(err);
-        })
+            alert("가게 오류입니다. 재접속해주세요.");
+            navigate(-1);
+        });
 
     }, []);
     return (

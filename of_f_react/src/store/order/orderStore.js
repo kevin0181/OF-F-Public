@@ -32,3 +32,8 @@ export const orderStoreSideCategory = atom({
     key: "orderStoreSideCategory",
     default: []
 });
+
+export const orderStatus = atom({
+    key: "orderStatus",
+    default: {}
+});
