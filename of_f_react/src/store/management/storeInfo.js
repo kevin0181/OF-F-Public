@@ -23,28 +23,28 @@ export const storeStatus = atom({
 export const storeOrder = atom({
     key: "storeOrder",
     default: [
-        {
-            seq: "",
-            cancelAfterPrice: "",
-            comment: "",
-            date: "",
-            email: "",
-            emailReceiveStatus: false,
-            id: "",
-            kind: "",
-            orderNumber: "",
-            payStatus: "",
-            phoneNumber: "",
-            phoneNumberReceiveStatus: false,
-            place: "",
-            status: "",
-            storeOrderMenus: [],
-            storeOrderPgInfo: {},
-            storeOrderVanInfo: {},
-            storeQRId: "",
-            storeSeq: "",
-            totalPrice: "",
-            user: {}
-        }
+        // {
+        //     seq: "",
+        //     cancelAfterPrice: "",
+        //     comment: "",
+        //     date: "",
+        //     email: "",
+        //     emailReceiveStatus: false,
+        //     id: "",
+        //     kind: "",
+        //     orderNumber: "",
+        //     payStatus: "",
+        //     phoneNumber: "",
+        //     phoneNumberReceiveStatus: false,
+        //     place: "",
+        //     status: "",
+        //     storeOrderMenus: [],
+        //     storeOrderPgInfo: {},
+        //     storeOrderVanInfo: {},
+        //     storeQRId: "",
+        //     storeSeq: "",
+        //     totalPrice: "",
+        //     user: {}
+        // }
     ]
 });

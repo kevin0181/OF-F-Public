@@ -30,8 +30,10 @@ let OrderStart = () => {
 
     // spring -> 서버에서 이미 들어온 주문 가져오기
     useEffect(() => {
-        if (store.seq !== undefined && store.storeOrders === null) {
-            getOrderData();
+        if (storeOrder.length === 0) {
+            if (store.seq !== undefined && store.storeOrders === null) {
+                getOrderData();
+            }
         }
     }, []);
 
