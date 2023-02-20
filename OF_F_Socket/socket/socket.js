@@ -1,4 +1,5 @@
 exports.socket = (storeSpace) => {
+
     storeSpace.on('connection', (socket) => {
         console.log('connection 성공');
 
@@ -17,4 +18,5 @@ exports.socket = (storeSpace) => {
             socket.to(roomNumber).emit("room get", roomNumber + " 방 서버 -> 리엑트");
         });
     });
+
 }

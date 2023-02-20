@@ -25,6 +25,7 @@ import {tokenStoreAdminAxios} from "../../../Config/customStoreAdminAjax";
 import Loading from "./Loading";
 import adminStoreLoading from "../../../store/management/adminStoreLoading";
 import {nodeServerAxios} from "../../../Config/customAxios";
+import socketIoClient from "socket.io-client";
 
 let ManageNav = () => {
 
@@ -41,8 +42,9 @@ let ManageNav = () => {
 
     const [storeStatus, setStoreStatus] = useRecoilState(storeStatusRecoil); // 가게 상태 정보 몽고디비에서 가져옴
 
+    let socketStore;
+
     let getStoreStatusData = () => { //가게 상태 가져옴
-        console.log(store.seq)
         nodeServerAxios({
             method: "POST",
             url: "/store/status?storeSeq=" + store.seq
@@ -69,7 +71,10 @@ let ManageNav = () => {
         }).then(res => {
             setStoreInfo(res.data.data);
             setStore(res.data.data.stores[storeId]);
+            socketStore = socketIoClient(`${process.env.REACT_APP_NODE_SERVER_URL_PORT}/store`); //websocket
+            socketStore.emit("insert room", res.data.data.stores[storeId].seq); // websocket 방참가
         });
+
 
     }, []);
 

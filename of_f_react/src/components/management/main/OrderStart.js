@@ -7,10 +7,15 @@ import "./../../../styles/css/management/order.css";
 import "animate.css";
 import {tokenStoreAdminAxios} from "../../../Config/customStoreAdminAjax";
 import {useRecoilState} from "recoil";
-import {selectStoreInfoRecoil, storeStatus as storeStatusRecoil} from "../../../store/management/storeInfo";
+import {
+    selectStoreInfoRecoil,
+    storeOrder as storeOrderRecoil,
+    storeStatus as storeStatusRecoil
+} from "../../../store/management/storeInfo";
 import {nodeServerAxios} from "../../../Config/customAxios";
 import {getCookie} from "../../../Config/cookie";
 import storeId from "../../../store/management/storeId";
+import socketIoClient from "socket.io-client";
 
 let OrderStart = () => {
     const query = useQuery();
@@ -18,46 +23,15 @@ let OrderStart = () => {
     const navigate = useNavigate();
 
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil); //선택된 가게 정보
-    const [order, setOrder] = useState([
-        // {
-        //     seq: "",
-        //     cancelAfterPrice: "",
-        //     comment: "",
-        //     date: "",
-        //     email: "",
-        //     emailReceiveStatus: false,
-        //     id: "",
-        //     kind: "",
-        //     orderNumber: "",
-        //     payStatus: "",
-        //     phoneNumber: "",
-        //     phoneNumberReceiveStatus: false,
-        //     place: "",
-        //     status: "",
-        //     storeOrderMenus: [],
-        //     storeOrderPgInfo: {},
-        //     storeOrderVanInfo: {},
-        //     storeQRId: "",
-        //     storeSeq: "",
-        //     totalPrice: "",
-        //     user: {}
-        // }
-    ]);
+
+    const [storeOrder, setStoreOrder] = useRecoilState(storeOrderRecoil); //선택된 가게 주문 정보
 
     const [storeStatus, setStoreStatus] = useRecoilState(storeStatusRecoil); // 가게 상태 정보 몽고디비에서 가져옴
 
-
     // spring -> 서버에서 이미 들어온 주문 가져오기
     useEffect(() => {
-        console.log(store)
         if (store.seq !== undefined && store.storeOrders === null) {
             getOrderData();
-        }
-    }, [store]);
-
-    useEffect(() => {
-        if (store.storeOrders !== undefined && store.storeOrders !== null) {
-            setOrder(store.storeOrders);
         }
     }, []);
 
@@ -66,10 +40,10 @@ let OrderStart = () => {
             url: "/api/v1/store/admin/get/order?storeSeq=" + store.seq,
             method: "GET"
         }).then(res => {
-            setStore({
-                ...store,
-                storeOrders: res.data.data
-            });
+            console.log(res);
+            setStoreOrder(
+                res.data.data
+            );
         }).catch(err => {
             console.log(err);
         })
@@ -126,44 +100,40 @@ let OrderStart = () => {
                         </div>
                     </div>
                     {
-                        store.storeOrders !== null && store.storeOrders !== undefined ? (<>
-                            {
-                                store.storeOrders.map((data, index) => (
+                        storeOrder.map((data, index) => (
+                            <div
+                                className={"name-card "} id={index + "-category"}
+                                key={index}>
+                                <div className={"name-card-btn"}>
                                     <div
-                                        className={"name-card "} id={index + "-category"}
-                                        key={index}>
-                                        <div className={"name-card-btn"}>
-                                            <div
-                                                className={"name-card-part " + (query.get("f") === String(index) ? 'active' : '')}
-                                                style={{
-                                                    flexDirection: "column"
-                                                }}
-                                                onClick={() => {
-                                                    navigate("/manage/store?kind=orderStart&f=" + index)
-                                                }}
-                                            >
-                                                <p>{data.storeQRId}</p>
-                                                <p style={{
-                                                    fontSize: "10px"
-                                                }}>{data.id}</p>
-                                                <div className={"order-line"}></div>
-                                            </div>
-                                        </div>
-                                        <div style={{
-                                            width: "3%"
-                                        }}>
-                                            {
-                                                query.get("f") === String(index) ? (
-                                                    <div className={"name-card-active"}>
-                                                    </div>) : (
-                                                    <></>
-                                                )
-                                            }
-                                        </div>
+                                        className={"name-card-part " + (query.get("f") === String(index) ? 'active' : '')}
+                                        style={{
+                                            flexDirection: "column"
+                                        }}
+                                        onClick={() => {
+                                            navigate("/manage/store?kind=orderStart&f=" + index)
+                                        }}
+                                    >
+                                        <p>{data.storeQRId}</p>
+                                        <p style={{
+                                            fontSize: "10px"
+                                        }}>{data.id}</p>
+                                        <div className={"order-line"}></div>
                                     </div>
-                                ))
-                            }
-                        </>) : (<></>)
+                                </div>
+                                <div style={{
+                                    width: "3%"
+                                }}>
+                                    {
+                                        query.get("f") === String(index) ? (
+                                            <div className={"name-card-active"}>
+                                            </div>) : (
+                                            <></>
+                                        )
+                                    }
+                                </div>
+                            </div>
+                        ))
                     }
                 </div>
             </div>
