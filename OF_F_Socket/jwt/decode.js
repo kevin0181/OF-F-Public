@@ -5,8 +5,6 @@ exports.decode = async (accessTokenData) => {
 
     const accessToken = accessTokenData.substring(7);
 
-    console.log(accessToken);
-
     //토큰 값이 비워져 있는지 체크합니다.
     if (accessToken === null || accessToken === undefined) {
         //만약 비워져 있다면 오류를 발생시킵니다.
@@ -16,8 +14,7 @@ exports.decode = async (accessTokenData) => {
         try {
             // 비동기 처리로 jwt의 인증을 합니다.
             const tokenInfo = await new Promise((resolve, reject) => {
-
-                jwt.verify(accessToken, jwtSecretKey, (err, decode) => { //header를 통해 가져온 token이 서버에 존재하는지 인증을 하는 부분입니다.
+                jwt.verify(accessToken, jwtSecretKey, (err, decode) => {
                     if (err) {
                         reject(err); //인증 과정 중 오류가 나면 reject
                     } else {

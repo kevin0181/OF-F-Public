@@ -89,7 +89,7 @@ let OrderStart = () => {
         })
     }
 
-    let getStoreStatusData = () => {
+    let getStoreStatusData = () => { //가게 상태 가져옴
         nodeServerAxios({
             method: "POST",
             url: "/store/status?storeSeq=" + store.seq
@@ -108,20 +108,35 @@ let OrderStart = () => {
 
     }
 
-    let storeStatusBtn = () => {
+    let storeStatusBtn = () => { //가게 상태 보냄
+        let q = "";
 
-        nodeServerAxios({
-            method: "POST",
-            url: "/store/set/status",
-            data: storeStatus,
-            headers: {
-                "accessToken": `Bearer ${getCookie("accessToken")}`
-            }
-        }).then(res => {
-            console.log(res)
-        }).catch(err => {
-            console.log(err)
-        });
+        if (storeStatus.status) {
+            q = "가게 주문을 종료 하시겠습니까?";
+        } else {
+            q = "가게 주문을 시작하시겠습니까?";
+        }
+
+        // eslint-disable-next-line no-restricted-globals
+        if (confirm(q)) {
+            nodeServerAxios({
+                method: "POST",
+                url: "/store/set/status",
+                data: storeStatus,
+                headers: {
+                    "accessToken": `Bearer ${getCookie("accessToken")}`
+                }
+            }).then(res => {
+                setStoreStatus(
+                    res.data.data
+                )
+            }).catch(err => {
+                console.log(err)
+            });
+        } else {
+            return;
+        }
+
     }
 
     return (
