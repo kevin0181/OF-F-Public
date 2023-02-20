@@ -87,6 +87,37 @@ refreshTokenAxios.interceptors.response.use(
         return config;
     },
     async err => {
+        localStorage.removeItem("l-st");
         return Promise.reject(err); // 리프레시 발급 오류
     },
 )
+
+
+export const nodeServerAxios: AxiosInstance = axios.create({ // node
+    baseURL: process.env.REACT_APP_NODE_SERVER_URL_PORT, // 기본 서버 주소 입력
+    headers: {
+        'Access-Control-Allow-Origin': process.env.REACT_APP_NODE_SERVER_URL_PORT,	// 서버 domain
+    },
+});
+
+nodeServerAxios.interceptors.response.use(
+    config => {
+        return config;
+    },
+    async err => {
+        const {config} = err;
+
+        if (err.response.data.code == "401" && err.response.data.errorCode == "TO0001") { // accessToken이 유효하지 않을때
+            let accessToken = await getRefreshToken();
+
+            if (accessToken) {
+                config.headers.Authorization = `Bearer ${accessToken}`;
+            }
+
+            return axios(config);
+
+        }
+        return Promise.reject(err);
+    },
+);
+
