@@ -42,14 +42,11 @@ let ManageNav = () => {
 
     const [storeStatus, setStoreStatus] = useRecoilState(storeStatusRecoil); // 가게 상태 정보 몽고디비에서 가져옴
 
-    let socketStore;
-
     let getStoreStatusData = () => { //가게 상태 가져옴
         nodeServerAxios({
             method: "POST",
             url: "/store/status?storeSeq=" + store.seq
         }).then(res => {
-            console.log(res);
             if (res.data !== null) {
                 setStoreStatus({
                     storeSeq: res.data.storeSeq,
@@ -71,16 +68,23 @@ let ManageNav = () => {
         }).then(res => {
             setStoreInfo(res.data.data);
             setStore(res.data.data.stores[storeId]);
-            socketStore = socketIoClient(`${process.env.REACT_APP_NODE_SERVER_URL_PORT}/store`); //websocket
-            socketStore.emit("insert room", res.data.data.stores[storeId].seq); // websocket 방참가
         });
 
-
     }, []);
+
+    let socketStore;
 
     useEffect(() => {
         if (store.seq !== undefined && store.storeOrders === null) {
             getStoreStatusData();
+        }
+
+        if (store.seq !== undefined && store.seq !== null) {
+            socketStore = socketIoClient(`${process.env.REACT_APP_NODE_SERVER_URL_PORT}/store`); //websocket
+            socketStore.emit("insert room", store.seq); // websocket 방참가
+            socketStore.on("room get", (data) => {
+                console.log(data);
+            });
         }
     }, [store]);
 

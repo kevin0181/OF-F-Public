@@ -15,7 +15,7 @@ exports.socket = (storeSpace) => {
 
         socket.on("room send", (data, roomNumber) => {
             console.log(data, roomNumber);
-            socket.to(roomNumber).emit("room get", roomNumber + " 방 서버 -> 리엑트");
+            socket.to(roomNumber).emit("room get", data);
         });
     });
 
