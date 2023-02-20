@@ -20,8 +20,8 @@ export const storeStatus = atom({
 });
 
 
-export const storeOrder = atom({
-    key: "storeOrder",
+export const storeOrderList = atom({
+    key: "storeOrderList",
     default: [
         // {
         //     seq: "",

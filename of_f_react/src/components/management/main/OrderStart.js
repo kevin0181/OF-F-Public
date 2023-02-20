@@ -9,7 +9,7 @@ import {tokenStoreAdminAxios} from "../../../Config/customStoreAdminAjax";
 import {useRecoilState} from "recoil";
 import {
     selectStoreInfoRecoil,
-    storeOrder as storeOrderRecoil,
+    storeOrderList as storeOrderRecoil,
     storeStatus as storeStatusRecoil
 } from "../../../store/management/storeInfo";
 import {nodeServerAxios} from "../../../Config/customAxios";
@@ -30,10 +30,8 @@ let OrderStart = () => {
 
     // spring -> 서버에서 이미 들어온 주문 가져오기
     useEffect(() => {
-        if (storeOrder.length === 0) {
-            if (store.seq !== undefined && store.storeOrders === null) {
-                getOrderData();
-            }
+        if (store.seq !== undefined && store.storeOrders === null) {
+            getOrderData();
         }
     }, []);
 
@@ -42,7 +40,6 @@ let OrderStart = () => {
             url: "/api/v1/store/admin/get/order?storeSeq=" + store.seq,
             method: "GET"
         }).then(res => {
-            console.log(res);
             setStoreOrder(
                 res.data.data
             );
