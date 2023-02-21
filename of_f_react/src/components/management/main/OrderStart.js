@@ -14,10 +14,8 @@ import {
 } from "../../../store/management/storeInfo";
 import {nodeServerAxios} from "../../../Config/customAxios";
 import {getCookie} from "../../../Config/cookie";
-import storeId from "../../../store/management/storeId";
-import socketIoClient from "socket.io-client";
 
-let OrderStart = () => {
+let OrderStart = ({socketStoreOrder}) => {
     const query = useQuery();
 
     const navigate = useNavigate();
@@ -34,6 +32,13 @@ let OrderStart = () => {
             getOrderData();
         }
     }, []);
+
+    useEffect(() => {
+        setStoreOrder([
+            ...storeOrder,
+            socketStoreOrder
+        ])
+    }, [socketStoreOrder])
 
     let getOrderData = () => { //주문 데이터 가져옴
         tokenStoreAdminAxios({

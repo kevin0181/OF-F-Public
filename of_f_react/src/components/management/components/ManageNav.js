@@ -18,7 +18,6 @@ import navStatusState from "../../../store/management/navStatus";
 import {
     selectStoreInfoRecoil,
     storeInfoRecoil,
-    storeOrderList as storeOrderRecoil,
     storeStatus as storeStatusRecoil
 } from "../../../store/management/storeInfo";
 import storeIdState from "../../../store/management/storeId";
@@ -26,7 +25,6 @@ import {tokenStoreAdminAxios} from "../../../Config/customStoreAdminAjax";
 import Loading from "./Loading";
 import adminStoreLoading from "../../../store/management/adminStoreLoading";
 import {nodeServerAxios} from "../../../Config/customAxios";
-import {SocketContext} from "../Socket";
 
 let ManageNav = () => {
 
@@ -42,26 +40,6 @@ let ManageNav = () => {
     const [storeInfo, setStoreInfo] = useRecoilState(storeInfoRecoil); // 로그인시 가져오는 전체 정보
 
     const [storeStatus, setStoreStatus] = useRecoilState(storeStatusRecoil); // 가게 상태 정보 몽고디비에서 가져옴
-
-    const [storeOrder, setStoreOrder] = useRecoilState(storeOrderRecoil); //선택된 가게 주문 정보
-
-    const socketStore = useContext(SocketContext);
-
-    useEffect(() => {
-        socketStore.on("room get", (data) => {
-            setStoreOrder([
-                data,
-                ...storeOrder
-            ])
-        })
-    }, [storeOrder])
-
-    useEffect(() => {
-        if (store.seq !== undefined && store.seq !== null) {
-            socketStore.emit("insert room", String(store.seq)); // websocket 방참가
-
-        }
-    }, [store]);
 
     useEffect(() => {
         console.log(store)

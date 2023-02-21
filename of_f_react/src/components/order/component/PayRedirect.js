@@ -3,7 +3,6 @@ import {useContext, useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {notTokenAxios} from "../../../Config/customAxios";
 import socketIoClient from "socket.io-client";
-import {SocketContext} from "../../management/Socket";
 
 let PayRedirect = () => {
 
@@ -17,11 +16,10 @@ let PayRedirect = () => {
     const merchant_uid = query.get("merchant_uid");
     const imp_success = query.get("imp_success");
 
-    const socketStore = useContext(SocketContext);
-
     useEffect(() => {
 
-        socketStore.emit("insert room", storeId); // websocket 방참가
+        const socket = socketIoClient(`${process.env.REACT_APP_NODE_SERVER_URL_PORT}/store`);
+        socket.emit("insert room", storeId); // websocket 방참가
 
         if (imp_success === "true") {
             // -> 검증 처리해야함
@@ -37,7 +35,7 @@ let PayRedirect = () => {
                         alert("결제가 완료되었습니다.");
                         //서버에서 받은 결제완료 정보를토대로 알림창 발송 및 관리자 websocket으로 전송하기.
 
-                        socketStore.emit("room send", res.data.data, storeId);
+                        socket.emit("room send", res.data.data, storeId);
 
                         navigate(`/store/${storeId}/${qrId}/main`)
                         return;
