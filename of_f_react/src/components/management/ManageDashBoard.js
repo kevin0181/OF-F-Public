@@ -11,7 +11,7 @@ import SideCategory from "./main/SideCategory";
 import SideMenu from "./main/SideMenu";
 import OrderStart from "./main/OrderStart";
 import socketIoClient from "socket.io-client";
-import {selectStoreInfoRecoil, storeOrderList as storeOrderRecoil} from "../../store/management/storeInfo";
+import {selectStoreInfoRecoil} from "../../store/management/storeInfo";
 
 
 let ManageDashBoard = () => {
@@ -27,7 +27,7 @@ let ManageDashBoard = () => {
 
 
     const [socketStore, setSocketStore] = useState();
-    const [socketStoreOrder, setSocketStoreOrder] = useState([]); //선택된 가게 주문 정보
+    const [socketStoreOrder, setSocketStoreOrder] = useState({}); //선택된 가게 주문 정보
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil);
 
     useEffect(() => {
@@ -38,11 +38,7 @@ let ManageDashBoard = () => {
     useEffect(() => {
         if (socketStore !== undefined) {
             socketStore.on("room get", (data) => {
-                console.log(data);
-                setSocketStoreOrder([
-                    data,
-                    ...socketStoreOrder
-                ])
+                setSocketStoreOrder(data)
             })
         }
     }, [socketStore]);

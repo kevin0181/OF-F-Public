@@ -1,6 +1,6 @@
 import {useQuery} from "../../../Config/getQuery";
 import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import "./../../../styles/css/management/main.css";
 import "./../../../styles/css/management/category.css";
 import "./../../../styles/css/management/order.css";
@@ -21,23 +21,25 @@ let OrderStart = ({socketStoreOrder}) => {
     const navigate = useNavigate();
 
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil); //선택된 가게 정보
-
     const [storeOrder, setStoreOrder] = useRecoilState(storeOrderRecoil); //선택된 가게 주문 정보
-
     const [storeStatus, setStoreStatus] = useRecoilState(storeStatusRecoil); // 가게 상태 정보 몽고디비에서 가져옴
 
     // spring -> 서버에서 이미 들어온 주문 가져오기
     useEffect(() => {
-        if (store.seq !== undefined && store.storeOrders === null) {
-            getOrderData();
+        if (storeOrder.length === 0) {
+            if (store.seq !== undefined && store.storeOrders === null) {
+                getOrderData();
+            }
         }
     }, []);
 
     useEffect(() => {
-        setStoreOrder([
-            ...storeOrder,
-            socketStoreOrder
-        ])
+        if (Object.keys(socketStoreOrder).length !== 0) {
+            setStoreOrder([
+                socketStoreOrder,
+                ...storeOrder
+            ])
+        }
     }, [socketStoreOrder])
 
     let getOrderData = () => { //주문 데이터 가져옴
