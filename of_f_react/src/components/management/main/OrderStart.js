@@ -22,7 +22,7 @@ let OrderStart = ({socketStoreOrder}) => {
     const navigate = useNavigate();
 
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil); //선택된 가게 정보
-    const [storeOrder, setStoreOrder] = useRecoilState(storeOrderRecoil); //선택된 가게 주문 정보
+    const [storeOrder, setStoreOrder] = useRecoilState(storeOrderRecoil); // 들어온 주문 내역
     const [storeStatus, setStoreStatus] = useRecoilState(storeStatusRecoil); // 가게 상태 정보 몽고디비에서 가져옴
 
     // spring -> 서버에서 이미 들어온 주문 가져오기
@@ -150,7 +150,7 @@ let OrderStart = ({socketStoreOrder}) => {
                         className={"l-line m-scroll m-70"}>
                         <div
                             className={"main-container2 m-100 animate__animated " + (query.get("f") !== null ? 'animate__slideInLeft' : '')}>
-                            <StoreOrderDetail/>
+                            <StoreOrderDetail storeOrder={storeOrder[Number(query.get("f"))]}/>
                         </div>
                     </div>
                 ) : (
