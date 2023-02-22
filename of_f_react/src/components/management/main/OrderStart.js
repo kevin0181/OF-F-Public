@@ -123,7 +123,7 @@ let OrderStart = ({socketStoreOrder}) => {
                                     >
                                         <p>{data.storeQRId}</p>
                                         <p style={{
-                                            fontSize: "10px"
+                                            fontSize: "15px"
                                         }}>{data.id}</p>
                                         <div className={"order-line"}></div>
                                     </div>
