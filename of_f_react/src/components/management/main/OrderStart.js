@@ -14,6 +14,7 @@ import {
 } from "../../../store/management/storeInfo";
 import {nodeServerAxios} from "../../../Config/customAxios";
 import {getCookie} from "../../../Config/cookie";
+import StoreOrderDetail from "../components/order/StoreOrderDetail";
 
 let OrderStart = ({socketStoreOrder}) => {
     const query = useQuery();
@@ -117,7 +118,7 @@ let OrderStart = ({socketStoreOrder}) => {
                                             flexDirection: "column"
                                         }}
                                         onClick={() => {
-                                            navigate("/manage/store?kind=orderStart&f=" + index)
+                                            navigate(`/manage/store?kind=orderStart&f=${index}&order=detail`)
                                         }}
                                     >
                                         <p>{data.storeQRId}</p>
@@ -143,14 +144,19 @@ let OrderStart = ({socketStoreOrder}) => {
                     }
                 </div>
             </div>
-            <div
-                className={"l-line m-scroll m-70"}>
-                <div
-                    className={"main-container2 m-100 animate__animated " + (query.get("f") !== null ? 'animate__slideInLeft' : '')}>
-                    <div>
+            {
+                query.get("order") !== null & query.get("f") !== null ? (
+                    <div
+                        className={"l-line m-scroll m-70"}>
+                        <div
+                            className={"main-container2 m-100 animate__animated " + (query.get("f") !== null ? 'animate__slideInLeft' : '')}>
+                            <StoreOrderDetail/>
+                        </div>
                     </div>
-                </div>
-            </div>
+                ) : (
+                    <></>
+                )
+            }
         </div>
     )
 }

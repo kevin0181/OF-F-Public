@@ -1,7 +1,6 @@
 import {ReactComponent as ExclamationCircle} from "../../../../assets/icon/exclamation-circle.svg";
 import {useEffect, useState} from "react";
 import {useRecoilState} from "recoil";
-import storeIdState from "../../../../store/management/storeId";
 import {selectStoreInfoRecoil, storeInfoRecoil} from "../../../../store/management/storeInfo";
 import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
 
