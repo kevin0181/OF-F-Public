@@ -572,3 +572,12 @@ input:checked + .slider:before {
     border-radius: 10px;
     border: 1px solid #c9c9c9;
 }
+
+.name-card-new {
+    position: absolute;
+    left: 10px;
+    background-color: red;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+}

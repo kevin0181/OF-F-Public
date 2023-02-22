@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1aefb79f-b57f-4003-8f82-7e6985ac6836" name="변경" comment="" />
+    <list default="true" id="1aefb79f-b57f-4003-8f82-7e6985ac6836" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OF_F_Spring/src/main/java/of_f/of_f_spring/controller/store/StoreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../OF_F_Spring/src/main/java/of_f/of_f_spring/controller/store/StoreController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OF_F_Spring/src/main/java/of_f/of_f_spring/repository/store/StoreOrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../OF_F_Spring/src/main/java/of_f/of_f_spring/repository/store/StoreOrderRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../of_f_react/src/components/management/main/OrderStart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../of_f_react/src/components/management/main/OrderStart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../of_f_react/src/styles/css/management/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/../of_f_react/src/styles/css/management/main.css" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -65,6 +71,7 @@
       <workItem from="1676449967328" duration="699000" />
       <workItem from="1676865634521" duration="12121000" />
       <workItem from="1677046206199" duration="790000" />
+      <workItem from="1677076158300" duration="612000" />
     </task>
     <servers />
   </component>

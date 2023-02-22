@@ -32,7 +32,8 @@ public class StoreController {
         return storeService.getStoreInfoAdmin(principal);
     }
 
-    @GetMapping("/admin/get/order")
+
+    @GetMapping("/admin/get/order") //현재 들어와있는 주문
     public ApiResponseDTO getOrderData(Principal principal, @RequestParam Long storeSeq) {
         return storeService.getStoreOrderData(storeSeq);
     }

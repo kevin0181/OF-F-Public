@@ -111,6 +111,13 @@ let OrderStart = ({socketStoreOrder}) => {
                             <div
                                 className={"name-card "} id={index + "-category"}
                                 key={index}>
+                                {
+                                    data.payStatus === 1 && data.status === 0 ? (
+                                        <div className={"name-card-new"}></div>
+                                    ) : (
+                                        <></>
+                                    )
+                                }
                                 <div className={"name-card-btn"}>
                                     <div
                                         className={"name-card-part " + (query.get("f") === String(index) ? 'active' : '')}
