@@ -82,7 +82,7 @@ let StoreOrderDetail = ({storeOrder}) => {
                 <div>
                     <div className={"main-btn-false m-f-1 position-center"}>
                         <div>
-                            <p>취소하기</p>
+                            <p>주문 거절</p>
                         </div>
                     </div>
                     <div className={"main-btn-true m-f-1 position-center"}>
