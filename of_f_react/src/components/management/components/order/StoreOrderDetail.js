@@ -1,16 +1,43 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useRecoilState} from "recoil";
 import {selectStoreInfoRecoil} from "../../../../store/management/storeInfo";
 import {ReactComponent as CheckCircle} from "./../../../../assets/icon/check-circle.svg";
-import {ReactComponent as XCircle} from "./../../../../assets/icon/x-circle.svg";
+import {tokenStoreAdminAxios} from "../../../../Config/customStoreAdminAjax";
+import {useQuery} from "../../../../Config/getQuery";
 
-let StoreOrderDetail = ({storeOrder}) => {
+let StoreOrderDetail = ({storeOrder, setStoreOrder, storeOrderList}) => {
 
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil); //선택된 가게 정보
+    const query = useQuery();
 
-    useEffect(() => {
-        console.log(storeOrder)
-    }, [storeOrder])
+    let orderStatusOnClickGetOrder = (statusId) => { //주문 받기, 주문 완료
+        tokenStoreAdminAxios({
+            url: "/api/v1/store/admin/order/status/change?statusId=" + statusId,
+            method: "POST",
+            data: storeOrder
+        }).then(res => {
+
+            let changeOrderData = {
+                ...storeOrder,
+                status: statusId
+            };
+
+            let orderData = storeOrderList.filter(data => {
+                return data.seq !== storeOrder.seq
+            });
+
+            orderData.splice(Number(query.get("f")), 0, changeOrderData);
+
+            console.log(orderData);
+
+            setStoreOrder(orderData)
+
+        }).catch(err => {
+            console.log(err);
+            alert("주문 상태 변경을 실패하였습니다. 관리자에게 문의 주세요.");
+            return;
+        })
+    }
 
     return (
         <div>
@@ -31,7 +58,9 @@ let StoreOrderDetail = ({storeOrder}) => {
                                 </div>
                             )
                         }
-                        <div className={"main-container2-top"}>
+                        <div className={"main-container2-top"} style={{
+                            height: "7%"
+                        }}>
                             <h2>주문 상세보기</h2>
                         </div>
                         <div className={"main-container2-body"}>
@@ -101,7 +130,10 @@ let StoreOrderDetail = ({storeOrder}) => {
                                                     <p>주문 거절</p>
                                                 </div>
                                             </div>
-                                            <div className={"main-btn-true m-f-1 position-center"}>
+                                            <div className={"main-btn-true m-f-1 position-center"}
+                                                 onClick={() => {
+                                                     orderStatusOnClickGetOrder(1)
+                                                 }}>
                                                 <div>
                                                     <p>주문 받기</p>
                                                 </div>

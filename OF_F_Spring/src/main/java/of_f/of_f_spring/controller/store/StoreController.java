@@ -1,5 +1,6 @@
 package of_f.of_f_spring.controller.store;
 
+import of_f.of_f_spring.domain.entity.store.order.StoreOrder;
 import of_f.of_f_spring.domain.exception.ApiException;
 import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
@@ -117,4 +118,11 @@ public class StoreController {
     public ApiResponseDTO menuAndSideConnect(@RequestBody List<StoreMSDTO> storeMSDTOS) {
         return storeService.menuConnectSideService(storeMSDTOS);
     }
+
+    @PostMapping("/admin/order/status/change")
+    public ApiResponseDTO orderStatusChange(@RequestParam int statusId,
+                                            @RequestBody StoreOrder storeOrder) {
+        return storeService.orderStatusChange(statusId, storeOrder);
+    }
+
 }

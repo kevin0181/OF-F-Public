@@ -745,4 +745,15 @@ public class StoreService {
                 .build();
     }
 
+    public ApiResponseDTO orderStatusChange(int statusId, StoreOrder storeOrder) {
+        storeOrder.setStatus(statusId);
+
+        storeOrderRepository.save(storeOrder);
+
+        return ApiResponseDTO.builder()
+                .message("주문 상태 변경")
+                .detail("주문 상태를 변경했습니다.")
+                .data(true)
+                .build();
+    }
 }
