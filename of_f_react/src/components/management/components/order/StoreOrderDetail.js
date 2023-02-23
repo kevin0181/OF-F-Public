@@ -1,6 +1,8 @@
 import React, {useEffect} from "react";
 import {useRecoilState} from "recoil";
 import {selectStoreInfoRecoil} from "../../../../store/management/storeInfo";
+import {ReactComponent as CheckCircle} from "./../../../../assets/icon/check-circle.svg";
+import {ReactComponent as XCircle} from "./../../../../assets/icon/x-circle.svg";
 
 let StoreOrderDetail = ({storeOrder}) => {
 
@@ -12,14 +14,28 @@ let StoreOrderDetail = ({storeOrder}) => {
 
     return (
         <div>
-            <div className={"main-container2-top"}>
-                <h2>주문 상세보기</h2>
-            </div>
-            <div className={"main-container2-body"}>
-                <div className={"order-detail-body"}>
-                    {
-                        storeOrder !== undefined ? (
-                            <>
+            {
+                storeOrder !== undefined ? (
+                    <>
+                        {
+                            storeOrder.status === 0 & storeOrder.payStatus === 1 ? (
+                                <div className={"category-status"}>
+                                    <p className={"warning-p"} style={{
+                                        fontSize: "12px"
+                                    }}>새로 들어온 주문 입니다. 주문을 받아주세요.</p>
+                                </div>
+                            ) : (
+                                <div className={"category-status"}>
+                                    <CheckCircle/>
+                                    <p>주문 진행 중..</p>
+                                </div>
+                            )
+                        }
+                        <div className={"main-container2-top"}>
+                            <h2>주문 상세보기</h2>
+                        </div>
+                        <div className={"main-container2-body"}>
+                            <div className={"order-detail-body"}>
                                 {
                                     storeOrder.storeOrderMenus.map((data, index) => (
                                         <div key={index}>
@@ -40,8 +56,10 @@ let StoreOrderDetail = ({storeOrder}) => {
                                                             </div>
                                                             {
                                                                 data.storeOrderSides.map((data, index) => (
-                                                                    <div className={"order-detail-menu"} key={index}>
-                                                                        <div className={"order-detail-side-part"}>
+                                                                    <div className={"order-detail-menu"}
+                                                                         key={index}>
+                                                                        <div
+                                                                            className={"order-detail-side-part"}>
                                                                             <h4>SIDE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
                                                                             <span>{data.storeSideMenu.name}&nbsp;({data.storeSideMenu.price}원)</span>
                                                                         </div>
@@ -71,27 +89,46 @@ let StoreOrderDetail = ({storeOrder}) => {
                                         <h4>총 금액 : {storeOrder.totalPrice}원</h4>
                                     </div>
                                 </div>
-                            </>
-                        ) : (
-                            <></>
-                        )
-                    }
-                </div>
-            </div>
-            <div className={"main-container2-footer"}>
-                <div>
-                    <div className={"main-btn-false m-f-1 position-center"}>
-                        <div>
-                            <p>주문 거절</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className={"main-btn-true m-f-1 position-center"}>
-                        <div>
-                            <p>주문 받기</p>
+                        <div className={"main-container2-footer"}>
+                            <div>
+                                {
+                                    storeOrder.status === 0 & storeOrder.payStatus === 1 ? (
+                                        <>
+                                            <div className={"main-btn-false m-f-1 position-center"}>
+                                                <div>
+                                                    <p>주문 거절</p>
+                                                </div>
+                                            </div>
+                                            <div className={"main-btn-true m-f-1 position-center"}>
+                                                <div>
+                                                    <p>주문 받기</p>
+                                                </div>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className={"main-btn-false m-f-1 position-center"}>
+                                                <div>
+                                                    <p>주문 취소</p>
+                                                </div>
+                                            </div>
+                                            <div className={"main-btn-true m-f-1 position-center"}>
+                                                <div>
+                                                    <p>주문 완료</p>
+                                                </div>
+                                            </div>
+                                        </>
+                                    )
+                                }
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </>
+                ) : (
+                    <></>
+                )
+            }
         </div>
     );
 }
