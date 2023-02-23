@@ -11,6 +11,27 @@ let StoreOrderDetail = ({storeOrder, setStoreOrder, storeOrderList}) => {
     const query = useQuery();
 
     let orderStatusOnClickGetOrder = (statusId) => { //주문 받기, 주문 완료
+
+        let status = false;
+
+        switch (statusId) {
+            case 1:
+                // eslint-disable-next-line no-restricted-globals
+                status = confirm("주문을 받으시겠습니까?");
+                break;
+            case 2:
+                // eslint-disable-next-line no-restricted-globals
+                status = confirm("주문을 완료하시겠습니까?");
+                break;
+            default:
+                status = false;
+                break;
+        }
+
+        if (!status) {
+            return;
+        }
+
         tokenStoreAdminAxios({
             url: "/api/v1/store/admin/order/status/change?statusId=" + statusId,
             method: "POST",
@@ -42,6 +63,23 @@ let StoreOrderDetail = ({storeOrder, setStoreOrder, storeOrderList}) => {
             console.log(err);
             alert("주문 상태 변경을 실패하였습니다. 관리자에게 문의 주세요.");
             return;
+        })
+    }
+
+    let cancelOrder = () => {
+        console.log(storeOrder);
+        tokenStoreAdminAxios({
+            url: "/api/v1/store/admin/order/cancel/negative",
+            method: "POST",
+            data: {
+                merchant_uid: storeOrder.storeOrderPgInfo.merchantUid, // 주문번호
+                cancel_request_amount: Number(storeOrder.totalPrice), // 환불금액
+                reason: "주문 거절" // 환불사유
+            }
+        }).then(res => {
+            console.log(res)
+        }).catch(err => {
+            console.log(err)
         })
     }
 
@@ -131,7 +169,8 @@ let StoreOrderDetail = ({storeOrder, setStoreOrder, storeOrderList}) => {
                                 {
                                     storeOrder.status === 0 & storeOrder.payStatus === 1 ? (
                                         <>
-                                            <div className={"main-btn-false m-f-1 position-center"}>
+                                            <div className={"main-btn-false m-f-1 position-center"}
+                                                 onClick={cancelOrder}>
                                                 <div>
                                                     <p>주문 거절</p>
                                                 </div>
@@ -147,7 +186,8 @@ let StoreOrderDetail = ({storeOrder, setStoreOrder, storeOrderList}) => {
                                         </>
                                     ) : (
                                         <>
-                                            <div className={"main-btn-false m-f-1 position-center"}>
+                                            <div className={"main-btn-false m-f-1 position-center"}
+                                                 onClick={cancelOrder}>
                                                 <div>
                                                     <p>주문 취소</p>
                                                 </div>

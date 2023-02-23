@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/store")
@@ -123,6 +124,11 @@ public class StoreController {
     public ApiResponseDTO orderStatusChange(@RequestParam int statusId,
                                             @RequestBody StoreOrder storeOrder) {
         return storeService.orderStatusChange(statusId, storeOrder);
+    }
+
+    @PostMapping("/admin/order/cancel/negative")
+    public ApiResponseDTO orderCancel(@RequestBody Map<String, String> bodyData) {
+        return storeService.orderCancel(bodyData);
     }
 
 }

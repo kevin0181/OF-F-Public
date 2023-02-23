@@ -26,10 +26,12 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import sun.tools.jconsole.JConsole;
 
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -755,5 +757,10 @@ public class StoreService {
                 .detail("주문 상태를 변경했습니다.")
                 .data(true)
                 .build();
+    }
+
+    public ApiResponseDTO orderCancel(Map<String, String> bodyData) {
+        System.out.println(bodyData);
+        return null;
     }
 }
