@@ -16,22 +16,28 @@ let StoreOrderDetail = ({storeOrder, setStoreOrder, storeOrderList}) => {
             method: "POST",
             data: storeOrder
         }).then(res => {
-
-            let changeOrderData = {
-                ...storeOrder,
-                status: statusId
-            };
-
-            let orderData = storeOrderList.filter(data => {
-                return data.seq !== storeOrder.seq
-            });
-
-            orderData.splice(Number(query.get("f")), 0, changeOrderData);
-
-            console.log(orderData);
-
-            setStoreOrder(orderData)
-
+            switch (statusId) {
+                case 1 :
+                    let changeOrderData = {
+                        ...storeOrder,
+                        status: statusId
+                    };
+                    let orderData = storeOrderList.filter(data => {
+                        return data.seq !== storeOrder.seq
+                    });
+                    orderData.splice(Number(query.get("f")), 0, changeOrderData);
+                    setStoreOrder(orderData)
+                    break;
+                case 2:
+                    let deleteOrderData = storeOrderList.filter(data => {
+                        return data.seq !== storeOrder.seq
+                    })
+                    setStoreOrder(deleteOrderData);
+                    break;
+                default:
+                    alert("잘못된 접근입니다.");
+                    break;
+            }
         }).catch(err => {
             console.log(err);
             alert("주문 상태 변경을 실패하였습니다. 관리자에게 문의 주세요.");
@@ -146,7 +152,9 @@ let StoreOrderDetail = ({storeOrder, setStoreOrder, storeOrderList}) => {
                                                     <p>주문 취소</p>
                                                 </div>
                                             </div>
-                                            <div className={"main-btn-true m-f-1 position-center"}>
+                                            <div className={"main-btn-true m-f-1 position-center"} onClick={() => {
+                                                orderStatusOnClickGetOrder(2)
+                                            }}>
                                                 <div>
                                                     <p>주문 완료</p>
                                                 </div>
