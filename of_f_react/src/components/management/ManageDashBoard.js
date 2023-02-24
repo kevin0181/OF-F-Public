@@ -56,7 +56,7 @@ let ManageDashBoard = () => {
             case "Home":
                 return <Home/>
             case "orderStart":
-                return <OrderStart socketStoreOrder={socketStoreOrder}/>
+                return <OrderStart socketStoreOrder={socketStoreOrder} setSocketStoreOrder={setSocketStoreOrder}/>
             case "orderHistory":
                 return <></>
             case "Category":

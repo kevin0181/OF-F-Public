@@ -16,7 +16,7 @@ import {nodeServerAxios} from "../../../Config/customAxios";
 import {getCookie} from "../../../Config/cookie";
 import StoreOrderDetail from "../components/order/StoreOrderDetail";
 
-let OrderStart = ({socketStoreOrder}) => {
+let OrderStart = ({socketStoreOrder, setSocketStoreOrder}) => {
     const query = useQuery();
 
     const navigate = useNavigate();
@@ -39,7 +39,8 @@ let OrderStart = ({socketStoreOrder}) => {
             setStoreOrder([
                 socketStoreOrder,
                 ...storeOrder
-            ])
+            ]);
+            setSocketStoreOrder({});
         }
     }, [socketStoreOrder])
 
@@ -111,13 +112,13 @@ let OrderStart = ({socketStoreOrder}) => {
                             <div
                                 className={"name-card "} id={index + "-category"}
                                 key={index}>
-                                {
-                                    data.payStatus === 1 && data.status === 0 ? (
-                                        <div className={"name-card-new"}></div>
-                                    ) : (
-                                        <></>
-                                    )
-                                }
+                                {/*{*/}
+                                {/*    data.payStatus === 1 && data.status === 0 ? (*/}
+                                {/*        <div className={"name-card-new"}></div>*/}
+                                {/*    ) : (*/}
+                                {/*        <></>*/}
+                                {/*    )*/}
+                                {/*}*/}
                                 <div className={"name-card-btn"}>
                                     <div
                                         className={"name-card-part " + (query.get("f") === String(index) ? 'active' : '')}
