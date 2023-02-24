@@ -30,36 +30,43 @@ let PayRedirect = () => {
                     storeId, qrId, imp_uid, merchant_uid
                 }
             }).then(res => {
-                switch (res.data.data.storeOrderPgInfo.status) {
-                    case "paid":
-                        //서버에서 받은 결제완료 정보를토대로 알림창 발송 및 관리자 websocket으로 전송하기.
 
-                        socket.emit("room send", res.data.data, storeId);
-
-                        alert("결제가 완료되었습니다.");
-
-                        navigate(`/store/${storeId}/${qrId}/main`)
-                        return;
-                    case "ready":
-                        alert("가상계좌 발급이 완료되었습니다.")
-                        navigate(`/store/${storeId}/${qrId}/main`)
-                        return;
-                    default:
-                        notTokenAxios({
-                            url: "/api/v1/store/order/pay/fail/delete?merchantUid=" + merchant_uid,
-                            method: "POST",
-                        }).then(res => {
-                            alert("결제를 실패하였습니다.");
-                            navigate(`/store/${storeId}/${qrId}/main`)
-                        }).catch(err => {
-                            alert("결제를 실패하였습니다.");
-                            navigate(`/store/${storeId}/${qrId}/main`)
-                        });
-                        return;
+                if (res.data.data.storeOrderPgInfo.status === "paid") {
+                    //서버에서 받은 결제완료 정보를토대로 알림창 발송 및 관리자 websocket으로 전송하기.
+                    socket.emit("room send", res.data.data, storeId);
+                } else {
+                    alert("결제를 실패하였습니다.");
+                    navigate(0);
                 }
+
+                // switch (res.data.data.storeOrderPgInfo.status) {
+                //     case "paid":
+                //         alert("결제가 완료되었습니다.");
+                //         navigate(`/store/${storeId}/${qrId}/main`)
+                //         return;
+                //     case "ready":
+                //         alert("가상계좌 발급이 완료되었습니다.")
+                //         navigate(`/store/${storeId}/${qrId}/main`)
+                //         return;
+                //     default:
+                //         //주문 실패시 데이터 삭제하지말고 미결제로 보관하기
+                //         // notTokenAxios({
+                //         //     url: "/api/v1/store/order/pay/fail/delete?merchantUid=" + merchant_uid,
+                //         //     method: "POST",
+                //         // }).then(res => {
+                //         //     alert("결제를 실패하였습니다.");
+                //         //     navigate(`/store/${storeId}/${qrId}/main`)
+                //         // }).catch(err => {
+                //         //     alert("결제를 실패하였습니다.");
+                //         //     navigate(`/store/${storeId}/${qrId}/main`)
+                //         // });
+                //         // return;
+                // }
             }).catch(err => {
                 console.log(err);
                 navigate(0);
+            }).finally(() => {
+                navigate(`/store/${storeId}/${qrId}/main`);  //보여지는 주문 완료 페이지로 보내주는것도 나쁘지 않을지도??
             })
 
         } else {
