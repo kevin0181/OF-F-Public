@@ -67,7 +67,6 @@ let StoreOrderDetail = ({storeOrder, setStoreOrder, storeOrderList}) => {
     }
 
     let cancelOrder = () => {
-        console.log(storeOrder);
         tokenStoreAdminAxios({
             url: "/api/v1/store/admin/order/cancel/negative",
             method: "POST",
@@ -77,7 +76,17 @@ let StoreOrderDetail = ({storeOrder, setStoreOrder, storeOrderList}) => {
                 reason: "주문 거절" // 환불사유
             }
         }).then(res => {
-            console.log(res)
+            if (res.data.data) {
+
+                let orderData = storeOrderList.filter(data => {
+                    return data.seq !== storeOrder.seq;
+                });
+
+                setStoreOrder(orderData);
+
+                alert("주문을 취소하였습니다.");
+
+            }
         }).catch(err => {
             console.log(err)
             alert("주문취소를 실패하였습니다.");
