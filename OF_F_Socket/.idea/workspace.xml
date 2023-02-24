@@ -6,8 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="1aefb79f-b57f-4003-8f82-7e6985ac6836" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../OF_F_Spring/src/main/java/of_f/of_f_spring/controller/store/StoreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../OF_F_Spring/src/main/java/of_f/of_f_spring/controller/store/StoreController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OF_F_Spring/src/main/java/of_f/of_f_spring/domain/exception/StoreExceptionEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/../OF_F_Spring/src/main/java/of_f/of_f_spring/domain/exception/StoreExceptionEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OF_F_Spring/src/main/java/of_f/of_f_spring/repository/store/StoreOrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../OF_F_Spring/src/main/java/of_f/of_f_spring/repository/store/StoreOrderRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OF_F_Spring/src/main/java/of_f/of_f_spring/service/store/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../OF_F_Spring/src/main/java/of_f/of_f_spring/service/store/OrderService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../OF_F_Spring/src/main/java/of_f/of_f_spring/service/store/StoreService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../OF_F_Spring/src/main/java/of_f/of_f_spring/service/store/StoreService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OF_F_Spring/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../OF_F_Spring/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../of_f_react/src/components/management/components/order/StoreOrderDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/../of_f_react/src/components/management/components/order/StoreOrderDetail.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,6 +75,9 @@
       <workItem from="1677046206199" duration="790000" />
       <workItem from="1677076158300" duration="612000" />
       <workItem from="1677123406620" duration="1890000" />
+      <workItem from="1677137642500" duration="164000" />
+      <workItem from="1677140113826" duration="20000" />
+      <workItem from="1677214499456" duration="641000" />
     </task>
     <servers />
   </component>

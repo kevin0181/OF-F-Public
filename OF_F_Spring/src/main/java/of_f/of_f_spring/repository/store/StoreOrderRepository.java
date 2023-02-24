@@ -7,9 +7,5 @@ import java.util.List;
 
 public interface StoreOrderRepository extends JpaRepository<StoreOrder, Long> {
     StoreOrder findById(String merchantUid);
-
-    List<StoreOrder> findAllByStoreSeqAndStatusAndPayStatusOrderByDateDesc(Long id, int status, int payStatus);
-
-    List<StoreOrder> findAllByStoreSeqAndStatusAndStatusAndPayStatusOrderByDateDesc(Long id, int status, int status2, int payStatus);
     List<StoreOrder> findAllByStoreSeqAndStatusOrStatusAndPayStatusOrderByDateDesc(Long id, int status, int status2, int payStatus);
 }

@@ -80,6 +80,7 @@ let StoreOrderDetail = ({storeOrder, setStoreOrder, storeOrderList}) => {
             console.log(res)
         }).catch(err => {
             console.log(err)
+            alert("주문취소를 실패하였습니다.");
         })
     }
 

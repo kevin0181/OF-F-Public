@@ -1,6 +1,9 @@
 package of_f.of_f_spring.service.store;
 
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 import of_f.of_f_spring.domain.entity.store.Store;
 import of_f.of_f_spring.domain.entity.store.menu.*;
 import of_f.of_f_spring.domain.entity.store.order.StoreOrder;
@@ -23,8 +26,15 @@ import of_f.of_f_spring.service.user.EmailService;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import sun.tools.jconsole.JConsole;
 
@@ -69,6 +79,9 @@ public class StoreService {
 
     @Autowired
     private StoreOrderRepository storeOrderRepository;
+
+    @Autowired
+    private OrderService orderService;
 
     public ApiResponseDTO applicationNewStore(StoreDTO storeDTO, Principal principal) {  // 가맹점 신청
 
@@ -760,7 +773,68 @@ public class StoreService {
     }
 
     public ApiResponseDTO orderCancel(Map<String, String> bodyData) {
-        System.out.println(bodyData);
-        return null;
+        StoreOrder storeOrder = storeOrderRepository.findById(bodyData.get("merchant_uid"));
+
+        if (storeOrder == null) // 만약 주문이 존재하지 않으면 오류
+            throw new StoreException(StoreExceptionEnum.DOES_NOT_EXIST_ORDER);
+
+        int cancelAmount = Integer.parseInt(bodyData.get("cancel_request_amount"));
+
+        String token = orderService.getAccessToken(); // token 가져오기
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>(); //보낼 데이터 담는 부분
+
+        params.add("reason", bodyData.get("reason"));
+        params.add("merchant_uid", storeOrder.getId());
+        params.add("amount", String.valueOf(cancelAmount));
+        params.add("checksum", storeOrder.getCancelAfterPrice());
+
+        HttpHeaders headers = new HttpHeaders(); // 보낼 헤더 담는 부분
+        headers.add("Authorization", token);
+
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers); //두개 합침
+
+        try {
+            RestTemplate rt = new RestTemplate();
+            ResponseEntity<String> response = rt.exchange(
+                    "https://api.iamport.kr/payments/cancel", //{요청할 서버 주소}
+                    HttpMethod.POST, //{요청할 방식}
+                    entity, // {요청할 때 보낼 데이터}
+                    String.class
+            );
+
+            JSONParser jsonParse = new JSONParser();
+
+            JSONObject resObj = (JSONObject) jsonParse.parse(response.getBody());
+            JSONObject result = (JSONObject) jsonParse.parse(String.valueOf(resObj.get("response")));
+
+            if (resObj.get("code").toString().equals("0")) {
+
+                int cancelAfterAmount = Integer.parseInt(storeOrder.getTotalPrice()) - cancelAmount;
+
+                storeOrder.setCancelAfterPrice(String.valueOf(cancelAfterAmount));
+                if (cancelAfterAmount != 0) {
+                    storeOrder.setStatus(8); // -> 부분 취소
+                } else {
+                    storeOrder.setStatus(9); // -> 전체 취소
+                }
+
+                storeOrder.setPayStatus(9); // 지불 상태 취소로 변경
+
+                storeOrder.getStoreOrderPgInfo().setStatus(result.get("status").toString());
+
+                storeOrderRepository.save(storeOrder);
+
+            } else {
+                throw new StoreException(StoreExceptionEnum.FAILED_ORDER_CANCEL);
+            }
+
+            return ApiResponseDTO.builder()
+                    .message("주문 취소")
+                    .detail("주문 취소를 완료하였습니다.")
+                    .data(true).build();
+        } catch (ParseException e) {
+            throw new StoreException(StoreExceptionEnum.FAILED_ORDER_CANCEL);
+        }
     }
 }
