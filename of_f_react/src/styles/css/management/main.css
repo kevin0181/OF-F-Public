@@ -578,7 +578,7 @@ input:checked + .slider:before {
 }
 
 .name-card-new {
-    position: absolute;
+    position: relative;
     left: 10px;
     background-color: red;
     width: 10px;

@@ -114,17 +114,18 @@ let OrderStart = ({socketStoreOrder, setSocketStoreOrder}) => {
                             <div
                                 className={"name-card "} id={index + "-category"}
                                 key={index}>
-                                {/*{*/}
-                                {/*    data.payStatus === 1 && data.status === 0 ? (*/}
-                                {/*        <div className={"name-card-new"}></div>*/}
-                                {/*    ) : (*/}
-                                {/*        <></>*/}
-                                {/*    )*/}
-                                {/*}*/}
+                                {
+                                    data.payStatus === 1 && data.status === 0 ? (
+                                        <div className={"name-card-new"}></div>
+                                    ) : (
+                                        <></>
+                                    )
+                                }
                                 <div className={"name-card-btn"}>
                                     <div
                                         className={"name-card-part " + (query.get("f") === String(index) ? 'active ' : '')
-                                            + (data.payStatus === 1 && data.status === 0 ? 'name-card-part-new' : '')}
+                                            // + (data.payStatus === 1 && data.status === 0 ? 'name-card-part-new' : '')
+                                        }
                                         style={{
                                             flexDirection: "column"
                                         }}
