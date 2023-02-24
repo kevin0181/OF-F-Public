@@ -1,5 +1,5 @@
 import {useQuery} from "../../../Config/getQuery";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 import "./../../../styles/css/management/main.css";
 import "./../../../styles/css/management/category.css";
@@ -20,6 +20,7 @@ let OrderStart = ({socketStoreOrder, setSocketStoreOrder}) => {
     const query = useQuery();
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil); //선택된 가게 정보
     const [storeOrder, setStoreOrder] = useRecoilState(storeOrderRecoil); // 들어온 주문 전체 내역
@@ -37,14 +38,15 @@ let OrderStart = ({socketStoreOrder, setSocketStoreOrder}) => {
     useEffect(() => {
         if (Object.keys(socketStoreOrder).length !== 0) {
             setStoreOrder([
-                socketStoreOrder,
-                ...storeOrder
+                ...storeOrder,
+                socketStoreOrder
             ]);
             setSocketStoreOrder({});
         }
     }, [socketStoreOrder])
 
     let getOrderData = () => { //주문 데이터 가져옴
+        console.log("주문 가져옴");
         tokenStoreAdminAxios({
             url: "/api/v1/store/admin/get/order?storeSeq=" + store.seq,
             method: "GET"
@@ -121,7 +123,8 @@ let OrderStart = ({socketStoreOrder, setSocketStoreOrder}) => {
                                 {/*}*/}
                                 <div className={"name-card-btn"}>
                                     <div
-                                        className={"name-card-part " + (query.get("f") === String(index) ? 'active' : '')}
+                                        className={"name-card-part " + (query.get("f") === String(index) ? 'active ' : '')
+                                            + (data.payStatus === 1 && data.status === 0 ? 'name-card-part-new' : '')}
                                         style={{
                                             flexDirection: "column"
                                         }}

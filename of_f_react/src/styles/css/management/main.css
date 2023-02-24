@@ -188,6 +188,10 @@ input:checked + .slider:before {
     font-size: 21px;
 }
 
+.name-card-part-new {
+    color: #ff9862;
+}
+
 .name-card-part {
     width: 95%;
     height: 80%;
