@@ -12,7 +12,7 @@ require('dotenv').config();
 const storeRouter = require("./store/store");
 
 mongoose.set("strictQuery", false);
-mongoose.connect('mongodb://off_user:kevin1141@localhost:27017/off', {dbName: 'off'}, function (err) {
+mongoose.connect('mongodb://off_user:kevin1141@127.0.0.1:27017/off', {dbName: 'off'}, function (err) {
     // console.log(err);
 });
 

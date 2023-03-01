@@ -18,6 +18,7 @@ import of_f.of_f_spring.repository.store.StoreOrderRepository;
 import of_f.of_f_spring.repository.store.StoreQRIdRepository;
 import of_f.of_f_spring.repository.store.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -49,6 +50,12 @@ public class OrderService {
 
     @Autowired
     private StoreMenuRepository storeMenuRepository;
+
+    @Value("${imp.key}")
+    private String IMPORT_IMP_KEY;
+
+    @Value("${imp.secret}")
+    private String IMPORT_IMP_SECRET;
 
     @Transactional
     public ApiResponseDTO getStoreMenuList(Long storeSeq, String qrId) {
@@ -86,6 +93,7 @@ public class OrderService {
         storeOrderDTO.setId(merchant_uid); //주문번호 선 저장
         storeOrderDTO.setStatus(0);
         storeOrderDTO.setPayStatus(0);
+        storeOrderDTO.setCancelAfterPrice(storeOrderDTO.getTotalPrice());
         storeOrderDTO.setStoreOrderPgInfo(null);
         storeOrderDTO.setStoreOrderVanInfo(null);
 
@@ -98,8 +106,8 @@ public class OrderService {
 
     public String getAccessToken() {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>(); //보낼 데이터 담는 부분
-        params.add("imp_key", "1152819197412694");
-        params.add("imp_secret", "AwdiMKMaTaGXfk8SIiU9lqnYauAkFteuissOL8lsLWrIZOS5BTkxrnIzIdf5ZV5ErVcmNyGJnHnKamAT");
+        params.add("imp_key", IMPORT_IMP_KEY);
+        params.add("imp_secret", IMPORT_IMP_SECRET);
 
         HttpHeaders headers = new HttpHeaders(); // 보낼 헤더 담는 부분
 

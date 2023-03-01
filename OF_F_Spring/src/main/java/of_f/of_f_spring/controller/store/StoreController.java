@@ -1,5 +1,6 @@
 package of_f.of_f_spring.controller.store;
 
+import of_f.of_f_spring.domain.entity.store.order.StoreOrder;
 import of_f.of_f_spring.domain.exception.ApiException;
 import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
@@ -14,6 +15,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/store")
@@ -32,7 +34,8 @@ public class StoreController {
         return storeService.getStoreInfoAdmin(principal);
     }
 
-    @GetMapping("/admin/get/order")
+
+    @GetMapping("/admin/get/order") //현재 들어와있는 주문
     public ApiResponseDTO getOrderData(Principal principal, @RequestParam Long storeSeq) {
         return storeService.getStoreOrderData(storeSeq);
     }
@@ -116,4 +119,16 @@ public class StoreController {
     public ApiResponseDTO menuAndSideConnect(@RequestBody List<StoreMSDTO> storeMSDTOS) {
         return storeService.menuConnectSideService(storeMSDTOS);
     }
+
+    @PostMapping("/admin/order/status/change")
+    public ApiResponseDTO orderStatusChange(@RequestParam int statusId,
+                                            @RequestBody StoreOrder storeOrder) {
+        return storeService.orderStatusChange(statusId, storeOrder);
+    }
+
+    @PostMapping("/admin/order/cancel/negative")
+    public ApiResponseDTO orderCancel(@RequestBody Map<String, String> bodyData) {
+        return storeService.orderCancel(bodyData);
+    }
+
 }
