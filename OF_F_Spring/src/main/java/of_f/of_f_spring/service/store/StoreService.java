@@ -169,7 +169,7 @@ public class StoreService {
 
     public ApiResponseDTO getStoreOrderData(Long storeSeq) {
 
-        List<StoreOrder> storeOrderList = storeOrderRepository.findAllByStoreSeqAndStatusOrStatusAndPayStatus(storeSeq, 0, 1, 1);
+        List<StoreOrder> storeOrderList = storeOrderRepository.findAllByStoreSeqAndPayStatusOrStatusAndStatus(storeSeq, 1, 1, 0);
         List<StoreOrderDTO> storeOrderDTOList = StoreMapper.instance.storeOrderListToStoreOrderDTOList(storeOrderList);
 
         return ApiResponseDTO.builder()
