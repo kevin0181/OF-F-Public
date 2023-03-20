@@ -46,7 +46,6 @@ let OrderStart = ({socketStoreOrder, setSocketStoreOrder}) => {
     }, [socketStoreOrder])
 
     let getOrderData = () => { //주문 데이터 가져옴
-        console.log("주문 가져옴");
         tokenStoreAdminAxios({
             url: "/api/v1/store/admin/get/order?storeSeq=" + store.seq,
             method: "GET"
@@ -68,12 +67,16 @@ let OrderStart = ({socketStoreOrder, setSocketStoreOrder}) => {
             q = "가게 주문을 시작하시겠습니까?";
         }
 
+        console.log(storeStatus);
         // eslint-disable-next-line no-restricted-globals
         if (confirm(q)) {
             nodeServerAxios({
                 method: "POST",
                 url: "/store/set/status",
-                data: storeStatus,
+                data: {
+                    storeSeq: store.seq,
+                    status: storeStatus.status
+                },
                 headers: {
                     "accessToken": `Bearer ${getCookie("accessToken")}`
                 }
