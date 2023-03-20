@@ -9,5 +9,6 @@ public interface StoreOrderRepository extends JpaRepository<StoreOrder, Long> {
     StoreOrder findById(String merchantUid);
 //    List<StoreOrder> findAllByStoreSeqAndStatusOrStatusAndPayStatusOrderByDateDesc(Long id, int status, int status2, int payStatus);
 
-    List<StoreOrder> findAllByStoreSeqAndStatusOrStatusAndPayStatus(Long id, int status, int status2, int payStatus);
+    List<StoreOrder> findAllByStoreSeqAndPayStatusOrStatusAndStatus(Long id, int payStatus, int status, int status2);
+
 }

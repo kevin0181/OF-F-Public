@@ -1,6 +1,7 @@
 const {Router} = require("express");
 const router = Router();
 const {StoreMongo} = require("./../models");
+
 router.post("/status", async (req, res, next) => { //현재 가게 상태 가져오기
     let {storeSeq} = req.query;
 

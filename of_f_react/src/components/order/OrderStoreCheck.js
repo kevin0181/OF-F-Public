@@ -62,11 +62,13 @@ let OrderStoreCheck = () => {
             method: "POST",
             url: "/store/status?storeSeq=" + storeId
         }).then(res => {
+            console.log(res);
             if (!res.data.status) {
                 alert("가게 주문이 종료된 상태입니다. 가게에게 문의해주세요.");
             }
             setOrderStatus(res.data);
         }).catch(err => {
+            console.log(err);
             alert("가게 오류입니다. 재접속해주세요.");
             navigate(-1);
         });

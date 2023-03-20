@@ -10,6 +10,8 @@ let StoreOrderDetail = ({storeOrder, setStoreOrder, storeOrderList}) => {
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil); //선택된 가게 정보
     const query = useQuery();
 
+    console.log(storeOrder);
+
     let orderStatusOnClickGetOrder = (statusId) => { //주문 받기, 주문 완료
 
         let status = false;
@@ -170,6 +172,99 @@ let StoreOrderDetail = ({storeOrder, setStoreOrder, storeOrderList}) => {
                                 <div className={"order-detail-totalPrice-part"}>
                                     <div>
                                         <h4>총 금액 : {storeOrder.totalPrice}원</h4>
+                                    </div>
+                                </div>
+                                <div className={"order-etc"}>
+                                    <div className={"order-etc-div"}>
+                                        {
+                                            storeOrder.comment === "" ? (<></>) : (
+                                                <>
+                                                    <div>
+                                                        요청 사항 : &nbsp;
+                                                    </div>
+                                                    <div>
+                                                        {storeOrder.comment}
+                                                    </div>
+                                                </>
+                                            )
+                                        }
+                                    </div>
+                                    <div className={"order-etc-div"}>
+                                        {
+                                            storeOrder.emailReceiveStatus ? (<>
+                                                <div>
+                                                    이메일 : &nbsp;
+                                                </div>
+                                                <div>
+                                                    {storeOrder.email}
+                                                </div>
+                                            </>) : (
+                                                <></>
+                                            )
+                                        }
+                                    </div>
+                                    <div className={"order-etc-div"}>
+                                        {
+                                            storeOrder.phoneNumberReceiveStatus ? (
+                                                <>
+                                                    <div>
+                                                        전화번호 : &nbsp;
+                                                    </div>
+                                                    <div>
+                                                        {storeOrder.phoneNumber}
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <></>
+                                            )
+                                        }
+                                    </div>
+                                    <div className={"order-etc-div"}>
+                                        {
+                                            storeOrder.kind === 1 ? (
+                                                <>
+                                                    <div>
+                                                        주문 종류 : &nbsp;
+                                                    </div>
+                                                    <div>
+                                                        QR
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <div>
+                                                        주문 종류 : &nbsp;
+                                                    </div>
+                                                    <div>
+                                                        KIOSK
+                                                    </div>
+                                                </>
+                                            )
+                                        }
+                                    </div>
+                                    <div className={"order-etc-div"}>
+                                        {
+                                            storeOrder.place === 1 ? (
+                                                <>
+                                                    <div>
+                                                        포장 상태 : &nbsp;
+                                                    </div>
+                                                    <div>
+                                                        매장
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <div>
+                                                        포장 상태 : &nbsp;
+                                                    </div>
+                                                    <div>
+                                                        포장
+                                                    </div>
+                                                </>
+                                            )
+                                        }
+
                                     </div>
                                 </div>
                             </div>
