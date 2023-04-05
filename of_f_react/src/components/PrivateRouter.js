@@ -33,7 +33,7 @@ let PrivateRouter = ({loginStatus, cookies}) => {
             if (ST_ROLE !== -1) { //가맹점 관리자인지 확인
                 return <Outlet/>;
             } else {
-                return <Navigate to={"/error/403"} replace/>;
+                return <Navigate to={"/apply/store"} replace/>;
             }
         }
     }
