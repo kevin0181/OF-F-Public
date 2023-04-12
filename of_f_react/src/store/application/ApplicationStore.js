@@ -24,11 +24,12 @@ let ApplicationStore = () => {
     const [applicationData, setApplicationData] = useState({
         name: "",
         address: "",
-        detail_address: "",
-        business_number: "",
-        account_bank_name: "",
-        account_number: "",
-        deposit_date: ""
+        detailAddress: "",
+        businessNumber: "",
+        accountBankName: "",
+        accountNumber: "",
+        depositDate: "",
+        applyReceiveStatus: ""
     });
 
 
@@ -82,28 +83,28 @@ let ApplicationStore = () => {
                             <div className={"input-flex"}>
                                 <input type={"text"} className={"login-input m-input "} name={"address"}
                                        placeholder={"주소"}/>
-                                <input type={"text"} className={"login-input m-input "} name={"detail_address"}
+                                <input type={"text"} className={"login-input m-input "} name={"detailAddress"}
                                        placeholder={"상세 주소"}/>
                             </div>
                         </div>
                         <div>
                             <p className={"input-top-p"}>사업자 등록 번호</p>
-                            <input type={"text"} className={"login-input m-input "} name={"business_number"}
+                            <input type={"text"} className={"login-input m-input "} name={"businessNumber"}
                                    placeholder={"사업자 등록 번호를 작성해주세요."}/>
                         </div>
                         <div>
                             <p className={"input-top-p"}>입금 받으실 은행 이름</p>
-                            <input type={"text"} className={"login-input m-input "} name={"account_bank_name"}
+                            <input type={"text"} className={"login-input m-input "} name={"accountBankName"}
                                    placeholder={"입금을 원하시는 은행 이름 작성 (ex: 농협)"}/>
                         </div>
                         <div>
                             <p className={"input-top-p"}>입금 받으실 계좌번호</p>
-                            <input type={"text"} className={"login-input m-input "} name={"account_number"}
+                            <input type={"text"} className={"login-input m-input "} name={"accountNumber"}
                                    placeholder={"입금을 원하시는 계좌번호를 작성해주세요."}/>
                         </div>
                         <div>
                             <p className={"input-top-p"}>입금 날짜</p>
-                            <input type={"date"} className={"log7in-input m-input "} name={"deposit_date"}/>
+                            <input type={"date"} className={"log7in-input m-input "} name={"depositDate"}/>
                         </div>
                         <div style={{
                             marginTop: "40px"
@@ -111,7 +112,7 @@ let ApplicationStore = () => {
                             <h3>개인정보 수집 및 이용 동의</h3>
                         </div>
                         <div>
-                            <input type={"checkbox"} name={""} id={"ccopi"}/>
+                            <input type={"checkbox"} name={"applyReceiveStatus"} id={"ccopi"}/>
                             <label htmlFor={"ccopi"}>&nbsp;가맹점 신청을 위한 개인정보 수집 및 이용에 동의<span style={{
                                 color: "red"
                             }}>(필수)</span></label>
