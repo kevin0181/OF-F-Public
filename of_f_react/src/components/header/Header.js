@@ -72,7 +72,7 @@ let Header = () => {
                     <div className={"auth-btn"}>
                         <ul className="auth-btn-start">
                             <li>
-                                <a href={"/"} className={"start-btn"}><span className={"start-img"}><img src={startIcon}
+                                <a href={"#!"} className={"start-btn"}><span className={"start-img"}><img src={startIcon}
                                                                                                          alt={"start icon"}
                                                                                                          className={"start-icon"}/></span>시작하기</a>
                                 {
