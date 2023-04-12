@@ -21,6 +21,16 @@ let ApplicationStore = () => {
         }
     }, []);
 
+    const [applicationData, setApplicationData] = useState({
+        name: "",
+        address: "",
+        detail_address: "",
+        business_number: "",
+        account_bank_name: "",
+        account_number: "",
+        deposit_date: ""
+    });
+
 
     return (
         <div className={"login-Container"}>
@@ -88,11 +98,6 @@ let ApplicationStore = () => {
                         </div>
                         <div>
                             <p className={"input-top-p"}>입금 받으실 계좌번호</p>
-                            <input type={"text"} className={"login-input m-input "} name={"account_bank_name"}
-                                   placeholder={"입금을 원하시는 은행 이름 작성 (ex: 농협)"}/>
-                        </div>
-                        <div>
-                            <p className={"input-top-p"}>입금 받으실 은행 계좌</p>
                             <input type={"text"} className={"login-input m-input "} name={"account_number"}
                                    placeholder={"입금을 원하시는 계좌번호를 작성해주세요."}/>
                         </div>
