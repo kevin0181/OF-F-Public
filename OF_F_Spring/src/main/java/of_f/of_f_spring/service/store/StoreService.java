@@ -103,6 +103,7 @@ public class StoreService {
 
             storeDTO.setStatus(5);
             storeDTO.setUserSeq(user.getSeq());
+            storeDTO.setBusinessPhoneNumber(user.getPhoneNumber());
 
             Store store = StoreMapper.instance.storeDTOTOStore(storeDTO);
 

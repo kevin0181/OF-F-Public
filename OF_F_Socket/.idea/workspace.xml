@@ -6,8 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="1aefb79f-b57f-4003-8f82-7e6985ac6836" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../of_f_react/src/components/management/components/order/StoreOrderDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/../of_f_react/src/components/management/components/order/StoreOrderDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../of_f_react/src/styles/css/management/order.css" beforeDir="false" afterPath="$PROJECT_DIR$/../of_f_react/src/styles/css/management/order.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OF_F_Spring/src/main/generated/of_f/of_f_spring/domain/mapper/platform/PlatformMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../OF_F_Spring/src/main/generated/of_f/of_f_spring/domain/mapper/platform/PlatformMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OF_F_Spring/src/main/generated/of_f/of_f_spring/domain/mapper/platform/SubscribeMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../OF_F_Spring/src/main/generated/of_f/of_f_spring/domain/mapper/platform/SubscribeMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OF_F_Spring/src/main/generated/of_f/of_f_spring/domain/mapper/store/OrderMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../OF_F_Spring/src/main/generated/of_f/of_f_spring/domain/mapper/store/OrderMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OF_F_Spring/src/main/generated/of_f/of_f_spring/domain/mapper/store/StoreMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../OF_F_Spring/src/main/generated/of_f/of_f_spring/domain/mapper/store/StoreMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OF_F_Spring/src/main/generated/of_f/of_f_spring/domain/mapper/user/RoleMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../OF_F_Spring/src/main/generated/of_f/of_f_spring/domain/mapper/user/RoleMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OF_F_Spring/src/main/generated/of_f/of_f_spring/domain/mapper/user/UserMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../OF_F_Spring/src/main/generated/of_f/of_f_spring/domain/mapper/user/UserMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../of_f_react/src/store/application/ApplicationStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/../of_f_react/src/store/application/ApplicationStore.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +79,10 @@
       <workItem from="1677137642500" duration="164000" />
       <workItem from="1677140113826" duration="20000" />
       <workItem from="1677214499456" duration="641000" />
+      <workItem from="1680591774714" duration="632000" />
+      <workItem from="1681288425487" duration="644000" />
+      <workItem from="1683129753973" duration="24000" />
+      <workItem from="1683521709772" duration="698000" />
     </task>
     <servers />
   </component>

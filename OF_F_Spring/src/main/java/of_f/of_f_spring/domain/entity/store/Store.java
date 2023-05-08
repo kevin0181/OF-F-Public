@@ -59,6 +59,9 @@ public class Store extends StoreStatusCheck {
     @Column
     private int status;
 
+    @Column(name = "apply_receive_status")
+    private boolean applyReceiveStatus;
+
     @ManyToOne
     @JoinColumn(name = "User_seq", insertable = false, updatable = false)
     private User user;

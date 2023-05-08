@@ -10,8 +10,6 @@ let StoreOrderDetail = ({storeOrder, setStoreOrder, storeOrderList}) => {
     const [store, setStore] = useRecoilState(selectStoreInfoRecoil); //선택된 가게 정보
     const query = useQuery();
 
-    console.log(storeOrder);
-
     let orderStatusOnClickGetOrder = (statusId) => { //주문 받기, 주문 완료
 
         let status = false;

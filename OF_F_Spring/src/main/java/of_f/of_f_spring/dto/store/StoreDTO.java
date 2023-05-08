@@ -49,6 +49,7 @@ public class StoreDTO {
     private String businessPhoneNumber;
     private String openDate;
     private int status;
+    private boolean applyReceiveStatus;
 
     private QRStoreInfoDTO qrStoreInfo;
     private List<StorePgSettingDTO> storePgSettings;

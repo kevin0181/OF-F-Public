@@ -20,6 +20,7 @@ import StoreOrderHeader from "./components/order/component/StoreOrderHeader";
 import MenuBasketList from "./components/order/component/MenuBasketList";
 import PayInfo from "./components/order/component/PayInfo";
 import PayRedirect from "./components/order/component/PayRedirect";
+import ApplicationStore from "./store/application/ApplicationStore";
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
                             <Route element={<Header/>}>
                                 <Route path={"/"} element={<Main/>}/>
                             </Route>
+                            <Route path={"/apply/store"} element={<ApplicationStore/>}/> {/*application store*/}
                             <Route path={"/login"} element={<Login/>}/>
                             <Route path={"/signUp"} element={<SignUp/>}/>
                             <Route path={"/find/id"} element={<FindId/>}/>

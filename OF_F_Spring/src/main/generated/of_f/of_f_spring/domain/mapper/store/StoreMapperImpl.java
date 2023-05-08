@@ -41,7 +41,7 @@ import of_f.of_f_spring.dto.total.StoreName;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-02-17T14:12:11+0900",
+    date = "2023-05-08T13:57:02+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 1.8.0_292 (AdoptOpenJDK)"
 )
 public class StoreMapperImpl implements StoreMapper {
@@ -66,6 +66,7 @@ public class StoreMapperImpl implements StoreMapper {
         store.setBusinessPhoneNumber( storeDTO.getBusinessPhoneNumber() );
         store.setOpenDate( storeDTO.getOpenDate() );
         store.setStatus( storeDTO.getStatus() );
+        store.setApplyReceiveStatus( storeDTO.isApplyReceiveStatus() );
         store.setQrStoreInfo( qRStoreInfoDTOToQRStoreInfo( storeDTO.getQrStoreInfo() ) );
         store.setStoreOrders( storeOrderDTOListToStoreOrderList( storeDTO.getStoreOrders() ) );
         store.setStorePgSettings( storePgSettingDTOListToStorePgSettingList( storeDTO.getStorePgSettings() ) );
@@ -97,6 +98,7 @@ public class StoreMapperImpl implements StoreMapper {
         storeDTO.businessPhoneNumber( store.getBusinessPhoneNumber() );
         storeDTO.openDate( store.getOpenDate() );
         storeDTO.status( store.getStatus() );
+        storeDTO.applyReceiveStatus( store.isApplyReceiveStatus() );
         storeDTO.qrStoreInfo( qrStoreInfoToQRStoreInfoDTO( store.getQrStoreInfo() ) );
         storeDTO.storePgSettings( storePgSettingListToStorePgSettingDTOList( store.getStorePgSettings() ) );
         storeDTO.storeVanSettings( storeVanSettingListToStoreVanSettingDTOList( store.getStoreVanSettings() ) );
@@ -123,6 +125,7 @@ public class StoreMapperImpl implements StoreMapper {
         storeDTO.address( store.getAddress() );
         storeDTO.detailAddress( store.getDetailAddress() );
         storeDTO.businessPhoneNumber( store.getBusinessPhoneNumber() );
+        storeDTO.applyReceiveStatus( store.isApplyReceiveStatus() );
         storeDTO.storeCategories( storeCategoryListToStoreCategoryDTOList( store.getStoreCategories() ) );
         storeDTO.storeSideCategories( storeSideCategoryListToStoreSideCategoryDTOList( store.getStoreSideCategories() ) );
 
