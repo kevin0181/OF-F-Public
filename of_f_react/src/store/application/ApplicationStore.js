@@ -6,6 +6,7 @@ import {useCookies} from "react-cookie";
 import {useEffect, useState} from "react";
 import {ReactComponent as LogoIconWhite} from "./../../assets/logo/logo_icon_white.svg";
 import {ReactComponent as LogoTextWhite} from "./../../assets/logo/logo_text_white.svg";
+import {tokenAxios} from "../../Config/customAxios";
 
 
 let ApplicationStore = () => {
@@ -29,9 +30,32 @@ let ApplicationStore = () => {
         accountBankName: "",
         accountNumber: "",
         depositDate: "",
-        applyReceiveStatus: ""
+        applyReceiveStatus: false
     });
 
+    const onChangeApplicationData = (e) => {
+        if (e.target.name === 'applyReceiveStatus') {
+            setApplicationData({
+                ...applicationData,
+                applyReceiveStatus: e.target.checked
+            });
+            return;
+        }
+        setApplicationData({
+            ...applicationData,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const onClickApplicationData = () => {
+        tokenAxios({
+            method: "POST",
+            url: "/api/v1/store/app/req",
+            data: applicationData
+        }).then(res => {
+            console.log(res);
+        })
+    }
 
     return (
         <div className={"login-Container"}>
@@ -76,35 +100,43 @@ let ApplicationStore = () => {
                         <div>
                             <p className={"input-top-p"}>가게 이름</p>
                             <input type={"text"} className={"login-input m-input "} name={"name"}
+                                   onChange={onChangeApplicationData}
                                    placeholder={"가게 이름을 작성해주세요."}/>
                         </div>
                         <div>
                             <p className={"input-top-p"}>가게 주소</p>
                             <div className={"input-flex"}>
                                 <input type={"text"} className={"login-input m-input "} name={"address"}
+                                       onChange={onChangeApplicationData}
                                        placeholder={"주소"}/>
                                 <input type={"text"} className={"login-input m-input "} name={"detailAddress"}
+                                       onChange={onChangeApplicationData}
                                        placeholder={"상세 주소"}/>
                             </div>
                         </div>
                         <div>
                             <p className={"input-top-p"}>사업자 등록 번호</p>
                             <input type={"text"} className={"login-input m-input "} name={"businessNumber"}
+                                   onChange={onChangeApplicationData}
                                    placeholder={"사업자 등록 번호를 작성해주세요."}/>
                         </div>
                         <div>
                             <p className={"input-top-p"}>입금 받으실 은행 이름</p>
                             <input type={"text"} className={"login-input m-input "} name={"accountBankName"}
+                                   onChange={onChangeApplicationData}
                                    placeholder={"입금을 원하시는 은행 이름 작성 (ex: 농협)"}/>
                         </div>
                         <div>
                             <p className={"input-top-p"}>입금 받으실 계좌번호</p>
                             <input type={"text"} className={"login-input m-input "} name={"accountNumber"}
+                                   onChange={onChangeApplicationData}
                                    placeholder={"입금을 원하시는 계좌번호를 작성해주세요."}/>
                         </div>
                         <div>
                             <p className={"input-top-p"}>입금 날짜</p>
-                            <input type={"date"} className={"log7in-input m-input "} name={"depositDate"}/>
+                            <input type={"date"} className={"log7in-input m-input "} name={"depositDate"}
+                                   onChange={onChangeApplicationData}
+                            />
                         </div>
                         <div style={{
                             marginTop: "40px"
@@ -112,7 +144,10 @@ let ApplicationStore = () => {
                             <h3>개인정보 수집 및 이용 동의</h3>
                         </div>
                         <div>
-                            <input type={"checkbox"} name={"applyReceiveStatus"} id={"ccopi"}/>
+                            <input type={"checkbox"} name={"applyReceiveStatus"}
+                                   checked={applicationData.applyReceiveStatus}
+                                   onChange={onChangeApplicationData}
+                                   id={"ccopi"}/>
                             <label htmlFor={"ccopi"}>&nbsp;가맹점 신청을 위한 개인정보 수집 및 이용에 동의<span style={{
                                 color: "red"
                             }}>(필수)</span></label>
@@ -127,7 +162,7 @@ let ApplicationStore = () => {
                             }}>정보가 다를 경우 신청이 반려됩니다. (별도 연락 없음)</small>
                         </div>
                         <div className={"login-btn-div"}>
-                            <div className={"login-btn"}>
+                            <div className={"login-btn"} onClick={onClickApplicationData}>
                                 <p>
                                 <span style={{
                                     paddingRight: "5px"
