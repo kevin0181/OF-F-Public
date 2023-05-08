@@ -21,6 +21,7 @@ import MenuBasketList from "./components/order/component/MenuBasketList";
 import PayInfo from "./components/order/component/PayInfo";
 import PayRedirect from "./components/order/component/PayRedirect";
 import ApplicationStore from "./store/application/ApplicationStore";
+import TotalManage from "./components/totalManage/TotalManage";
 
 function App() {
 
@@ -73,6 +74,10 @@ function App() {
                                     <Route path={"/manage/store"} element={<ManageDashBoard/>}/>
                                 </Route>
                             </Route>
+
+                            {/*최고 관리자 페이지*/}
+                            <Route path={"/manage/total/page"} element={<TotalManage/>}/>
+
                             <Route path={"/*"} element={<Navigate to={"/"}/>}/>
                         </Routes>
                     </div>
