@@ -22,10 +22,11 @@ import PayInfo from "./components/order/component/PayInfo";
 import PayRedirect from "./components/order/component/PayRedirect";
 import ApplicationStore from "./store/application/ApplicationStore";
 import TotalManage from "./components/totalManage/TotalManage";
+import PrivateTTManage from "./components/totalManage/PrivateTTManage";
 
 function App() {
 
-    const loginStatus = localStorage.getItem("l-st")
+    const loginStatus = localStorage.getItem("l-st");
     const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
 
     return (
@@ -75,8 +76,10 @@ function App() {
                                 </Route>
                             </Route>
 
-                            {/*최고 관리자 페이지*/}
-                            <Route path={"/manage/total/page"} element={<TotalManage/>}/>
+                            {/*/!*최고 관리자 페이지*!/*/}
+                            <Route path={"/TTManage"} element={<PrivateTTManage/>}>
+                                <Route path={"total/page"} element={<TotalManage/>}/>
+                            </Route>
 
                             <Route path={"/*"} element={<Navigate to={"/"}/>}/>
                         </Routes>

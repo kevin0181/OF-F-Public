@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1aefb79f-b57f-4003-8f82-7e6985ac6836" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../of_f_react/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../of_f_react/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../of_f_react/src/components/PrivateRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/../of_f_react/src/components/PrivateRouter.js" afterDir="false" />
     </list>
