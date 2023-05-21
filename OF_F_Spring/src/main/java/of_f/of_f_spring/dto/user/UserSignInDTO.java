@@ -1,7 +1,6 @@
 package of_f.of_f_spring.dto.user;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import of_f.of_f_spring.dto.store.StoreDTO;
 
 import javax.validation.constraints.*;
@@ -9,6 +8,9 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserSignInDTO {
     private Long seq;
 
@@ -24,7 +26,7 @@ public class UserSignInDTO {
     private String password;
 
     @NotNull
-    @NotBlank(message = "비밀번호는 필수 입력 값입니다.")
+    @NotBlank(message = "비밀번호 확인은 필수 입력 값입니다.")
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,16}",
             message = "비밀번호는 8~16자 영문, 숫자, 특수문자가 포함되어야 합니다.")
     private String rePassword;
@@ -44,10 +46,12 @@ public class UserSignInDTO {
 
     @NotNull
     @AssertTrue(message = "이메일 수신 동의는 필수 입력 값입니다.")
+    @AssertTrue(message = "이메일 수신 동의가 필요합니다.")
     private boolean emailReceiveStatus;
 
     @NotNull
     @AssertTrue(message = "번호 수신 동의는 필수 입력 값입니다.")
+    @AssertTrue(message = "sms 수신 동의가 필요합니다.")
     private boolean phoneNumberReceiveStatus;
 
     private List<UserRoleDTO> userRoles;

@@ -1,16 +1,24 @@
 package of_f.of_f_spring.dto.store;
 
-import lombok.Getter;
-import lombok.Setter;
-import of_f.of_f_spring.domain.entity.store.QRStoreInfo;
-import of_f.of_f_spring.dto.user.UserDTO;
+import lombok.*;
+import of_f.of_f_spring.domain.entity.store.menu.StoreSideCategory;
+import of_f.of_f_spring.domain.entity.store.qr.StoreQRId;
+import of_f.of_f_spring.dto.store.menu.StoreCategoryDTO;
+import of_f.of_f_spring.dto.store.menu.StoreSideCategoryDTO;
+import of_f.of_f_spring.dto.store.order.StoreOrderDTO;
+import of_f.of_f_spring.dto.store.qr.QRStoreInfoDTO;
+import of_f.of_f_spring.dto.store.qr.StoreQRIdDTO;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class StoreDTO {
 
     private Long seq;
@@ -35,13 +43,20 @@ public class StoreDTO {
     @NotBlank(message = "상세 주소를 입력해주세요.")
     @Size(min = 1, max = 35, message = "상세 주소는 1~35자 사이어야합니다.")
     private String detailAddress;
-
     private String accountBankName;
     private String accountNumber;
     private String depositDate;
     private String businessPhoneNumber;
     private String openDate;
     private int status;
+    private boolean applyReceiveStatus;
 
-    private UserDTO user;
+    private QRStoreInfoDTO qrStoreInfo;
+    private List<StorePgSettingDTO> storePgSettings;
+    private List<StoreVanSettingDTO> storeVanSettings;
+    private List<StoreCategoryDTO> storeCategories;
+    private List<StoreOrderDTO> storeOrders;
+    private List<StoreQRIdDTO> storeQRIds;
+    private List<StoreSideCategoryDTO> storeSideCategories;
+
 }

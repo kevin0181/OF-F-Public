@@ -1,5 +1,6 @@
 package of_f.of_f_spring.controller.user;
 
+import lombok.RequiredArgsConstructor;
 import of_f.of_f_spring.config.jwt.TokenInfo;
 import of_f.of_f_spring.domain.entity.user.EmailToken;
 import of_f.of_f_spring.dto.response.ApiResponseDTO;
@@ -9,22 +10,24 @@ import of_f.of_f_spring.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private EmailService emailService;
+    private final EmailService emailService;
+
 
     @PostMapping("/n/login") // 로그인
-    public ApiResponseDTO login(@RequestBody @Valid UserLoginDTO userLoginDTO) {
-        return userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
+    public ApiResponseDTO login(@RequestBody @Valid UserLoginDTO userLoginDTO, HttpServletResponse response) {
+        return userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword(), response);
     }
 
     @PostMapping("/n/signIn") // 회원가입
@@ -40,10 +43,9 @@ public class UserController {
         tokenInfo
     }
      */
-    @PostMapping("/y/refresh-token") // 토큰 재발행
-    public ApiResponseDTO refreshToken(@RequestHeader(required = false) String Authorization,
-                                       @RequestBody @Valid TokenInfo tokenInfo) {
-        return userService.refreshTokenService(Authorization, tokenInfo);
+    @PostMapping("/n/refresh-token") // 토큰 재발행
+    public ApiResponseDTO refreshToken(HttpServletRequest request, HttpServletResponse response) {
+        return userService.refreshTokenService(request, response);
     }
 
     @PostMapping("/y/logout") // 로그아웃
@@ -55,8 +57,8 @@ public class UserController {
     error -> 400 email 없음
      */
     @GetMapping("/n/email/check") // 이메일 인증
-    public ApiResponseDTO checkEmail(@RequestBody @Valid EmailToken emailToken) {
-        return emailService.saveEmailToken(emailToken);
+    public ApiResponseDTO checkEmail(@RequestParam String email) {
+        return emailService.saveEmailToken(email);
     }
 
     @PostMapping("/y/check/user") //사용자 비밀번호 확인
@@ -88,6 +90,11 @@ public class UserController {
             @RequestParam(required = false) String emailToken,
             @RequestBody @Valid UserLoginDTO userLoginDTO) {
         return emailService.checkFindPasswordToken(Authorization, emailToken, userLoginDTO);
+    }
+
+    @PostMapping("/y/test")
+    public String test() {
+        return "hihi";
     }
 
 }

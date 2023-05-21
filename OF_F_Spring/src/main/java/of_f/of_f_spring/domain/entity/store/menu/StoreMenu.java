@@ -1,7 +1,6 @@
 package of_f.of_f_spring.domain.entity.store.menu;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import of_f.of_f_spring.domain.entity.store.order.StoreOrderMenu;
 
 import javax.persistence.*;
@@ -9,6 +8,9 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "Store_Menu")
 public class StoreMenu {
     @Id
@@ -34,15 +36,16 @@ public class StoreMenu {
     @JoinColumn(name = "Store_Category_seq", insertable = false, updatable = false)
     private StoreCategory storeCategory;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "Store_Menu_seq")
     private List<StoreMenuImg> storeMenuImgs;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "Store_Menu_seq")
     private List<StoreMS> storeMSs;
 
-    @OneToOne(mappedBy = "storeMenu")
-    private StoreOrderMenu storeOrderMenu;
+    @OneToMany
+    @JoinColumn(name = "Store_Menu_seq")
+    private List<StoreOrderMenu> storeOrderMenus;
 
 }

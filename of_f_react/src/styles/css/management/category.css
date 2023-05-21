@@ -1,0 +1,56 @@
+
+.category-status {
+    width: 100%;
+    height: 3%;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.category-status > p {
+    padding: 0px 5px 2px 5px;
+    color: green;
+}
+
+.category-status > .warning-p {
+    color: red;
+}
+
+.checkCircleIcon {
+    width: 15px;
+}
+
+.checkCircleIcon > path {
+    stroke: green;
+}
+
+.xCircleIcon {
+    width: 15px;
+}
+
+.xCircleIcon > path {
+    stroke: red;
+}
+
+.addIcon > svg > path {
+    stroke: white;
+}
+
+
+.category-add-footer > div {
+    width: 80%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.exclamationCircle {
+    width: 19px;
+    padding-right: 2px;
+}
+
+.exclamationCircle > path {
+    stroke: red;
+}

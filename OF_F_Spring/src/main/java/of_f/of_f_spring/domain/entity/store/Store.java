@@ -1,10 +1,17 @@
 package of_f.of_f_spring.domain.entity.store;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import of_f.of_f_spring.domain.entity.store.menu.StoreCategory;
+import of_f.of_f_spring.domain.entity.store.menu.StoreSideCategory;
 import of_f.of_f_spring.domain.entity.store.order.StoreOrder;
+import of_f.of_f_spring.domain.entity.store.qr.QRStoreInfo;
+import of_f.of_f_spring.domain.entity.store.qr.StoreQRId;
 import of_f.of_f_spring.domain.entity.user.User;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,7 +19,9 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class Store {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Store extends StoreStatusCheck {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
@@ -50,12 +59,19 @@ public class Store {
     @Column
     private int status;
 
+    @Column(name = "apply_receive_status")
+    private boolean applyReceiveStatus;
+
     @ManyToOne
     @JoinColumn(name = "User_seq", insertable = false, updatable = false)
     private User user;
 
     @OneToOne(mappedBy = "store")
     private QRStoreInfo qrStoreInfo;
+
+    @OneToMany
+    @JoinColumn(name = "Store_seq")
+    private List<StoreOrder> storeOrders;
 
     @OneToMany
     @JoinColumn(name = "Store_seq")
@@ -69,8 +85,13 @@ public class Store {
     @JoinColumn(name = "Store_seq")
     private List<StoreCategory> storeCategories;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "Store_seq")
+    private List<StoreQRId> storeQRIds;
+
     @OneToMany
     @JoinColumn(name = "Store_seq")
-    private List<StoreOrder> storeOrders;
+    private List<StoreSideCategory> storeSideCategories;
+
 
 }

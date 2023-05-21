@@ -1,0 +1,209 @@
+.payInfo-body-top {
+    width: 100%;
+    height: auto;
+    padding: 0px 0px 15px 0px;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.payInfo-body-top > h4 {
+    padding: 5px 0px;
+}
+
+.payInfo-body-top > p {
+    padding: 5px 10px 0px 10px;
+}
+
+.payInfo-body-top > small {
+    padding: 0px 15px
+}
+
+.payInfo-body-body1 {
+    width: 100%;
+    height: auto;
+    padding-bottom: 30px;
+}
+
+.payInfo-body-body2 > h4 {
+    padding: 5px 0px;
+}
+
+.payInfo-phoneNumber {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.payInfo-phoneNumber > p {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.payInfo-phoneNumber > input {
+    width: 80%;
+}
+
+.payInfo-phoneNumberReceive {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+}
+
+.payInfo-phoneNumberReceive > small {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 10px;
+}
+
+.payInfo-body-last {
+    border-bottom: 1px solid #d9d9d9;
+    padding-bottom: 20px;
+}
+
+.payInfo-body-last > div {
+    width: 100%;
+    padding: 0px 40px;
+}
+
+.payInfo-order-request {
+    padding: 20px 0px 15px 0px;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.payInfo-order-request > h4 {
+    padding: 0px 0px 10px 0px;
+}
+
+.payInfo-order-select-pay-way {
+    padding: 20px 0px 0px 0px;
+}
+
+.payInfo-order-select-pay-way > h4 {
+    padding: 0px 0px 10px 0px;
+}
+
+.pay-list-div {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.pay-list-div > div {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #b6b6b6;
+    border-radius: 10px;
+    margin: 5px;
+    font-size: 13px;
+    color: #6c6c6c;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.pay-list-div > div > p {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    z-index: -1;
+}
+
+.pay-list-div > div > div > img {
+    width: 100%;
+    height: 100%;
+}
+
+.pay-list-div > div > div {
+    width: 28%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    margin: 0px 10px;
+    z-index: -1;
+}
+
+.request-textarea {
+    width: 100%;
+    height: 100px;
+    resize: none;
+}
+
+.payInfo-order-agreement {
+    padding: 20px 0px 0px 0px;
+}
+
+.payInfo-agreement-div {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 10px;
+}
+
+.payInfo-agreement-div > div {
+    color: #7a7a7a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.payInfo-agreement-div > div > svg > path {
+    stroke: #7a7a7a;
+}
+
+.payInfo-agreement-div-scroll {
+    width: 100%;
+    padding: 0px 10px;
+    height: 100px;
+    overflow-x: hidden;
+    overflow: scroll;
+    font-size: 12px;
+    color: #7a7a7a;
+}
+
+.agreement-btn {
+    border: 1px solid #D1D5DB;
+    border-radius: 5px;
+    background-color: white;
+    width: 20px;
+    height: 20px;
+}
+
+.agreement-btn > svg {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+.agreement-active {
+    background-color: #90caff;
+    border: none !important;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.agreement-active > svg {
+    display: block !important;
+}
+
+.agreement-active > svg > path {
+    stroke: white;
+}
+
+.pay-way-active {
+    background-color: #b3dbff;
+    color: white !important;
+    border: none !important;
+    z-index: 1;
+}

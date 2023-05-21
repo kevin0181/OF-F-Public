@@ -1,9 +1,6 @@
 package of_f.of_f_spring.domain.exception;
 
-import of_f.of_f_spring.domain.exception.dto.AdminExceptionDTO;
-import of_f.of_f_spring.domain.exception.dto.ApiExceptionDTO;
-import of_f.of_f_spring.domain.exception.dto.AuthExceptionDTO;
-import of_f.of_f_spring.domain.exception.dto.StoreExceptionDTO;
+import of_f.of_f_spring.domain.exception.dto.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -13,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +30,7 @@ public class ApiExceptionAdvice {
                         .errorCode(e.getError().getErrorCode())
                         .error(e.getError().getError())
                         .errorMessage(e.getError().getMessage())
+                        .detail(e.getError().getDetail())
                         .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
                         .build());
     }
@@ -74,6 +73,22 @@ public class ApiExceptionAdvice {
         return ResponseEntity
                 .status(e.getError().getCode())
                 .body(AdminExceptionDTO.builder()
+                        .code(e.getError().getCode())
+                        .status(e.getError().getStatus())
+                        .errorCode(e.getError().getErrorCode())
+                        .error(e.getError().getError())
+                        .errorMessage(e.getError().getMessage())
+                        .detail(e.getError().getDetail())
+                        .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
+                        .build());
+    }
+
+    @ExceptionHandler({OrderException.class})
+    public ResponseEntity<OrderExceptionDTO> adminExceptionHandler(HttpServletRequest request, final OrderException e) {
+        e.printStackTrace();
+        return ResponseEntity
+                .status(e.getError().getCode())
+                .body(OrderExceptionDTO.builder()
                         .code(e.getError().getCode())
                         .status(e.getError().getStatus())
                         .errorCode(e.getError().getErrorCode())
@@ -153,4 +168,37 @@ public class ApiExceptionAdvice {
                         .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
                         .build());
     }
+
+    @ExceptionHandler(NoHandlerFoundException.class) // 404 not found
+    public ResponseEntity<ApiExceptionDTO> notFound(HttpServletRequest request, NoHandlerFoundException e) {
+        e.printStackTrace();
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ApiExceptionDTO.builder()
+                        .code(HttpServletResponse.SC_NOT_FOUND)
+                        .status("BAD")
+                        .errorCode("NT0001")
+                        .error("NOT FOUND")
+                        .errorMessage(e.getMessage())
+                        .detail("찾을 수 없는 URI입니다.")
+                        .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
+                        .build());
+    }
+
+//    @ExceptionHandler(Exception.class) // total exception
+//    public ResponseEntity<ApiExceptionDTO> totalException(HttpServletRequest request, Exception e) {
+//        e.printStackTrace();
+//        return ResponseEntity
+//                .status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
+//                .body(ApiExceptionDTO.builder()
+//                        .code(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
+//                        .status("BAD")
+//                        .errorCode("SR0001")
+//                        .error("server error")
+//                        .errorMessage(String.valueOf(e))
+//                        .detail("서버 오류")
+//                        .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
+//                        .build());
+//    }
+
 }

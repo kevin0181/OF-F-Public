@@ -3,9 +3,15 @@ package of_f.of_f_spring.domain.entity.store.order;
 import lombok.Getter;
 import lombok.Setter;
 import of_f.of_f_spring.domain.entity.store.Store;
+import of_f.of_f_spring.domain.entity.store.qr.StoreQRId;
 import of_f.of_f_spring.domain.entity.user.User;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -19,8 +25,8 @@ public class StoreOrder {
     @Column(name = "Store_seq")
     private Long storeSeq;
 
-    @Column(name = "User_seq")
-    private Long userSeq;
+    @Column(name = "Store_QR_ID")
+    private String storeQRId;
 
     @Column
     private String id;
@@ -37,34 +43,49 @@ public class StoreOrder {
     @Column(name = "cancel_after_price")
     private String cancelAfterPrice;
 
-    @Column
-    private String date;
+    @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp date;
 
     @Column
-    private Long place;
+    private int place;
 
     @Column
-    private Long status;
+    private int status;
 
     @Column(name = "pay_status")
-    private Long payStatus;
+    private int payStatus;
 
-    @ManyToOne
-    @JoinColumn(name = "User_seq", insertable = false, updatable = false)
-    private User user;
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "email_receive_status")
+    private Boolean emailReceiveStatus;
+
+    @Column(name = "phone_number_receive_status")
+    private Boolean phoneNumberReceiveStatus;
+
+    @Column(name = "comment")
+    private String comment;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "Store_Order_seq")
+    private List<StoreOrderMenu> storeOrderMenus;
+
+    @OneToOne(mappedBy = "storeOrder", cascade = CascadeType.ALL)
+    private StoreOrderPgInfo storeOrderPgInfo;
+
+    @OneToOne(mappedBy = "storeOrder", cascade = CascadeType.ALL)
+    private StoreOrderVanInfo storeOrderVanInfo;
 
     @ManyToOne
     @JoinColumn(name = "Store_seq", insertable = false, updatable = false)
     private Store store;
 
-    @OneToOne(mappedBy = "storeOrder")
-    private StoreOrderPgInfo storeOrderPgInfo;
-
-    @OneToOne(mappedBy = "storeOrder")
-    private StoreOrderVanInfo storeOrderVanInfo;
-
-    @OneToMany
-    @JoinColumn(name = "Store_Order_seq")
-    private List<StoreOrderMenu> storeOrderMenus;
+//    @ManyToOne
+//    @JoinColumn(name = "Store_QR_ID", insertable = false, updatable = false)
+//    private StoreQRId storeQRId;
 
 }

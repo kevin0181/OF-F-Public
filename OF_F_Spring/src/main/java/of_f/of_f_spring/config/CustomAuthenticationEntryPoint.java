@@ -1,6 +1,7 @@
 package of_f.of_f_spring.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import of_f.of_f_spring.domain.exception.ApiException;
 import of_f.of_f_spring.domain.exception.AuthException;
 import of_f.of_f_spring.domain.exception.ExceptionEnum;
 import org.springframework.http.MediaType;
@@ -31,7 +32,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         body.put("path", request.getServletPath());
         body.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
 
-
         if (authException instanceof AuthenticationServiceException) {
             body.put("errorMessage", "로그인 실패");
             body.put("detail", "아이디 및 비밀번호가 일치하지 않습니다.");
@@ -52,6 +52,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
             body.put("detail", "사용자의 계정을 사용할 수 없습니다. 관리자에게 문의 주세요.");
         } else {
             body.put("errorMessage", "토큰 및 접근 오류");
+            body.put("errorCode", "TO0001");
             body.put("detail", authException.getMessage());
         }
 

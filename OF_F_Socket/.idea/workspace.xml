@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1aefb79f-b57f-4003-8f82-7e6985ac6836" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/../of_f_react/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../of_f_react/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../of_f_react/src/components/PrivateRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/../of_f_react/src/components/PrivateRouter.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2JkZtWrtvbfZJQvoEs4QkJPGXFn" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/nenee/IdeaProjects/OF-f/OF_F_Socket&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;프로젝트&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="1aefb79f-b57f-4003-8f82-7e6985ac6836" name="변경" comment="" />
+      <created>1672624256354</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1672624256354</updated>
+      <workItem from="1672624257470" duration="17000" />
+      <workItem from="1675149521765" duration="18000" />
+      <workItem from="1676361294693" duration="2926000" />
+      <workItem from="1676431416817" duration="4557000" />
+      <workItem from="1676449967328" duration="699000" />
+      <workItem from="1676865634521" duration="12121000" />
+      <workItem from="1677046206199" duration="790000" />
+      <workItem from="1677076158300" duration="612000" />
+      <workItem from="1677123406620" duration="1890000" />
+      <workItem from="1677137642500" duration="164000" />
+      <workItem from="1677140113826" duration="20000" />
+      <workItem from="1677214499456" duration="641000" />
+      <workItem from="1680591774714" duration="632000" />
+      <workItem from="1681288425487" duration="644000" />
+      <workItem from="1683129753973" duration="24000" />
+      <workItem from="1683521709772" duration="698000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

@@ -27,13 +27,21 @@ public enum ExceptionEnum {
     MISS_MATCH_PASSWORD(HttpServletResponse.SC_UNAUTHORIZED, "BAD", "AU0011", "miss match password", "비밀번호 및 비밀번호 확인 불일치", "비밀번호와 비밀번호 확인이 일치하지 않습니다."),
 
     // --token--
-    INVALID_TOKEN_INFO(HttpServletResponse.SC_NOT_FOUND, "BAD", "TO0001", "invalid token", "유효하지 않는 토큰", "토큰이 유효하지 않습니다."),
+    INVALID_TOKEN_INFO(HttpServletResponse.SC_UNAUTHORIZED, "BAD", "TO0001", "invalid token", "유효하지 않는 토큰", "토큰이 유효하지 않습니다."),
 
     TIMEOUT_TOKEN(HttpServletResponse.SC_UNAUTHORIZED, "BAD", "TO0002", "expiration date", "토큰 유효기간 만료", "토큰의 유효기간이 만료되었습니다."),
 
     TOKEN_DOES_NOT_EXIT(HttpServletResponse.SC_NOT_FOUND, "BAD", "TO0003", "does not exist Token", "존재하지 않는 토큰", "토큰이 존재하지 않습니다"),
 
-    NOT_MATCH_TOKEN(HttpServletResponse.SC_BAD_REQUEST, "BAD", "TO0004", "not match token", "일치하지 않는 토큰", "토큰이 일치하지 않습니다.");
+    NOT_MATCH_TOKEN(HttpServletResponse.SC_BAD_REQUEST, "BAD", "TO0004", "not match token", "일치하지 않는 토큰", "토큰이 일치하지 않습니다."),
+
+
+    //api
+    INVALID_PARAMS(HttpServletResponse.SC_BAD_REQUEST, "BAD", "AP0001", "invalid request", "옳지 않은 요청", "옳지 않은 요청 파라미터 입니다."),
+    AUTHORIZATION_FAILED_REQUEST(HttpServletResponse.SC_FORBIDDEN, "BAD", "AP0002", "Authorization failed request", "승인되지 않은 요청", "옳지 않은 접근 입니다."),
+    NOT_IMG(HttpServletResponse.SC_UNAUTHORIZED, "BAD", "AP0003", "not img", "옳지 않은 이미지", "이미지는 png, jpg만 가능합니다."),
+    ALREADY_ROLE(HttpServletResponse.SC_UNAUTHORIZED, "BAD", "AP0004", "already role", "존재하는 권한", "이미 존재하는 권한입니다."),
+    NONEXISTENT_IMG(HttpServletResponse.SC_NOT_FOUND, "BAD", "AP0005", "not found img", "존재하지 않는 이미지", "존재하지 않는 이미지 입니다.");
 
     private final int code;
     private final String status;
